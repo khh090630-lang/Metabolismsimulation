@@ -284,8 +284,9 @@
         inEl.classList.remove('show'); outEl.classList.remove('show');
 
         setTimeout(() => {
-            reactEl.innerText = data.react.split(',')[0]; // 너무 길면 첫번째 분자만
-            prodEl.innerText = data.prod.split(',')[0];
+            // 변경된 부분: 쉼표 뒤에 띄어쓰기를 추가하여 ', ' 기준으로 자름
+            reactEl.innerText = data.react.split(', ')[0];
+            prodEl.innerText = data.prod.split(', ')[0];
             enzEl.innerText = data.enz.split(' ')[0]; // 효소 약어만
             
             if(data.in) { inEl.innerText = `+ ${data.in}`; inEl.classList.add('show'); }
