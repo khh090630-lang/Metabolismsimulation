@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>세포호흡 & 광합성 대사과정 시뮬레이션</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #27ae60;
+            --accent: #e74c3c;
+            --bg: #f8f9fa;
+            --text: #333;
+            --card-bg: #ffffff;
+        }
+        * { box-sizing: border-box; font-family: 'Pretendard', -apple-system, sans-serif; }
+        body { margin: 0; padding: 0; background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        header { background: var(--primary); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 10; }
+        h1 { margin: 0; font-size: 1.5rem; }
+        .home-btn { background: rgba(255,255,255,0.2); color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .home-btn:hover { background: rgba(255,255,255,0.4); }
+        
+        #app-content { flex: 1; display: flex; justify-content: center; align-items: center; position: relative; width: 100%; height: 100%; padding: 2rem; }
+        
+        /* 화면 전환용 클래스 */
+        .screen { display: none; width: 100%; max-width: 1000px; text-align: center; animation: fadeIn 0.5s ease-in-out; }
+        .screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* 메인 및 서브 메뉴 버튼 */
+        .menu-grid { display: flex; gap: 2rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap; }
+        .menu-card { background: var(--card-bg); border-radius: 15px; padding: 3rem 2rem; width: 300px; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: 0.3s; border: 2px solid transparent; }
+        .menu-card:hover { transform: translateY(-5px); box-shadow: 0 15px 25px rgba(0,0,0,0.1); border-color: var(--secondary); }
+        .menu-card h2 { color: var(--primary); margin-bottom: 1rem; }
+        .menu-card.photo:hover { border-color: var(--secondary); }
+        .menu-card.resp:hover { border-color: var(--accent); }
+
+        .sub-btn { display: inline-block; margin: 0.5rem; padding: 1rem 2rem; background: var(--card-bg); border: 2px solid #ddd; border-radius: 50px; cursor: pointer; font-size: 1.1rem; font-weight: bold; transition: 0.2s; }
+        .sub-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
+        .sub-btn.all-btn { background: var(--accent); color: white; border-color: var(--accent); }
+        .sub-btn.all-btn:hover { background: #c0392b; }
+
+        /* 시뮬레이터 뷰 */
+        #simulator { display: flex; flex-direction: column; height: 100%; width: 100%; max-width: 1200px; margin: 0 auto; }
+        .sim-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .progress-bar { flex: 1; margin: 0 2rem; height: 10px; background: #ddd; border-radius: 5px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--secondary); width: 0%; transition: width 0.3s ease; }
+        
+        .sim-body { flex: 1; display: flex; justify-content: space-between; align-items: center; background: white; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); padding: 2rem; position: relative; overflow: hidden; }
+        
+        /* 화살표 네비게이션 */
+        .nav-btn { background: white; border: 2px solid #ddd; border-radius: 50%; width: 60px; height: 60px; font-size: 2rem; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s; z-index: 5; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .nav-btn:hover:not(:disabled) { background: var(--primary); color: white; border-color: var(--primary); }
+        .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        /* 시각화 영역 */
+        .visual-area { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; padding: 0 2rem; }
+        
+        .reaction-animation { display: flex; align-items: center; justify-content: center; gap: 2rem; margin-bottom: 3rem; width: 100%; height: 200px; position: relative; }
+        .molecule { padding: 1.5rem; border-radius: 10px; background: var(--primary); color: white; font-weight: bold; font-size: 1.2rem; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); min-width: 180px; }
+        .molecule.product { background: var(--secondary); }
+        .arrow-container { display: flex; flex-direction: column; align-items: center; font-weight: bold; color: var(--accent); }
+        .arrow-line { font-size: 2.5rem; margin: -10px 0; }
+        .enzyme-tag { background: #f1c40f; color: #333; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.9rem; margin-bottom: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .energy-tag { position: absolute; font-size: 1.1rem; font-weight: bold; padding: 0.5rem 1rem; border-radius: 10px; opacity: 0; transform: translateY(-20px); transition: 0.5s; }
+        .energy-tag.show { opacity: 1; transform: translateY(0); }
+        .energy-in { top: 0; left: 20%; color: #e67e22; background: rgba(230, 126, 34, 0.1); }
+        .energy-out { top: 0; right: 20%; color: #c0392b; background: rgba(192, 57, 43, 0.1); }
+
+        /* 정보 패널 */
+        .info-panel { background: var(--bg); border-left: 4px solid var(--primary); padding: 1.5rem; border-radius: 0 10px 10px 0; width: 100%; max-width: 800px; text-align: left; }
+        .info-panel h3 { margin-top: 0; color: var(--primary); font-size: 1.4rem; border-bottom: 2px solid #ddd; padding-bottom: 0.5rem; }
+        .info-row { margin-bottom: 0.5rem; font-size: 1.1rem; }
+        .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 5px; font-size: 0.9rem; font-weight: bold; margin-right: 10px; }
+        .b-react { background: #e0f7fa; color: #006064; }
+        .b-prod { background: #e8f5e9; color: #1b5e20; }
+        .b-enz { background: #fff9c4; color: #f57f17; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>대사과정 시뮬레이터</h1>
+        <button class="home-btn" onclick="goHome()">🏠 메인으로</button>
+    </header>
+
+    <div id="app-content">
+        <!-- 1. 메인 화면 -->
+        <div id="screen-main" class="screen active">
+            <h2>학습할 과정을 선택하세요</h2>
+            <div class="menu-grid">
+                <div class="menu-card resp" onclick="showScreen('screen-sub-resp')">
+                    <h2>세포호흡 보기</h2>
+                    <p>포도당을 분해하여 ATP를 생성하는 이화작용 (해당과정, TCA, 산화적 인산화)</p>
+                </div>
+                <div class="menu-card photo" onclick="showScreen('screen-sub-photo')">
+                    <h2>광합성 보기</h2>
+                    <p>빛 에너지를 이용해 포도당을 합성하는 동화작용 (명반응, 캘빈회로)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. 세포호흡 서브 메뉴 -->
+        <div id="screen-sub-resp" class="screen">
+            <h2>세포호흡 세부 과정</h2>
+            <p>개별 과정을 보거나, 19개 화학반응 전체를 순서대로 시뮬레이션 할 수 있습니다.</p>
+            <div style="margin-top: 2rem;">
+                <button class="sub-btn" onclick="startSim('resp', 'glyco')">해당과정 (1~10단계)</button>
+                <button class="sub-btn" onclick="startSim('resp', 'tca')">Link & TCA 회로 (11~19단계)</button>
+                <button class="sub-btn" onclick="startSim('resp', 'etc')">산화적 인산화 (ETC)</button>
+            </div>
+            <div style="margin-top: 1.5rem;">
+                <button class="sub-btn all-btn" onclick="startSim('resp', 'all')">세포호흡 전체 19단계 한번에 보기</button>
+            </div>
+        </div>
+
+        <!-- 3. 광합성 서브 메뉴 -->
+        <div id="screen-sub-photo" class="screen">
+            <h2>광합성 세부 과정</h2>
+            <div style="margin-top: 2rem;">
+                <button class="sub-btn" onclick="startSim('photo', 'light')">명반응 (틸라코이드)</button>
+                <button class="sub-btn" onclick="startSim('photo', 'dark')">암반응 / 캘빈회로 (스트로마)</button>
+            </div>
+            <div style="margin-top: 1.5rem;">
+                <button class="sub-btn all-btn" onclick="startSim('photo', 'all')">광합성 전체 과정 한번에 보기</button>
+            </div>
+        </div>
+
+        <!-- 4. 시뮬레이터 화면 -->
+        <div id="screen-sim" class="screen" style="max-width: 1200px; height: 90%;">
+            <div id="simulator">
+                <div class="sim-header">
+                    <h2 id="sim-title" style="margin:0;">과정 이름</h2>
+                    <div class="progress-bar"><div class="progress-fill" id="sim-progress"></div></div>
+                    <span id="sim-counter" style="font-weight:bold;">1 / 10</span>
+                </div>
+                
+                <div class="sim-body">
+                    <button class="nav-btn" id="btn-prev" onclick="moveStep(-1)">&#8592;</button>
+                    
+                    <div class="visual-area">
+                        <!-- 애니메이션 시각화 영역 -->
+                        <div class="reaction-animation" id="anim-container">
+                            <div class="energy-tag energy-in" id="anim-energy-in">+ ATP 소모</div>
+                            
+                            <div class="molecule" id="anim-reactant">포도당</div>
+                            
+                            <div class="arrow-container">
+                                <div class="enzyme-tag" id="anim-enzyme">헥소키나아제</div>
+                                <div class="arrow-line">&#10230;</div>
+                            </div>
+                            
+                            <div class="molecule product" id="anim-product">포도당 6-인산</div>
+                            
+                            <div class="energy-tag energy-out" id="anim-energy-out">+ NADH 생성</div>
+                        </div>
+
+                        <!-- 텍스트 정보 패널 -->
+                        <div class="info-panel">
+                            <h3 id="info-step-name">1. 포도당 인산화</h3>
+                            <div class="info-row"><span class="badge b-react">반응물</span> <span id="info-react">포도당, ATP</span></div>
+                            <div class="info-row"><span class="badge b-prod">생성물</span> <span id="info-prod">포도당 6-인산, ADP</span></div>
+                            <div class="info-row"><span class="badge b-enz">관여 효소</span> <span id="info-enz">Hexokinase (헥소키나아제)</span></div>
+                            <p style="margin-top: 1rem; color: #555; line-height:1.6;" id="info-desc">ATP의 인산기를 포도당의 6번 탄소에 결합시켜 세포 밖으로 빠져나가지 못하게 가두는 에너지 투자기의 첫 단계입니다.</p>
+                        </div>
+                    </div>
+                    
+                    <button class="nav-btn" id="btn-next" onclick="moveStep(1)">&#8594;</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // --- 1. 데이터 베이스 (첨부자료 19단계 및 광합성 기준) ---
+    const DB = {
+        resp: [
+            // 해당과정 (Phase 1: 에너지 투자기)
+            { step: 1, phase: '해당과정 (세포질)', name: '1. 포도당 인산화', react: '포도당 (Glucose), ATP', prod: '포도당 6-인산 (G6P), ADP', enz: 'Hexokinase (헥소키나아제)', in: 'ATP', out: '', desc: 'ATP를 소모하여 포도당에 인산기를 붙여 반응성을 높이고 세포 내에 가둡니다.' },
+            { step: 2, phase: '해당과정 (세포질)', name: '2. 이성질체화', react: '포도당 6-인산 (G6P)', prod: '과당 6-인산 (F6P)', enz: 'Phosphoglucose isomerase', in: '', out: '', desc: '포도당의 구조를 과당 구조로 재배열하여 분할을 준비합니다.' },
+            { step: 3, phase: '해당과정 (세포질)', name: '3. 두 번째 인산화', react: '과당 6-인산, ATP', prod: '과당 1,6-2인산 (F1,6BP), ADP', enz: 'Phosphofructokinase-1 (PFK-1)', in: 'ATP', out: '', desc: 'ATP를 추가로 소모하여 대칭적인 구조를 만듭니다. (해당과정의 주요 속도조절 단계)' },
+            { step: 4, phase: '해당과정 (세포질)', name: '4. 분할 (Cleavage)', react: '과당 1,6-2인산', prod: 'DHAP + G3P', enz: 'Aldolase (알돌레이스)', in: '', out: '', desc: '6탄소 당을 두 개의 3탄소 화합물(DHAP, G3P)로 정확히 반으로 쪼갭니다.' },
+            { step: 5, phase: '해당과정 (세포질)', name: '5. 상호 전환', react: 'DHAP', prod: 'G3P', enz: 'Triose phosphate isomerase', in: '', out: '', desc: 'DHAP를 G3P로 전환합니다. 이후 과정은 2개의 G3P가 진행하므로 모든 반응이 x2가 됩니다.' },
+            // 해당과정 (Phase 2: 에너지 회수기)
+            { step: 6, phase: '해당과정 (세포질)', name: '6. 산화 및 인산화', react: 'G3P, NAD+, Pi', prod: '1,3-비스포스포글리세르산 (1,3-BPG), NADH', enz: 'G3P dehydrogenase', in: 'NAD+', out: 'NADH', desc: '최초로 고에너지 전자를 추출하여 NADH를 생성하고, 무기 인산을 결합시킵니다.' },
+            { step: 7, phase: '해당과정 (세포질)', name: '7. 첫 ATP 생성', react: '1,3-BPG, ADP', prod: '3-인산 글리세르산 (3PG), ATP', enz: 'Phosphoglycerate kinase', in: '', out: 'ATP (기질수준)', desc: '기질 수준 인산화를 통해 처음으로 ATP를 회수합니다.' },
+            { step: 8, phase: '해당과정 (세포질)', name: '8. 인산기 이동', react: '3PG', prod: '2-인산 글리세르산 (2PG)', enz: 'Phosphoglycerate mutase', in: '', out: '', desc: '인산기의 위치를 3번 탄소에서 2번 탄소로 옮깁니다.' },
+            { step: 9, phase: '해당과정 (세포질)', name: '9. 탈수 반응', react: '2PG', prod: '포스포에놀피루브산 (PEP), H2O', enz: 'Enolase (에놀레이스)', in: '', out: 'H2O', desc: '물 분자를 빼내어 인산 결합의 에너지를 불안정하고 강력하게 만듭니다.' },
+            { step: 10, phase: '해당과정 (세포질)', name: '10. 두 번째 ATP 생성', react: 'PEP, ADP', prod: '피루브산 (Pyruvate), ATP', enz: 'Pyruvate kinase', in: '', out: 'ATP (기질수준)', desc: '마지막 인산기를 떼어내어 ATP를 만들고 최종 산물인 피루브산을 생성합니다.' },
+            
+            // Link Reaction
+            { step: 11, phase: '산화적 탈카복실화 (바탕질)', name: '11. 연결 반응 (Link Reaction)', react: '피루브산, NAD+, CoA', prod: '아세틸-CoA, NADH, CO2', enz: 'Pyruvate dehydrogenase complex', in: 'CoA, NAD+', out: 'CO2, NADH', desc: '미토콘드리아 안으로 들어온 피루브산에서 CO2를 떼어내고, 조효소 A를 붙여 TCA 회로 진입을 준비합니다.' },
+            
+            // TCA 회로
+            { step: 12, phase: 'TCA 회로 (바탕질)', name: '12. 시트르산 합성', react: '아세틸-CoA, 옥살로아세트산', prod: '시트르산 (Citrate), CoA', enz: 'Citrate synthase', in: '', out: 'CoA 탈락', desc: '2탄소 아세틸기와 4탄소 옥살로아세트산이 결합해 6탄소 시트르산이 됩니다.' },
+            { step: 13, phase: 'TCA 회로 (바탕질)', name: '13. 이성질체화', react: '시트르산', prod: '아이소시트르산 (Isocitrate)', enz: 'Aconitase', in: 'H2O 출입', out: '', desc: '탈수 및 수화 반응을 거쳐 히드록시기의 위치를 재배열합니다.' },
+            { step: 14, phase: 'TCA 회로 (바탕질)', name: '14. 1차 산화 및 탈카복실화', react: '아이소시트르산, NAD+', prod: 'α-케토글루타르산, NADH, CO2', enz: 'Isocitrate dehydrogenase', in: '', out: 'CO2, NADH', desc: 'CO2가 방출되며 5탄소 화합물이 되고, 고에너지 전자(NADH)가 추출됩니다.' },
+            { step: 15, phase: 'TCA 회로 (바탕질)', name: '15. 2차 산화 및 탈카복실화', react: 'α-케토글루타르산, NAD+, CoA', prod: '숙시닐-CoA, NADH, CO2', enz: 'α-KG dehydrogenase complex', in: 'CoA', out: 'CO2, NADH', desc: '마지막 CO2가 방출되며 4탄소 화합물이 되고, 두 번째 NADH를 뽑아냅니다.' },
+            { step: 16, phase: 'TCA 회로 (바탕질)', name: '16. 기질 수준 인산화', react: '숙시닐-CoA, GDP+Pi', prod: '숙신산 (Succinate), GTP(ATP)', enz: 'Succinyl-CoA synthetase', in: '', out: 'GTP(ATP)', desc: 'CoA가 떨어져 나가는 에너지를 이용해 GTP(또는 ATP)를 합성합니다.' },
+            { step: 17, phase: 'TCA 회로 (바탕질)', name: '17. FADH2 생성', react: '숙신산, FAD', prod: '푸마르산 (Fumarate), FADH2', enz: 'Succinate dehydrogenase', in: '', out: 'FADH2', desc: '복합체 II에 결합된 효소에 의해 전자가 추출되어 FADH2가 생성됩니다.' },
+            { step: 18, phase: 'TCA 회로 (바탕질)', name: '18. 수화 반응', react: '푸마르산, H2O', prod: '말산 (Malate)', enz: 'Fumarase (푸마레이스)', in: 'H2O', out: '', desc: '물 분자가 첨가되어 구조가 말산으로 변합니다.' },
+            { step: 19, phase: 'TCA 회로 (바탕질)', name: '19. 옥살로아세트산 재생', react: '말산, NAD+', prod: '옥살로아세트산, NADH', enz: 'Malate dehydrogenase', in: '', out: 'NADH', desc: '마지막 전자를 빼앗아 NADH를 만들고, 회로를 다시 시작할 옥살로아세트산을 재생시킵니다.' },
+            
+            // 산화적 인산화 (ETC) - 통째로 20단계로 취급
+            { step: 20, phase: '산화적 인산화 (내막)', name: '전자전달계 & 화학삼투', react: 'NADH, FADH2, O2, ADP', prod: 'ATP, H2O, NAD+, FAD', enz: 'Complex I~IV, ATP Synthase', in: 'O2, 전자', out: '대량의 ATP, H2O', desc: '지금까지 모은 NADH와 FADH2의 전자가 복합체를 타고 흐르며 수소 이온 농도 기울기를 만들고, ATP 합성효소가 32분자의 ATP를 폭발적으로 생성합니다. 최종 전자는 산소가 받아 물이 됩니다.' }
+        ],
+        photo: [
+            { step: 1, phase: '명반응 (틸라코이드 막)', name: '1. 광계 II 와 물의 광분해', react: 'H2O, 빛 에너지', prod: '전자(e-), H+, O2', enz: '산소발생복합체 (OEC), p680', in: '빛, H2O', out: 'O2', desc: '빛 에너지를 받은 엽록소 p680이 전자를 방출하고, 이를 채우기 위해 물을 분해하여 산소 기체를 발생시킵니다.' },
+            { step: 2, phase: '명반응 (틸라코이드 막)', name: '2. 전자전달 및 H+ 펌핑', react: '고에너지 전자, H+', prod: '수소 이온 농도 기울기', enz: '플라스토퀴논(PQ), Cyt b6f', in: '', out: 'H+ 기울기', desc: '전자가 이동하는 에너지를 이용해 스트로마의 수소 이온을 내강(Lumen)으로 펌핑합니다.' },
+            { step: 3, phase: '명반응 (틸라코이드 막)', name: '3. 광계 I 과 NADPH 생성', react: '전자, NADP+, H+, 빛', prod: 'NADPH', enz: 'p700, Fd, FNR', in: '빛, NADP+', out: 'NADPH', desc: '광계 I에서 빛을 받아 다시 에너지가 높아진 전자를 NADP+에 전달하여 암반응에 쓰일 환원력(NADPH)을 생성합니다.' },
+            { step: 4, phase: '명반응 (틸라코이드 막)', name: '4. 광인산화 (ATP 생성)', react: 'ADP, Pi, H+ 기울기', prod: 'ATP', enz: 'ATP Synthase (합성효소)', in: 'H+ 흐름', out: 'ATP', desc: '내강에 꽉 찬 수소 이온이 ATP 합성효소를 타고 스트로마로 쏟아지며 빛 에너지 유래의 내부 화폐(ATP)를 생성합니다.' },
+            { step: 5, phase: '암반응 (캘빈회로/스트로마)', name: '5. 탄소 고정 (Carbon Fixation)', react: 'RuBP(5탄소), CO2', prod: '3PG(3탄소) x 2', enz: 'RuBisCO (루비스코)', in: 'CO2', out: '', desc: '대기 중의 이산화탄소를 5탄소 화합물인 RuBP에 붙여 유기물 뼈대인 3PG를 만듭니다.' },
+            { step: 6, phase: '암반응 (캘빈회로/스트로마)', name: '6. 환원 단계 (Reduction)', react: '3PG, ATP, NADPH', prod: 'G3P (포도당의 재료)', enz: '여러 인산화 및 환원 효소', in: 'ATP, NADPH', out: 'G3P 방출', desc: '명반응에서 만든 ATP와 NADPH를 쏟아부어 3PG를 고에너지 당인 G3P로 환원시킵니다. 일부 G3P는 빠져나가 포도당을 합성합니다.' },
+            { step: 7, phase: '암반응 (캘빈회로/스트로마)', name: '7. RuBP 재생성', react: '남은 G3P, ATP', prod: 'RuBP', enz: '복합 대사 효소군', in: 'ATP', out: '', desc: '남은 G3P들을 재조립하고 ATP를 소모하여 CO2를 다시 받아들일 RuBP를 재생성합니다.' },
+        ]
+    };
+
+    // --- 2. 상태 관리 ---
+    let currentProcess = [];
+    let currentIndex = 0;
+    
+    // --- 3. 컨트롤 함수 ---
+    function goHome() {
+        document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+        document.getElementById('screen-main').classList.add('active');
+    }
+
+    function showScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+        document.getElementById(screenId).classList.add('active');
+    }
+
+    function startSim(type, scope) {
+        showScreen('screen-sim');
+        
+        // 데이터 필터링
+        if (type === 'resp') {
+            if (scope === 'glyco') currentProcess = DB.resp.slice(0, 10);
+            else if (scope === 'tca') currentProcess = DB.resp.slice(10, 19);
+            else if (scope === 'etc') currentProcess = DB.resp.slice(19, 20);
+            else currentProcess = DB.resp; // all
+        } else {
+            if (scope === 'light') currentProcess = DB.photo.slice(0, 4);
+            else if (scope === 'dark') currentProcess = DB.photo.slice(4, 7);
+            else currentProcess = DB.photo; // all
+        }
+        
+        currentIndex = 0;
+        updateUI();
+    }
+
+    function moveStep(dir) {
+        currentIndex += dir;
+        if (currentIndex < 0) currentIndex = 0;
+        if (currentIndex >= currentProcess.length) currentIndex = currentProcess.length - 1;
+        updateUI();
+    }
+
+    function updateUI() {
+        const data = currentProcess[currentIndex];
+        
+        // 상단 헤더 업데이트
+        document.getElementById('sim-title').innerText = data.phase;
+        document.getElementById('sim-counter').innerText = `${currentIndex + 1} / ${currentProcess.length}`;
+        document.getElementById('sim-progress').style.width = `${((currentIndex + 1) / currentProcess.length) * 100}%`;
+        
+        // 텍스트 패널 업데이트
+        document.getElementById('info-step-name').innerText = data.name;
+        document.getElementById('info-react').innerText = data.react;
+        document.getElementById('info-prod').innerText = data.prod;
+        document.getElementById('info-enz').innerText = data.enz;
+        document.getElementById('info-desc').innerText = data.desc;
+
+        // 비주얼 애니메이션 업데이트
+        const reactEl = document.getElementById('anim-reactant');
+        const prodEl = document.getElementById('anim-product');
+        const enzEl = document.getElementById('anim-enzyme');
+        const inEl = document.getElementById('anim-energy-in');
+        const outEl = document.getElementById('anim-energy-out');
+
+        // 트리거를 위한 클래스 리셋 (애니메이션 재시작)
+        reactEl.style.transform = 'scale(0.9)'; prodEl.style.transform = 'scale(0.9)';
+        reactEl.style.opacity = '0'; prodEl.style.opacity = '0';
+        inEl.classList.remove('show'); outEl.classList.remove('show');
+
+        setTimeout(() => {
+            reactEl.innerText = data.react.split(',')[0]; // 너무 길면 첫번째 분자만
+            prodEl.innerText = data.prod.split(',')[0];
+            enzEl.innerText = data.enz.split(' ')[0]; // 효소 약어만
+            
+            if(data.in) { inEl.innerText = `+ ${data.in}`; inEl.classList.add('show'); }
+            if(data.out) { outEl.innerText = `+ ${data.out} 방출`; outEl.classList.add('show'); }
+
+            reactEl.style.transform = 'scale(1)'; reactEl.style.opacity = '1';
+            prodEl.style.transform = 'scale(1)'; prodEl.style.opacity = '1';
+        }, 100);
+
+        // 버튼 상태
+        document.getElementById('btn-prev').disabled = (currentIndex === 0);
+        document.getElementById('btn-next').disabled = (currentIndex === currentProcess.length - 1);
+    }
+</script>
+</body>
+</html>
