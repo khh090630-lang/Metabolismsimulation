@@ -3,420 +3,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>세포호흡 동적 시뮬레이터</title>
+    <title>세포호흡 상세 대사과정 시뮬레이터</title>
     <style>
         :root {
-            --primary: #2c3e50;
-            --secondary: #27ae60;
-            --accent: #e74c3c;
-            --bg: #f4f6f9;
-            --text: #333;
-            --carbon: #34495e;
-            --phosphate: #f1c40f;
-            --electron: #3498db;
-            --proton: #e74c3c;
+            --primary: #1e3799;
+            --secondary: #009432;
+            --accent: #EA2027;
+            --bg: #f5f6fa;
+            --text: #2f3640;
         }
         * { box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
-        body { margin: 0; padding: 0; background: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-        header { background: var(--primary); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 10; }
+        body { margin: 0; padding: 0; background: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; }
+        header { background: var(--primary); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 10; flex-shrink: 0; }
         h1 { margin: 0; font-size: 1.5rem; }
-        .home-btn { background: rgba(255,255,255,0.2); color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .home-btn:hover { background: rgba(255,255,255,0.4); }
-
-        #app-content { flex: 1; display: flex; justify-content: center; align-items: center; padding: 1rem; position: relative; }
-        .screen { display: none; width: 100%; max-width: 1200px; height: 100%; animation: fadeIn 0.5s; flex-direction: column; }
+        .home-btn { background: rgba(255,255,255,0.2); color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        
+        #app-content { flex: 1; overflow-y: auto; display: flex; flex-direction: column; align-items: center; padding: 2rem; position: relative; }
+        .screen { display: none; width: 100%; max-width: 1200px; animation: fadeIn 0.4s; flex-direction: column; }
         .screen.active { display: flex; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 메뉴 */
-        .menu-grid { display: flex; gap: 2rem; justify-content: center; margin-top: 3rem; }
-        .menu-card { background: white; padding: 3rem; border-radius: 15px; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.05); text-align: center; border: 3px solid transparent; transition: 0.3s; }
-        .menu-card:hover { transform: translateY(-10px); border-color: var(--secondary); }
+        /* 메뉴 버튼 */
+        .menu-grid { display: flex; gap: 1.5rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap; }
+        .menu-card { background: white; padding: 2.5rem; border-radius: 15px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-align: center; border: 2px solid #ddd; transition: 0.2s; width: 300px; }
+        .menu-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        
+        .sub-btn { margin: 0.5rem; padding: 1rem 1.5rem; background: white; border: 2px solid #ccc; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1.1rem; transition: 0.2s; width: 100%; max-width: 400px; }
+        .sub-btn:hover { border-color: var(--primary); color: var(--primary); background: #f0f4ff; }
 
-        /* 시뮬레이터 레이아웃 */
+        /* 시뮬레이터 뷰 */
         .sim-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; background: white; padding: 1rem 2rem; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .progress-bar { flex: 1; margin: 0 2rem; height: 10px; background: #eee; border-radius: 5px; overflow: hidden; }
+        .progress-bar { flex: 1; margin: 0 2rem; height: 8px; background: #eee; border-radius: 4px; overflow: hidden; }
         .progress-fill { height: 100%; background: var(--secondary); width: 0%; transition: width 0.3s; }
         
-        .sim-body { flex: 1; display: flex; background: white; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); overflow: hidden; position: relative; }
+        .sim-body { display: flex; gap: 2rem; background: white; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 2rem; min-height: 500px; position: relative; flex-wrap: wrap; }
         
-        /* 왼쪽: 시각화 영역 */
-        .visual-area { flex: 2; position: relative; display: flex; justify-content: center; align-items: center; background: #fafbfc; overflow: hidden; }
+        /* 네비게이션 화살표 */
+        .nav-controls { width: 100%; display: flex; justify-content: space-between; margin-bottom: 1rem; }
+        .nav-btn { width: 50px; height: 50px; background: white; border: 2px solid #ddd; border-radius: 50%; font-size: 1.5rem; cursor: pointer; transition: 0.2s; }
+        .nav-btn:hover:not(:disabled) { background: var(--primary); color: white; border-color: var(--primary); }
+        .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        /* 시각화 영역 (반응식) */
+        .visual-area { flex: 1; min-width: 500px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #fafbfc; border-radius: 10px; position: relative; padding: 2rem; border: 1px solid #eee; }
         
-        /* 오른쪽: 정보 패널 */
-        .info-panel { flex: 1; background: white; border-left: 2px solid #eee; padding: 2rem; display: flex; flex-direction: column; justify-content: center; z-index: 10; }
-        .info-panel h3 { color: var(--primary); margin-top: 0; font-size: 1.5rem; border-bottom: 2px solid #eee; padding-bottom: 1rem; }
+        .reaction-box { display: flex; align-items: center; gap: 2rem; width: 100%; justify-content: center; margin-top: 2rem; }
+        .molecule { background: #fff; border: 2px solid var(--primary); padding: 1.5rem; border-radius: 10px; text-align: center; width: 220px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); position: relative; }
+        .molecule.prod { border-color: var(--secondary); }
+        .mol-name { font-weight: bold; font-size: 1.2rem; color: #333; margin-bottom: 0.5rem; }
+        .mol-formula { font-family: monospace; font-size: 1.1rem; color: #666; background: #eee; padding: 0.3rem; border-radius: 5px; }
+        
+        .arrow-wrap { display: flex; flex-direction: column; align-items: center; }
+        .arrow-line { font-size: 3rem; color: #ccc; margin: -10px 0; }
+        .enz-tag { background: #f1c40f; color: #333; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.9rem; font-weight: bold; text-align: center; max-width: 180px; }
+
+        /* 애니메이션 입자 */
+        .particle { position: absolute; padding: 0.3rem 0.6rem; border-radius: 5px; font-weight: bold; font-size: 0.9rem; opacity: 0; pointer-events: none; z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .p-in { background: #f39c12; color: white; }
+        .p-out { background: #3498db; color: white; }
+        
+        @keyframes flyIn { 0%{opacity:0; transform:translateY(-40px);} 20%{opacity:1;} 100%{opacity:0; transform:translateY(0);} }
+        @keyframes flyOut { 0%{opacity:0; transform:translateY(0);} 20%{opacity:1;} 100%{opacity:0; transform:translateY(40px);} }
+
+        /* 정보 패널 */
+        .info-panel { flex: 1; min-width: 350px; display: flex; flex-direction: column; justify-content: center; }
+        .info-panel h3 { color: var(--primary); font-size: 1.5rem; border-bottom: 2px solid #eee; padding-bottom: 1rem; margin-top: 0; }
+        .info-row { margin-bottom: 1rem; font-size: 1.1rem; line-height: 1.5; }
         .badge { display: inline-block; padding: 0.3rem 0.6rem; border-radius: 5px; font-size: 0.9rem; font-weight: bold; margin-right: 10px; width: 80px; text-align: center; }
         .b-react { background: #e0f7fa; color: #006064; }
         .b-prod { background: #e8f5e9; color: #1b5e20; }
         .b-enz { background: #fff9c4; color: #f57f17; }
-        .info-row { margin-bottom: 1rem; display: flex; align-items: flex-start; line-height: 1.5; font-size: 1.1rem; }
-        .desc-box { background: #f8f9fa; padding: 1rem; border-radius: 10px; margin-top: 1rem; font-size: 1.05rem; border-left: 4px solid var(--secondary); }
+        .desc-box { background: #f8f9fa; padding: 1.2rem; border-radius: 10px; border-left: 4px solid var(--accent); margin-top: 1rem; font-size: 1.05rem; }
 
-        /* 네비게이션 버튼 */
-        .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 50px; height: 50px; background: white; border: 2px solid #ddd; border-radius: 50%; font-size: 1.5rem; cursor: pointer; z-index: 20; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: 0.2s; }
-        .nav-btn:hover:not(:disabled) { background: var(--primary); color: white; border-color: var(--primary); }
-        .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-        #btn-prev { left: 1rem; }
-        #btn-next { right: 35%; } /* 정보패널 침범 방지 */
-
-        /* 화학 구조 (탄소 골격) 스타일 */
-        #reaction-view { display: flex; flex-direction: column; align-items: center; width: 100%; height: 100%; padding: 2rem; position: relative; }
-        .molecule-container { display: flex; gap: 4rem; align-items: center; justify-content: center; width: 100%; margin-top: 2rem; }
-        .molecule-box { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
-        .molecule-name { font-weight: bold; font-size: 1.2rem; color: var(--primary); background: #eee; padding: 0.5rem 1rem; border-radius: 20px; }
+        /* 산화적 인산화 뷰 */
+        #etc-view { display: none; width: 100%; height: 400px; background: #e3f2fd; position: relative; border-radius: 10px; overflow: hidden; }
+        .membrane { position: absolute; top: 40%; width: 100%; height: 100px; background: rgba(243, 156, 18, 0.3); border-top: 3px solid #e67e22; border-bottom: 3px solid #e67e22; display: flex; justify-content: space-evenly; align-items: center; }
+        .complex { background: #8e44ad; color: white; font-weight: bold; border-radius: 10px; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.2); position: relative; }
+        .c-I { width: 60px; height: 120px; }
+        .c-III { width: 60px; height: 120px; }
+        .c-IV { width: 60px; height: 120px; }
+        .c-ATP { width: 80px; height: 140px; background: #c0392b; border-radius: 20px 20px 5px 5px; }
         
-        .structure { display: flex; gap: 5px; align-items: center; justify-content: center; height: 80px; padding: 10px; border-radius: 10px; }
-        .atom { width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; color: white; box-shadow: inset -2px -2px 5px rgba(0,0,0,0.2); position: relative; z-index: 2; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-        .atom.C { background: var(--carbon); }
-        .atom.P { background: var(--phosphate); color: #333; }
-        .bond { width: 15px; height: 4px; background: #999; margin: 0 -8px; z-index: 1; }
-
-        .arrow-wrap { display: flex; flex-direction: column; align-items: center; position: relative; }
-        .arrow-text { background: var(--accent); color: white; padding: 0.2rem 0.8rem; border-radius: 10px; font-size: 0.8rem; font-weight: bold; margin-bottom: -5px; z-index: 2; }
-        .arrow-symbol { font-size: 4rem; color: #ccc; font-weight: 100; margin: -20px 0; }
-
-        /* 애니메이션 입자 (P, CO2, e-) */
-        .anim-particle { position: absolute; width: 35px; height: 35px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; color: white; z-index: 100; opacity: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .p-part { background: var(--phosphate); color: #333; }
-        .co2-part { background: #7f8c8d; }
-        .e-part { background: var(--electron); }
-
-        /* ETC 커스텀 뷰 (전자전달계) */
-        #etc-view { display: none; width: 100%; height: 100%; background: #e3f2fd; position: relative; overflow: hidden; }
-        .membrane { position: absolute; top: 40%; left: 0; width: 100%; height: 120px; background: repeating-linear-gradient(90deg, #f39c1255, #f39c1255 10px, transparent 10px, transparent 20px); border-top: 4px solid #e67e22; border-bottom: 4px solid #e67e22; display: flex; justify-content: space-around; align-items: center; padding: 0 2rem; }
-        .space-label { position: absolute; width: 100%; text-align: center; font-weight: bold; font-size: 1.5rem; color: #555; opacity: 0.5; }
-        .intermembrane { top: 15%; }
-        .matrix { bottom: 15%; }
-
-        .complex { background: #8e44ad; color: white; font-weight: bold; border-radius: 10px; display: flex; justify-content: center; align-items: center; border: 2px solid #732d91; box-shadow: 0 5px 10px rgba(0,0,0,0.2); position: relative; z-index: 5; }
-        .c-I { width: 80px; height: 140px; }
-        .c-II { width: 60px; height: 60px; align-self: flex-end; margin-bottom: -10px; background: #9b59b6; }
-        .c-Q { width: 40px; height: 40px; border-radius: 50%; background: #e67e22; border: 2px solid #d35400; align-self: flex-start; margin-top: -20px; }
-        .c-III { width: 80px; height: 140px; }
-        .c-CytC { width: 40px; height: 40px; border-radius: 50%; background: #e67e22; border: 2px solid #d35400; align-self: flex-start; margin-top: -20px; }
-        .c-IV { width: 80px; height: 140px; }
-        .c-ATP { width: 100px; height: 160px; background: #c0392b; border-color: #922b21; border-radius: 20px 20px 10px 10px; position: relative; }
-        
-        /* ETC 애니메이션 입자 */
-        .moving-e { position: absolute; width: 15px; height: 15px; background: #f1c40f; border-radius: 50%; color: black; font-size: 10px; font-weight: bold; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 10px yellow; z-index: 6; opacity: 0; animation: eFlow 6s infinite ease-in-out; }
-        @keyframes eFlow {
-            0% { left: 10%; top: 70%; opacity: 0; }
-            5% { left: 12%; top: 60%; opacity: 1; } /* NADH to I */
-            20% { left: 28%; top: 40%; } /* I to Q */
-            40% { left: 45%; top: 50%; } /* Q to III */
-            60% { left: 60%; top: 35%; } /* III to CytC */
-            80% { left: 75%; top: 50%; } /* CytC to IV */
-            95% { left: 80%; top: 70%; opacity: 1; } /* IV to O2 */
-            100% { left: 80%; top: 75%; opacity: 0; }
-        }
-
-        .moving-h { position: absolute; width: 20px; height: 20px; background: var(--proton); border-radius: 50%; color: white; font-size: 12px; font-weight: bold; display: flex; justify-content: center; align-items: center; z-index: 4; opacity: 0; }
-        .pump-I { animation: pumpUp 3s infinite ease-in 1s; left: 14%; }
-        .pump-III { animation: pumpUp 3s infinite ease-in 2.5s; left: 47%; }
-        .pump-IV { animation: pumpUp 3s infinite ease-in 4s; left: 77%; }
-        @keyframes pumpUp {
-            0% { top: 70%; opacity: 0; }
-            20% { top: 60%; opacity: 1; }
-            80% { top: 20%; opacity: 1; }
-            100% { top: 10%; opacity: 0; }
-        }
-
-        .atp-rotor { position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); width: 60px; height: 40px; background: #e74c3c; border-radius: 10px; animation: spin 2s infinite linear; }
-        @keyframes spin { 100% { transform: translateX(-50%) rotateY(360deg); } }
-        
-        .h-fall { animation: pumpDown 2s infinite ease-in; left: 95%; }
-        @keyframes pumpDown {
-            0% { top: 10%; opacity: 0; }
-            20% { top: 20%; opacity: 1; }
-            80% { top: 60%; opacity: 1; }
-            100% { top: 80%; opacity: 0; }
-        }
-        
-        .atp-make { position: absolute; left: 95%; top: 75%; font-weight: bold; color: #e67e22; font-size: 1.2rem; opacity:0; animation: popATP 2s infinite 1.5s; }
-        @keyframes popATP { 0%{opacity:1; transform:scale(0.5) translateY(0);} 50%{opacity:1; transform:scale(1.2) translateY(-20px);} 100%{opacity:0; transform:scale(1) translateY(-40px);} }
-
+        .moving-e { position: absolute; width: 15px; height: 15px; background: #f1c40f; border-radius: 50%; font-size: 10px; display: flex; justify-content: center; align-items: center; opacity: 0; animation: eFlow 4s infinite linear; z-index: 5; }
+        @keyframes eFlow { 0%{left:10%; top:60%; opacity:1;} 25%{left:30%; top:45%;} 50%{left:50%; top:45%;} 75%{left:70%; top:45%;} 100%{left:80%; top:60%; opacity:0;} }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>대사과정 동적 시뮬레이터</h1>
-        <button class="home-btn" onclick="location.reload()">🏠 처음으로</button>
+        <h1>대사과정 메커니즘 시뮬레이터</h1>
+        <button class="home-btn" onclick="goHome()">🏠 메뉴로 돌아가기</button>
     </header>
 
     <div id="app-content">
-        <!-- 1. 메인 화면 -->
-        <div id="screen-main" class="screen active" style="align-items: center; justify-content: center;">
-            <h2>원하는 시뮬레이션을 선택하세요</h2>
+        <!-- 메인 화면 -->
+        <div id="screen-main" class="screen active" style="align-items: center;">
+            <h2>학습할 과정을 선택하세요</h2>
             <div class="menu-grid">
-                <div class="menu-card" onclick="startSim()">
-                    <h2 style="color: var(--accent);">세포호흡 전체 보기</h2>
-                    <p>포도당 $\rightarrow$ 피루브산 $\rightarrow$ 전자전달계<br>19개 화학 반응 시뮬레이션</p>
+                <div class="menu-card" onclick="showSubMenu('glyco')">
+                    <h2 style="color: var(--primary);">해당과정 (Glycolysis)</h2>
+                    <p>포도당 $\rightarrow$ 피루브산<br>(1~10단계)</p>
                 </div>
+                <div class="menu-card" onclick="showSubMenu('tca')">
+                    <h2 style="color: var(--secondary);">Link & TCA 회로</h2>
+                    <p>피루브산 $\rightarrow$ $CO_2$<br>(11~19단계)</p>
+                </div>
+                <div class="menu-card" onclick="showSubMenu('etc')">
+                    <h2 style="color: var(--accent);">산화적 인산화</h2>
+                    <p>전자전달계 & 화학삼투<br>(20단계)</p>
+                </div>
+            </div>
+            <div style="margin-top: 3rem;">
+                <button class="sub-btn" style="border-color: #333;" onclick="startSim('all')">세포호흡 전체 20단계 순서대로 보기</button>
             </div>
         </div>
 
-        <!-- 2. 시뮬레이터 화면 -->
+        <!-- 시뮬레이터 화면 -->
         <div id="screen-sim" class="screen">
             <div class="sim-header">
                 <h2 id="sim-title" style="margin:0; color:var(--primary);">단계 이름</h2>
                 <div class="progress-bar"><div class="progress-fill" id="sim-progress"></div></div>
-                <span id="sim-counter" style="font-weight:bold; font-size: 1.2rem;">1 / 20</span>
+                <span id="sim-counter" style="font-weight:bold;">1 / 20</span>
             </div>
             
-            <div class="sim-body">
+            <div class="nav-controls">
                 <button class="nav-btn" id="btn-prev" onclick="moveStep(-1)">&#8592;</button>
                 <button class="nav-btn" id="btn-next" onclick="moveStep(1)">&#8594;</button>
+            </div>
 
-                <!-- 왼쪽: 화학 반응 시각화 영역 -->
+            <div class="sim-body">
+                <!-- 왼쪽: 화학 반응 시각화 -->
                 <div class="visual-area">
-                    <!-- 일반 화학 반응용 뷰 -->
-                    <div id="reaction-view">
-                        <!-- 동적으로 입자가 날아다닐 컨테이너 -->
-                        <div id="particle-layer" style="position: absolute; top:0; left:0; width:100%; height:100%; pointer-events: none; z-index: 50;"></div>
+                    <div id="reaction-view" style="width:100%; display:flex; flex-direction:column; align-items:center;">
+                        <div id="anim-layer" style="position:absolute; width:100%; height:100%; pointer-events:none;"></div>
                         
-                        <div class="molecule-container">
-                            <div class="molecule-box">
-                                <div class="molecule-name" id="react-name">포도당</div>
-                                <div class="structure" id="react-struct">
-                                    <!-- JS에서 동적 생성 -->
-                                </div>
+                        <div class="reaction-box">
+                            <div class="molecule">
+                                <div class="mol-name" id="react-name">반응물</div>
+                                <div class="mol-formula" id="react-form">화학식</div>
                             </div>
 
                             <div class="arrow-wrap">
-                                <div class="arrow-text" id="enz-name">헥소키나아제</div>
-                                <div class="arrow-symbol">&#10230;</div>
+                                <div class="particle p-in" id="anim-in">+ ATP</div>
+                                <div class="enz-tag" id="enz-name">효소</div>
+                                <div class="arrow-line">&#10230;</div>
+                                <div class="particle p-out" id="anim-out">+ ADP</div>
                             </div>
 
-                            <div class="molecule-box">
-                                <div class="molecule-name" id="prod-name" style="background:var(--secondary); color:white;">포도당 6-인산</div>
-                                <div class="structure" id="prod-struct">
-                                    <!-- JS에서 동적 생성 -->
-                                </div>
+                            <div class="molecule prod">
+                                <div class="mol-name" id="prod-name">생성물</div>
+                                <div class="mol-formula" id="prod-form">화학식</div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 20단계 전용 산화적 인산화 뷰 -->
+                    <!-- 20단계: 전자전달계 뷰 -->
                     <div id="etc-view">
-                        <div class="space-label intermembrane">막간 공간 (H+ 고농도)</div>
-                        <div class="space-label matrix">미토콘드리아 기질 (H+ 저농도)</div>
-                        
+                        <div style="position:absolute; top:10px; width:100%; text-align:center; font-weight:bold; color:#555;">막간 공간 (H+ 고농도)</div>
                         <div class="membrane">
-                            <div class="complex c-I">I<br>NADH<br>탈수소</div>
-                            <div class="complex c-Q">Q</div>
-                            <div class="complex c-II">II</div>
+                            <div class="complex c-I">I</div>
                             <div class="complex c-III">III</div>
-                            <div class="complex c-CytC">C</div>
                             <div class="complex c-IV">IV</div>
-                            <div class="complex c-ATP">
-                                ATP 합성효소
-                                <div class="atp-rotor"></div>
-                            </div>
+                            <div class="complex c-ATP">ATP<br>Synthase</div>
                         </div>
-
-                        <!-- 애니메이션 엘리먼트 -->
+                        <div style="position:absolute; bottom:10px; width:100%; text-align:center; font-weight:bold; color:#555;">바탕질 (H+ 저농도)</div>
                         <div class="moving-e">e-</div>
-                        <div class="moving-h pump-I">H+</div>
-                        <div class="moving-h pump-III">H+</div>
-                        <div class="moving-h pump-IV">H+</div>
-                        <div class="moving-h h-fall">H+</div>
-                        <div class="atp-make">ATP 생성!</div>
                     </div>
                 </div>
 
                 <!-- 오른쪽: 정보 텍스트 패널 -->
                 <div class="info-panel">
-                    <h3 id="info-step-name">1. 포도당 인산화</h3>
-                    <div class="info-row">
-                        <span class="badge b-react">반응물</span>
-                        <span id="info-react">포도당, ATP</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="badge b-prod">생성물</span>
-                        <span id="info-prod">포도당 6-인산, ADP</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="badge b-enz">관여 효소</span>
-                        <span id="info-enz">Hexokinase</span>
-                    </div>
-                    <div class="desc-box" id="info-desc">
-                        ATP의 인산기를 포도당의 6번 탄소에 결합시켜 세포 밖으로 빠져나가지 못하게 가두는 에너지 투자기의 첫 단계입니다.
-                    </div>
+                    <h3 id="info-step-name">단계 설명</h3>
+                    <div class="info-row"><span class="badge b-react">반응물</span><span id="info-react"></span></div>
+                    <div class="info-row"><span class="badge b-prod">생성물</span><span id="info-prod"></span></div>
+                    <div class="info-row"><span class="badge b-enz">관여 효소</span><span id="info-enz"></span></div>
+                    <div class="desc-box" id="info-desc">디테일 설명</div>
                 </div>
             </div>
         </div>
     </div>
 
 <script>
-    // 구조식 배열 정의 (C: 탄소, P: 인산기)
+    // 화학식 및 메커니즘 디테일 데이터베이스
     const DB = [
-        { step: 1, phase: '해당과정 (Phase 1: 투자기)', name: '1. 포도당 인산화', react: '포도당, ATP', prod: '포도당 6-인산, ADP', enz: '헥소키나아제', sR: ['C','C','C','C','C','C'], sP: ['P','C','C','C','C','C','C'], anim: 'add-p', desc: 'ATP를 소모하여 포도당에 인산기(P)를 붙입니다. 세포 밖으로 빠져나가지 못하게 가두는 역할입니다.' },
-        { step: 2, phase: '해당과정 (Phase 1: 투자기)', name: '2. 이성질체화', react: '포도당 6-인산', prod: '과당 6-인산', enz: 'Phosphoglucose isomerase', sR: ['P','C','C','C','C','C','C'], sP: ['P','C','C','C','C','C','C'], anim: 'none', desc: '반으로 쪼개기 쉽도록 분자 구조를 대칭적으로 재배열합니다.' },
-        { step: 3, phase: '해당과정 (Phase 1: 투자기)', name: '3. 두 번째 인산화', react: '과당 6-인산, ATP', prod: '과당 1,6-2인산, ADP', enz: 'PFK-1', sR: ['P','C','C','C','C','C','C'], sP: ['P','C','C','C','C','C','C','P'], anim: 'add-p', desc: '해당과정의 핵심 조절 단계! ATP를 한 번 더 소모하여 양쪽에 인산기를 붙인 대칭 형태를 만듭니다.' },
-        { step: 4, phase: '해당과정 (Phase 1: 투자기)', name: '4. 분할 (Cleavage)', react: '과당 1,6-2인산', prod: 'DHAP + G3P', enz: '알돌레이스', sR: ['P','C','C','C','C','C','C','P'], sP: ['P','C','C','C', '+', 'C','C','C','P'], anim: 'split', desc: '6탄소 당을 두 개의 3탄소 화합물로 정확히 반으로 쪼갭니다.' },
-        { step: 5, phase: '해당과정 (Phase 1: 투자기)', name: '5. 상호 전환', react: 'DHAP', prod: 'G3P', enz: 'Triose phosphate isomerase', sR: ['P','C','C','C'], sP: ['C','C','C','P'], anim: 'none', desc: 'DHAP를 G3P로 전환합니다. 이후 과정은 2개의 G3P가 진행하므로 곱하기 2가 됩니다.' },
-        { step: 6, phase: '해당과정 (Phase 2: 회수기)', name: '6. 산화 및 인산화', react: 'G3P, NAD+, Pi', prod: '1,3-BPG, NADH', enz: 'G3P dehydrogenase', sR: ['C','C','C','P'], sP: ['P','C','C','C','P'], anim: 'add-p-extract-e', desc: '최초로 고에너지 전자를 추출하여 NADH를 생성하고, 무기 인산을 하나 더 결합시킵니다.' },
-        { step: 7, phase: '해당과정 (Phase 2: 회수기)', name: '7. 첫 ATP 생성', react: '1,3-BPG, ADP', prod: '3PG, ATP', enz: 'Phosphoglycerate kinase', sR: ['P','C','C','C','P'], sP: ['C','C','C','P'], anim: 'remove-p', desc: '기질 수준 인산화를 통해 처음으로 ATP를 회수합니다.' },
-        { step: 8, phase: '해당과정 (Phase 2: 회수기)', name: '8. 인산기 이동', react: '3PG', prod: '2PG', enz: 'Phosphoglycerate mutase', sR: ['C','C','C','P'], sP: ['C','C','P','C'], anim: 'none', desc: '인산기의 위치를 옮겨 구조를 불안정하게 만듭니다.' },
-        { step: 9, phase: '해당과정 (Phase 2: 회수기)', name: '9. 탈수 반응', react: '2PG', prod: '포스포에놀피루브산(PEP), H2O', enz: '에놀레이스', sR: ['C','C','P','C'], sP: ['C','C','P','C'], anim: 'none', desc: '물 분자를 빼내어 인산 결합의 에너지를 폭발적으로 높입니다.' },
-        { step: 10, phase: '해당과정 (Phase 2: 회수기)', name: '10. 두 번째 ATP 생성', react: 'PEP, ADP', prod: '피루브산, ATP', enz: 'Pyruvate kinase', sR: ['C','C','P','C'], sP: ['C','C','C'], anim: 'remove-p', desc: '마지막 인산기를 떼어내어 ATP를 만들고 최종 산물인 피루브산(3탄소)을 생성합니다.' },
-        { step: 11, phase: '바탕질 진입', name: '11. 연결 반응 (Link Reaction)', react: '피루브산, CoA', prod: '아세틸-CoA, CO2, NADH', enz: 'Pyruvate dehydrogenase', sR: ['C','C','C'], sP: ['C','C'], anim: 'remove-co2', desc: '미토콘드리아 안으로 들어온 피루브산에서 CO2를 떼어내고, 조효소 A를 붙여 TCA 회로 진입을 준비합니다.' },
-        { step: 12, phase: 'TCA 회로', name: '12. 시트르산 합성', react: '아세틸-CoA, 옥살로아세트산', prod: '시트르산', enz: 'Citrate synthase', sR: ['C','C', '+', 'C','C','C','C'], sP: ['C','C','C','C','C','C'], anim: 'merge', desc: '2탄소 아세틸기와 4탄소 옥살로아세트산이 결합해 6탄소 시트르산이 됩니다.' },
-        { step: 13, phase: 'TCA 회로', name: '13. 이성질체화', react: '시트르산', prod: '아이소시트르산', enz: 'Aconitase', sR: ['C','C','C','C','C','C'], sP: ['C','C','C','C','C','C'], anim: 'none', desc: '히드록시기의 위치를 재배열합니다.' },
-        { step: 14, phase: 'TCA 회로', name: '14. 1차 탈카복실화', react: '아이소시트르산, NAD+', prod: 'α-케토글루타르산, CO2, NADH', enz: 'Isocitrate dehydrogenase', sR: ['C','C','C','C','C','C'], sP: ['C','C','C','C','C'], anim: 'remove-co2-extract-e', desc: 'CO2가 방출되며 5탄소 화합물이 되고, 고에너지 전자(NADH)가 추출됩니다.' },
-        { step: 15, phase: 'TCA 회로', name: '15. 2차 탈카복실화', react: 'α-케토글루타르산, NAD+', prod: '숙시닐-CoA, CO2, NADH', enz: 'α-KG dehydrogenase', sR: ['C','C','C','C','C'], sP: ['C','C','C','C'], anim: 'remove-co2-extract-e', desc: '마지막 CO2가 방출되며 4탄소 화합물이 되고, 두 번째 NADH를 뽑아냅니다.' },
-        { step: 16, phase: 'TCA 회로', name: '16. 기질 수준 인산화', react: '숙시닐-CoA, GDP', prod: '숙신산, GTP(ATP)', enz: 'Succinyl-CoA synthetase', sR: ['C','C','C','C'], sP: ['C','C','C','C'], anim: 'add-atp-text', desc: '결합이 끊어지는 에너지를 이용해 1분자의 ATP(GTP)를 생성합니다.' },
-        { step: 17, phase: 'TCA 회로', name: '17. FADH2 생성', react: '숙신산, FAD', prod: '푸마르산, FADH2', enz: 'Succinate dehydrogenase', sR: ['C','C','C','C'], sP: ['C','C','C','C'], anim: 'extract-e', desc: '복합체 II에 결합된 효소에 의해 전자가 추출되어 FADH2가 생성됩니다.' },
-        { step: 18, phase: 'TCA 회로', name: '18. 수화 반응', react: '푸마르산, H2O', prod: '말산', enz: 'Fumarase', sR: ['C','C','C','C'], sP: ['C','C','C','C'], anim: 'none', desc: '물 분자가 첨가되어 구조가 말산으로 변합니다.' },
-        { step: 19, phase: 'TCA 회로', name: '19. 옥살로아세트산 재생', react: '말산, NAD+', prod: '옥살로아세트산, NADH', enz: 'Malate dehydrogenase', sR: ['C','C','C','C'], sP: ['C','C','C','C'], anim: 'extract-e', desc: '마지막 전자를 빼앗아 NADH를 만들고, 회로를 다시 시작할 4탄소 뼈대(옥살로아세트산)를 재생시킵니다.' },
-        { step: 20, phase: '내막 시스템', name: '20. 산화적 인산화 (ETC)', react: 'NADH, FADH2, O2, ADP', prod: 'ATP, H2O, NAD+', enz: '복합체 I~IV, ATP Synthase', sR: [], sP: [], anim: 'show-etc', desc: '모아둔 NADH와 FADH2의 전자가 전자전달계를 통과하며 막간 공간으로 H+를 펌핑합니다. 이 농도 기울기로 대량의 ATP(32개)를 합성합니다!' }
+        { step: 1, phase: '해당과정 (투자기)', name: '1. 포도당 인산화', react: 'Glucose, ATP', prod: 'G6P, ADP', fR: 'C6H12O6', fP: 'C6H11O6-PO3', enz: 'Hexokinase', pIn: '+ ATP', pOut: '', desc: 'ATP를 소모하여 포도당의 6번 탄소에 인산기를 붙입니다. 분자가 세포 밖으로 나가지 못하게 가두는 역할을 합니다.' },
+        { step: 2, phase: '해당과정 (투자기)', name: '2. 이성질체화', react: 'G6P', prod: 'F6P', fR: 'Glucose-6-P', fP: 'Fructose-6-P', enz: 'Phosphoglucose isomerase', pIn: '', pOut: '', desc: '육각고리(포도당)를 오각고리(과당)로 재배열하여, 나중에 분자를 정확히 반으로 쪼개기 쉽게 만듭니다.' },
+        { step: 3, phase: '해당과정 (투자기)', name: '3. 두 번째 인산화', react: 'F6P, ATP', prod: 'F1,6BP, ADP', fR: 'C6H11O6-PO3', fP: 'PO3-C6H10O6-PO3', enz: 'PFK-1', pIn: '+ ATP', pOut: '', desc: 'ATP를 한 번 더 소모하여 1번 탄소에도 인산기를 붙입니다. (해당과정의 핵심 속도 조절 단계)' },
+        { step: 4, phase: '해당과정 (투자기)', name: '4. 분할 (Cleavage)', react: 'F1,6BP', prod: 'DHAP + G3P', fR: 'PO3-C6-PO3', fP: '(C3-PO3) + (C3-PO3)', enz: 'Aldolase', pIn: '', pOut: '쪼개짐!', desc: '6탄소 당을 두 개의 3탄소 화합물(DHAP, G3P)로 정확히 반으로 자릅니다.' },
+        { step: 5, phase: '해당과정 (투자기)', name: '5. 상호 전환', react: 'DHAP', prod: 'G3P', fR: 'DHAP (Ketose)', fP: 'G3P (Aldose)', enz: 'Triose phosphate isomerase', pIn: '', pOut: '', desc: 'DHAP를 모두 G3P로 전환합니다. 이후 반응은 2개의 G3P가 동시에 진행하므로 모든 결과물이 x2가 됩니다.' },
+        { step: 6, phase: '해당과정 (회수기)', name: '6. 산화 및 인산화', react: 'G3P, NAD+, Pi', prod: '1,3-BPG, NADH+H+', fR: 'C3H5O3-PO3', fP: 'PO3-C3H4O4-PO3', enz: 'G3P dehydrogenase', pIn: '+ NAD+, Pi', pOut: '+ NADH + H+', desc: '최초로 고에너지 전자(2e-)와 수소(H+)를 추출하여 NADH를 생성하고, 무기 인산(Pi)을 결합시킵니다.' },
+        { step: 7, phase: '해당과정 (회수기)', name: '7. 첫 ATP 생성', react: '1,3-BPG, ADP', prod: '3PG, ATP', fR: 'PO3-C3H4O4-PO3', fP: 'C3H5O4-PO3', enz: 'Phosphoglycerate kinase', pIn: '+ ADP', pOut: '+ ATP', desc: '1번 탄소에 붙어있던 불안정한 인산기를 ADP에 넘겨주어 처음으로 ATP를 회수합니다. (기질 수준 인산화)' },
+        { step: 8, phase: '해당과정 (회수기)', name: '8. 인산기 이동', react: '3PG', prod: '2PG', fR: '3-Phosphoglycerate', fP: '2-Phosphoglycerate', enz: 'Phosphoglycerate mutase', pIn: '', pOut: '', desc: '인산기의 위치를 3번 탄소에서 2번 탄소로 옮겨 분자 내부 구조를 불안정하게 만듭니다.' },
+        { step: 9, phase: '해당과정 (회수기)', name: '9. 탈수 반응', react: '2PG', prod: 'PEP, H2O', fR: 'C3H5O4-PO3', fP: 'C3H3O3-PO3', enz: 'Enolase', pIn: '', pOut: '+ H2O 이탈', desc: '물 분자(H2O)를 빼내어 이중결합을 형성합니다. 이로 인해 인산기 결합 에너지가 폭발적으로 강해집니다.' },
+        { step: 10, phase: '해당과정 (회수기)', name: '10. 두 번째 ATP 생성', react: 'PEP, ADP', prod: 'Pyruvate, ATP', fR: 'C3H3O3-PO3', fP: 'C3H4O3', enz: 'Pyruvate kinase', pIn: '+ ADP', pOut: '+ ATP', desc: '마지막 남은 인산기를 떼어내어 ATP를 만들고, 해당과정의 최종 산물인 피루브산(3탄소)을 생성합니다.' },
+        { step: 11, phase: '바탕질 진입', name: '11. 산화적 탈카복실화', react: 'Pyruvate, CoA, NAD+', prod: 'Acetyl-CoA, CO2, NADH+H+', fR: 'C3H4O3', fP: 'Acetyl-CoA (C2)', enz: 'Pyruvate dehydrogenase complex (TPP, lipoate, FAD 포함)', pIn: '+ CoA, NAD+', pOut: '+ CO2, NADH', desc: '미토콘드리아 기질에서 피루브산의 카복실기를 떼어내어 CO2를 방출하고, 2e-를 뽑아 NADH를 만듭니다. 이후 조효소 A를 결합합니다.' },
+        { step: 12, phase: 'TCA 회로', name: '12. 시트르산 합성', react: 'Acetyl-CoA, Oxaloacetate', prod: 'Citrate, CoA', fR: 'C2 + C4', fP: 'C6H8O7 (C6)', enz: 'Citrate synthase', pIn: '', pOut: '+ CoA 방출', desc: '2탄소 아세틸기와 4탄소 옥살로아세트산이 결합해 6탄소 시트르산이 됩니다. 회로의 시작점입니다.' },
+        { step: 13, phase: 'TCA 회로', name: '13. 이성질체화', react: 'Citrate', prod: 'Isocitrate', fR: 'Citrate', fP: 'Isocitrate', enz: 'Aconitase', pIn: '', pOut: '', desc: '탈수 및 수화 반응을 거쳐 히드록시기(-OH)의 위치를 재배열합니다.' },
+        { step: 14, phase: 'TCA 회로', name: '14. 1차 탈카복실화', react: 'Isocitrate, NAD+', prod: 'α-KG, CO2, NADH+H+', fR: 'C6', fP: 'C5', enz: 'Isocitrate dehydrogenase', pIn: '+ NAD+', pOut: '+ CO2, NADH', desc: '첫 번째 CO2가 방출되며 5탄소 화합물이 되고, 고에너지 전자(NADH)가 추출됩니다.' },
+        { step: 15, phase: 'TCA 회로', name: '15. 2차 탈카복실화', react: 'α-KG, NAD+, CoA', prod: 'Succinyl-CoA, CO2, NADH+H+', fR: 'C5', fP: 'Succinyl-CoA (C4)', enz: 'α-KG dehydrogenase complex', pIn: '+ CoA, NAD+', pOut: '+ CO2, NADH', desc: '마지막 CO2가 방출되며 4탄소 화합물이 되고, 두 번째 NADH를 뽑아냅니다.' },
+        { step: 16, phase: 'TCA 회로', name: '16. 기질 수준 인산화', react: 'Succinyl-CoA, GDP', prod: 'Succinate, GTP', fR: 'Succinyl-CoA', fP: 'Succinate (C4)', enz: 'Succinyl-CoA synthetase', pIn: '+ GDP, Pi', pOut: '+ GTP (ATP)', desc: '조효소 A가 떨어져 나가는 고에너지를 이용하여 1분자의 GTP(또는 ATP)를 생성합니다.' },
+        { step: 17, phase: 'TCA 회로', name: '17. FADH2 생성', react: 'Succinate, FAD', prod: 'Fumarate, FADH2', fR: 'Succinate', fP: 'Fumarate', enz: 'Succinate dehydrogenase', pIn: '+ FAD', pOut: '+ FADH2', desc: '내막 복합체 II에 결합된 효소에 의해 전자가 추출되어 FADH2가 생성됩니다.' },
+        { step: 18, phase: 'TCA 회로', name: '18. 수화 반응', react: 'Fumarate, H2O', prod: 'Malate', fR: 'Fumarate', fP: 'Malate', enz: 'Fumarase', pIn: '+ H2O', pOut: '', desc: '이중결합에 물 분자가 첨가되어 구조가 말산으로 변합니다.' },
+        { step: 19, phase: 'TCA 회로', name: '19. 옥살로아세트산 재생', react: 'Malate, NAD+', prod: 'Oxaloacetate, NADH+H+', fR: 'Malate', fP: 'Oxaloacetate (C4)', enz: 'Malate dehydrogenase', pIn: '+ NAD+', pOut: '+ NADH', desc: '마지막 전자를 빼앗아 NADH를 만들고, 회로를 다시 시작할 4탄소 뼈대(옥살로아세트산)를 완벽히 재생시킵니다.' },
+        { step: 20, phase: '산화적 인산화', name: '20. 전자전달계 & 화학삼투', react: 'NADH, FADH2, O2', prod: 'ATP, H2O', fR: 'e-, H+', fP: '32 ATP', enz: 'Complex I~IV, ATP Synthase', pIn: '', pOut: '', desc: '모아둔 고에너지 전자가 복합체를 통과하며 막간 공간으로 H+를 펌핑합니다. 형성된 수소 이온 농도 기울기를 이용해 ATP 합성효소가 회전하며 막대한 양의 ATP를 찍어냅니다.' }
     ];
 
+    let currentProcess = [];
     let currentIndex = 0;
 
-    function buildStructure(arr, containerId) {
-        const container = document.getElementById(containerId);
-        container.innerHTML = '';
-        arr.forEach((type, i) => {
-            if (type === '+') {
-                const plus = document.createElement('div');
-                plus.innerText = '+';
-                plus.style.margin = '0 10px';
-                plus.style.fontSize = '1.5rem';
-                plus.style.fontWeight = 'bold';
-                container.appendChild(plus);
-            } else {
-                const atom = document.createElement('div');
-                atom.className = `atom ${type}`;
-                atom.innerText = type;
-                container.appendChild(atom);
-                // 본드(선) 추가
-                if (i < arr.length - 1 && arr[i+1] !== '+') {
-                    const bond = document.createElement('div');
-                    bond.className = 'bond';
-                    container.appendChild(bond);
-                }
-            }
-        });
+    function goHome() {
+        document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+        document.getElementById('screen-main').classList.add('active');
     }
 
-    function triggerAnimation(animType) {
-        const layer = document.getElementById('particle-layer');
-        layer.innerHTML = ''; // 초기화
+    function showSubMenu(scope) {
+        if (scope === 'glyco') currentProcess = DB.slice(0, 10);
+        else if (scope === 'tca') currentProcess = DB.slice(10, 19);
+        else if (scope === 'etc') currentProcess = DB.slice(19, 20);
         
-        const reactBox = document.getElementById('react-struct');
-        const prodBox = document.getElementById('prod-struct');
-        const enzBox = document.querySelector('.arrow-wrap');
+        startSim('part');
+    }
 
-        // 반응물 위치 가져오기
-        const rRect = reactBox.getBoundingClientRect();
-        const eRect = enzBox.getBoundingClientRect();
+    function startSim(type) {
+        if(type === 'all') currentProcess = DB;
+        currentIndex = 0;
+        document.getElementById('screen-main').classList.remove('active');
+        document.getElementById('screen-sim').classList.add('active');
+        updateUI();
+    }
 
-        const createParticle = (type, text, startX, startY, endX, endY) => {
-            const part = document.createElement('div');
-            part.className = `anim-particle ${type}`;
-            part.innerText = text;
-            // 기준점 보정 (부모 컨테이너 기준)
-            const parentRect = document.getElementById('reaction-view').getBoundingClientRect();
-            part.style.left = (startX - parentRect.left) + 'px';
-            part.style.top = (startY - parentRect.top) + 'px';
-            layer.appendChild(part);
+    function triggerTextAnim(inText, outText) {
+        const inEl = document.getElementById('anim-in');
+        const outEl = document.getElementById('anim-out');
+        
+        inEl.style.animation = 'none';
+        outEl.style.animation = 'none';
+        void inEl.offsetWidth; // 리플로우
 
-            part.animate([
-                { opacity: 0, transform: 'scale(0.5)' },
-                { opacity: 1, transform: 'scale(1.2)' },
-                { opacity: 1, transform: `translate(${endX - startX}px, ${endY - startY}px) scale(1)` },
-                { opacity: 0, transform: `translate(${endX - startX}px, ${endY - startY}px) scale(0.5)` }
-            ], { duration: 1500, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'forwards' });
-        };
-
-        if (animType === 'add-p') {
-            createParticle('p-part', 'P', eRect.left, eRect.top - 50, rRect.right, rRect.top);
-        } else if (animType === 'remove-p') {
-            createParticle('p-part', 'P', rRect.right, rRect.top, eRect.left, eRect.top + 50);
-        } else if (animType === 'remove-co2') {
-            createParticle('co2-part', 'CO2', rRect.right, rRect.top, eRect.left + 50, eRect.top - 50);
-        } else if (animType.includes('extract-e')) {
-            createParticle('e-part', 'e-', rRect.right, rRect.top, eRect.left + 50, eRect.top + 80);
-            if(animType.includes('remove-co2')) {
-                createParticle('co2-part', 'CO2', rRect.right, rRect.top, eRect.left + 50, eRect.top - 50);
-            }
-        } else if (animType === 'add-p-extract-e') {
-            createParticle('p-part', 'P', eRect.left, eRect.top - 50, rRect.right, rRect.top);
-            createParticle('e-part', 'e-', rRect.right, rRect.top, eRect.left + 50, eRect.top + 80);
-        } else if (animType === 'split') {
-             // 단순 쪼개짐 모션은 컨테이너 CSS Transition으로 대체
+        if(inText) {
+            inEl.innerText = inText;
+            inEl.style.animation = 'flyIn 1.5s forwards';
+        }
+        if(outText) {
+            outEl.innerText = outText;
+            outEl.style.animation = 'flyOut 1.5s forwards 0.5s';
         }
     }
 
     function moveStep(dir) {
         currentIndex += dir;
         if (currentIndex < 0) currentIndex = 0;
-        if (currentIndex >= DB.length) currentIndex = DB.length - 1;
+        if (currentIndex >= currentProcess.length) currentIndex = currentProcess.length - 1;
         updateUI();
     }
 
     function updateUI() {
-        const data = DB[currentIndex];
+        const data = currentProcess[currentIndex];
         
         // 헤더
         document.getElementById('sim-title').innerText = data.phase;
-        document.getElementById('sim-counter').innerText = `${currentIndex + 1} / 20`;
-        document.getElementById('sim-progress').style.width = `${((currentIndex + 1) / 20) * 100}%`;
+        document.getElementById('sim-counter').innerText = `${currentIndex + 1} / ${currentProcess.length}`;
+        document.getElementById('sim-progress').style.width = `${((currentIndex + 1) / currentProcess.length) * 100}%`;
         
-        // 텍스트 패널
+        // 패널 텍스트
         document.getElementById('info-step-name').innerText = data.name;
-        // 쉼표 뒤 띄어쓰기로 스플릿
         document.getElementById('info-react').innerText = data.react;
         document.getElementById('info-prod').innerText = data.prod;
         document.getElementById('info-enz').innerText = data.enz;
         document.getElementById('info-desc').innerText = data.desc;
 
-        // 버튼 막기
-        document.getElementById('btn-prev').disabled = (currentIndex === 0);
-        document.getElementById('btn-next').disabled = (currentIndex === DB.length - 1);
-
-        // 뷰 전환
+        // 화면 분기 (일반 화학 반응 vs 산화적 인산화)
         const reactView = document.getElementById('reaction-view');
         const etcView = document.getElementById('etc-view');
 
-        if (data.anim === 'show-etc') {
+        if (data.step === 20) {
             reactView.style.display = 'none';
             etcView.style.display = 'block';
         } else {
             reactView.style.display = 'flex';
             etcView.style.display = 'none';
-            
-            // 이름 업데이트
+
             document.getElementById('react-name').innerText = data.react.split(', ')[0];
             document.getElementById('prod-name').innerText = data.prod.split(', ')[0];
-            document.getElementById('enz-name').innerText = data.enz;
+            document.getElementById('react-form').innerText = data.fR;
+            document.getElementById('prod-form').innerText = data.fP;
+            document.getElementById('enz-name').innerText = data.enz.split(' ')[0];
 
-            // 구조 렌더링
-            buildStructure(data.sR, 'react-struct');
-            
-            // 시간차로 생성물 보여주기 + 입자 애니메이션
-            document.getElementById('prod-struct').innerHTML = '';
-            document.getElementById('prod-name').style.opacity = '0.5';
-            
-            setTimeout(() => {
-                triggerAnimation(data.anim);
-            }, 100);
-
-            setTimeout(() => {
-                buildStructure(data.sP, 'prod-struct');
-                document.getElementById('prod-name').style.opacity = '1';
-            }, 800); // 입자가 날아간 후 생성
+            triggerTextAnim(data.pIn, data.pOut);
         }
-    }
 
-    function startSim() {
-        document.getElementById('screen-main').classList.remove('active');
-        document.getElementById('screen-sim').classList.add('active');
-        currentIndex = 0;
-        updateUI();
+        // 버튼 상태
+        document.getElementById('btn-prev').disabled = (currentIndex === 0);
+        document.getElementById('btn-next').disabled = (currentIndex === currentProcess.length - 1);
     }
 </script>
 </body>
