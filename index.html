@@ -45,25 +45,25 @@
         
         /* 시각화 컨테이너 */
         .visual-area { flex: 2; min-width: 800px; background: #0b0e14; border-radius: 15px; border: 2px solid #444; display: flex; flex-direction: column; box-shadow: inset 0 0 50px rgba(0,0,0,0.8); position: relative; overflow: hidden; margin-bottom: 1rem; }
-        .views-container { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; padding: 2rem; overflow: hidden; }
+        .views-container { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; padding: 2rem; overflow: hidden; padding-bottom: 90px; /* 하단 버튼 영역 확보 */ }
         
-        /* 하단 고정 네비게이션 컨트롤 */
-        .nav-controls { background: rgba(11, 14, 20, 0.95); padding: 1rem; display: flex; justify-content: center; gap: 20px; border-top: 1px solid #444; z-index: 100; flex-shrink: 0; }
-        .nav-btn { background: var(--panel); color: white; border: 2px solid #666; border-radius: 30px; padding: 0.6rem 2.5rem; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        /* 하단 고정 네비게이션 컨트롤 (절대 잘림 방지) */
+        .nav-controls { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); background: rgba(30, 39, 46, 0.95); padding: 10px 25px; display: flex; justify-content: center; gap: 20px; border: 2px solid #555; border-radius: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); z-index: 9999; backdrop-filter: blur(5px); }
+        .nav-btn { background: var(--panel); color: white; border: 2px solid #666; border-radius: 30px; padding: 0.5rem 2rem; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
         .nav-btn:hover:not(:disabled) { background: var(--primary); border-color: var(--primary); }
         .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
         .replay-btn { background: #f1c40f; color: #111; border: none; }
 
         /* 완벽한 루이스 구조식 Grid-Flex 시스템 */
-        .reaction-view { display: flex; width: 100%; align-items: center; justify-content: center; gap: 2rem; position: relative; z-index: 10; padding-bottom: 2rem; }
-        .mol-box { background: #2f3542; padding: 1.5rem; border-radius: 15px; border: 1px solid #555; display: flex; flex-direction: column; align-items: center; min-width: 320px; z-index: 10; transition: opacity 0.5s, transform 0.5s; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
-        .mol-name { font-weight: bold; background: #111; padding: 0.5rem 1.5rem; border-radius: 20px; margin-bottom: 1.5rem; color: var(--primary); border: 1px solid #444; text-align: center; font-size: 1.1rem; }
+        .reaction-view { display: flex; width: 100%; align-items: center; justify-content: center; gap: 2rem; position: relative; z-index: 10; }
+        .mol-box { background: #2f3542; padding: 1.5rem; border-radius: 15px; border: 1px solid #555; display: flex; flex-direction: column; align-items: center; min-width: 330px; z-index: 10; transition: opacity 0.5s, transform 0.5s; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+        .mol-name { font-weight: bold; background: #111; padding: 0.5rem 1.5rem; border-radius: 20px; margin-bottom: 1rem; color: var(--primary); border: 1px solid #444; text-align: center; font-size: 1.1rem; }
         .mol-name.prod { color: var(--secondary); border-color: var(--secondary); }
         
         .m-row { display: flex; justify-content: center; align-items: center; height: 32px; width: 100%; }
-        .m-vrow { display: flex; justify-content: center; align-items: center; height: 18px; width: 100%; }
-        .mol-l { width: 110px; display: flex; justify-content: flex-end; align-items: center; }
-        .mol-r { width: 110px; display: flex; justify-content: flex-start; align-items: center; }
+        .m-vrow { display: flex; justify-content: center; align-items: center; height: 16px; width: 100%; }
+        .mol-l { width: 110px; display: flex; justify-content: flex-end; align-items: center; position: relative; }
+        .mol-r { width: 110px; display: flex; justify-content: flex-start; align-items: center; position: relative; }
         .mol-c { width: 34px; position: relative; display: flex; justify-content: center; align-items: center; z-index: 2; }
         
         /* 개별 원자 동그라미 스타일 (수소 포함 생략 없음) */
@@ -80,15 +80,15 @@
         .bond { position: absolute; background: #8395a7; z-index: 1; }
         .bond.h { width: 20px; height: 4px; }
         .bond.hd { width: 20px; height: 10px; border-top: 3px solid #8395a7; border-bottom: 3px solid #8395a7; background: transparent; }
-        .bond.v { height: 18px; width: 4px; }
-        .bond.vd { height: 18px; width: 10px; border-left: 3px solid #8395a7; border-right: 3px solid #8395a7; background: transparent; }
+        .bond.v { height: 16px; width: 4px; }
+        .bond.vd { height: 16px; width: 10px; border-left: 3px solid #8395a7; border-right: 3px solid #8395a7; background: transparent; }
 
         /* 효소 태그 */
         .arrow-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 160px; z-index: 5; position: relative; }
         .enz-tag { background: #111; color: #f1c40f; padding: 0.8rem; border-radius: 10px; font-size: 0.95rem; font-weight: bold; text-align: center; border: 1px solid #f1c40f; box-shadow: 0 4px 10px rgba(0,0,0,0.5); z-index: 10; width: 130%; white-space: pre-wrap; line-height: 1.4; }
         .arrow-line { font-size: 3.5rem; color: #555; margin: -10px 0; }
 
-        /* 블록형 애니메이션 & 물리적 파티클 레이어 */
+        /* 블록형 애니메이션 에셋 */
         #anim-layer { position: absolute; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
         .anim-group { position: absolute; display: flex; align-items: center; gap: 3px; opacity: 0; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5)); transform: translate(-50%, -50%); }
         .a-base { padding: 6px 12px; border-radius: 6px; font-weight: bold; color: white; font-size: 13px; border: 1px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; }
@@ -98,16 +98,15 @@
         .a-coa { background: #34495e; }
         .a-co2 { background: var(--co2-col); }
         .a-h2o { background: #3498db; }
+        .p-ball { width: 22px; height: 22px; border-radius: 50%; background: var(--atom-p); color: #111; display: flex; justify-content: center; align-items: center; font-size: 11px; font-weight: bold; border: 1px solid #d35400; }
         
-        /* 텍스트 P 대신 명확한 동그라미 입자 CSS 강제 적용 */
-        .particle { position: absolute; display: flex; justify-content: center; align-items: center; font-weight: bold; border-radius: 50%; z-index: 60; box-shadow: 0 0 10px rgba(0,0,0,0.5); transform: translate(-50%, -50%); pointer-events: none; }
-        .p-e { width: 16px; height: 16px; background: #f1c40f; color: black; font-size: 10px; box-shadow: 0 0 12px yellow; }
-        .p-h { width: 18px; height: 18px; background: #00a8ff; color: white; font-size: 10px; border: 1px solid white; box-shadow: 0 0 8px #00a8ff; }
-        .p-p { width: 28px; height: 28px; background: var(--atom-p); color: #111; font-size: 13px; border: 2px solid #d35400; box-shadow: 0 0 10px rgba(247,183,49,0.8); }
-        .p-ball { width: 26px; height: 26px; border-radius: 50%; background: var(--atom-p); color: #111; display: flex; justify-content: center; align-items: center; font-size: 12px; font-weight: bold; border: 1px solid #d35400; }
+        /* 물리적 파티클 (클래스명 충돌 방지 완벽) */
+        .fly-p { position: absolute; width: 22px; height: 22px; border-radius: 50%; background: var(--atom-p); z-index: 60; display: flex; justify-content: center; align-items: center; font-size: 11px; font-weight: bold; color: #111; transform: translate(-50%, -50%); box-shadow: 0 0 10px rgba(247,183,49,0.8); border: 1px solid #d35400; }
+        .fly-e { position: absolute; width: 14px; height: 14px; border-radius: 50%; background: #f1c40f; color: black; z-index: 60; display: flex; justify-content: center; align-items: center; font-size: 8px; font-weight: bold; box-shadow: 0 0 10px yellow; transform: translate(-50%, -50%); }
+        .fly-h { position: absolute; width: 16px; height: 16px; border-radius: 50%; background: #00a8ff; color: white; z-index: 60; display: flex; justify-content: center; align-items: center; font-size: 9px; font-weight: bold; transform: translate(-50%, -50%); border: 1px solid white; box-shadow: 0 0 8px #00a8ff; }
 
-        /* 20단계 산화적 인산화 (크기 보정 완벽) */
-        #etc-view { display: none; width: 100%; height: 100%; position: relative; background: #131b26; border-radius: 15px; }
+        /* 20단계 전자전달계 뷰 */
+        #etc-view { display: none; width: 100%; height: 100%; position: relative; background: #131b26; border-radius: 15px; margin-bottom: 50px; }
         .membrane { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; height: 180px; background: rgba(243, 156, 18, 0.1); border-top: 4px solid #d35400; border-bottom: 4px solid #d35400; display: flex; justify-content: space-around; align-items: center; padding: 0 20px; }
         .complex { background: #8e44ad; color: white; font-weight: bold; border-radius: 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 2px solid #732d91; box-shadow: inset 0 0 20px rgba(0,0,0,0.5); z-index: 5; text-align: center; }
         .c-I { width: 85px; height: 210px; }
@@ -120,7 +119,6 @@
         .rotor { position: absolute; bottom: -20px; width: 70px; height: 40px; background: #e74c3c; border-radius: 10px; animation: spin 0.8s infinite linear; box-shadow: 0 5px 10px rgba(0,0,0,0.5); }
         @keyframes spin { 100% { transform: rotateY(360deg); } }
 
-        /* ETC 입자 애니메이션 */
         .etc-e { position: absolute; width: 18px; height: 18px; background: #f1c40f; border-radius: 50%; color: black; font-size: 10px; font-weight: bold; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px yellow; z-index: 10; opacity: 0; animation: eFlow 6s infinite linear; }
         @keyframes eFlow { 0%{left:3%; top:70%; opacity:0;} 5%{left:7%; top:55%; opacity:1;} 20%{left:26%; top:45%;} 40%{left:43%; top:48%;} 60%{left:60%; top:35%;} 80%{left:76%; top:50%;} 90%{left:83%; top:65%; opacity:1;} 95%{left:83%; top:65%; opacity:0;} 100%{opacity:0;} }
 
@@ -151,7 +149,7 @@
     </header>
 
     <div id="app">
-        <!-- 메인 메뉴 -->
+        <!-- 1. 메인 메뉴 -->
         <div id="screen-main" class="screen active" style="align-items: center; justify-content: center; height: 100%; min-height: 70vh;">
             <div class="menu-grid">
                 <div class="menu-card" onclick="startSim('glyco')">
@@ -170,7 +168,7 @@
             <button style="margin-top:4rem; padding:1.2rem 4rem; font-size:1.3rem; cursor:pointer; background:var(--primary); color:white; border:none; border-radius:40px; font-weight:bold; box-shadow: 0 4px 15px rgba(15, 185, 177, 0.4);" onclick="startSim('all')">전체 20단계 연속 재생</button>
         </div>
 
-        <!-- 시뮬레이터 화면 -->
+        <!-- 2. 시뮬레이터 화면 -->
         <div id="screen-sim" class="screen">
             <div class="sim-header">
                 <h2 id="sim-title" style="margin:0; color:var(--primary);">단계명</h2>
@@ -225,8 +223,8 @@
                         </div>
                     </div>
 
-                    <!-- 하단 네비게이션 고정바 -->
-                    <div class="nav-controls">
+                    <!-- 하단 네비게이션 고정바 (잘림 방지) -->
+                    <div class="nav-controls" id="nav-controls" style="display: none;">
                         <button class="nav-btn" id="btn-prev" onclick="moveStep(-1)">&#8592; 이전</button>
                         <button class="nav-btn replay-btn" onclick="playCurrentAnimation()">다시 재생</button>
                         <button class="nav-btn" id="btn-next" onclick="moveStep(1)">다음 &#8594;</button>
@@ -263,7 +261,7 @@
     const Row = (l, c, r) => `<div class="m-row"><div class="mol-l">${l}</div>${c}<div class="mol-r">${r}</div></div>`;
     const VRow = (bond) => `<div class="m-vrow"><div class="mol-l"></div><div class="mol-c"><div class="bond ${bond}" style="position:relative;"></div></div><div class="mol-r"></div></div>`;
 
-    // 좌우 결합 모듈 (수평 결합선 완벽 동기화)
+    // 좌우 결합 모듈 (수평 결합선)
     const H_left = `<div class="atom H">H</div><div class="bond h" style="position:relative; margin-left:-2px;"></div>`;
     const H_right = `<div class="bond h" style="position:relative; margin-right:-2px;"></div><div class="atom H">H</div>`;
     const HO_left = `<div class="atom H">H</div><div class="bond h" style="position:relative; width:8px;"></div><div class="atom O">O</div><div class="bond h" style="position:relative; width:12px; margin-left:-2px;"></div>`;
@@ -435,7 +433,7 @@
     let currentProcess = [];
     let currentIndex = 0;
 
-    /* ----- 3. 물리적 블록 애니메이션 엔진 (오류 완벽 수정) ----- */
+    /* ----- 3. 물리적 블록 애니메이션 엔진 ----- */
     function createAnimGroup(type, x, y) {
         const layer = document.getElementById('anim-layer');
         const div = document.createElement('div');
@@ -469,7 +467,7 @@
     function createParticle(type, x, y) {
         const layer = document.getElementById('anim-layer');
         const div = document.createElement('div');
-        // 클래스명 오류 완벽 차단. css 정의된 fly- 시리즈 사용
+        // 버그 픽스: CSS 클래스명 fly- 시리즈로 고정 적용
         div.className = `fly-${type}`;
         div.innerText = type === 'e' ? 'e⁻' : type === 'h' ? 'H⁺' : 'P';
         div.style.left = `${x}px`; div.style.top = `${y}px`;
@@ -512,7 +510,7 @@
                 }
 
                 let p = createParticle('p', midX + 40, topY);
-                atp.innerHTML = `<div class="a-base a-ad">Ad</div><div style="display:flex;gap:2px;"><div class="p-ball">P</div><div class="p-ball">P</div></div>`; // ADP 변신
+                atp.innerHTML = `<div class="a-base a-ad">Ad</div><div style="display:flex;gap:2px;"><div class="p-ball">P</div><div class="p-ball">P</div></div>`; 
                 
                 p.animate([{left:`${midX+40}px`, top:`${topY}px`}, {left:`${targetX}px`, top:`${targetY}px`}], {duration: 600, easing: 'ease-in-out', fill:'forwards'});
                 atp.animate([{transform: 'translate(-50%, 0)', opacity:1}, {transform: 'translate(-50%, -80px)', opacity:0}], {duration:600, delay: 600, fill:'forwards'});
@@ -542,16 +540,16 @@
             coenz.animate([{transform: 'translate(-50%, -80px)', opacity:0}, {transform: 'translate(-50%, 0)', opacity:1}], {duration:500, fill:'forwards'});
             
             setTimeout(() => {
-                // 정확한 생화학적 묘사: 전자 2개(2e-)와 수소 이온 2개(2H+) 생성
+                // 정확한 생화학적 묘사: 기질에서 전자 2개(2e-)와 수소 이온 2개(2H+) 튀어나옴
                 let e1 = createParticle('e', startX+20, midY-15); let e2 = createParticle('e', startX+40, midY-15);
                 let h1 = createParticle('h', startX+20, midY+15); let h2 = createParticle('h', startX+40, midY+15); 
                 
-                // e1, e2, h1은 조효소(NAD+/FAD) 안으로 흡수됨
+                // e1, e2, h1은 조효소(NAD+/FAD) 안으로 흡수
                 e1.animate([{left:`${startX+20}px`, top:`${midY-15}px`}, {left:`${midX-10}px`, top:`${topY}px`}], {duration:500, fill:'forwards'});
                 e2.animate([{left:`${startX+40}px`, top:`${midY-15}px`}, {left:`${midX+10}px`, top:`${topY}px`}], {duration:500, fill:'forwards'});
                 h1.animate([{left:`${startX+20}px`, top:`${midY+15}px`}, {left:`${midX+30}px`, top:`${topY}px`}], {duration:500, fill:'forwards'});
                 
-                // h2는 밖으로 방출됨 (2H+ 중 1개 방출 디테일)
+                // h2는 세포질 밖으로 방출됨 (2H+ 중 1개 방출 디테일)
                 h2.animate([{left:`${startX+40}px`, top:`${midY+15}px`, opacity:1}, {left:`${midX+150}px`, top:`${botY-50}px`, opacity:0}], {duration:800, fill:'forwards'});
 
                 if(data.anim === 'nad_to_nadh_p') {
@@ -596,6 +594,7 @@
     /* ----- 4. 페이지 컨트롤러 ----- */
     function goHome() {
         document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+        document.getElementById('nav-controls').style.display = 'none';
         document.getElementById('screen-main').classList.add('active');
     }
 
@@ -608,6 +607,7 @@
         currentIndex = 0;
         document.getElementById('screen-main').classList.remove('active');
         document.getElementById('screen-sim').classList.add('active');
+        document.getElementById('nav-controls').style.display = 'flex'; // 고정 버튼 보이기
         updateUI();
     }
 
