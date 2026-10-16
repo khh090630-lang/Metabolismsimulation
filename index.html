@@ -3,373 +3,549 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>세포호흡 화학 구조 시뮬레이터</title>
+    <title>세포호흡 분자 메커니즘 시뮬레이터</title>
     <style>
         :root {
-            --bg: #f4f6f9;
-            --primary: #2c3e50;
-            --accent: #e74c3c;
-            --c-color: #34495e;
-            --o-color: #e74c3c;
-            --h-color: #ecf0f1;
-            --p-color: #f1c40f;
-            --s-color: #e67e22;
-            --coa-color: #9b59b6;
+            --bg: #1e272e;
+            --panel: #2f3640;
+            --text: #f5f6fa;
+            --primary: #00a8ff;
+            --secondary: #4cd137;
+            --accent: #e84118;
+            --atom-c: #7f8fa6;
+            --atom-o: #e84118;
+            --atom-h: #dcdde1;
+            --atom-p: #fbc531;
+            --atom-s: #e1b12c;
+            --mol-bg: #353b48;
         }
-        * { box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
-        body { margin: 0; background: var(--bg); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-        header { background: var(--primary); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 100; }
-        header h1 { margin: 0; font-size: 1.5rem; }
-        .home-btn { background: rgba(255,255,255,0.2); color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        * { box-sizing: border-box; font-family: 'Pretendard', -apple-system, sans-serif; }
+        body { margin: 0; background: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
         
-        #app { flex: 1; display: flex; flex-direction: column; overflow-y: auto; position: relative; padding: 2rem; align-items: center; }
-        .screen { display: none; width: 100%; max-width: 1300px; flex-direction: column; animation: fadeIn 0.4s; }
+        header { background: #111; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.5); z-index: 100; }
+        header h1 { margin: 0; font-size: 1.5rem; color: var(--primary); }
+        .home-btn { background: rgba(255,255,255,0.1); color: white; border: 1px solid #555; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .home-btn:hover { background: white; color: black; }
+        
+        #app { flex: 1; display: flex; flex-direction: column; position: relative; padding: 1rem; overflow-y: auto; align-items: center; }
+        .screen { display: none; width: 100%; max-width: 1400px; flex-direction: column; animation: fadeIn 0.3s; }
         .screen.active { display: flex; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         /* 메뉴 */
-        .menu-grid { display: flex; gap: 2rem; justify-content: center; margin-top: 2rem; }
-        .menu-card { background: white; padding: 3rem; border-radius: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); text-align: center; cursor: pointer; border: 2px solid transparent; width: 300px; transition: 0.2s; }
-        .menu-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .menu-grid { display: flex; gap: 2rem; justify-content: center; margin-top: 5vh; flex-wrap: wrap; }
+        .menu-card { background: var(--panel); padding: 3rem 2rem; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); text-align: center; cursor: pointer; border: 2px solid transparent; width: 320px; transition: 0.2s; }
+        .menu-card:hover { border-color: var(--primary); transform: translateY(-5px); background: #3c4450; }
+        .menu-card h2 { margin-top:0; color: var(--primary); }
 
         /* 시뮬레이터 UI */
-        .sim-header { background: white; padding: 1rem 2rem; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .progress-bar { flex: 1; height: 8px; background: #eee; margin: 0 2rem; border-radius: 4px; overflow: hidden; }
-        .progress-fill { height: 100%; background: #27ae60; width: 0%; transition: 0.3s; }
+        .sim-header { background: var(--panel); padding: 1rem 2rem; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+        .progress-bar { flex: 1; height: 10px; background: #111; margin: 0 2rem; border-radius: 5px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--secondary); width: 0%; transition: 0.3s; }
         
-        .sim-body { display: flex; gap: 2rem; height: 600px; }
+        .sim-body { display: flex; gap: 1rem; height: 65vh; min-height: 550px; }
         
-        /* 왼쪽: 시각화 영역 */
-        .visual-area { flex: 2; background: white; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); padding: 1rem; display: flex; flex-direction: column; position: relative; overflow: hidden; border: 2px solid #eee; }
-        .nav-controls { display: flex; justify-content: space-between; padding: 0 1rem; position: absolute; width: 100%; top: 50%; transform: translateY(-50%); left: 0; z-index: 50; pointer-events: none; }
-        .nav-btn { pointer-events: auto; width: 50px; height: 50px; border-radius: 50%; border: 2px solid #ddd; background: white; font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: 0.2s; }
-        .nav-btn:hover:not(:disabled) { background: var(--primary); color: white; border-color: var(--primary); }
+        /* 시각화 영역 */
+        .visual-area { flex: 2; background: #000; border-radius: 15px; border: 2px solid #444; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; box-shadow: inset 0 0 50px rgba(0,0,0,0.8); }
+        
+        .nav-controls { position: absolute; bottom: 20px; width: 100%; display: flex; justify-content: center; gap: 1rem; z-index: 50; }
+        .nav-btn { background: var(--panel); color: white; border: 2px solid #555; border-radius: 30px; padding: 0.5rem 2rem; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .nav-btn:hover:not(:disabled) { background: var(--primary); border-color: var(--primary); }
         .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .replay-btn { background: #e1b12c; color: #111; border: none; }
 
-        /* 루이스 구조 렌더러 */
-        .reaction-view { display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; gap: 2rem; position: relative; }
-        .mol-box { display: flex; flex-direction: column; align-items: center; background: #fdfdfd; padding: 1rem; border-radius: 10px; box-shadow: inset 0 0 10px rgba(0,0,0,0.03); min-width: 250px; }
-        .mol-name { font-weight: bold; background: #eee; padding: 0.4rem 1rem; border-radius: 20px; margin-bottom: 1rem; color: var(--primary); }
+        /* 분자 구조 (루이스 기반) */
+        .reaction-view { display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; gap: 1rem; }
+        .mol-box { display: flex; flex-direction: column; align-items: center; background: var(--mol-bg); padding: 1.5rem; border-radius: 15px; border: 1px solid #555; min-width: 280px; position: relative; z-index: 10; transition: 0.3s; }
+        .mol-name { font-weight: bold; background: #111; padding: 0.5rem 1.5rem; border-radius: 20px; margin-bottom: 1.5rem; font-size: 1.1rem; color: #fff; border: 1px solid #444; }
         
-        .mol-structure { display: flex; flex-direction: column; align-items: center; }
-        .mol-row { display: flex; align-items: center; height: 35px; }
-        .mol-l { width: 120px; display: flex; justify-content: flex-end; align-items: center; }
-        .mol-c { width: 40px; display: flex; justify-content: center; align-items: center; position: relative; }
-        .mol-r { width: 120px; display: flex; justify-content: flex-start; align-items: center; }
+        .struct { display: flex; flex-direction: column; align-items: center; font-family: monospace; }
+        .row { display: flex; justify-content: center; align-items: center; height: 35px; }
+        .col { width: 45px; display: flex; justify-content: center; align-items: center; position: relative; }
         
-        .atom { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 13px; z-index: 2; box-shadow: inset -1px -2px 4px rgba(0,0,0,0.3); }
-        .atom.C { background: var(--c-color); color: white; }
-        .atom.O { background: var(--o-color); color: white; }
-        .atom.H { background: var(--h-color); color: #333; border: 1px solid #ccc; }
-        .atom.P { background: var(--p-color); color: #333; box-shadow: 0 0 5px orange; }
-        .atom.S { background: var(--s-color); color: white; }
-        .atom.CoA { background: var(--coa-color); color: white; width: 40px; border-radius: 10px; font-size: 11px; }
+        .atom { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; z-index: 2; box-shadow: inset -2px -2px 5px rgba(0,0,0,0.5); }
+        .atom.C { background: var(--atom-c); color: #fff; }
+        .atom.O { background: var(--atom-o); color: #fff; }
+        .atom.H { background: var(--atom-h); color: #111; border: 2px solid #aaa; }
+        .atom.P { background: var(--atom-p); color: #111; box-shadow: 0 0 10px rgba(251,197,49,0.5); }
+        .atom.S { background: var(--atom-s); color: #fff; }
+        .atom.CoA { background: #8e44ad; color: #fff; width: 40px; border-radius: 8px; font-size: 12px; }
         
-        .bond { background: #999; z-index: 1; }
-        .bond.h { width: 15px; height: 4px; margin: 0 -4px; }
-        .bond.d { width: 15px; height: 10px; border-top: 4px solid #999; border-bottom: 4px solid #999; background: transparent; margin: 0 -4px; }
-        .bond.v { width: 4px; height: 20px; position: absolute; top: -10px; }
-        .bond.dv { width: 10px; height: 20px; border-left: 4px solid #999; border-right: 4px solid #999; background: transparent; position: absolute; top: -10px; }
+        .bond { background: #888; z-index: 1; position: absolute; }
+        .bond.h { width: 25px; height: 4px; }
+        .bond.hd { width: 25px; height: 12px; border-top: 4px solid #888; border-bottom: 4px solid #888; background: transparent; }
+        .bond.v { width: 4px; height: 25px; top: -15px; }
+        .bond.vd { width: 12px; height: 25px; border-left: 4px solid #888; border-right: 4px solid #888; background: transparent; top: -15px; }
 
-        /* 화살표 및 애니메이션 파티클 */
-        .arrow-wrap { display: flex; flex-direction: column; align-items: center; position: relative; width: 150px; }
-        .arrow-line { font-size: 3rem; color: #ccc; margin: -10px 0; }
-        .enz-tag { background: #f1c40f; color: #333; padding: 0.5rem; border-radius: 10px; font-size: 0.85rem; font-weight: bold; text-align: center; white-space: pre-wrap; line-height: 1.3; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 10; }
-        
-        .anim-part { position: absolute; font-weight: bold; padding: 0.4rem 0.8rem; border-radius: 8px; color: white; font-size: 0.9rem; opacity: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.2); pointer-events: none; z-index: 20; text-align: center; }
-        .in-part { background: #e67e22; top: -40px; left: 50%; transform: translateX(-50%); }
-        .out-part { background: #3498db; bottom: -40px; left: 50%; transform: translateX(-50%); }
-        
-        @keyframes popIn { 0%{opacity:0; top:-60px;} 20%{opacity:1; top:-40px;} 80%{opacity:1; top:-40px;} 100%{opacity:0; top:-20px;} }
-        @keyframes popOut { 0%{opacity:0; bottom:-20px;} 20%{opacity:1; bottom:-40px;} 80%{opacity:1; bottom:-40px;} 100%{opacity:0; bottom:-60px;} }
+        /* 효소 & 화살표 */
+        .arrow-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; width: 200px; height: 100%; z-index: 5; }
+        .enz-tag { background: #2c3e50; color: #f1c40f; padding: 0.6rem 1rem; border-radius: 10px; font-size: 0.95rem; font-weight: bold; text-align: center; border: 1px solid #f1c40f; line-height: 1.4; z-index: 5; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .arrow-line { font-size: 3rem; color: #555; margin: -5px 0; }
 
-        /* 전자전달계 뷰 (20단계) */
-        #etc-view { display: none; width: 100%; height: 100%; background: #e3f2fd; position: relative; border-radius: 10px; overflow: hidden; }
-        .membrane { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; height: 120px; background: rgba(243, 156, 18, 0.2); border-top: 4px solid #d35400; border-bottom: 4px solid #d35400; display: flex; justify-content: space-evenly; align-items: center; }
-        .space-label { position: absolute; width: 100%; text-align: center; font-weight: bold; color: #555; font-size: 1.2rem; }
-        .intermembrane { top: 20px; }
-        .matrix { bottom: 20px; }
+        /* 애니메이션 레이어 (ATP, NADH 등의 블록 모델) */
+        #anim-layer { position: absolute; inset: 0; pointer-events: none; z-index: 20; overflow: hidden; }
         
-        .complex { background: #8e44ad; color: white; font-weight: bold; border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 2px solid #732d91; z-index: 5; text-align: center; font-size: 0.8rem; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
-        .c-I { width: 70px; height: 140px; }
-        .c-II { width: 60px; height: 60px; align-self: flex-end; margin-bottom: -15px; }
-        .c-Q { width: 40px; height: 40px; border-radius: 50%; background: #e67e22; align-self: flex-start; margin-top: -20px; }
-        .c-III { width: 70px; height: 140px; }
-        .c-CytC { width: 40px; height: 40px; border-radius: 50%; background: #e67e22; align-self: flex-start; margin-top: -20px; }
-        .c-IV { width: 70px; height: 140px; }
-        .c-ATP { width: 90px; height: 160px; background: #c0392b; border-color: #922b21; border-radius: 20px 20px 5px 5px; position: relative; }
-        .rotor { position: absolute; bottom: -10px; width: 50px; height: 30px; background: #e74c3c; border-radius: 10px; animation: spin 1s infinite linear; }
+        /* 커스텀 헬퍼 분자 (모양 기반) */
+        .helper-mol { position: absolute; display: flex; align-items: center; gap: 5px; opacity: 0; transition: transform 0.5s ease; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); }
+        .helper-base { padding: 0.5rem 1rem; border-radius: 8px; font-weight: bold; font-size: 14px; color: white; display: flex; align-items: center; justify-content: center; }
+        .h-ad { background: #2980b9; } /* 아데노신 */
+        .h-nad { background: #8e44ad; } /* NAD */
+        .h-fad { background: #16a085; } /* FAD */
+        
+        .p-group { display: flex; gap: 2px; }
+        .p-ball { width: 25px; height: 25px; border-radius: 50%; background: var(--atom-p); color: #111; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 12px; }
+        .e-ball { width: 15px; height: 15px; border-radius: 50%; background: #f1c40f; box-shadow: 0 0 10px yellow; position: absolute; }
+        .h-ball { width: 15px; height: 15px; border-radius: 50%; background: #e84118; border: 1px solid white; position: absolute; }
+        .co2-block { padding: 0.3rem 0.6rem; background: #7f8c8d; color: white; font-weight: bold; border-radius: 5px; position: absolute; }
+        .h2o-block { padding: 0.3rem 0.6rem; background: #3498db; color: white; font-weight: bold; border-radius: 5px; position: absolute; }
+        .coa-block { padding: 0.4rem 0.8rem; background: var(--coa-color); color: white; font-weight: bold; border-radius: 5px; position: absolute; }
+
+        /* 정보 패널 */
+        .info-panel { flex: 1; background: var(--panel); border-radius: 15px; padding: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border-top: 5px solid var(--primary); display: flex; flex-direction: column; overflow-y: auto; }
+        .info-panel h3 { margin-top: 0; color: var(--primary); font-size: 1.6rem; border-bottom: 2px solid #555; padding-bottom: 1rem; }
+        .info-row { margin-bottom: 1.2rem; font-size: 1.1rem; display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+        .badge { padding: 0.3rem 0.8rem; border-radius: 5px; font-size: 0.9rem; font-weight: bold; width: 85px; text-align: center; }
+        .b-react { background: #34495e; color: #00d2d3; border: 1px solid #00d2d3; }
+        .b-prod { background: #34495e; color: #10ac84; border: 1px solid #10ac84; }
+        .b-enz { background: #34495e; color: #feca57; border: 1px solid #feca57; }
+        .desc-box { background: #222f3e; padding: 1.5rem; border-radius: 10px; font-size: 1.1rem; line-height: 1.6; color: #c8d6e5; margin-top: auto; border-left: 4px solid var(--accent); }
+
+        /* ETC 뷰 */
+        #etc-view { display: none; width: 100%; height: 100%; position: relative; }
+        .membrane { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; height: 140px; background: rgba(243, 156, 18, 0.1); border-top: 4px solid #d35400; border-bottom: 4px solid #d35400; display: flex; justify-content: space-evenly; align-items: center; }
+        .complex { background: #8e44ad; color: white; font-weight: bold; border-radius: 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 2px solid #732d91; text-align: center; box-shadow: inset 0 0 20px rgba(0,0,0,0.5); z-index: 5; }
+        .c-I { width: 80px; height: 160px; }
+        .c-II { width: 60px; height: 80px; align-self: flex-end; margin-bottom: -20px; }
+        .c-Q { width: 45px; height: 45px; border-radius: 50%; background: #e67e22; align-self: flex-start; margin-top: -22px; }
+        .c-III { width: 80px; height: 160px; }
+        .c-CytC { width: 45px; height: 45px; border-radius: 50%; background: #e67e22; align-self: flex-start; margin-top: -22px; }
+        .c-IV { width: 80px; height: 160px; }
+        .c-ATP { width: 110px; height: 180px; background: #c0392b; border-color: #922b21; border-radius: 20px 20px 5px 5px; position: relative; }
+        .rotor { position: absolute; bottom: -15px; width: 60px; height: 35px; background: #e74c3c; border-radius: 10px; animation: spin 0.8s infinite linear; }
         @keyframes spin { 100% { transform: rotateY(360deg); } }
 
-        .etc-e { position: absolute; width: 16px; height: 16px; background: #f1c40f; border-radius: 50%; color: black; font-size: 9px; font-weight: bold; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px yellow; z-index: 10; opacity: 0; animation: electronFlow 5s infinite linear; }
-        @keyframes electronFlow { 0%{left:5%; top:70%; opacity:0;} 5%{left:8%; top:60%; opacity:1;} 20%{left:25%; top:45%;} 40%{left:43%; top:48%;} 60%{left:60%; top:35%;} 80%{left:77%; top:50%;} 90%{left:85%; top:70%; opacity:1;} 95%{left:85%; top:70%; opacity:0;} 100%{opacity:0;} }
+        .etc-e { position: absolute; width: 18px; height: 18px; background: #f1c40f; border-radius: 50%; color: black; font-size: 10px; font-weight: bold; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px yellow; z-index: 10; opacity: 0; animation: electronFlow 6s infinite linear; }
+        @keyframes electronFlow { 0%{left:5%; top:70%; opacity:0;} 5%{left:8%; top:60%; opacity:1;} 20%{left:27%; top:45%;} 40%{left:43%; top:48%;} 60%{left:60%; top:35%;} 80%{left:76%; top:50%;} 90%{left:83%; top:70%; opacity:1;} 95%{left:83%; top:70%; opacity:0;} 100%{opacity:0;} }
 
-        .etc-h { position: absolute; background: var(--accent); color: white; padding: 2px 6px; border-radius: 10px; font-weight: bold; font-size: 0.9rem; z-index: 4; opacity: 0; }
-        .pump1 { left: 13%; animation: pumpH 5s infinite 1s; }
-        .pump3 { left: 47%; animation: pumpH 5s infinite 2.5s; }
-        .pump4 { left: 78%; animation: pumpH 5s infinite 4s; }
+        .etc-h { position: absolute; background: var(--accent); color: white; padding: 2px 8px; border-radius: 10px; font-weight: bold; font-size: 1rem; z-index: 4; opacity: 0; }
+        .pump1 { left: 13%; animation: pumpH 6s infinite 1.2s; }
+        .pump3 { left: 47%; animation: pumpH 6s infinite 3.6s; }
+        .pump4 { left: 77%; animation: pumpH 6s infinite 5.4s; }
         @keyframes pumpH { 0%{top:70%; opacity:0;} 10%{top:60%; opacity:1;} 40%{top:20%; opacity:1;} 50%{top:10%; opacity:0;} 100%{opacity:0;} }
 
-        .atp-fall { left: 93%; top: 10%; background: var(--accent); color: white; position: absolute; padding: 2px 6px; border-radius: 10px; font-weight: bold; font-size: 0.9rem; opacity:0; animation: fallH 2.5s infinite; }
+        .atp-fall { left: 91%; top: 10%; background: var(--accent); color: white; position: absolute; padding: 2px 8px; border-radius: 10px; font-weight: bold; font-size: 1rem; opacity:0; animation: fallH 2s infinite; }
         @keyframes fallH { 0%{top:10%; opacity:0;} 20%{top:20%; opacity:1;} 80%{top:70%; opacity:1;} 100%{top:80%; opacity:0;} }
-
-        /* 오른쪽: 정보 텍스트 패널 */
-        .info-panel { flex: 1; background: white; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); padding: 2rem; border-left: 5px solid var(--primary); display: flex; flex-direction: column; }
-        .info-panel h3 { margin-top: 0; color: var(--primary); font-size: 1.5rem; border-bottom: 2px solid #eee; padding-bottom: 1rem; }
-        .info-row { margin-bottom: 1rem; font-size: 1.1rem; display: flex; align-items: flex-start; line-height: 1.4; }
-        .badge { display: inline-block; padding: 0.3rem 0.6rem; border-radius: 5px; font-size: 0.9rem; font-weight: bold; margin-right: 10px; width: 85px; text-align: center; flex-shrink: 0; }
-        .b-react { background: #e0f7fa; color: #006064; }
-        .b-prod { background: #e8f5e9; color: #1b5e20; }
-        .b-enz { background: #fff9c4; color: #f57f17; }
-        .desc-box { background: #f8f9fa; padding: 1.5rem; border-radius: 10px; font-size: 1.1rem; line-height: 1.6; color: #333; margin-top: auto; border: 1px solid #eee; }
+        
+        .space-label { position: absolute; width: 100%; text-align: center; font-weight: bold; font-size: 1.3rem; color: #888; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>대사과정 화학 구조 시뮬레이터</h1>
-        <button class="home-btn" onclick="location.reload()">메뉴로 가기</button>
+        <h1>대사과정 루이스 구조 & 애니메이션 시뮬레이터</h1>
+        <button class="home-btn" onclick="location.reload()">홈으로</button>
     </header>
 
     <div id="app">
-        <!-- 메인 메뉴 -->
+        <!-- 1. 메인 메뉴 -->
         <div id="screen-main" class="screen active" style="align-items: center; justify-content: center; height: 100%;">
-            <h2>시뮬레이션 파트를 선택하세요</h2>
             <div class="menu-grid">
                 <div class="menu-card" onclick="startSim('glyco')">
-                    <h2 style="color: var(--primary);">해당과정</h2>
-                    <p>1 ~ 10단계</p>
+                    <h2>해당과정</h2>
+                    <p>1 ~ 10단계<br>포도당 분할</p>
                 </div>
                 <div class="menu-card" onclick="startSim('tca')">
-                    <h2 style="color: #27ae60;">Link & TCA</h2>
-                    <p>11 ~ 19단계</p>
+                    <h2 style="color: var(--secondary);">Link & TCA</h2>
+                    <p>11 ~ 19단계<br>이산화탄소 방출</p>
                 </div>
                 <div class="menu-card" onclick="startSim('etc')">
                     <h2 style="color: var(--accent);">산화적 인산화</h2>
-                    <p>20단계 (전자전달계)</p>
+                    <p>20단계<br>전자전달계</p>
                 </div>
             </div>
-            <button style="margin-top:2rem; padding:1rem 2rem; font-size:1.1rem; cursor:pointer;" onclick="startSim('all')">전체 20단계 순차 재생</button>
+            <button style="margin-top:3rem; padding:1rem 3rem; font-size:1.2rem; cursor:pointer; background:var(--primary); color:white; border:none; border-radius:30px; font-weight:bold; box-shadow: 0 4px 15px rgba(0,168,255,0.4);" onclick="startSim('all')">전체 20단계 순차 재생</button>
         </div>
 
-        <!-- 시뮬레이터 -->
+        <!-- 2. 시뮬레이터 화면 -->
         <div id="screen-sim" class="screen">
             <div class="sim-header">
-                <h2 id="sim-title" style="margin:0; color:var(--primary);">단계 이름</h2>
+                <h2 id="sim-title" style="margin:0; color:var(--primary);">단계명</h2>
                 <div class="progress-bar"><div class="progress-fill" id="sim-progress"></div></div>
-                <span id="sim-counter" style="font-weight:bold;">1 / 20</span>
+                <span id="sim-counter" style="font-weight:bold; font-size:1.2rem;">1 / 20</span>
             </div>
 
             <div class="sim-body">
-                <!-- 시각화 영역 -->
+                <!-- 왼쪽: 시각화 -->
                 <div class="visual-area">
-                    <div class="nav-controls">
-                        <button class="nav-btn" id="btn-prev" onclick="moveStep(-1)">&#8592;</button>
-                        <button class="nav-btn" id="btn-next" onclick="moveStep(1)">&#8594;</button>
-                    </div>
-
+                    <div id="anim-layer"></div>
+                    
                     <div id="reaction-view" class="reaction-view">
-                        <div class="mol-box">
+                        <div class="mol-box" id="box-react">
                             <div class="mol-name" id="name-react">반응물</div>
-                            <div class="mol-structure" id="struct-react"></div>
+                            <div class="struct" id="struct-react"></div>
                         </div>
 
                         <div class="arrow-wrap">
-                            <div class="anim-part in-part" id="anim-in"></div>
                             <div class="enz-tag" id="enz-name">효소</div>
                             <div class="arrow-line">&#10230;</div>
-                            <div class="anim-part out-part" id="anim-out"></div>
                         </div>
 
-                        <div class="mol-box">
-                            <div class="mol-name" id="name-prod" style="background:#27ae60; color:white;">생성물</div>
-                            <div class="mol-structure" id="struct-prod"></div>
+                        <div class="mol-box" id="box-prod" style="opacity: 0.3;">
+                            <div class="mol-name" id="name-prod" style="background:var(--secondary); border-color:#27ae60;">생성물</div>
+                            <div class="struct" id="struct-prod"></div>
                         </div>
                     </div>
 
-                    <!-- 20단계 전용 ETC 뷰 -->
+                    <!-- 20단계 ETC 뷰 -->
                     <div id="etc-view">
-                        <div class="space-label intermembrane">막간 공간 (H⁺ 고농도)</div>
+                        <div class="space-label" style="top: 20px;">막간 공간 (H⁺ 고농도)</div>
                         <div class="membrane">
-                            <div class="complex c-I">I<br><span style="font-size:10px">FMN<br>FeS</span></div>
+                            <div class="complex c-I">I<br><span style="font-size:11px; font-weight:normal;">FMN<br>FeS</span></div>
                             <div class="complex c-Q">Q</div>
-                            <div class="complex c-II">II<br><span style="font-size:10px">FAD</span></div>
-                            <div class="complex c-III">III<br><span style="font-size:10px">Cyt b</span></div>
+                            <div class="complex c-II">II<br><span style="font-size:11px; font-weight:normal;">FAD</span></div>
+                            <div class="complex c-III">III<br><span style="font-size:11px; font-weight:normal;">Cyt b</span></div>
                             <div class="complex c-CytC">C</div>
-                            <div class="complex c-IV">IV<br><span style="font-size:10px">Cyt a</span></div>
+                            <div class="complex c-IV">IV<br><span style="font-size:11px; font-weight:normal;">Cyt a</span></div>
                             <div class="complex c-ATP">ATP<br>Synthase<div class="rotor"></div></div>
                         </div>
-                        <div class="space-label matrix">미토콘드리아 기질 (H⁺ 저농도)</div>
+                        <div class="space-label" style="bottom: 20px;">바탕질 (H⁺ 저농도)</div>
 
                         <div class="etc-e">2e⁻</div>
                         <div class="etc-h pump1">4H⁺</div>
                         <div class="etc-h pump3">4H⁺</div>
                         <div class="etc-h pump4">2H⁺</div>
-                        
-                        <div class="atp-fall">H⁺ 쏟아짐</div>
-                        <div style="position:absolute; right:3%; bottom:15%; font-weight:bold; font-size:1.2rem; color:#e67e22;">ADP + Pi → <span style="color:#c0392b; font-size:1.5rem;">ATP</span></div>
+                        <div class="atp-fall">H⁺ 흐름</div>
+                        <div style="position:absolute; right:2%; bottom:10%; font-weight:bold; font-size:1.3rem; color:#f1c40f; text-shadow: 0 2px 5px black;">ADP + Pi → <span style="color:#e84118; font-size:1.8rem;">ATP</span></div>
+                    </div>
+
+                    <div class="nav-controls">
+                        <button class="nav-btn" id="btn-prev" onclick="moveStep(-1)">&#8592;</button>
+                        <button class="nav-btn replay-btn" onclick="playCurrentAnimation()">다시 재생</button>
+                        <button class="nav-btn" id="btn-next" onclick="moveStep(1)">&#8594;</button>
                     </div>
                 </div>
 
-                <!-- 텍스트 영역 -->
+                <!-- 오른쪽: 정보 텍스트 -->
                 <div class="info-panel">
                     <h3 id="info-step-name">1. 포도당 인산화</h3>
                     <div class="info-row"><span class="badge b-react">반응물</span><span id="info-react"></span></div>
                     <div class="info-row"><span class="badge b-prod">생성물</span><span id="info-prod"></span></div>
-                    <div class="info-row"><span class="badge b-enz">관여 효소</span><span id="info-enz"></span></div>
-                    <div class="desc-box" id="info-desc"></div>
+                    <div class="info-row"><span class="badge b-enz">효소</span><span id="info-enz"></span></div>
+                    <div class="desc-box" id="info-desc">설명</div>
                 </div>
             </div>
         </div>
     </div>
 
 <script>
-    // JS 헬퍼: 원자(Atom)와 결합(Bond)을 그려내는 템플릿
-    const A = (el) => `<div class="atom ${el}">${el}</div>`;
-    const B = (type) => `<div class="bond ${type}"></div>`;
-    const L = (content) => `<div class="mol-l">${content}</div>`;
-    const R = (content) => `<div class="mol-r">${content}</div>`;
-    const C = (content) => `<div class="mol-c">${content}</div>`;
-    const Row = (l, c, r) => `<div class="mol-row">${L(l)}${C(c)}${R(r)}</div>`;
-    const V = () => `<div class="mol-row">${L('')}${C(B('v'))}${R('')}</div>`;
-    const DV = () => `<div class="mol-row">${L('')}${C(B('dv'))}${R('')}</div>`;
+    /* ----- 1. 루이스 구조식 렌더링 헬퍼 ----- */
+    const A = (el, id='') => `<div class="col"><div class="atom ${el}" ${id ? `id="${id}"`:''}>${el}</div></div>`;
+    const B = (type) => `<div class="col"><div class="bond ${type}"></div></div>`;
+    const E = () => `<div class="col"></div>`; // Empty space
+    const Row = (...cols) => `<div class="row">${cols.join('')}</div>`;
 
-    // 분자 구조식 데이터베이스 (루이스 구조식 완벽 반영)
+    // 자주 쓰는 작용기 (수직 결합 포함)
+    const O_db_top = Row(E(), B('vd'), E()) + Row(E(), A('O'), E());
+    const O_db_bot = Row(E(), A('O'), E()) + Row(E(), B('vd'), E());
+
+    // 분자 구조 DB (정확한 위치와 인산기 이동 묘사)
     const M = {
-        glucose: Row('', A('O')+B('d')+A('C'), B('h')+A('H')) + V() +
-                 Row(A('H')+B('h'), A('C'), B('h')+A('O')+B('h')+A('H')) + V() +
-                 Row(A('H')+B('h')+A('O')+B('h'), A('C'), B('h')+A('H')) + V() +
-                 Row(A('H')+B('h'), A('C'), B('h')+A('O')+B('h')+A('H')) + V() +
-                 Row(A('H')+B('h'), A('C'), B('h')+A('O')+B('h')+A('H')) + V() +
-                 Row('', A('C'), B('h')+A('O')+B('h')+A('H')) + Row('',A('H'),''),
+        glucose: Row(E(), A('O','g-o1'), B('hd'), E()) + 
+                 Row(E(), B('v'), E(), A('C','g-c1'), B('h'), A('H')) +
+                 Row(A('HO'), B('h'), A('C','g-c5'), E(), B('v')) +
+                 Row(E(), B('v'), E(), A('C','g-c2'), B('h'), A('OH')) +
+                 Row(A('H'), B('h'), A('C','g-c4'), B('h'), A('C','g-c3'), B('h'), A('OH')) +
+                 Row(E(), B('v'), E(), B('v')) +
+                 Row(E(), A('CH2OH','g-c6'), E(), A('H')),
+
+        g6p: Row(E(), A('O'), B('hd'), E()) + 
+             Row(E(), B('v'), E(), A('C'), B('h'), A('H')) +
+             Row(A('HO'), B('h'), A('C'), E(), B('v')) +
+             Row(E(), B('v'), E(), A('C'), B('h'), A('OH')) +
+             Row(A('H'), B('h'), A('C'), B('h'), A('C'), B('h'), A('OH')) +
+             Row(E(), B('v'), E(), B('v')) +
+             Row(E(), A('CH2O','g6p-c6'), B('h'), A('P','g6p-p1')),
+
+        f6p: Row(A('H'), B('h'), A('C'), B('h'), A('OH')) +
+             Row(E(), B('vd'), E()) +
+             Row(E(), A('C'), B('h'), A('HO')) +
+             Row(E(), B('v'), E()) +
+             Row(A('H'), B('h'), A('C'), B('h'), A('OH')) +
+             Row(E(), B('v'), E()) +
+             Row(E(), A('CH2O'), B('h'), A('P')),
+
+        f16bp: Row(A('P','fbp-p1'), B('h'), A('CH2O','fbp-c1'), E()) +
+               Row(E(), B('v'), E()) +
+               Row(E(), A('C'), B('hd'), A('O')) +
+               Row(E(), B('v'), E()) +
+               Row(A('H'), B('h'), A('C'), B('h'), A('OH')) +
+               Row(E(), B('v'), E()) +
+               Row(E(), A('CH2O'), B('h'), A('P','fbp-p2')),
+
+        dhap: Row(A('P'), B('h'), A('CH2O'), E()) +
+              Row(E(), B('v'), E()) +
+              Row(E(), A('C'), B('hd'), A('O')) +
+              Row(E(), B('v'), E()) +
+              Row(E(), A('CH2OH'), E()),
+
+        g3p: Row(E(), A('O'), B('hd'), A('C'), B('h'), A('H')) +
+             Row(E(), E(), B('v'), E()) +
+             Row(E(), A('HO'), B('h'), A('C'), B('h'), A('H')) +
+             Row(E(), E(), B('v'), E()) +
+             Row(A('P','g3p-p1'), B('h'), A('CH2O','g3p-c3'), E()),
+
+        bpg13: Row(A('P','bpg-p1'), B('h'), A('O'), B('h'), A('C'), B('hd'), A('O')) +
+               Row(E(), E(), E(), B('v'), E()) +
+               Row(E(), A('HO'), B('h'), A('C'), B('h'), A('H')) +
+               Row(E(), E(), E(), B('v'), E()) +
+               Row(E(), A('P','bpg-p2'), B('h'), A('CH2O','bpg-c3')),
+
+        pg3: Row(A('O-','pg3-o1'), B('h'), A('C','pg3-c1'), B('hd'), A('O')) +
+             Row(E(), B('v'), E()) +
+             Row(A('H'), B('h'), A('C','pg3-c2'), B('h'), A('OH','pg3-oh')) +
+             Row(E(), B('v'), E()) +
+             Row(A('P','pg3-p'), B('h'), A('CH2O','pg3-c3')), // C3에 P 결합
+
+        pg2: Row(A('O-'), B('h'), A('C'), B('hd'), A('O')) +
+             Row(E(), B('v'), E()) +
+             Row(A('H','pg2-h'), B('h'), A('C','pg2-c2'), B('h'), A('O-P','pg2-p')) + // C2로 P 이동
+             Row(E(), B('v'), E()) +
+             Row(E(), A('CH2OH','pg2-oh'), E()),
+
+        pep: Row(A('O-'), B('h'), A('C'), B('hd'), A('O')) +
+             Row(E(), B('v'), E()) +
+             Row(E(), A('C'), B('h'), A('O-P','pep-p')) +
+             Row(E(), B('vd'), E()) +
+             Row(E(), A('CH2'), E()),
+
+        pyruvate: Row(A('O-'), B('h'), A('C','pyr-c1'), B('hd'), A('O')) +
+                  Row(E(), B('v'), E()) +
+                  Row(E(), A('C','pyr-c2'), B('hd'), A('O')) +
+                  Row(E(), B('v'), E()) +
+                  Row(E(), A('CH3','pyr-c3'), E()),
+
+        acetyl: Row(E(), A('C','ace-c1'), B('hd'), A('O')) +
+                Row(E(), B('v'), E()) +
+                Row(A('CoA','ace-coa'), B('h'), A('S'), E()) +
+                Row(E(), B('v'), E()) +
+                Row(E(), A('CH3','ace-c2'), E()),
+
+        oaa: Row(A('O-'), B('h'), A('C'), B('hd'), A('O')) +
+             Row(E(), B('v'), E()) +
+             Row(E(), A('C'), B('hd'), A('O')) +
+             Row(E(), B('v'), E()) +
+             Row(A('O-'), B('h'), A('C','oaa-c4'), B('h'), A('H2')) +
+             Row(E(), B('v'), E()) +
+             Row(E(), A('COO-'), E()),
+
+        citrate: Row(E(), A('CH2-COO-'), E()) +
+                 Row(E(), B('v'), E()) +
+                 Row(A('HO'), B('h'), A('C'), B('h'), A('COO-')) +
+                 Row(E(), B('v'), E()) +
+                 Row(E(), A('CH2-COO-'), E()),
         
-        g6p: Row('', A('O')+B('d')+A('C'), B('h')+A('H')) + V() +
-             Row(A('H')+B('h'), A('C'), B('h')+A('O')+B('h')+A('H')) + V() +
-             Row(A('H')+B('h')+A('O')+B('h'), A('C'), B('h')+A('H')) + V() +
-             Row(A('H')+B('h'), A('C'), B('h')+A('O')+B('h')+A('H')) + V() +
-             Row(A('H')+B('h'), A('C'), B('h')+A('O')+B('h')+A('H')) + V() +
-             Row('', A('C'), B('h')+A('O')+B('h')+A('P')) + Row('',A('H'),''),
+        isocitrate: Row(E(), A('CH2-COO-'), E()) +
+                    Row(E(), B('v'), E()) +
+                    Row(A('H'), B('h'), A('C'), B('h'), A('COO-')) +
+                    Row(E(), B('v'), E()) +
+                    Row(A('HO'), B('h'), A('CH-COO-'), E()),
 
-        f6p: Row('', A('H')+B('v')+A('C')+B('v')+A('H'), B('h')+A('O')+B('h')+A('H')) + 
-             Row('', A('C'), B('d')+A('O')) + V() +
-             Row(A('H')+B('h')+A('O')+B('h'), A('C'), B('h')+A('H')) + V() +
-             Row(A('H')+B('h'), A('C'), B('h')+A('O')+B('h')+A('H')) + V() +
-             Row(A('H')+B('h'), A('C'), B('h')+A('O')+B('h')+A('H')) + V() +
-             Row('', A('C'), B('h')+A('O')+B('h')+A('P')) + Row('',A('H'),''),
+        akg: Row(E(), A('CH2-COO-'), E()) +
+             Row(E(), B('v'), E()) +
+             Row(E(), A('CH2'), E()) +
+             Row(E(), B('v'), E()) +
+             Row(E(), A('C'), B('hd'), A('O')) +
+             Row(E(), B('v'), E()) +
+             Row(E(), A('COO-','akg-co2'), E()),
 
-        f16bp: Row(A('P')+B('h')+A('O')+B('h'), A('C')+B('v')+A('H'), '') + 
-               Row('', A('C'), B('d')+A('O')) + V() +
-               Row(A('H')+B('h')+A('O')+B('h'), A('C'), B('h')+A('H')) + V() +
-               Row(A('H')+B('h'), A('C'), B('h')+A('O')+B('h')+A('H')) + V() +
-               Row(A('H')+B('h'), A('C'), B('h')+A('O')+B('h')+A('H')) + V() +
-               Row('', A('C'), B('h')+A('O')+B('h')+A('P')) + Row('',A('H'),''),
+        succinyl: Row(E(), A('CH2-COO-'), E()) +
+                  Row(E(), B('v'), E()) +
+                  Row(E(), A('CH2'), E()) +
+                  Row(E(), B('v'), E()) +
+                  Row(A('CoA','suc-coa'), B('h'), A('S'), B('h'), A('C'), B('hd'), A('O')),
 
-        dhap: Row(A('P')+B('h')+A('O')+B('h'), A('C')+B('v')+A('H'), '') +
-              Row('', A('C'), B('d')+A('O')) + V() +
-              Row('', A('C')+B('v')+A('H'), B('h')+A('O')+B('h')+A('H')),
+        succinate: Row(E(), A('CH2-COO-'), E()) +
+                   Row(E(), B('v'), E()) +
+                   Row(E(), A('CH2-COO-'), E()),
 
-        g3p: Row('', A('O')+B('d')+A('C'), B('h')+A('H')) + V() +
-             Row(A('H')+B('h'), A('C'), B('h')+A('O')+B('h')+A('H')) + V() +
-             Row('', A('C')+B('v')+A('H'), B('h')+A('O')+B('h')+A('P')),
+        fumarate: Row(A('O-OC'), B('h'), A('CH'), E()) +
+                  Row(E(), B('vd'), E()) +
+                  Row(E(), A('HC'), B('h'), A('COO-')),
 
-        bpg13: Row(A('P')+B('h')+A('O')+B('h'), A('C'), B('d')+A('O')) + V() +
-               Row(A('H')+B('h'), A('C'), B('h')+A('O')+B('h')+A('H')) + V() +
-               Row('', A('C')+B('v')+A('H'), B('h')+A('O')+B('h')+A('P')),
-
-        pg3: Row(A('O')+B('h'), A('C'), B('d')+A('O')) + V() + // COO-
-             Row(A('H')+B('h'), A('C'), B('h')+A('O')+B('h')+A('H')) + V() +
-             Row('', A('C')+B('v')+A('H'), B('h')+A('O')+B('h')+A('P')),
-
-        pg2: Row(A('O')+B('h'), A('C'), B('d')+A('O')) + V() + 
-             Row(A('H')+B('h'), A('C'), B('h')+A('O')+B('h')+A('P')) + V() + // P moved to C2
-             Row('', A('C')+B('v')+A('H'), B('h')+A('O')+B('h')+A('H')),
-
-        pep: Row(A('O')+B('h'), A('C'), B('d')+A('O')) + V() + 
-             Row('', A('C'), B('h')+A('O')+B('h')+A('P')) + DV() + // Double bond
-             Row('', A('C')+B('v')+A('H')+B('v')+A('H'), ''),
-
-        pyruvate: Row(A('O')+B('h'), A('C'), B('d')+A('O')) + V() + 
-                  Row('', A('C'), B('d')+A('O')) + V() + 
-                  Row(A('H')+B('h'), A('C')+B('v')+A('H'), B('h')+A('H')),
-
-        acetyl: Row('', A('C'), B('d')+A('O')) + V() +
-                Row(A('H')+B('h'), A('C')+B('v')+A('H'), B('h')+A('H')) +
-                Row('', B('v')+'<br>'+A('S')+B('h')+A('CoA'), ''),
-
-        oaa: Row(A('O')+B('h'), A('C'), B('d')+A('O')) + V() + 
-             Row('', A('C'), B('d')+A('O')) + V() + 
-             Row(A('H')+B('h'), A('C'), B('h')+A('H')) + V() + 
-             Row(A('O')+B('h'), A('C'), B('d')+A('O')),
-
-        citrate: Row(A('O')+B('h'), A('C'), B('d')+A('O')) + V() + 
-                 Row(A('H')+B('h'), A('C'), B('h')+A('H')) + V() + 
-                 Row(A('O')+B('h')+A('C')+B('d')+A('O'), A('C'), B('h')+A('O')+B('h')+A('H')) + V() + 
-                 Row(A('H')+B('h'), A('C'), B('h')+A('H')) + V() + 
-                 Row(A('O')+B('h'), A('C'), B('d')+A('O')),
-
-        isocitrate: Row(A('O')+B('h'), A('C'), B('d')+A('O')) + V() + 
-                    Row(A('H')+B('h'), A('C'), B('h')+A('H')) + V() + 
-                    Row(A('O')+B('h')+A('C')+B('d')+A('O'), A('C'), B('h')+A('H')) + V() + 
-                    Row(A('H')+B('h'), A('C'), B('h')+A('O')+B('h')+A('H')) + V() + 
-                    Row(A('O')+B('h'), A('C'), B('d')+A('O')), // OH moved
-
-        akg: Row(A('O')+B('h'), A('C'), B('d')+A('O')) + V() + 
-             Row(A('H')+B('h'), A('C'), B('h')+A('H')) + V() + 
-             Row(A('H')+B('h'), A('C'), B('h')+A('H')) + V() + 
-             Row('', A('C'), B('d')+A('O')) + V() + 
-             Row(A('O')+B('h'), A('C'), B('d')+A('O')),
-
-        succinyl: Row(A('O')+B('h'), A('C'), B('d')+A('O')) + V() + 
-                  Row(A('H')+B('h'), A('C'), B('h')+A('H')) + V() + 
-                  Row(A('H')+B('h'), A('C'), B('h')+A('H')) + V() + 
-                  Row(A('CoA')+B('h')+A('S')+B('h'), A('C'), B('d')+A('O')),
-
-        succinate: Row(A('O')+B('h'), A('C'), B('d')+A('O')) + V() + 
-                   Row(A('H')+B('h'), A('C'), B('h')+A('H')) + V() + 
-                   Row(A('H')+B('h'), A('C'), B('h')+A('H')) + V() + 
-                   Row(A('O')+B('h'), A('C'), B('d')+A('O')),
-
-        fumarate: Row(A('O')+B('h'), A('C'), B('d')+A('O')) + V() + 
-                  Row(A('H')+B('h'), A('C'), '') + DV() + // Double bond
-                  Row('', A('C'), B('h')+A('H')) + V() + 
-                  Row(A('O')+B('h'), A('C'), B('d')+A('O')),
-
-        malate: Row(A('O')+B('h'), A('C'), B('d')+A('O')) + V() + 
-                Row(A('H')+B('h')+A('O')+B('h'), A('C'), B('h')+A('H')) + V() + 
-                Row(A('H')+B('h'), A('C'), B('h')+A('H')) + V() + 
-                Row(A('O')+B('h'), A('C'), B('d')+A('O'))
+        malate: Row(E(), A('COO-'), E()) +
+                Row(E(), B('v'), E()) +
+                Row(A('HO'), B('h'), A('CH'), E()) +
+                Row(E(), B('v'), E()) +
+                Row(E(), A('CH2-COO-'), E())
     };
 
-    // 20단계 메타 데이터
+    /* ----- 2. 전체 단계 데이터베이스 ----- */
     const DB = [
-        { step:1, phase:'해당과정 (투자기)', name:'1. 포도당 인산화', react:'Glucose', prod:'G6P', strR:M.glucose, strP:M.g6p, enz:'Hexokinase', pIn:'+ ATP', pOut:'+ ADP', desc:'ATP를 소모하여 포도당에 인산기(P)를 붙인다. 분자가 세포 밖으로 나가지 못하게 가두는 역할을 한다.' },
-        { step:2, phase:'해당과정 (투자기)', name:'2. 이성질체화', react:'G6P', prod:'F6P', strR:M.g6p, strP:M.f6p, enz:'Phosphoglucose\nisomerase', pIn:'', pOut:'', desc:'1번 탄소가 밖으로 노출되도록 알도오스를 케토오스(오각고리)로 이성질화시킨다. 나중에 정확히 반으로 쪼개기 위한 준비 과정이다.' },
-        { step:3, phase:'해당과정 (투자기)', name:'3. 두 번째 인산화', react:'F6P', prod:'F1,6BP', strR:M.f6p, strP:M.f16bp, enz:'PFK-1', pIn:'+ ATP', pOut:'+ ADP', desc:'ATP를 한 번 더 소모하여 1번 탄소에도 인산기를 붙여 완벽한 대칭 구조를 만든다. (해당과정의 핵심 속도 조절 단계)' },
-        { step:4, phase:'해당과정 (투자기)', name:'4. 분할 (Cleavage)', react:'F1,6BP', prod:'DHAP + G3P', strR:M.f16bp, strP:M.dhap+'<br><div style="text-align:center; font-weight:bold; color:red;">+</div><br>'+M.g3p, enz:'Aldolase', pIn:'', pOut:'쪼개짐', desc:'6탄소 당을 두 개의 3탄소 화합물(DHAP, G3P)로 자른다.' },
-        { step:5, phase:'해당과정 (투자기)', name:'5. 상호 전환', react:'DHAP', prod:'G3P', strR:M.dhap, strP:M.g3p, enz:'Triose phosphate\nisomerase', pIn:'', pOut:'', desc:'구조가 다른 DHAP를 모두 G3P로 전환한다. 이후 반응은 2개의 G3P가 동시에 진행하므로 모든 결과물이 2배가 된다.' },
-        { step:6, phase:'해당과정 (회수기)', name:'6. 산화 및 인산화', react:'G3P', prod:'1,3-BPG', strR:M.g3p, strP:M.bpg13, enz:'G3P\ndehydrogenase', pIn:'+ NAD⁺ + 2e⁻ + H⁺<br>+ Pi', pOut:'+ NADH', desc:'고에너지 전자(2e⁻)와 수소(H⁺)를 추출하여 NAD⁺를 환원시켜 NADH를 생성하고, 무기 인산(Pi)을 결합시킨다.' },
-        { step:7, phase:'해당과정 (회수기)', name:'7. 첫 ATP 생성', react:'1,3-BPG', prod:'3PG', strR:M.bpg13, strP:M.pg3, enz:'Phosphoglycerate\nkinase', pIn:'+ ADP', pOut:'+ ATP', desc:'1번 탄소에 결합되어 있던 불안정한 인산기를 ADP에 넘겨주어 처음으로 ATP를 합성한다. (기질수준 인산화)' },
-        { step:8, phase:'해당과정 (회수기)', name:'8. 인산기 이동', react:'3PG', prod:'2PG', strR:M.pg3, strP:M.pg2, enz:'Phosphoglycerate\nmutase', pIn:'', pOut:'', desc:'인산기의 위치를 3번 탄소에서 2번 탄소로 옮겨 분자 내부 구조를 불안정하게 만든다.' },
-        { step:9, phase:'해당과정 (회수기)', name:'9. 탈수 반응', react:'2PG', prod:'PEP', strR:M.pg2, strP:M.pep, enz:'Enolase', pIn:'', pOut:'+ H₂O (탈수)', desc:'3번 탄소의 OH와 2번 탄소의 H가 물 분자(H₂O)로 떨어져 나가며 이중결합을 형성한다. 이로 인해 인산기 결합 에너지가 폭발적으로 강해진다.' },
-        { step:10, phase:'해당과정 (회수기)', name:'10. 두 번째 ATP', react:'PEP', prod:'Pyruvate', strR:M.pep, strP:M.pyruvate, enz:'Pyruvate\nkinase', pIn:'+ ADP', pOut:'+ ATP', desc:'마지막 남은 인산기를 떼어내어 ATP를 만들고, 해당과정의 최종 산물인 피루브산(3탄소)을 생성한다.' },
-        { step:11, phase:'바탕질 진입', name:'11. 산화적 탈카복실화', react:'Pyruvate', prod:'Acetyl-CoA', strR:M.pyruvate, strP:M.acetyl, enz:'Pyruvate\ndehydrogenase\n(TPP, lipoate, FAD)', pIn:'+ CoA<br>+ NAD⁺ + 2e⁻ + H⁺', pOut:'+ CO₂<br>+ NADH', desc:'미토콘드리아 기질에서 카복실기를 떼어내어 CO₂를 방출하고, 2e⁻를 뽑아 NADH를 만든다. 이후 조효소 A를 결합하여 TCA 진입을 준비한다.' },
-        { step:12, phase:'TCA 회로', name:'12. 시트르산 합성', react:'Acetyl-CoA + OAA', prod:'Citrate', strR:M.acetyl+'<br><div style="text-align:center; font-weight:bold; color:red;">+</div><br>'+M.oaa, strP:M.citrate, enz:'Citrate\nsynthase', pIn:'+ H₂O', pOut:'+ CoA 탈락', desc:'2탄소 아세틸기와 4탄소 옥살로아세트산이 결합해 6탄소 시트르산이 된다. 회로의 시작점이다.' },
-        { step:13, phase:'TCA 회로', name:'13. 이성질체화', react:'Citrate', prod:'Isocitrate', strR:M.citrate, strP:M.isocitrate, enz:'Aconitase', pIn:'', pOut:'', desc:'탈수 및 수화 반응을 거쳐 히드록시기(-OH)의 위치를 이동시킨다.' },
-        { step:14, phase:'TCA 회로', name:'14. 1차 탈카복실화', react:'Isocitrate', prod:'α-KG', strR:M.isocitrate, strP:M.akg, enz:'Isocitrate\ndehydrogenase', pIn:'+ NAD⁺ + 2e⁻ + H⁺', pOut:'+ CO₂<br>+ NADH', desc:'첫 번째 CO₂가 방출되며 5탄소 화합물이 되고, 고에너지 전자(NADH)가 추출된다.' },
-        { step:15, phase:'TCA 회로', name:'15. 2차 탈카복실화', react:'α-KG', prod:'Succinyl-CoA', strR:M.akg, strP:M.succinyl, enz:'α-KG\ndehydrogenase', pIn:'+ CoA<br>+ NAD⁺ + 2e⁻ + H⁺', pOut:'+ CO₂<br>+ NADH', desc:'마지막 CO₂가 방출되며 4탄소 화합물이 되고, 두 번째 NADH를 뽑아낸다.' },
-        { step:16, phase:'TCA 회로', name:'16. 기질 수준 인산화', react:'Succinyl-CoA', prod:'Succinate', strR:M.succinyl, strP:M.succinate, enz:'Succinyl-CoA\nsynthetase', pIn:'+ GDP, Pi', pOut:'+ GTP (ATP)', desc:'조효소 A가 떨어져 나가는 고에너지를 이용하여 1분자의 GTP(또는 ATP)를 생성한다.' },
-        { step:17, phase:'TCA 회로', name:'17. FADH₂ 생성', react:'Succinate', prod:'Fumarate', strR:M.succinate, strP:M.fumarate, enz:'Succinate\ndehydrogenase', pIn:'+ FAD + 2e⁻ + 2H⁺', pOut:'+ FADH₂', desc:'내막 복합체 II에 결합된 효소에 의해 전자가 추출되어 FADH₂가 생성되고 이중결합이 형성된다.' },
-        { step:18, phase:'TCA 회로', name:'18. 수화 반응', react:'Fumarate', prod:'Malate', strR:M.fumarate, strP:M.malate, enz:'Fumarase', pIn:'+ H₂O', pOut:'', desc:'이중결합에 물 분자가 첨가되어 구조가 말산으로 변한다.' },
-        { step:19, phase:'TCA 회로', name:'19. 옥살로아세트산 재생', react:'Malate', prod:'Oxaloacetate', strR:M.malate, strP:M.oaa, enz:'Malate\ndehydrogenase', pIn:'+ NAD⁺ + 2e⁻ + H⁺', pOut:'+ NADH', desc:'마지막 전자를 빼앗아 NADH를 만들고, 회로를 다시 시작할 4탄소 뼈대(옥살로아세트산)를 완벽히 재생시킨다.' },
-        { step:20, phase:'산화적 인산화', name:'20. 전자전달계 & 화학삼투', react:'NADH, FADH₂, O₂', prod:'ATP, H₂O', strR:'', strP:'', enz:'Complex I~IV\nATP Synthase', pIn:'', pOut:'', desc:'모아둔 고에너지 전자가 복합체를 통과하며 막간 공간으로 정확히 4H⁺, 4H⁺, 2H⁺를 펌핑한다. 형성된 수소 이온 농도 기울기를 이용해 ATP 합성효소가 회전하며 막대한 양의 ATP를 합성한다.' }
+        { step:1, phase:'해당과정 (투자기)', name:'1. 포도당 인산화', react:'Glucose', prod:'G6P', strR:M.glucose, strP:M.g6p, enz:'Hexokinase', anim:'atp_to_adp', desc:'ATP 블록이 다가와 인산기(P)를 포도당 6번 탄소에 결합시킨다. 분자가 세포 밖으로 나가지 못하게 가두는 역할을 한다.' },
+        { step:2, phase:'해당과정 (투자기)', name:'2. 이성질체화', react:'G6P', prod:'F6P', strR:M.g6p, strP:M.f6p, enz:'Phosphoglucose\nisomerase', anim:'morph', desc:'1번 탄소가 밖으로 노출되도록 알도오스를 케토오스(오각고리)로 이성질화시킨다.' },
+        { step:3, phase:'해당과정 (투자기)', name:'3. 두 번째 인산화', react:'F6P', prod:'F1,6BP', strR:M.f6p, strP:M.f16bp, enz:'PFK-1', anim:'atp_to_adp', desc:'ATP를 한 번 더 소모하여 1번 탄소에도 인산기를 붙여 완벽한 대칭 구조를 만든다.' },
+        { step:4, phase:'해당과정 (투자기)', name:'4. 분할 (Cleavage)', react:'F1,6BP', prod:'DHAP + G3P', strR:M.f16bp, strP:M.dhap+'<br><h3 style="margin:0; text-align:center;">+</h3><br>'+M.g3p, enz:'Aldolase', anim:'split', desc:'6탄소 당을 두 개의 3탄소 화합물(DHAP, G3P)로 자른다.' },
+        { step:5, phase:'해당과정 (투자기)', name:'5. 상호 전환', react:'DHAP', prod:'G3P', strR:M.dhap, strP:M.g3p, enz:'Triose phosphate\nisomerase', anim:'morph', desc:'구조가 다른 DHAP를 모두 G3P로 전환한다. (이후 반응은 x2로 진행)' },
+        { step:6, phase:'해당과정 (회수기)', name:'6. 산화 및 인산화', react:'G3P', prod:'1,3-BPG', strR:M.g3p, strP:M.bpg13, enz:'G3P\ndehydrogenase', anim:'nad_to_nadh_p', desc:'고에너지 전자(2e⁻)와 수소(H⁺)를 추출하여 NAD⁺를 환원시켜 NADH를 생성하고, 무기 인산(Pi)을 결합시킨다.' },
+        { step:7, phase:'해당과정 (회수기)', name:'7. 첫 ATP 생성', react:'1,3-BPG', prod:'3PG', strR:M.bpg13, strP:M.pg3, enz:'Phosphoglycerate\nkinase', anim:'adp_to_atp', desc:'1번 탄소에 결합되어 있던 인산기를 ADP에 넘겨주어 처음으로 ATP를 합성한다. (기질수준 인산화)' },
+        { step:8, phase:'해당과정 (회수기)', name:'8. 인산기 이동', react:'3PG', prod:'2PG', strR:M.pg3, strP:M.pg2, enz:'Phosphoglycerate\nmutase', anim:'move_p', desc:'인산기의 위치를 3번 탄소에서 2번 탄소로 옮겨 분자 내부 구조를 불안정하게 만든다.' },
+        { step:9, phase:'해당과정 (회수기)', name:'9. 탈수 반응', react:'2PG', prod:'PEP', strR:M.pg2, strP:M.pep, enz:'Enolase', anim:'dehydration', desc:'3번 탄소의 OH와 2번 탄소의 H가 물 분자(H₂O)로 떨어져 나가며 이중결합을 형성한다.' },
+        { step:10, phase:'해당과정 (회수기)', name:'10. 두 번째 ATP', react:'PEP', prod:'Pyruvate', strR:M.pep, strP:M.pyruvate, enz:'Pyruvate\nkinase', anim:'adp_to_atp', desc:'마지막 남은 인산기를 떼어내어 ATP를 만들고, 최종 산물인 피루브산(3탄소)을 생성한다.' },
+        
+        { step:11, phase:'바탕질 진입', name:'11. 산화적 탈카복실화', react:'Pyruvate', prod:'Acetyl-CoA', strR:M.pyruvate, strP:M.acetyl, enz:'Pyruvate dehydrogenase\n(TPP, lipoate, FAD)', anim:'link_reaction', desc:'미토콘드리아 기질에서 카복실기를 떼어내어 CO₂를 방출하고, 2e⁻를 뽑아 NADH를 만든다. 이후 조효소 A(CoA)를 결합한다.' },
+        { step:12, phase:'TCA 회로', name:'12. 시트르산 합성', react:'Acetyl-CoA + OAA', prod:'Citrate', strR:M.acetyl+'<br><h3 style="margin:0; text-align:center;">+</h3><br>'+M.oaa, strP:M.citrate, enz:'Citrate\nsynthase', anim:'merge_coa_leave', desc:'2탄소 아세틸기와 4탄소 옥살로아세트산이 결합해 6탄소 시트르산이 된다. CoA는 떨어져 나간다.' },
+        { step:13, phase:'TCA 회로', name:'13. 이성질체화', react:'Citrate', prod:'Isocitrate', strR:M.citrate, strP:M.isocitrate, enz:'Aconitase', anim:'morph', desc:'탈수 및 수화 반응을 거쳐 히드록시기(-OH)의 위치를 이동시킨다.' },
+        { step:14, phase:'TCA 회로', name:'14. 1차 탈카복실화', react:'Isocitrate', prod:'α-KG', strR:M.isocitrate, strP:M.akg, enz:'Isocitrate\ndehydrogenase', anim:'decarboxylation_nad', desc:'첫 번째 CO₂가 방출되며 5탄소 화합물이 되고, 고에너지 전자(NADH)가 추출된다.' },
+        { step:15, phase:'TCA 회로', name:'15. 2차 탈카복실화', react:'α-KG', prod:'Succinyl-CoA', strR:M.akg, strP:M.succinyl, enz:'α-KG dehydrogenase\n(TPP, lipoate, FAD)', anim:'link_reaction', desc:'마지막 CO₂가 방출되며 4탄소 화합물이 되고, 두 번째 NADH를 뽑아내며 CoA가 결합한다.' },
+        { step:16, phase:'TCA 회로', name:'16. 기질 수준 인산화', react:'Succinyl-CoA', prod:'Succinate', strR:M.succinyl, strP:M.succinate, enz:'Succinyl-CoA\nsynthetase', anim:'gdp_to_gtp', desc:'조효소 A가 떨어져 나가는 고에너지를 이용하여 1분자의 GTP(또는 ATP)를 생성한다.' },
+        { step:17, phase:'TCA 회로', name:'17. FADH₂ 생성', react:'Succinate', prod:'Fumarate', strR:M.succinate, strP:M.fumarate, enz:'Succinate\ndehydrogenase', anim:'fad_to_fadh2', desc:'내막 복합체 II에 결합된 효소에 의해 전자가 추출되어 FADH₂가 생성되고 이중결합이 형성된다.' },
+        { step:18, phase:'TCA 회로', name:'18. 수화 반응', react:'Fumarate', prod:'Malate', strR:M.fumarate, strP:M.malate, enz:'Fumarase', anim:'morph', desc:'이중결합에 물 분자가 첨가되어 구조가 말산으로 변한다.' },
+        { step:19, phase:'TCA 회로', name:'19. 옥살로아세트산 재생', react:'Malate', prod:'Oxaloacetate', strR:M.malate, strP:M.oaa, enz:'Malate\ndehydrogenase', anim:'nad_to_nadh', desc:'마지막 전자를 빼앗아 NADH를 만들고, 회로를 다시 시작할 4탄소 뼈대(옥살로아세트산)를 재생시킨다.' },
+        
+        { step:20, phase:'산화적 인산화', name:'20. 전자전달계 & 화학삼투', react:'NADH, FADH₂, O₂', prod:'ATP, H₂O', strR:'', strP:'', enz:'Complex I~IV\nATP Synthase', anim:'etc_view', desc:'모아둔 고에너지 전자가 복합체를 통과하며 막간 공간으로 4H⁺, 4H⁺, 2H⁺를 펌핑한다. 형성된 수소 이온 농도 기울기를 이용해 ATP 합성효소가 회전하며 막대한 양의 ATP를 합성한다.' }
     ];
 
     let currentProcess = [];
     let currentIndex = 0;
 
-    function goHome() {
-        document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-        document.getElementById('screen-main').classList.add('active');
+    // --- 애니메이션 엔진 ---
+    function createHelperMol(type, x, y) {
+        const layer = document.getElementById('anim-layer');
+        const div = document.createElement('div');
+        div.className = `helper-mol`;
+        div.style.left = `${x}px`; div.style.top = `${y}px`;
+        
+        if(type === 'ATP') {
+            div.innerHTML = `<div class="helper-base h-ad">Ad</div><div class="p-group"><div class="p-ball">P</div><div class="p-ball">P</div><div class="p-ball target-p" style="background:#e84118; color:white;">P</div></div>`;
+        } else if(type === 'ADP') {
+            div.innerHTML = `<div class="helper-base h-ad">Ad</div><div class="p-group"><div class="p-ball">P</div><div class="p-ball">P</div></div>`;
+        } else if(type === 'NAD') {
+            div.innerHTML = `<div class="helper-base h-nad">NAD⁺</div>`;
+        } else if(type === 'NADH') {
+            div.innerHTML = `<div class="helper-base h-nad" style="background:#2ecc71;">NADH + H⁺</div>`;
+        } else if(type === 'FAD') {
+            div.innerHTML = `<div class="helper-base h-fad">FAD</div>`;
+        } else if(type === 'FADH2') {
+            div.innerHTML = `<div class="helper-base h-fad" style="background:#2ecc71;">FADH₂</div>`;
+        } else if(type === 'CoA') {
+            div.innerHTML = `<div class="helper-base" style="background:var(--coa-color);">CoA</div>`;
+        } else if(type === 'CO2') {
+            div.className = 'co2-block'; div.innerText = 'CO₂';
+        } else if(type === 'H2O') {
+            div.className = 'h2o-block'; div.innerText = 'H₂O';
+        } else if(type === 'P') {
+            div.className = 'p-ball'; div.innerText = 'P'; div.style.position = 'absolute';
+        }
+        
+        layer.appendChild(div);
+        return div;
+    }
+
+    function createParticle(type, x, y) {
+        const layer = document.getElementById('anim-layer');
+        const div = document.createElement('div');
+        div.className = type === 'e' ? 'e-ball' : 'h-ball';
+        div.innerText = type === 'e' ? 'e⁻' : 'H⁺';
+        div.style.left = `${x}px`; div.style.top = `${y}px`;
+        layer.appendChild(div);
+        return div;
+    }
+
+    function playCurrentAnimation() {
+        const data = currentProcess[currentIndex];
+        if(data.anim === 'etc_view') return; // 20단계는 CSS로 상시 애니메이션
+
+        const layer = document.getElementById('anim-layer');
+        layer.innerHTML = '';
+        const vArea = document.querySelector('.visual-area').getBoundingClientRect();
+        
+        // 기준 좌표 (반응물 가운데, 화살표 위, 생성물 가운데)
+        const reactX = vArea.width * 0.2; const reactY = vArea.height * 0.5;
+        const midX = vArea.width * 0.5; const topY = 20; const botY = vArea.height - 60;
+        
+        const boxProd = document.getElementById('box-prod');
+        boxProd.style.opacity = '0.3'; boxProd.style.transform = 'scale(0.9)';
+
+        const finishAnim = () => {
+            boxProd.style.opacity = '1'; boxProd.style.transform = 'scale(1)';
+        };
+
+        if(data.anim === 'atp_to_adp') {
+            let atp = createHelperMol('ATP', midX-50, topY);
+            atp.animate([{transform: 'translateY(-50px)', opacity:0}, {transform: 'translateY(50px)', opacity:1}], {duration:500, fill:'forwards'});
+            
+            setTimeout(() => {
+                let p = createHelperMol('P', midX+20, topY+50);
+                atp.innerHTML = `<div class="helper-base h-ad">Ad</div><div class="p-group"><div class="p-ball">P</div><div class="p-ball">P</div></div>`; // becomes ADP
+                
+                p.animate([{left: `${midX+20}px`, top: `${topY+50}px`}, {left: `${reactX}px`, top: `${reactY}px`}], {duration: 600, easing: 'ease-in-out', fill:'forwards'});
+                atp.animate([{transform: 'translateY(50px)', opacity:1}, {transform: 'translateY(150px)', opacity:0}], {duration:600, delay: 600, fill:'forwards'});
+                
+                setTimeout(() => { p.remove(); finishAnim(); }, 600);
+            }, 800);
+        }
+        else if(data.anim === 'adp_to_atp' || data.anim === 'gdp_to_gtp') {
+            let adp = createHelperMol('ADP', midX-50, topY);
+            adp.animate([{transform: 'translateY(-50px)', opacity:0}, {transform: 'translateY(50px)', opacity:1}], {duration:500, fill:'forwards'});
+            
+            setTimeout(() => {
+                let p = createHelperMol('P', reactX, reactY);
+                p.animate([{left: `${reactX}px`, top: `${reactY}px`}, {left: `${midX+20}px`, top: `${topY+50}px`}], {duration: 600, easing: 'ease-in-out', fill:'forwards'});
+                
+                setTimeout(() => {
+                    p.remove();
+                    adp.innerHTML = `<div class="helper-base h-ad">Ad</div><div class="p-group"><div class="p-ball">P</div><div class="p-ball">P</div><div class="p-ball" style="background:#e84118; color:white;">P</div></div>`; // becomes ATP
+                    adp.animate([{transform: 'translateY(50px)', opacity:1}, {transform: 'translateY(-50px)', opacity:0}], {duration:600, delay: 400, fill:'forwards'});
+                    finishAnim();
+                }, 600);
+            }, 800);
+        }
+        else if(data.anim.includes('nad_to_nadh') || data.anim.includes('fad_to_fadh2') || data.anim.includes('link_reaction') || data.anim.includes('decarboxylation')) {
+            // 조효소 진입
+            let nad = createHelperMol(data.anim.includes('fad') ? 'FAD' : 'NAD', midX-50, topY);
+            nad.animate([{transform: 'translateY(-50px)', opacity:0}, {transform: 'translateY(40px)', opacity:1}], {duration:500, fill:'forwards'});
+            
+            // 전자, 수소 날아가기
+            setTimeout(() => {
+                let e1 = createParticle('e', reactX, reactY); let e2 = createParticle('e', reactX+20, reactY);
+                let h1 = createParticle('h', reactX-20, reactY);
+                e1.animate([{left:`${reactX}px`, top:`${reactY}px`}, {left:`${midX-20}px`, top:`${topY+40}px`}], {duration:500, fill:'forwards'});
+                e2.animate([{left:`${reactX+20}px`, top:`${reactY}px`}, {left:`${midX}px`, top:`${topY+40}px`}], {duration:500, fill:'forwards'});
+                h1.animate([{left:`${reactX-20}px`, top:`${reactY}px`}, {left:`${midX+20}px`, top:`${topY+40}px`}], {duration:500, fill:'forwards'});
+                
+                // CO2 방출 로직 (탈카복실화)
+                if(data.anim.includes('link_reaction') || data.anim.includes('decarboxylation')) {
+                    let co2 = createHelperMol('CO2', reactX, reactY);
+                    co2.animate([{opacity:1, transform:'scale(1)'}, {opacity:0, transform:'translate(50px, 100px) scale(0.5)'}], {duration:1000, fill:'forwards'});
+                }
+
+                // CoA 진입 로직
+                if(data.anim.includes('link_reaction')) {
+                    let coa = createHelperMol('CoA', midX-100, botY);
+                    coa.animate([{opacity:0, transform:'translateY(50px)'}, {opacity:1, transform:'translateY(-100px)'}, {opacity:0, transform:'translate(-150px, -200px)'}], {duration:1500, fill:'forwards'});
+                }
+
+                setTimeout(() => {
+                    e1.remove(); e2.remove(); h1.remove();
+                    nad.innerHTML = `<div class="helper-base ${data.anim.includes('fad') ? 'h-fad':'h-nad'}" style="background:#27ae60;">${data.anim.includes('fad') ? 'FADH₂':'NADH + H⁺'}</div>`;
+                    nad.animate([{transform: 'translateY(40px)', opacity:1}, {transform: 'translateY(-50px)', opacity:0}], {duration:800, delay:400, fill:'forwards'});
+                    finishAnim();
+                }, 500);
+            }, 800);
+        }
+        else if(data.anim === 'dehydration') {
+            let h2o = createHelperMol('H2O', reactX, reactY);
+            h2o.animate([{opacity:1, transform:'scale(1)'}, {opacity:0, transform:'translate(0, 100px) scale(0.5)'}], {duration:1000, fill:'forwards'});
+            setTimeout(finishAnim, 800);
+        }
+        else if(data.anim === 'move_p') {
+            // 구조 내부에서 P가 이동하는 묘사는 CSS 크로스페이드로 처리
+            setTimeout(finishAnim, 600);
+        }
+        else {
+            // Morph, Split 등
+            setTimeout(finishAnim, 800);
+        }
     }
 
     function startSim(scope) {
@@ -382,24 +558,6 @@
         document.getElementById('screen-main').classList.remove('active');
         document.getElementById('screen-sim').classList.add('active');
         updateUI();
-    }
-
-    function triggerAnimations(inTxt, outTxt) {
-        const inEl = document.getElementById('anim-in');
-        const outEl = document.getElementById('anim-out');
-        
-        inEl.style.animation = 'none'; outEl.style.animation = 'none';
-        void inEl.offsetWidth; 
-
-        if(inTxt) {
-            inEl.innerHTML = inTxt;
-            inEl.style.animation = 'popIn 2s forwards';
-        } else { inEl.innerHTML = ''; }
-        
-        if(outTxt) {
-            outEl.innerHTML = outTxt;
-            outEl.style.animation = 'popOut 2s forwards 0.5s';
-        } else { outEl.innerHTML = ''; }
     }
 
     function moveStep(dir) {
@@ -424,9 +582,11 @@
 
         if (data.step === 20) {
             document.querySelector('.reaction-view').style.display = 'none';
+            document.querySelector('.replay-btn').style.display = 'none';
             document.getElementById('etc-view').style.display = 'block';
         } else {
             document.querySelector('.reaction-view').style.display = 'flex';
+            document.querySelector('.replay-btn').style.display = 'block';
             document.getElementById('etc-view').style.display = 'none';
 
             document.getElementById('name-react').innerText = data.react;
@@ -435,7 +595,7 @@
             document.getElementById('struct-prod').innerHTML = data.strP;
             document.getElementById('enz-name').innerText = data.enz;
 
-            triggerAnimations(data.pIn, data.pOut);
+            playCurrentAnimation();
         }
 
         document.getElementById('btn-prev').disabled = (currentIndex === 0);
