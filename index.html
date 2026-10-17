@@ -2281,11 +2281,21 @@
         $('ps-info-prod').innerText = d.prod;
         $('ps-info-enz').innerText = d.enz.replace(/\n/g, ' ');
         $('ps-info-desc').innerText = d.desc;
+        const vArea = document.querySelector('#screen-ps .visual-area');
+        const vContainer = $('ps-views');
+        if (vArea && vContainer) {
+            const availW = vArea.clientWidth - 16;
+            const scale = Math.min(1, Math.max(0.38, availW / 860));
+            vContainer.style.transform = scale < 1 ? `scale(${scale})` : '';
+            vArea.style.height = scale < 1 ? `${Math.round(580 * scale + 75)}px` : '';
+        }
+
         showView(d.view);
         $('ps-prev').disabled = idx === 0;
         $('ps-next').disabled = idx === list.length - 1;
         play();
     }
+
     window.psStart = function (scope) {
         list = scope === 'light' ? PSDB.slice(0, 9) : scope === 'calvin' ? PSDB.slice(9) : PSDB;
         idx = 0;
