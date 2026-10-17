@@ -570,130 +570,187 @@
 
     /* 분자 구조식 데이터베이스 */
     const M = {
-        glucose: 
-            Row(H_left, C('C', 'h-l hd-r v-b'), O_db_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), OH_right) + VRow('v') +
-            Row(HO_left, C('C', 'h-l h-r v-b'), H_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), OH_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), OH_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), OH_right) + VRow('v') + 
-            Row('', A('H'), ''),
-            
-        g6p: 
-            Row(H_left, C('C', 'h-l hd-r v-b'), O_db_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), OH_right) + VRow('v') +
-            Row(HO_left, C('C', 'h-l h-r v-b'), H_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), OH_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), OH_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), OP_target_right) + VRow('v') +
+        glucose:
+            Row(H_left, C('C', ''), O_db_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row(HO_left, C('C', ''), H_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
             Row('', A('H'), ''),
 
-        f6p: 
-            Row(H_left, C('C', 'h-l h-r v-b'), OH_right) + VRow('v') +
-            Row('', C('C', 'vd-b'), A('O')) + VRow('v') +
-            Row(HO_left, C('C', 'h-l h-r v-b'), H_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), OH_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), OH_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), OP_target_right) + VRow('v') +
+        g6p:
+            Row(H_left, C('C', ''), O_db_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row(HO_left, C('C', ''), H_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row(H_left, C('C', ''), OP_target_right) + VRow('v') +
             Row('', A('H'), ''),
 
-        f16bp: 
-            Row(PO_left, C('C', 'h-l h-r v-b'), H_right) + VRow('v') +
-            Row('', C('C', 'vd-b v-b'), A('O')) + VRow('v') +
-            Row(HO_left, C('C', 'h-l h-r v-b'), H_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), OH_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), OH_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), OP_right) + VRow('v') +
+        f6p:
+            Row('', A('H'), '') + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row('', C('C', ''), O_db_right) + VRow('v') +
+            Row(HO_left, C('C', ''), H_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row(H_left, C('C', ''), OP_target_right) + VRow('v') +
             Row('', A('H'), ''),
 
-        dhap: 
-            Row(PO_left, C('C', 'h-l h-r v-b'), H_right) + VRow('v') +
-            Row('', C('C', 'vd-b v-b'), A('O')) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r'), OH_right) + VRow('v') +
+        f16bp:
+            Row('', A('H'), '') + VRow('v') +
+            Row(PO_left, C('C', ''), H_right) + VRow('v') +
+            Row('', C('C', ''), O_db_right) + VRow('v') +
+            Row(HO_left, C('C', ''), H_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row(H_left, C('C', ''), OP_right) + VRow('v') +
             Row('', A('H'), ''),
 
-        g3p: 
-            Row(H_left, C('C', 'h-l hd-r v-b'), O_db_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), OH_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), OP_target_right) + VRow('v') +
+        dhap:
+            Row('', A('H'), '') + VRow('v') +
+            Row(PO_left, C('C', ''), H_right) + VRow('v') +
+            Row('', C('C', ''), O_db_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
             Row('', A('H'), ''),
 
-        bpg13: 
-            Row(PO_left, C('C', 'h-l hd-r v-b'), O_db_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), OH_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), OP_right) + VRow('v') +
+        g3p:
+            Row(H_left, C('C', ''), O_db_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row(H_left, C('C', ''), OP_target_right) + VRow('v') +
             Row('', A('H'), ''),
 
-        pg3: 
-            Row(O_minus_left, C('C', 'h-l hd-r v-b'), O_db_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), OH_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), OP_target_right) + VRow('v') +
+        bpg13:
+            Row(PO_left, C('C', ''), O_db_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row(H_left, C('C', ''), OP_right) + VRow('v') +
             Row('', A('H'), ''),
 
-        pg2: 
-            Row(O_minus_left, C('C', 'h-l hd-r v-b'), O_db_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), OP_target_right) + VRow('v') + // P가 정확히 2번 탄소 우측 결합
-            Row(H_left, C('C', 'h-l h-r v-b'), OH_right) + VRow('v') +
+        bpg13_calvin:
+            Row(PO_target_left, C('C', ''), O_db_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row(H_left, C('C', ''), OP_right) + VRow('v') +
             Row('', A('H'), ''),
 
-        pep: 
-            Row(O_minus_left, C('C', 'h-l hd-r v-b'), O_db_right) + VRow('v') +
-            Row('', C('C', 'h-r vd-b'), OP_target_right) + VRow('vd') + 
-            Row(H_left, C('C', 'h-l h-r'), H_right),
-
-        pyruvate: 
-            Row(O_minus_left, C('C', 'h-l hd-r v-b'), O_db_right) + VRow('v') +
-            Row('', C('C', 'vd-b v-b'), A('O')) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), H_right) + VRow('v') +
+        pg3:
+            Row(O_minus_left, C('C', ''), O_db_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row(H_left, C('C', ''), OP_target_right) + VRow('v') +
             Row('', A('H'), ''),
 
-        acetyl: 
-            Row('', C('C', 'vd-b v-b'), A('O')) + VRow('v') +
-            Row(`<div style="display:flex;align-items:center;">${A('CoA')}<div class="bond h" style="position:relative; width:10px;"></div><div class="atom S">S</div><div class="bond h" style="position:relative; width:10px; margin-left:-2px;"></div></div>`, C('C', 'h-l v-b'), '') + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), H_right) + VRow('v') +
+        pg2:
+            Row(O_minus_left, C('C', ''), O_db_right) + VRow('v') +
+            Row(H_left, C('C', ''), OP_target_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
             Row('', A('H'), ''),
 
-        oaa: 
-            Row(O_minus_left, C('C', 'h-l hd-r v-b'), O_db_right) + VRow('v') +
-            Row('', C('C', 'vd-b v-b'), A('O')) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), H_right) + VRow('v') +
-            Row(O_minus_left, C('C', 'h-l hd-r'), O_db_right),
+        pep:
+            Row(O_minus_left, C('C', ''), O_db_right) + VRow('v') +
+            Row('', C('C', ''), OP_target_right) + VRow('vd') +
+            Row(H_left, C('C', ''), H_right),
 
-        citrate: 
-            Row(H_left, C('C', 'h-l h-r v-b'), COO_right) + VRow('v') +
-            Row(HO_left, C('C', 'h-l h-r v-b'), COO_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r'), COO_right),
-            
-        isocitrate: 
-            Row(H_left, C('C', 'h-l h-r v-b'), COO_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), COO_right) + VRow('v') +
-            Row(HO_left, C('C', 'h-l h-r'), COO_right),
+        pyruvate:
+            Row(O_minus_left, C('C', ''), O_db_right) + VRow('v') +
+            Row('', C('C', ''), O_db_right) + VRow('v') +
+            Row(H_left, C('C', ''), H_right) + VRow('v') +
+            Row('', A('H'), ''),
 
-        akg: 
-            Row(H_left, C('C', 'h-l h-r v-b'), COO_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), H_right) + VRow('v') +
-            Row('', C('C', 'vd-b v-b'), A('O')) + VRow('v') +
+        acetyl:
+            Row(O_db_left, C('C', ''), S_CoA_right) + VRow('v') +
+            Row(H_left, C('C', ''), H_right) + VRow('v') +
+            Row('', A('H'), ''),
+
+        oaa:
+            Row('', A('COO'), '') + VRow('v') +
+            Row('', C('C', ''), O_db_right) + VRow('v') +
+            Row(H_left, C('C', ''), H_right) + VRow('v') +
             Row('', A('COO'), ''),
 
-        succinyl: 
-            Row(H_left, C('C', 'h-l h-r v-b'), COO_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r v-b'), H_right) + VRow('v') +
-            Row('', C('C', 'vd-b v-b'), A('O')) + VRow('v') +
-            Row(`<div style="display:flex;align-items:center;">${A('CoA')}<div class="bond h" style="position:relative; width:10px;"></div><div class="atom S">S</div><div class="bond h" style="position:relative; width:10px; margin-left:-2px;"></div></div>`, C('C', 'h-l'), ''),
+        citrate:
+            Row('', A('H'), '') + VRow('v') +
+            Row(H_left, C('C', ''), COO_right) + VRow('v') +
+            Row(HO_left, C('C', ''), COO_right) + VRow('v') +
+            Row(H_left, C('C', ''), COO_right) + VRow('v') +
+            Row('', A('H'), ''),
 
-        succinate: 
-            Row(H_left, C('C', 'h-l h-r v-b'), COO_right) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r'), COO_right),
+        isocitrate:
+            Row('', A('H'), '') + VRow('v') +
+            Row(H_left, C('C', ''), COO_right) + VRow('v') +
+            Row(H_left, C('C', ''), COO_right) + VRow('v') +
+            Row(HO_left, C('C', ''), COO_right) + VRow('v') +
+            Row('', A('H'), ''),
 
-        fumarate: 
-            Row(COO_left, C('C', 'h-l vd-b'), A('H')) + VRow('vd') +
-            Row(A('H'), C('C', 'h-l h-r'), COO_right),
+        akg:
+            Row('', A('H'), '') + VRow('v') +
+            Row(H_left, C('C', ''), COO_right) + VRow('v') +
+            Row(H_left, C('C', ''), H_right) + VRow('v') +
+            Row(O_db_left, C('C', ''), COO_right),
 
-        malate: 
+        succinyl:
+            Row('', A('H'), '') + VRow('v') +
+            Row(H_left, C('C', ''), COO_right) + VRow('v') +
+            Row(H_left, C('C', ''), H_right) + VRow('v') +
+            Row(O_db_left, C('C', ''), S_CoA_right),
+
+        succinate:
             Row('', A('COO'), '') + VRow('v') +
-            Row(HO_left, C('C', 'h-l h-r v-b'), A('H')) + VRow('v') +
-            Row(H_left, C('C', 'h-l h-r'), COO_right)
+            Row(H_left, C('C', ''), H_right) + VRow('v') +
+            Row(H_left, C('C', ''), H_right) + VRow('v') +
+            Row('', A('COO'), ''),
+
+        fumarate:
+            Row('', A('COO'), '') + VRow('v') +
+            Row('', C('C', ''), H_right) + VRow('vd') +
+            Row(H_left, C('C', ''), '') + VRow('v') +
+            Row('', A('COO'), ''),
+
+        malate:
+            Row('', A('COO'), '') + VRow('v') +
+            Row(HO_left, C('C', ''), H_right) + VRow('v') +
+            Row(H_left, C('C', ''), H_right) + VRow('v') +
+            Row('', A('COO'), ''),
+
+        ru5p:
+            Row('', A('H'), '') + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row('', C('C', ''), O_db_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row(H_left, C('C', ''), OP_right) + VRow('v') +
+            Row('', A('H'), ''),
+
+        rubp:
+            Row('', A('H'), '') + VRow('v') +
+            Row(PO_target_left, C('C', ''), H_right) + VRow('v') +
+            Row('', C('C', ''), O_db_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row(H_left, C('C', ''), OP_right) + VRow('v') +
+            Row('', A('H'), ''),
+
+        fructose:
+            Row('', A('H'), '') + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row('', C('C', ''), O_db_right) + VRow('v') +
+            Row(HO_left, C('C', ''), H_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row('', A('H'), ''),
+
+        sucrose:
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row(HO_left, C('C', ''), H_right) + VRow('v') +
+            Row(H_left, C('C', ''), '') + VRow('v') +
+            Row(<div style="font-size:11px; color:#0fb9b1; font-weight:bold; margin-right:6px;"&gt;α-포도당(C1)&lt;/div>, A('O'), <div style="font-size:11px; color:#2ecc71; font-weight:bold; margin-left:6px;"&gt;(C2)β-과당&lt;/div>) + VRow('v') +
+            Row('', C('C', ''), OH_right) + VRow('v') +
+            Row(HO_left, C('C', ''), H_right) + VRow('v') +
+            Row(H_left, C('C', ''), OH_right) + VRow('v') +
+            Row('', A('H'), '')
     };
+
 
     /* ----- 2. 시뮬레이터 단계 데이터베이스 ----- */
     const DB = [
