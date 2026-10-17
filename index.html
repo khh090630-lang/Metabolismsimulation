@@ -869,15 +869,22 @@
         const TEAL = '#0fb9b1', RED = '#ff6b6b', YEL = '#fed330', ORG = '#f7b731';
 
         /* ---------- 기본 도우미 ---------- */
+        function getScale() {
+            const el = document.querySelector('#screen-sim .views-container');
+            if (!el) return 1;
+            const match = el.style.transform.match(/scale\(([^)]+)\)/);
+            return match ? parseFloat(match[1]) : 1;
+        }
         function pos(el) {
-            const r = el.getBoundingClientRect(), L = layer().getBoundingClientRect();
-            return { x: r.left - L.left + r.width / 2, y: r.top - L.top + r.height / 2 };
+            const r = el.getBoundingClientRect(), L = layer().getBoundingClientRect(), s = getScale();
+            return { x: (r.left - L.left + r.width / 2) / s, y: (r.top - L.top + r.height / 2) / s };
         }
         const off = (p, dx = 0, dy = 0) => ({ x: p.x + dx, y: p.y + dy });
         function tv(px, py) {
-            const v = $('etc-view').getBoundingClientRect(), L = layer().getBoundingClientRect();
-            return { x: v.left - L.left + v.width * px / 100, y: v.top - L.top + v.height * py / 100 };
+            const v = $('etc-view').getBoundingClientRect(), L = layer().getBoundingClientRect(), s = getScale();
+            return { x: (v.left - L.left + v.width * px / 100) / s, y: (v.top - L.top + v.height * py / 100) / s };
         }
+
         function mk(cls, html, p) {
             const d = document.createElement('div');
             d.className = cls; d.innerHTML = html;
@@ -1537,9 +1544,23 @@
             playCurrentAnimation();
         }
 
+        const vArea = document.querySelector('#screen-sim .visual-area');
+        const vContainer = document.querySelector('#screen-sim .views-container');
+        if (vArea && vContainer) {
+            const availW = vArea.clientWidth - 16;
+            const scale = Math.min(1, Math.max(0.38, availW / 860));
+            vContainer.style.transform = scale < 1 ? `scale(${scale})` : '';
+            vArea.style.height = scale < 1 ? `${Math.round(580 * scale + 75)}px` : '';
+        }
+
         document.getElementById('btn-prev').disabled = (currentIndex === 0);
         document.getElementById('btn-next').disabled = (currentIndex === currentProcess.length - 1);
     }
+
+    window.addEventListener('resize', () => {
+        if (document.getElementById('screen-sim').classList.contains('active')) updateUI();
+    });
+
 </script>
 <script>
 /* =====================================================================
@@ -1556,15 +1577,22 @@
     const layer = () => $('ps-anim-layer');
 
     /* ---------- 좌표 / 생성 / 이동 도우미 ---------- */
+    function getScale() {
+        const el = $('ps-views');
+        if (!el) return 1;
+        const match = el.style.transform.match(/scale\(([^)]+)\)/);
+        return match ? parseFloat(match[1]) : 1;
+    }
     function pos(el) {
-        const r = el.getBoundingClientRect(), L = layer().getBoundingClientRect();
-        return { x: r.left - L.left + r.width / 2, y: r.top - L.top + r.height / 2 };
+        const r = el.getBoundingClientRect(), L = layer().getBoundingClientRect(), s = getScale();
+        return { x: (r.left - L.left + r.width / 2) / s, y: (r.top - L.top + r.height / 2) / s };
     }
     const off = (p, dx = 0, dy = 0) => ({ x: p.x + dx, y: p.y + dy });
     function tv(px, py) {
-        const v = $('ps-thy-view').getBoundingClientRect(), L = layer().getBoundingClientRect();
-        return { x: v.left - L.left + v.width * px / 100, y: v.top - L.top + v.height * py / 100 };
+        const v = $('ps-thy-view').getBoundingClientRect(), L = layer().getBoundingClientRect(), s = getScale();
+        return { x: (v.left - L.left + v.width * px / 100) / s, y: (v.top - L.top + v.height * py / 100) / s };
     }
+
     function mk(cls, html, p) {
         const d = document.createElement('div');
         d.className = cls; d.innerHTML = html;
