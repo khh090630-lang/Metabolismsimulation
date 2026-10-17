@@ -106,33 +106,49 @@
         .fly-e { position: absolute; width: 14px; height: 14px; border-radius: 50%; background: #f1c40f; color: black; z-index: 60; display: flex; justify-content: center; align-items: center; font-size: 8px; font-weight: bold; box-shadow: 0 0 10px yellow; transform: translate(-50%, -50%); }
         .fly-h { position: absolute; width: 16px; height: 16px; border-radius: 50%; background: #00a8ff; color: white; z-index: 60; display: flex; justify-content: center; align-items: center; font-size: 9px; font-weight: bold; transform: translate(-50%, -50%); border: 1px solid white; box-shadow: 0 0 8px #00a8ff; }
 
-        /* 20단계 전자전달계 뷰 */
-        #etc-view { display: none; width: 100%; height: 100%; position: relative; background: #131b26; border-radius: 15px; margin-bottom: 50px; }
-        .membrane { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; height: 180px; background: rgba(243, 156, 18, 0.1); border-top: 4px solid #d35400; border-bottom: 4px solid #d35400; display: flex; justify-content: space-around; align-items: center; padding: 0 20px; }
-        .complex { background: #8e44ad; color: white; font-weight: bold; border-radius: 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 2px solid #732d91; box-shadow: inset 0 0 20px rgba(0,0,0,0.5); z-index: 5; text-align: center; }
-        .c-I { width: 85px; height: 210px; }
-        .c-II { width: 70px; height: 100px; align-self: flex-end; margin-bottom: -35px; }
-        .c-Q { width: 50px; height: 50px; border-radius: 50%; background: #e67e22; align-self: flex-start; margin-top: -25px; border: 2px solid #d35400; }
-        .c-III { width: 85px; height: 210px; }
-        .c-CytC { width: 50px; height: 50px; border-radius: 50%; background: #e67e22; align-self: flex-start; margin-top: -25px; border: 2px solid #d35400; }
-        .c-IV { width: 85px; height: 210px; }
-        .c-ATP { width: 120px; height: 230px; background: #c0392b; border-color: #922b21; border-radius: 20px 20px 5px 5px; position: relative; }
-        .rotor { position: absolute; bottom: -20px; width: 70px; height: 40px; background: #e74c3c; border-radius: 10px; animation: spin 0.8s infinite linear; box-shadow: 0 5px 10px rgba(0,0,0,0.5); }
-        @keyframes spin { 100% { transform: rotateY(360deg); } }
-
-        .etc-e { position: absolute; width: 18px; height: 18px; background: #f1c40f; border-radius: 50%; color: black; font-size: 10px; font-weight: bold; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px yellow; z-index: 10; opacity: 0; animation: eFlow 6s infinite linear; }
-        @keyframes eFlow { 0%{left:3%; top:70%; opacity:0;} 5%{left:7%; top:55%; opacity:1;} 20%{left:26%; top:45%;} 40%{left:43%; top:48%;} 60%{left:60%; top:35%;} 80%{left:76%; top:50%;} 90%{left:83%; top:65%; opacity:1;} 95%{left:83%; top:65%; opacity:0;} 100%{opacity:0;} }
-
-        .etc-h { position: absolute; background: var(--accent); color: white; padding: 4px 10px; border-radius: 15px; font-weight: bold; font-size: 1.1rem; z-index: 4; opacity: 0; transform: translate(-50%, -50%); box-shadow: 0 2px 5px rgba(0,0,0,0.5); border: 1px solid white; }
-        .pump1 { left: 14%; animation: pumpH 6s infinite 1.2s; }
-        .pump3 { left: 47%; animation: pumpH 6s infinite 3.6s; }
-        .pump4 { left: 77%; animation: pumpH 6s infinite 5.4s; }
-        @keyframes pumpH { 0%{top:70%; opacity:0;} 10%{top:60%; opacity:1;} 40%{top:15%; opacity:1;} 50%{top:5%; opacity:0;} 100%{opacity:0;} }
-
-        .atp-fall { left: 91%; top: 5%; background: #00a8ff; color: white; position: absolute; padding: 4px 10px; border-radius: 15px; font-weight: bold; font-size: 1.1rem; opacity:0; animation: fallH 2.5s infinite; transform: translateX(-50%); box-shadow: 0 2px 5px rgba(0,0,0,0.5); border: 1px solid white; }
-        @keyframes fallH { 0%{top:5%; opacity:0;} 20%{top:15%; opacity:1;} 80%{top:75%; opacity:1;} 100%{top:85%; opacity:0;} }
-        
-        .space-label { position: absolute; width: 100%; text-align: center; font-weight: bold; font-size: 1.5rem; color: #a4b0be; }
+        /* ================= 세포호흡 v2: 산화적 인산화 막 뷰 ================= */
+        #screen-sim .sim-body { min-height: 760px; }
+        #screen-sim .views-container.etc-mode { padding-bottom: 150px; }
+        #etc-view { display: none; position: relative; width: 100%; height: 100%; min-height: 540px; border-radius: 15px; overflow: hidden;
+            background: linear-gradient(to bottom, #2a1a12 0%, #24160f 38%, #0f1e26 62%, #0b1a22 100%); }
+        .rs-label { position: absolute; left: 16px; font-weight: bold; font-size: 1.05rem; color: #a4b0be; z-index: 3; }
+        .rs-label .hcnt { color: #00a8ff; margin-left: 6px; }
+        .rs-mem { position: absolute; left: 0; right: 0; top: 40%; height: 22%; background: rgba(230, 126, 34, 0.08); border-top: 6px dotted #d35400; border-bottom: 6px dotted #d35400; z-index: 1; }
+        .rs-mem .mem-tag { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #e67e22; font-size: 12px; font-weight: bold; writing-mode: vertical-rl; letter-spacing: 1px; opacity: 0.8; }
+        .rx { position: absolute; transform: translate(-50%, -50%); border-radius: 18px; color: white; font-weight: bold; text-align: center; box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 6px 14px rgba(0,0,0,0.45); z-index: 5; transition: opacity 0.4s; }
+        .rx-title { position: absolute; top: 6px; left: 0; right: 0; font-size: 13px; }
+        .rx-I { left: 13%; top: 51%; width: 112px; height: 200px; background: #8e44ad; border: 2px solid #5b2c6f; }
+        .rx-II { left: 31%; top: 64%; width: 86px; height: 118px; background: #d35400; border: 2px solid #873600; }
+        .rx-III { left: 44%; top: 51%; width: 106px; height: 200px; background: #2471a3; border: 2px solid #154360; }
+        .rx-IV { left: 65%; top: 51%; width: 106px; height: 200px; background: #c0392b; border: 2px solid #78281f; }
+        .rx-f0 { left: 86%; top: 51%; width: 62px; height: 118px; background: #7f8c8d; border: 2px solid #4d5656; border-radius: 12px; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; font-size: 11px; padding-bottom: 4px; }
+        .rx-f0 .thy-rotor { background: repeating-linear-gradient(90deg, #bdc3c7 0 6px, #566573 6px 12px); background-size: 24px 100%; }
+        .rs-stalk { position: absolute; left: 86%; top: 61%; height: 13%; width: 14px; transform: translateX(-50%); background: #566573; z-index: 4; }
+        .rx-f1 { left: 86%; top: 81%; width: 118px; height: 74px; background: #f39c12; border: 2px solid #9c640c; border-radius: 18px 18px 40px 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 15px; color: #2b1a00; line-height: 1.2; }
+        .rx-f1 span { font-size: 10px; font-weight: normal; }
+        .rs-sub { position: absolute; left: 50%; transform: translate(-50%, -50%); min-width: 46px; height: 24px; padding: 0 4px; border-radius: 8px; font-size: 11px; display: flex; align-items: center; justify-content: center; z-index: 6; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.55); transition: box-shadow 0.3s, background 0.3s; }
+        .rs-sub.red { background: #f1c40f; color: #111; box-shadow: 0 0 12px #f1c40f; }
+        .rs-nopump { position: absolute; left: 50%; top: -30px; transform: translateX(-50%); color: #ff6b6b; background: #3b1414; border: 2px dashed #ff6b6b; border-radius: 10px; padding: 1px 7px; font-size: 12px; opacity: 0; transition: opacity 0.4s; white-space: nowrap; }
+        .rs-q { width: 46px; height: 46px; left: 23%; top: 51%; background: #f5b041; border: 2px solid #b9770e; color: #3e2400; }
+        .rs-q.red { background: #e67e22; box-shadow: 0 0 12px #e67e22; }
+        .rs-c { width: 38px; height: 38px; background: #ec7063; border: 2px solid #922b21; color: #fff; }
+        .rs-c.red { background: #f5b7b1; color: #641e16; box-shadow: 0 0 12px #ec7063; }
+        #rs-cc1 { left: 53%; top: 34%; }
+        #rs-cc2 { left: 56.5%; top: 27%; }
+        .rs-cnt { position: absolute; right: 14px; top: 10px; z-index: 3; color: #ddd; font-weight: bold; background: rgba(0,0,0,0.5); border: 1px solid #555; border-radius: 10px; padding: 4px 12px; }
+        .rs-cnt b { color: #e84118; font-size: 1.2rem; margin-left: 4px; }
+        .rs-ledger { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 96; background: rgba(8, 12, 16, 0.95); border: 2px solid var(--primary); border-radius: 16px; padding: 16px 22px; display: none; min-width: 520px; }
+        .rs-ledger h4 { margin: 0 0 10px; color: var(--primary); text-align: center; font-size: 1.1rem; }
+        .rs-ledger table { border-collapse: collapse; width: 100%; font-size: 14px; color: #ddd; }
+        .rs-ledger th, .rs-ledger td { border-bottom: 1px solid #333; padding: 6px 8px; text-align: center; }
+        .rs-ledger th { color: #aaa; font-weight: normal; }
+        .rs-ledger td.n { color: #fed330; font-weight: bold; }
+        .rs-ledger tr.sum td { border-top: 2px solid var(--primary); border-bottom: none; font-size: 16px; font-weight: bold; color: #fff; }
+        .rs-ledger tr.sum td.n { color: #e84118; font-size: 20px; }
+        .rs-ledger .note { margin-top: 8px; font-size: 12px; color: #aaa; text-align: center; }
+        .rs-token { position: absolute; transform: translate(-50%, -50%); background: #111; border: 2px solid var(--primary); border-radius: 14px; padding: 5px 11px; font-size: 13px; font-weight: bold; color: #fff; z-index: 72; white-space: nowrap; box-shadow: 0 0 12px rgba(15,185,177,0.55); }
+        .a-base.a-suc { background: #e67e22; color: #fff; }
+        .a-base.a-gdp { background: #8e44ad; color: #fff; }
 
         /* 오른쪽 정보 패널 */
         .info-panel { flex: 1; min-width: 320px; background: var(--panel); border-radius: 15px; padding: 2rem; display: flex; flex-direction: column; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border-top: 5px solid var(--primary); margin-bottom: 1rem; }
@@ -259,10 +275,10 @@
                 </div>
                 <div class="menu-card" onclick="startSim('etc')">
                     <h2 style="color: var(--accent); margin-top:0;">산화적 인산화</h2>
-                    <p style="color:#aaa;">20단계<br>전자전달계</p>
+                    <p style="color:#aaa;">20 ~ 25단계<br>전자전달계 · 화학 삼투</p>
                 </div>
             </div>
-            <button style="margin-top:4rem; padding:1.2rem 4rem; font-size:1.3rem; cursor:pointer; background:var(--primary); color:white; border:none; border-radius:40px; font-weight:bold; box-shadow: 0 4px 15px rgba(15, 185, 177, 0.4);" onclick="startSim('all')">전체 20단계 연속 재생</button>
+            <button style="margin-top:4rem; padding:1.2rem 4rem; font-size:1.3rem; cursor:pointer; background:var(--primary); color:white; border:none; border-radius:40px; font-weight:bold; box-shadow: 0 4px 15px rgba(15, 185, 177, 0.4);" onclick="startSim('all')">전체 25단계 연속 재생</button>
             <div class="menu-divider"></div>
             <h2 class="menu-sec-title" style="color:#26de81;">🌿 광합성 (Photosynthesis)</h2>
             <div class="menu-grid" style="margin-top:2rem;">
@@ -310,26 +326,58 @@
                             </div>
                         </div>
 
-                        <!-- 20단계 ETC 뷰 -->
+                        <!-- 20~25단계: 산화적 인산화 (미토콘드리아 내막) 뷰 -->
                         <div id="etc-view">
-                            <div class="space-label" style="top: 20px;">막간 공간 (H⁺ 고농도)</div>
-                            <div class="membrane">
-                                <div class="complex c-I">I<br><span style="font-size:11px; font-weight:normal;">FMN<br>FeS</span></div>
-                                <div class="complex c-Q">Q</div>
-                                <div class="complex c-II">II<br><span style="font-size:11px; font-weight:normal;">FAD</span></div>
-                                <div class="complex c-III">III<br><span style="font-size:11px; font-weight:normal;">Cyt b</span></div>
-                                <div class="complex c-CytC">C</div>
-                                <div class="complex c-IV">IV<br><span style="font-size:11px; font-weight:normal;">Cyt a</span></div>
-                                <div class="complex c-ATP">ATP<br>Synthase<div class="rotor"></div></div>
-                            </div>
-                            <div class="space-label" style="bottom: 20px;">미토콘드리아 기질 (H⁺ 저농도)</div>
+                            <div class="rs-label" style="top:10px;">막간 공간 (H⁺ 고농도)<span class="hcnt" id="rs-hcnt"></span></div>
+                            <div class="rs-label" style="bottom:10px;">미토콘드리아 기질 (H⁺ 저농도)</div>
+                            <div class="rs-cnt">ATP 생성<b id="rs-atpcnt">0</b></div>
+                            <div class="rs-mem"><span class="mem-tag">미토콘드리아 내막</span></div>
 
-                            <div class="etc-e">2e⁻</div>
-                            <div class="etc-h pump1">4H⁺</div>
-                            <div class="etc-h pump3">4H⁺</div>
-                            <div class="etc-h pump4">2H⁺</div>
-                            <div class="atp-fall">H⁺ 쏟아짐</div>
-                            <div style="position:absolute; right:3%; bottom:10%; font-weight:bold; font-size:1.4rem; color:#f1c40f;">ADP + Pi → <span style="color:#e84118; font-size:1.8rem;">ATP</span></div>
+                            <div class="rx rx-I" id="rs-c1">
+                                <div class="rx-title">복합체 I</div>
+                                <div class="rs-sub" id="rs-fes1" style="top:42%;">FeS</div>
+                                <div class="rs-sub" id="rs-fmn" style="top:80%;">FMN</div>
+                            </div>
+                            <div class="carrier rs-q" id="rs-q"><span class="lbl">Q</span></div>
+                            <div class="rx rx-II" id="rs-c2">
+                                <div class="rx-title">복합체 II</div>
+                                <div class="rs-sub" id="rs-fes2" style="top:44%;">FeS</div>
+                                <div class="rs-sub" id="rs-fad" style="top:76%;"><span class="lbl">FAD</span></div>
+                                <div class="rs-nopump" id="rs-nopump">✕ H⁺ 펌핑 없음</div>
+                            </div>
+                            <div class="rx rx-III" id="rs-c3">
+                                <div class="rx-title">복합체 III</div>
+                                <div class="rs-sub" id="rs-cytc1" style="top:30%;">Cyt c₁</div>
+                                <div class="rs-sub" id="rs-cytb" style="top:62%;">Cyt b</div>
+                            </div>
+                            <div class="carrier rs-c" id="rs-cc1"><span class="lbl">c</span></div>
+                            <div class="carrier rs-c" id="rs-cc2"><span class="lbl">c</span></div>
+                            <div class="rx rx-IV" id="rs-c4">
+                                <div class="rx-title">복합체 IV</div>
+                                <div class="rs-sub" id="rs-cyta" style="top:30%;">Cyt a</div>
+                                <div class="rs-sub" id="rs-cyta3" style="top:64%;">Cyt a₃</div>
+                            </div>
+                            <div class="rx rx-f0" id="rs-f0"><div class="thy-rotor" id="rs-rotor"></div><span style="position:relative;">F₀</span></div>
+                            <div class="rs-stalk"></div>
+                            <div class="rx rx-f1" id="rs-f1">F₁<span>ATP 합성효소</span></div>
+
+                            <div class="thy-legend" style="bottom:auto; top:46px;">
+                                <span><i style="background:#f1c40f;"></i>e⁻</span>
+                                <span><i style="background:#00a8ff;"></i>H⁺</span>
+                                <span><i style="background:#f7b731;"></i>P(인산기)</span>
+                            </div>
+
+                            <div class="rs-ledger" id="rs-ledger">
+                                <h4>포도당 1분자의 ATP 정산 (말산-아스파트산 셔틀 기준)</h4>
+                                <table>
+                                    <tr><th>단계</th><th>기질 수준 인산화</th><th>환원된 조효소</th><th>산화적 인산화</th><th>ATP</th></tr>
+                                    <tr><td>해당 과정</td><td>ATP 2 (순)</td><td>NADH 2</td><td>2 × 2.5 = 5</td><td class="n">7</td></tr>
+                                    <tr><td>피루브산 산화</td><td>—</td><td>NADH 2</td><td>2 × 2.5 = 5</td><td class="n">5</td></tr>
+                                    <tr><td>TCA 회로</td><td>ATP(GTP) 2</td><td>NADH 6 · FADH₂ 2</td><td>15 + 3 = 18</td><td class="n">20</td></tr>
+                                    <tr class="sum"><td>합계</td><td>4</td><td>NADH 10 · FADH₂ 2</td><td>28</td><td class="n">32</td></tr>
+                                </table>
+                                <div class="note">NADH 1 → H⁺ 10 → ATP 2.5 · FADH₂ 1 → H⁺ 6 → ATP 1.5 · H⁺ 4 → ATP 1<br>글리세롤 인산 셔틀(근육·뇌): 해당 과정의 NADH 2가 FADH₂ 2로 전달 → 총 30 ATP</div>
+                            </div>
                         </div>
                     </div>
 
@@ -650,26 +698,31 @@
     /* ----- 2. 시뮬레이션 단계 데이터베이스 ----- */
     const DB = [
         { step:1, phase:'해당과정 (투자기)', name:'1. 포도당 인산화', react:'Glucose', prod:'G6P', strR:M.glucose, strP:M.g6p, enz:'Hexokinase', anim:'atp_to_adp', desc:'ATP 블록이 날아와 인산기(P) 1개를 포도당 6번 탄소에 결합시킨다. 포도당이 세포 밖으로 빠져나가지 못하게 가두는 역할을 한다.' },
-        { step:2, phase:'해당과정 (투자기)', name:'2. 이성질체화', react:'G6P', prod:'F6P', strR:M.g6p, strP:M.f6p, enz:'Phosphoglucose\nisomerase', anim:'morph', desc:'1번 탄소가 밖으로 노출되도록 알도오스를 케토오스(오각고리 형태)로 이성질화시킨다.' },
-        { step:3, phase:'해당과정 (투자기)', name:'3. 두 번째 인산화', react:'F6P', prod:'F1,6BP', strR:M.f6p, strP:M.f16bp, enz:'PFK-1', anim:'atp_to_adp', desc:'ATP를 한 번 더 소모하여 1번 탄소에도 인산기를 붙여 완벽한 대칭 구조를 만든다.' },
+        { step:2, phase:'해당과정 (투자기)', name:'2. 이성질체화', react:'G6P', prod:'F6P', strR:M.g6p, strP:M.f6p, enz:'Phosphoglucose\nisomerase', anim:'morph', desc:'6각 고리 알도스(G6P, C1 = 알데하이드)가 5각 고리 케토스(F6P, C2 = 케톤)로 이성질화된다.\n\n고리가 바뀌면서 1번 탄소가 고리 밖의 CH₂OH로 노출되어, 다음 단계에서 인산기를 받을 수 있게 된다.' },
+        { step:3, phase:'해당과정 (투자기)', name:'3. 두 번째 인산화', react:'F6P', prod:'F1,6BP', strR:M.f6p, strP:M.f16bp, enz:'PFK-1', anim:'atp_to_adp', desc:'ATP를 한 번 더 소모하여 노출된 1번 탄소(CH₂OH)에 인산기를 붙여 F1,6BP를 만든다. 양 끝에 인산기가 하나씩 붙어 다음 단계에서 3탄소 두 조각으로 나뉠 준비가 된다.\n\nPFK-1이 촉매하는 이 반응은 비가역적이며 해당 과정의 속도를 조절하는 핵심 단계다. ATP가 많으면 억제되고 AMP·ADP가 많으면 활성화된다.' },
         { step:4, phase:'해당과정 (투자기)', name:'4. 분할 (Cleavage)', react:'F1,6BP', prod:'DHAP + G3P', strR:M.f16bp, strP:M.dhap+'<br><h3 style="margin:0; text-align:center; color:#e84118;">+</h3><br>'+M.g3p, enz:'Aldolase', anim:'morph', desc:'6탄소 당을 두 개의 3탄소 화합물(DHAP, G3P)로 절반으로 자른다.' },
         { step:5, phase:'해당과정 (투자기)', name:'5. 상호 전환', react:'DHAP', prod:'G3P', strR:M.dhap, strP:M.g3p, enz:'Triose phosphate\nisomerase', anim:'morph', desc:'구조가 다른 DHAP를 모두 G3P로 전환한다. (이후 반응은 2분자로 동시에 진행된다)' },
         { step:6, phase:'해당과정 (회수기)', name:'6. 산화 및 인산화', react:'G3P', prod:'1,3-BPG', strR:M.g3p, strP:M.bpg13, enz:'G3P\ndehydrogenase', anim:'nad_to_nadh_p', desc:'기질에서 2개의 전자(2e⁻)와 2개의 수소 이온(2H⁺)이 떨어져 나온다. 이 중 2e⁻와 1H⁺가 NAD⁺ 블록으로 들어가 NADH를 만들고, 나머지 1H⁺는 방출된다. 무기 인산(Pi)이 1번 탄소에 결합한다.' },
         { step:7, phase:'해당과정 (회수기)', name:'7. 첫 ATP 생성', react:'1,3-BPG', prod:'3PG', strR:M.bpg13, strP:M.pg3, enz:'Phosphoglycerate\nkinase', anim:'adp_to_atp', desc:'1번 탄소에 결합되어 있던 불안정한 인산기를 ADP 블록에 넘겨주어 처음으로 ATP를 합성한다. (기질수준 인산화)' },
         { step:8, phase:'해당과정 (회수기)', name:'8. 인산기 이동', react:'3PG', prod:'2PG', strR:M.pg3, strP:M.pg2, enz:'Phosphoglycerate\nmutase', anim:'morph', desc:'인산기의 위치를 3번 탄소에서 2번 탄소로 옮겨 분자 내부 구조를 매우 불안정하게 만든다.' },
         { step:9, phase:'해당과정 (회수기)', name:'9. 탈수 반응', react:'2PG', prod:'PEP', strR:M.pg2, strP:M.pep, enz:'Enolase', anim:'dehydration', desc:'3번 탄소의 OH와 2번 탄소의 H가 물 분자(H₂O)로 떨어져 나가며 이중결합을 형성한다.' },
-        { step:10, phase:'해당과정 (회수기)', name:'10. 두 번째 ATP', react:'PEP', prod:'Pyruvate', strR:M.pep, strP:M.pyruvate, enz:'Pyruvate\nkinase', anim:'adp_to_atp', desc:'마지막 남은 인산기를 떼어내어 ATP를 만들고, 최종 산물인 피루브산(3탄소)을 생성한다.' },
+        { step:10, phase:'해당과정 (회수기)', name:'10. 두 번째 ATP', react:'PEP', prod:'Pyruvate', strR:M.pep, strP:M.pyruvate, enz:'Pyruvate\nkinase', anim:'adp_to_atp', desc:'마지막 남은 인산기를 떼어내어 ATP를 만들고, 최종 산물인 피루브산(3탄소)을 생성한다. (비가역)\n\n[해당 과정 정리] 포도당 1 → 피루브산 2\nATP 4 생성 − 2 투자 = 순 ATP 2, NADH 2' },
         { step:11, phase:'바탕질 진입', name:'11. 산화적 탈카복실화', react:'Pyruvate', prod:'Acetyl-CoA', strR:M.pyruvate, strP:M.acetyl, enz:'Pyruvate dehydrogenase\n(TPP, lipoate, FAD)', anim:'link_reaction', desc:'미토콘드리아 기질에서 카복실기를 떼어내어 CO₂를 방출하고, 2e⁻와 2H⁺를 뽑아낸 뒤 NAD⁺를 NADH로 환원시킨다. 이후 조효소 A(CoA)를 결합한다.' },
         { step:12, phase:'TCA 회로', name:'12. 시트르산 합성', react:'Acetyl-CoA + OAA', prod:'Citrate', strR:M.acetyl+'<br><h3 style="margin:0; text-align:center; color:#e84118;">+</h3><br>'+M.oaa, strP:M.citrate, enz:'Citrate\nsynthase', anim:'merge', desc:'2탄소 아세틸기와 4탄소 옥살로아세트산이 결합해 6탄소 시트르산이 된다. CoA는 떨어져 나간다.' },
         { step:13, phase:'TCA 회로', name:'13. 이성질체화', react:'Citrate', prod:'Isocitrate', strR:M.citrate, strP:M.isocitrate, enz:'Aconitase', anim:'morph', desc:'탈수 및 수화 반응을 거쳐 히드록시기(-OH)의 위치를 이동시킨다.' },
         { step:14, phase:'TCA 회로', name:'14. 1차 탈카복실화', react:'Isocitrate', prod:'α-KG', strR:M.isocitrate, strP:M.akg, enz:'Isocitrate\ndehydrogenase', anim:'nad_to_nadh_co2', desc:'첫 번째 CO₂가 방출되며 5탄소 화합물이 되고, 고에너지 전자 2개(2e⁻)와 수소 이온 2개(2H⁺)가 추출되어 NADH를 생성한다.' },
         { step:15, phase:'TCA 회로', name:'15. 2차 탈카복실화', react:'α-KG', prod:'Succinyl-CoA', strR:M.akg, strP:M.succinyl, enz:'α-KG dehydrogenase\n(TPP, lipoate, FAD)', anim:'link_reaction', desc:'마지막 CO₂가 방출되며 4탄소 화합물이 되고, 두 번째 NADH를 뽑아내며 CoA가 결합한다.' },
         { step:16, phase:'TCA 회로', name:'16. 기질 수준 인산화', react:'Succinyl-CoA', prod:'Succinate', strR:M.succinyl, strP:M.succinate, enz:'Succinyl-CoA\nsynthetase', anim:'gdp_to_gtp', desc:'조효소 A가 떨어져 나가는 에너지를 이용하여 1분자의 GTP(또는 ATP)를 생성한다.' },
-        { step:17, phase:'TCA 회로', name:'17. FADH₂ 생성', react:'Succinate', prod:'Fumarate', strR:M.succinate, strP:M.fumarate, enz:'Succinate\ndehydrogenase', anim:'fad_to_fadh2', desc:'내막 복합체 II에 결합된 효소에 의해 전자가 추출되어 FADH₂가 생성되고 이중결합이 형성된다.' },
-        { step:18, phase:'TCA 회로', name:'18. 수화 반응', react:'Fumarate', prod:'Malate', strR:M.fumarate, strP:M.malate, enz:'Fumarase', anim:'hydration', desc:'이중결합에 물 분자(H₂O)가 첨가(수화)되어 구조가 말산으로 돌아간다.' },
-        { step:19, phase:'TCA 회로', name:'19. OAA 재생', react:'Malate', prod:'Oxaloacetate', strR:M.malate, strP:M.oaa, enz:'Malate\ndehydrogenase', anim:'nad_to_nadh', desc:'마지막 전자를 빼앗아 NADH를 만들고, 회로를 다시 시작할 4탄소 뼈대(옥살로아세트산)를 완벽히 재생시킨다.' },
+        { step:17, phase:'TCA 회로', name:'17. FADH₂ 생성', react:'Succinate', prod:'Fumarate', strR:M.succinate, strP:M.fumarate, enz:'Succinate\ndehydrogenase', anim:'fad_to_fadh2', desc:'숙신산의 가운데 두 탄소에서 수소 2개(2e⁻ + 2H⁺)가 빠져 FAD가 FADH₂로 환원되고, C=C 이중결합을 가진 푸마르산이 된다.\n\n숙신산 탈수소효소는 TCA 회로 효소 가운데 유일하게 미토콘드리아 내막에 박혀 있으며, 그 자체가 전자전달계의 복합체 II다. 그래서 FADH₂의 전자는 곧바로 Q에 전달된다.' },
+        { step:18, phase:'TCA 회로', name:'18. 수화 반응', react:'Fumarate', prod:'Malate', strR:M.fumarate, strP:M.malate, enz:'Fumarase', anim:'hydration', desc:'푸마르산의 C=C 이중결합에 물 분자(H₂O)가 첨가(수화)되어 OH기를 가진 말산이 생성된다. 이 OH기는 다음 단계에서 산화될 자리다.' },
+        { step:19, phase:'TCA 회로', name:'19. OAA 재생', react:'Malate', prod:'Oxaloacetate', strR:M.malate, strP:M.oaa, enz:'Malate\ndehydrogenase', anim:'nad_to_nadh', desc:'말산의 OH기 탄소에서 2e⁻ + 2H⁺를 빼앗아 NADH를 만들고(C–OH → C=O), 회로를 다시 시작할 4탄소 옥살아세트산을 재생한다.\n\n[TCA 회로 1바퀴 정리] 아세틸 CoA 1 → CO₂ 2, NADH 3, FADH₂ 1, ATP(GTP) 1\n포도당 1분자당 2바퀴: CO₂ 4, NADH 6, FADH₂ 2, ATP 2' },
         
-        { step:20, phase:'산화적 인산화', name:'20. 전자전달계 & 화학삼투', react:'NADH, FADH₂, O₂', prod:'ATP, H₂O', strR:'', strP:'', enz:'Complex I~IV\nATP Synthase', anim:'etc_view', desc:'NADH와 FADH₂가 산화되며 내놓은 전자가 전자전달계를 통과한다. 에너지를 이용해 막간 공간으로 H⁺가 펌핑되며, 이 농도 기울기를 이용해 ATP 합성효소가 돌아가며 막대한 양의 ATP를 합성한다. 마지막 전자는 O₂와 결합하여 H₂O가 된다.' }
+        { step:20, view:'etc', key:1, phase:'산화적 인산화', name:'20. 복합체 I (NADH 탈수소효소)', react:'NADH, Q, 기질의 H⁺', prod:'NAD⁺, QH₂, H⁺ 4개(막간 공간)', strR:'', strP:'', enz:'복합체 I', anim:'etc_view', desc:'NADH가 복합체 I에 전자 2개(2e⁻)를 넘겨주고 NAD⁺가 된다. 전자는 FMN → FeS를 거쳐 유비퀴논(Q)으로 전달된다.\n\n전자가 에너지가 낮은 쪽으로 이동하며 내놓은 에너지로 복합체 I은 H⁺ 4개를 기질에서 막간 공간으로 펌핑한다. Q는 2e⁻와 기질의 H⁺ 2개를 받아 QH₂가 되고, 막 속을 이동해 복합체 III로 간다.' },
+        { step:21, view:'etc', key:2, phase:'산화적 인산화', name:'21. 복합체 II (숙신산 탈수소효소)', react:'FADH₂(숙신산), Q', prod:'FAD, QH₂ (H⁺ 펌핑 없음)', strR:'', strP:'', enz:'복합체 II', anim:'etc_view', desc:'TCA 회로 17단계(숙신산 → 푸마르산)가 바로 복합체 II에서 일어난다. 이때 생긴 FADH₂의 전자가 FeS를 거쳐 Q로 전달되어 QH₂가 된다.\n\n복합체 II는 H⁺를 펌핑하지 않는다. FADH₂의 전자는 복합체 I을 건너뛰므로 III(4개)과 IV(2개)에서만 H⁺ 6개가 펌핑되고, ATP는 약 1.5개 만들어진다. (NADH는 H⁺ 10개 → 약 2.5 ATP)' },
+        { step:22, view:'etc', key:3, phase:'산화적 인산화', name:'22. 복합체 III (시토크롬 bc₁)', react:'QH₂, Cyt c(산화형) × 2', prod:'Q, Cyt c(환원형) × 2, H⁺ 4개(막간 공간)', strR:'', strP:'', enz:'복합체 III', anim:'etc_view', desc:'QH₂가 복합체 III에서 산화되며 H⁺를 막간 공간으로 내보낸다. 전자 2개는 Cyt b → Cyt c₁을 거쳐 시토크롬 c(Cyt c)에 하나씩 실린다.\n\nCyt c는 전자를 1개씩만 나르는 막간 공간 쪽의 작은 단백질이므로 2분자가 필요하다. Q 회로를 거쳐 전자 2개당 H⁺ 4개가 막간 공간으로 이동한다.' },
+        { step:23, view:'etc', key:4, phase:'산화적 인산화', name:'23. 복합체 IV (시토크롬 산화효소)', react:'Cyt c(환원형) × 2, ½O₂, 기질의 H⁺', prod:'H₂O, H⁺ 2개(막간 공간)', strR:'', strP:'', enz:'복합체 IV', anim:'etc_view', desc:'Cyt c의 전자가 Cyt a → Cyt a₃를 거쳐 최종 전자 수용체인 산소에 전달된다. ½O₂ + 2e⁻ + 2H⁺ → H₂O (O₂ 1분자 기준: O₂ + 4e⁻ + 4H⁺ → 2H₂O)\n\n이 과정에서 H⁺ 2개가 막간 공간으로 펌핑된다. 산소가 없으면 전자가 막혀 전자 전달과 H⁺ 펌핑이 멈추고 ATP 합성도 중단된다. (호흡으로 들이마신 O₂가 쓰이는 곳)' },
+        { step:24, view:'etc', key:5, phase:'산화적 인산화', name:'24. ATP 합성효소 (화학 삼투)', react:'ADP, Pᵢ, H⁺(막간 공간)', prod:'ATP', strR:'', strP:'', enz:'ATP 합성효소 (F₀ · F₁)', anim:'etc_view', desc:'막간 공간에 쌓인 H⁺가 농도 기울기를 따라 ATP 합성효소의 F₀를 통해 기질로 돌아오며 회전자를 돌린다. 이 회전 에너지로 F₁이 ADP와 무기 인산(Pᵢ)을 결합해 ATP를 만든다(화학 삼투).\n\nH⁺ 약 4개가 들어올 때 ATP 1개가 만들어진다. 따라서 NADH 1개(H⁺ 10개) → ATP 약 2.5개, FADH₂ 1개(H⁺ 6개) → ATP 약 1.5개다.' },
+        { step:25, view:'etc', key:6, phase:'산화적 인산화', name:'25. 전체 연결과 ATP 정산', react:'NADH, FADH₂, O₂, ADP + Pᵢ', prod:'NAD⁺, FAD, H₂O, ATP', strR:'', strP:'', enz:'복합체 I~IV + ATP 합성효소', anim:'etc_view', desc:'20~24단계를 이어서 재생한다. 전자: NADH → I → Q → III → Cyt c → IV → O₂ / H⁺: I(4) + III(4) + IV(2) = 10개 → ATP 약 2.5개.\n\n[포도당 1분자의 ATP 정산]\n기질 수준 인산화: 해당 과정 2 + TCA 2 = 4\n산화적 인산화: NADH 10 × 2.5 + FADH₂ 2 × 1.5 = 28\n합계 약 32 ATP (말산-아스파트산 셔틀: 간·심장)\n글리세롤 인산 셔틀(근육·뇌)은 해당 과정의 NADH 2가 FADH₂ 2로 전달되어 약 30 ATP.' },
     ];
 
     let currentProcess = [];
@@ -718,213 +771,580 @@
         return div;
     }
 
-    function playCurrentAnimation() {
-        const data = currentProcess[currentIndex];
-        
-        // 20단계 특별 애니메이션 
-        if(data.anim === 'etc_view') {
-            playETCAnimation();
-            return; 
+    /* =====================================================================
+       세포호흡 애니메이션 v2 — 취소 가능한 비동기 애니메이션 + 이동 중 말풍선
+       ===================================================================== */
+    const RS = (function () {
+        const $ = id => document.getElementById(id);
+        let tok = 0, pool = [], bannerEl = null;
+        window.addEventListener('unhandledrejection', ev => { if (ev.reason === 'rs-stop') ev.preventDefault(); });
+        const W = ms => new Promise((res, rej) => { const t = tok; setTimeout(() => (t === tok ? res() : rej('rs-stop')), ms); });
+        const layer = () => $('anim-layer');
+        const TEAL = '#0fb9b1', RED = '#ff6b6b', YEL = '#fed330', ORG = '#f7b731';
+
+        /* ---------- 기본 도우미 ---------- */
+        function pos(el) {
+            const r = el.getBoundingClientRect(), L = layer().getBoundingClientRect();
+            return { x: r.left - L.left + r.width / 2, y: r.top - L.top + r.height / 2 };
+        }
+        const off = (p, dx = 0, dy = 0) => ({ x: p.x + dx, y: p.y + dy });
+        function tv(px, py) {
+            const v = $('etc-view').getBoundingClientRect(), L = layer().getBoundingClientRect();
+            return { x: v.left - L.left + v.width * px / 100, y: v.top - L.top + v.height * py / 100 };
+        }
+        function mk(cls, html, p) {
+            const d = document.createElement('div');
+            d.className = cls; d.innerHTML = html;
+            d.style.left = p.x + 'px'; d.style.top = p.y + 'px';
+            layer().appendChild(d); return d;
+        }
+        const PART = { e: ['fly-e', 'e⁻'], h: ['fly-h', 'H⁺'], p: ['fly-p', 'P'] };
+        function sp(type, p, text) {
+            const d = mk(PART[type][0], text || PART[type][1], p);
+            if (text) d.style.fontSize = '9px';
+            d.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200 });
+            return d;
+        }
+        function fly(el, pts, dur = 700, easing = 'ease-in-out') {
+            const cur = { x: parseFloat(el.style.left), y: parseFloat(el.style.top) };
+            el.animate([cur, ...pts].map(q => ({ left: q.x + 'px', top: q.y + 'px' })), { duration: dur, easing, fill: 'forwards' });
+            const last = pts[pts.length - 1];
+            return W(dur).then(() => { el.style.left = last.x + 'px'; el.style.top = last.y + 'px'; el.getAnimations().forEach(a => a.cancel()); });
+        }
+        function fade(el, to, dur = 400) {
+            const from = getComputedStyle(el).opacity;
+            el.animate([{ opacity: from }, { opacity: to }], { duration: dur, fill: 'forwards' });
+            return W(dur).then(() => { el.style.opacity = to; });
+        }
+        function appear(el, dur = 300) { el.style.opacity = 0; return fade(el, 1, dur); }
+        function pulse(el) {
+            el.animate([{ filter: 'brightness(1)' }, { filter: 'brightness(2) drop-shadow(0 0 10px #fff)' }, { filter: 'brightness(1)' }], { duration: 650 });
+        }
+        function tip(text, p, dur = 1800, color = TEAL) {
+            const t = mk('ps-tip', text, p);
+            t.style.borderColor = color;
+            t.animate([
+                { opacity: 0, transform: 'translate(-50%, -70%)' },
+                { opacity: 1, transform: 'translate(-50%, -100%)', offset: 0.12 },
+                { opacity: 1, transform: 'translate(-50%, -100%)', offset: 0.88 },
+                { opacity: 0, transform: 'translate(-50%, -120%)' }], { duration: dur, fill: 'forwards' });
+            setTimeout(() => t.remove(), dur + 50);
+            return t;
+        }
+        function banner(text) {
+            if (!bannerEl) { bannerEl = document.createElement('div'); bannerEl.className = 'cyc-banner'; bannerEl.style.borderColor = TEAL; layer().appendChild(bannerEl); }
+            bannerEl.innerHTML = text;
+            bannerEl.animate([{ opacity: 0.2 }, { opacity: 1 }], { duration: 350 });
+        }
+        function blk(html, p) { const b = mk('ps-blk', html, p); appear(b); return b; }
+        async function away(el, to, dur = 900) { await Promise.all([fly(el, [to], dur), W(dur * 0.45).then(() => fade(el, 0, dur * 0.55))]); el.remove(); }
+
+        /* ---------- 운반체 부착/탈착 ---------- */
+        function attach(host, type, dx, dy) {
+            const d = document.createElement('div');
+            d.className = 'att att-' + type;
+            d.textContent = type === 'e' ? 'e⁻' : 'H⁺';
+            d.style.left = `calc(50% + ${dx}px)`; d.style.top = `calc(50% + ${dy}px)`;
+            host.appendChild(d);
+            d.animate([{ transform: 'translate(-50%,-50%) scale(1.9)' }, { transform: 'translate(-50%,-50%) scale(1)' }], { duration: 300 });
+            return d;
+        }
+        async function land(part, host, type, dx, dy, dur = 700) {
+            await fly(part, [off(pos(host), dx, dy)], dur);
+            part.remove();
+            return attach(host, type, dx, dy);
+        }
+        function detach(dot) {
+            const type = dot.classList.contains('att-e') ? 'e' : 'h';
+            const p = pos(dot); dot.remove();
+            return sp(type, p);
+        }
+        const atts = (host, type) => [...host.querySelectorAll(':scope > .att' + (type ? '.att-' + type : ''))];
+        const tf = d => `translate(calc(-50% + ${d.x}px), calc(-50% + ${d.y}px))`;
+        function setD(el, d) { el._d = d; el.style.transform = tf(d); }
+        function shiftD(el, nd, dur = 900) {
+            const cur = el._d || { x: 0, y: 0 };
+            el.animate([{ transform: tf(cur) }, { transform: tf(nd) }], { duration: dur, easing: 'ease-in-out', fill: 'forwards' });
+            el._d = nd;
+            return W(dur).then(() => { setD(el, nd); el.getAnimations().forEach(a => a.cancel()); });
+        }
+        function shift(el, target, dur = 900) { const c = pos(el), cur = el._d || { x: 0, y: 0 }; return shiftD(el, { x: cur.x + target.x - c.x, y: cur.y + target.y - c.y }, dur); }
+        function shiftNow(el, target) { const c = pos(el), cur = el._d || { x: 0, y: 0 }; setD(el, { x: cur.x + target.x - c.x, y: cur.y + target.y - c.y }); }
+        const homeC = (el, dur = 800) => shiftD(el, { x: 0, y: 0 }, dur);
+        const lbl = (el, t) => { el.querySelector('.lbl').textContent = t; };
+
+        /* ---------- 블록 ---------- */
+        const PB = (red) => `<div class="p-ball"${red ? ' style="background:#e84118;color:white;"' : ''}>P</div>`;
+        const ATP_H = `<div class="a-base a-ad">Ad</div><div style="display:flex;gap:2px;">${PB()}${PB()}${PB(1)}</div>`;
+        const ADP_H = `<div class="a-base a-ad">Ad</div><div style="display:flex;gap:2px;">${PB()}${PB()}</div>`;
+        const GTP_H = `<div class="a-base a-gdp">Gu</div><div style="display:flex;gap:2px;">${PB()}${PB()}${PB(1)}</div>`;
+        const GDP_H = `<div class="a-base a-gdp">Gu</div><div style="display:flex;gap:2px;">${PB()}${PB()}</div>`;
+        const NAD_H = `<div class="a-base a-nad">NAD⁺</div>`;
+        const NADH_H = `<div class="a-base a-nad" style="background:#20bf6b;">NADH</div>`;
+        const FAD_H = `<div class="a-base a-fad">FAD</div>`;
+        const FADH2_H = `<div class="a-base a-fad" style="background:#20bf6b;">FADH₂</div>`;
+        const CO2_H = `<div class="a-base a-co2">CO₂</div>`;
+        const H2O_H = `<div class="a-base a-h2o">H₂O</div>`;
+        const COA_H = `<div class="a-base a-coa">CoA-SH</div>`;
+        const O2_H = `<div class="a-o2" style="width:42px;height:42px;font-size:12px;color:#fff;">½O₂</div>`;
+
+        /* =================== 반응 뷰 공통 =================== */
+        const E = () => pos($('enz-name'));
+        const TOP = () => off(E(), 0, -112);
+        function atomsOf(box, cls) {
+            return [...$(box).querySelectorAll('.atom' + (cls ? '.' + cls : ''))].sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
+        }
+        function atomEl(box, cls, i = 0) {
+            const a = atomsOf(box, cls); if (!a.length) return $(box);
+            return i < 0 ? a[Math.max(0, a.length + i)] : a[Math.min(i, a.length - 1)];
+        }
+        const AP = (box, cls, i) => pos(atomEl(box, cls, i));
+        function hideProd() { const b = $('box-prod'); b.style.transition = 'opacity 0.5s, transform 0.5s'; b.style.opacity = '0.3'; b.style.transform = 'scale(0.95)'; }
+        function showProd() { const b = $('box-prod'); b.style.opacity = '1'; b.style.transform = 'scale(1)'; }
+        function glow(el) { if (!el || !el.classList.contains('atom')) return; el.animate([{ boxShadow: '0 0 0 0 #fff' }, { boxShadow: '0 0 18px 6px #fed330' }, { boxShadow: '0 0 0 0 #fff' }], { duration: 1200 }); }
+
+        // ATP의 말단 인산기를 기질에 전달 (헥소키네이스, PFK-1)
+        async function giveP(targetEl, tTarget, endTip, endColor) {
+            const top = TOP();
+            const a = blk(ATP_H, off(top, 0, -60)); await fly(a, [top], 600);
+            tip('ATP 도착', off(top, 0, -26), 900);
+            await W(500);
+            const last = a.querySelectorAll('.p-ball')[2], pp = pos(last); last.remove();
+            const p = sp('p', pp);
+            tip('ATP → ADP + P (말단 인산기 이탈)', off(top, 0, -26), 1500, ORG);
+            await W(500);
+            await fly(p, [off(pos(targetEl), 0, -40), pos(targetEl)], 1000);
+            p.remove(); showProd(); glow(targetEl);
+            tip(tTarget, off(pos(targetEl), 0, -16), 2000, ORG);
+            await Promise.all([away(a, off(top, -90, -40), 900), W(900)]);
+            if (endTip) tip(endTip, off(E(), 0, 130), 2600, endColor || YEL);
+            await W(2000);
+        }
+        // 기질의 고에너지 인산기를 ADP(GDP)로 (기질 수준 인산화)
+        async function takeP(srcEl, srcTip, isG, endTip) {
+            hideProd();
+            const top = TOP();
+            const a = blk(isG ? GDP_H : ADP_H, off(top, 0, -60)); await fly(a, [top], 600);
+            await W(300);
+            const p = sp('p', pos(srcEl)); glow(srcEl);
+            tip(srcTip, off(pos(srcEl), 0, -18), 1500, ORG);
+            await W(600);
+            const ar = a.getBoundingClientRect();
+            await fly(p, [off(pos(a), ar.width / 2 + 12, 0)], 1000);
+            p.remove(); a.innerHTML = isG ? GTP_H : ATP_H; pulse(a); showProd();
+            tip(`${isG ? 'GDP' : 'ADP'} + P → ${isG ? 'GTP' : 'ATP'} (기질 수준 인산화)`, off(top, 0, -26), 1900, '#e84118');
+            await W(1300);
+            await away(a, off(top, 90, -40), 900);
+            if (endTip) tip(endTip, off(E(), 0, 130), 2600, YEL);
+            await W(1900);
+        }
+        // NAD⁺ / FAD 환원
+        async function reduce(isFAD, src, srcTip, endTip) {
+            const top = TOP();
+            const b = blk(isFAD ? FAD_H : NAD_H, off(top, 0, -60)); await fly(b, [top], 600);
+            tip(isFAD ? 'FAD (산화형 전자 운반체)' : 'NAD⁺ (산화형 전자 운반체)', off(top, 0, -26), 1100);
+            await W(600);
+            const es = [sp('e', off(src, -9, -6)), sp('e', off(src, 9, -6))];
+            const hs = [sp('h', off(src, -10, 12)), sp('h', off(src, 10, 12))];
+            tip(srcTip || '기질에서 2e⁻ + 2H⁺ 이탈 (산화)', off(src, 0, -22), 1500, '#f1c40f');
+            await W(700);
+            const bp = pos(b);
+            const go = [...es.map((e, i) => fly(e, [off(bp, -12 + i * 24, 0)], 900 + i * 100).then(() => e.remove())),
+                fly(hs[0], [off(bp, 0, 0)], 1100).then(() => hs[0].remove())];
+            if (isFAD) go.push(fly(hs[1], [off(bp, 10, 0)], 1200).then(() => hs[1].remove()));
+            else {
+                go.push(fly(hs[1], [off(src, 60, 90)], 1100));
+                tip('H⁺ 1개는 용액으로 방출', off(src, 60, 72), 1700, '#00a8ff');
+            }
+            await Promise.all(go);
+            if (!isFAD) fade(hs[1], 0, 400).then(() => hs[1].remove()).catch(() => {});
+            b.innerHTML = isFAD ? FADH2_H : NADH_H; pulse(b); showProd();
+            tip(isFAD ? 'FAD + 2e⁻ + 2H⁺ → FADH₂' : 'NAD⁺ + 2e⁻ + H⁺ → NADH', off(top, 0, -26), 1900, '#20bf6b');
+            await W(1500);
+            tip(isFAD ? '→ 전자전달계 복합체 II' : '→ 전자전달계 복합체 I', off(top, 70, -50), 1400, YEL);
+            await away(b, off(top, 70, -70), 1000);
+            if (endTip) { tip(endTip, off(E(), 0, 130), 2600, YEL); await W(2000); }
+        }
+        async function co2Out(src, t) {
+            const c = blk(CO2_H, src);
+            tip(t || '탈탄산: CO₂ 방출', off(src, 0, -20), 1700, '#a4b0be');
+            await W(500);
+            await away(c, off(src, -10, 150), 1300);
+        }
+        async function h2o(dir, p, t) {
+            if (dir === 'out') { const w = blk(H2O_H, p); tip(t, off(p, 0, -20), 1800, '#3498db'); await W(500); await away(w, off(p, 0, 150), 1200); }
+            else { const w = blk(H2O_H, off(p, 0, 150)); tip(t, off(p, 0, -20), 1800, '#3498db'); await fly(w, [p], 1000); await fade(w, 0, 300); w.remove(); }
+        }
+        async function token(text, from, to, dur = 1000, keep) {
+            const t = mk('rs-token', text, from); appear(t, 200);
+            await fly(t, [to], dur);
+            if (!keep) { await fade(t, 0, 300); t.remove(); }
+            return t;
         }
 
-        const layer = document.getElementById('anim-layer');
-        layer.innerHTML = '';
-        
-        const vArea = document.querySelector('.reaction-view').getBoundingClientRect();
-        const startX = vArea.width * 0.25; 
-        const midX = vArea.width * 0.5; 
-        const prodX = vArea.width * 0.75;
-        const topY = 40; 
-        const midY = vArea.height * 0.5; 
-        const botY = vArea.height - 40;
+        /* =================== 1~19단계 =================== */
+        const R = 'struct-react', P = 'struct-prod';
+        const STEP = {
+            1: async () => { hideProd(); await giveP($('target-p'), '포도당 C6의 OH에 인산기 결합 → G6P', 'G6P는 음전하 → 세포막을 빠져나가지 못함 (포도당 가둠)'); },
+            2: async () => {
+                hideProd();
+                tip('G6P: 6각 고리 알도스', off(pos($(R)), 0, -150), 1600);
+                const t = await token('⬡ 알도스 (C1 = 알데하이드)', pos($(R)), off(E(), 0, -70), 1100, true);
+                t.textContent = '⬠ 케토스 (C2 = 케톤)'; pulse(t);
+                tip('이성질화: 알도스 → 케토스', off(E(), 0, -95), 1700, YEL);
+                await W(900); showProd();
+                await fly(t, [pos($(P))], 1000); await fade(t, 0, 300); t.remove();
+                const c1 = atomEl(P, 'C', 0); glow(c1);
+                tip('C1이 고리 밖 CH₂OH로 노출 → 3단계 인산화 준비', off(pos(c1), 0, -18), 2600, ORG);
+                await W(2200);
+            },
+            3: async () => { hideProd(); await giveP(atomEl(P, 'P', 0), 'C1의 CH₂OH에 인산기 결합 → F1,6BP', 'PFK-1: 비가역 · 해당 과정 속도 조절 효소 (ATP 많으면 억제)', RED); },
+            4: async () => {
+                hideProd();
+                const r = $(R).getBoundingClientRect(), L = layer().getBoundingClientRect();
+                const cut = { x: r.left - L.left + r.width / 2, y: r.top - L.top + r.height / 2 };
+                tip('✂ C3–C4 결합 절단', off(cut, 70, 0), 1800, RED);
+                await W(900); showProd();
+                const pr = $(P).getBoundingClientRect();
+                await Promise.all([
+                    token('DHAP (3C)', off(cut, 0, -40), { x: pr.left - L.left + pr.width / 2, y: pr.top - L.top + pr.height * 0.22 }, 1200),
+                    token('G3P (3C)', off(cut, 0, 40), { x: pr.left - L.left + pr.width / 2, y: pr.top - L.top + pr.height * 0.78 }, 1200)]);
+                tip('6탄소 → 3탄소 + 3탄소', off(E(), 0, 130), 2200, YEL);
+                await W(1800);
+            },
+            5: async () => {
+                hideProd();
+                const t = await token('DHAP (케톤)', pos($(R)), off(E(), 0, -70), 1000, true);
+                tip('같은 분자식, 작용기 위치만 다름 (이성질체)', off(E(), 0, -95), 1800, YEL);
+                await W(700); t.textContent = 'G3P (알데하이드)'; pulse(t); showProd();
+                await fly(t, [pos($(P))], 1000); await fade(t, 0, 300); t.remove();
+                tip('G3P만 다음 반응에 쓰이므로 DHAP → G3P로 전환<br>→ 이후 모든 반응은 ×2', off(E(), 0, 140), 2800, YEL);
+                await W(2200);
+            },
+            6: async () => {
+                hideProd();
+                await reduce(false, AP(R, 'C', 0), 'C1 알데하이드기에서 2e⁻ + 2H⁺ 이탈 (산화)');
+                const tp = atomEl(P, 'P', 0), pi = sp('p', off(E(), 0, 200), 'Pᵢ');
+                tip('무기 인산(Pᵢ) — ATP를 쓰지 않음', off(E(), 0, 182), 1700, ORG);
+                await W(400);
+                await fly(pi, [pos(tp)], 1100); pi.remove(); glow(tp);
+                tip('C1에 Pᵢ 결합 → 고에너지 1,3-BPG', off(pos(tp), 0, -16), 2400, ORG);
+                await W(2000);
+            },
+            7: async () => { await takeP(atomEl(R, 'P', 0), 'C1의 고에너지 인산기 이탈', false, '×2 → ATP 2개: 투자한 ATP 2개를 회수'); },
+            8: async () => {
+                hideProd();
+                const s = $(R).querySelector('#target-p') || atomEl(R, 'P', -1), t = $(P).querySelector('#target-p') || atomEl(P, 'P', -1);
+                const p = sp('p', pos(s)); glow(s);
+                tip('C3의 인산기', off(pos(s), 0, -16), 1300, ORG);
+                await W(500);
+                await fly(p, [off(E(), 0, -60), pos(t)], 1500); p.remove(); showProd(); glow(t);
+                tip('C3 → C2로 인산기 이동 (자리 옮김)', off(pos(t), 0, -16), 2200, ORG);
+                await W(1800);
+            },
+            9: async () => {
+                hideProd();
+                await h2o('out', AP(R, 'C', 1), 'C2의 H + C3의 OH → H₂O 이탈');
+                showProd();
+                tip('C=C 이중결합 형성 → 고에너지 PEP', off(AP(P, 'C', 1), 0, -18), 2400, ORG);
+                await W(2000);
+            },
+            10: async () => {
+                await takeP($(R).querySelector('#target-p') || atomEl(R, 'P', 0), 'PEP의 인산기 이탈', false, '피루브산 인산화효소: 비가역 단계');
+                banner('해당 과정 정리 : 포도당 1 → 피루브산 2<br><span style="color:#fed330;">ATP 4 생성 − 2 투자 = 순 ATP 2 · NADH 2</span>');
+                await W(500);
+            },
+            11: async () => {
+                hideProd();
+                await co2Out(AP(R, 'C', 0), '탈탄산: 카복실기 → CO₂ 방출 (3C → 2C)');
+                await reduce(false, AP(R, 'C', 1), '2e⁻ + 2H⁺ 이탈 (산화)');
+                const s = atomEl(P, 'S', 0), c = blk(COA_H, off(E(), 0, 190));
+                tip('조효소 A (CoA)', off(E(), 0, 172), 1300, '#95a5a6');
+                await fly(c, [pos(s)], 1100); await fade(c, 0, 300); c.remove(); glow(s);
+                tip('CoA 결합 → 아세틸 CoA (TCA 회로로)', off(pos(s), 0, -16), 2400);
+                await W(2000);
+            },
+            12: async () => {
+                hideProd();
+                const s = atomEl(R, 'S', 0), cp = blk(COA_H, pos(s));
+                tip('CoA-SH 이탈 → 재사용', off(pos(s), 0, -20), 1800, '#95a5a6');
+                const goCoa = away(cp, off(pos(s), -40, -120), 1400);
+                await W(500);
+                const rr = $(R).getBoundingClientRect(), L = layer().getBoundingClientRect(), pc = pos($(P));
+                const a = mk('rs-token', '아세틸기 (2C)', off(pos(s), 30, 20)), o = mk('rs-token', '옥살아세트산 (4C)', { x: rr.left - L.left + rr.width / 2, y: rr.bottom - L.top - 60 });
+                await Promise.all([goCoa, fly(a, [off(E(), 0, -40)], 1000), fly(o, [off(E(), 0, 40)], 1000)]);
+                await h2o('in', E(), 'H₂O 참여');
+                a.remove(); o.textContent = '시트르산 (6C)'; pulse(o); showProd();
+                tip('2C + 4C → 6C', off(E(), 0, -40), 1600, YEL);
+                await fly(o, [pc], 900); await fade(o, 0, 300); o.remove();
+                tip('TCA 회로의 시작', off(pc, 0, -60), 2000); await W(1600);
+            },
+            13: async () => {
+                hideProd();
+                await h2o('out', pos($(R)), '① 탈수 → cis-아코니트산');
+                await h2o('in', pos($(P)), '② 수화 → OH 위치 이동');
+                showProd();
+                tip('C3의 OH가 C2로 이동 → 다음 단계 산화가 쉬워짐', off(pos($(P)), 0, -90), 2600, YEL);
+                await W(2100);
+            },
+            14: async () => {
+                hideProd();
+                await reduce(false, AP(R, 'C', 2), 'OH 쪽 탄소에서 2e⁻ + 2H⁺ 이탈');
+                await co2Out(AP(R, 'COO', 1), '첫 번째 CO₂ 방출 (6C → 5C)');
+                showProd(); await W(600);
+            },
+            15: async () => {
+                hideProd();
+                await co2Out(AP(R, 'COO', 0), '두 번째 CO₂ 방출 (5C → 4C)');
+                await reduce(false, AP(R, 'C', 1), '2e⁻ + 2H⁺ 이탈 (산화)');
+                const s = atomEl(P, 'S', 0), c = blk(COA_H, off(E(), 0, 190));
+                await fly(c, [pos(s)], 1100); await fade(c, 0, 300); c.remove(); glow(s);
+                tip('CoA 결합 → 숙시닐 CoA (고에너지 티오에스터)', off(pos(s), 0, -16), 2400);
+                await W(2000);
+            },
+            16: async () => {
+                hideProd();
+                const top = TOP(), g = blk(GDP_H, off(top, 0, -60)); await fly(g, [top], 600);
+                const s = atomEl(R, 'S', 0), c = blk(COA_H, pos(s)); glow(s);
+                tip('CoA-SH 이탈 → 결합 에너지 방출', off(pos(s), 0, -20), 1700, '#95a5a6');
+                const goC = away(c, off(pos(s), 30, 140), 1400);
+                const pi = sp('p', off(E(), 0, 200), 'Pᵢ');
+                await W(500);
+                const gr = g.getBoundingClientRect();
+                await Promise.all([goC, fly(pi, [off(pos(g), gr.width / 2 + 12, 0)], 1100)]);
+                pi.remove(); g.innerHTML = GTP_H; pulse(g); showProd();
+                tip('GDP + Pᵢ → GTP (기질 수준 인산화)', off(top, 0, -26), 2000, '#e84118');
+                await W(1400);
+                tip('GTP → ATP로 전환 가능 (ATP 1개와 같음)', off(top, 0, -50), 1600, YEL);
+                await away(g, off(top, 80, -70), 1000);
+                await W(800);
+            },
+            17: async () => {
+                hideProd();
+                await reduce(true, AP(R, 'C', 1), '가운데 두 탄소에서 H 2개(2e⁻ + 2H⁺) 이탈', '숙신산 탈수소효소 = 복합체 II (내막) → 전자를 바로 Q에 전달');
+                tip('C–C → C=C 이중결합', off(AP(P, 'C', 1), 0, -18), 2000, ORG); await W(1400);
+            },
+            18: async () => {
+                hideProd();
+                await h2o('in', AP(P, 'C', 1), 'C=C 이중결합에 H₂O 첨가 (수화)');
+                showProd();
+                const g = atomEl(P, 'group', 0); glow(g);
+                tip('OH 생성 → 말산', off(pos(g), 0, -16), 2000, ORG); await W(1600);
+            },
+            19: async () => {
+                hideProd();
+                const g = atomEl(R, 'group', 0);
+                await reduce(false, pos(g), 'OH 탄소에서 2e⁻ + 2H⁺ 이탈 → C=O');
+                showProd();
+                banner('TCA 회로 1바퀴 : CO₂ 2 · NADH 3 · FADH₂ 1 · GTP 1<br><span style="color:#fed330;">옥살아세트산 재생 → 포도당 1분자당 2바퀴</span>');
+                await W(600);
+            }
+        };
 
-        const boxProd = document.getElementById('box-prod');
-        boxProd.style.opacity = '0.3'; boxProd.style.transform = 'scale(0.9)';
-
-        const finishAnim = () => { boxProd.style.opacity = '1'; boxProd.style.transform = 'scale(1)'; };
-
-        if(data.anim === 'atp_to_adp') {
-            let atp = createAnimGroup('ATP', midX, topY);
-            atp.animate([{transform: 'translate(-50%, -80px)', opacity:0}, {transform: 'translate(-50%, 0)', opacity:1}], {duration:500, fill:'forwards'});
-            
-            setTimeout(() => {
-                let targetP = document.getElementById('target-p');
-                let targetX = prodX - 30; let targetY = midY;
-                if(targetP) {
-                    let r = targetP.getBoundingClientRect();
-                    let containerRect = document.querySelector('.reaction-view').getBoundingClientRect();
-                    targetX = r.left - containerRect.left + (r.width/2);
-                    targetY = r.top - containerRect.top + (r.height/2);
-                }
-
-                let p = createParticle('p', midX + 40, topY);
-                atp.innerHTML = `<div class="a-base a-ad">Ad</div><div style="display:flex;gap:2px;"><div class="p-ball">P</div><div class="p-ball">P</div></div>`; // ADP로 변신
-                
-                p.animate([{left:`${midX+40}px`, top:`${topY}px`}, {left:`${targetX}px`, top:`${targetY}px`}], {duration: 600, easing: 'ease-in-out', fill:'forwards'});
-                atp.animate([{transform: 'translate(-50%, 0)', opacity:1}, {transform: 'translate(-50%, -80px)', opacity:0}], {duration:600, delay: 600, fill:'forwards'});
-                
-                setTimeout(() => { p.remove(); finishAnim(); }, 600);
-            }, 800);
+        /* =================== 20~25단계: 미토콘드리아 내막 =================== */
+        const SLOTS = [[22, 10], [30, 21], [12, 23], [38, 9], [27, 30], [45, 19], [62, 9], [69, 22], [76, 12], [8, 13], [35, 31], [48, 30], [72, 32], [18, 31], [58, 18], [42, 26], [65, 30], [79, 26], [52, 8], [15, 9]];
+        const slot = i => tv(...SLOTS[i % SLOTS.length]);
+        function hcnt() { $('rs-hcnt').textContent = pool.length ? `H⁺ × ${pool.length}` : ''; }
+        function toPool(h, dur = 700) { const s = slot(pool.length); pool.push(h); hcnt(); return fly(h, [s], dur); }
+        function poolN(n) { while (pool.length < n) pool.push(mk('fly-h', 'H⁺', slot(pool.length))); hcnt(); }
+        function poolTake() { const h = pool.pop(); hcnt(); return h; }
+        const qAt3 = () => off(pos($('rs-c3')), -76, 0);
+        async function pump(cx, n, label, lab) {
+            const c = pos($(cx)), m = tv(0, 92).y, pts = [];
+            if (label) tip(label, lab || off(c, 0, -122), 2200, '#00a8ff');
+            await Promise.all(Array.from({ length: n }, async (_, i) => {
+                await W(i * 260);
+                const x = c.x - 20 + i * (40 / Math.max(1, n - 1));
+                const h = sp('h', { x, y: m });
+                await fly(h, [{ x, y: c.y + 40 }, { x, y: c.y - 70 }], 1000);
+                await toPool(h, 600);
+            }));
         }
-        else if(data.anim === 'adp_to_atp' || data.anim === 'gdp_to_gtp') {
-            let adp = createAnimGroup(data.anim==='adp_to_atp' ? 'ADP':'GDP', midX, topY);
-            adp.animate([{transform: 'translate(-50%, -80px)', opacity:0}, {transform: 'translate(-50%, 0)', opacity:1}], {duration:500, fill:'forwards'});
-            
-            setTimeout(() => {
-                let p = createParticle('p', startX+30, midY);
-                p.animate([{left:`${startX+30}px`, top:`${midY}px`}, {left:`${midX+40}px`, top:`${topY}px`}], {duration: 600, easing: 'ease-in-out', fill:'forwards'});
-                
-                setTimeout(() => {
-                    p.remove();
-                    adp.innerHTML = `<div class="a-base a-ad">${data.anim==='adp_to_atp' ? 'Ad':'Gu'}</div><div style="display:flex;gap:2px;"><div class="p-ball">P</div><div class="p-ball">P</div><div class="p-ball" style="background:#e84118;color:white;">P</div></div>`; // ATP 변신
-                    adp.animate([{transform: 'translate(-50%, 0)', opacity:1}, {transform: 'translate(-50%, -80px)', opacity:0}], {duration:600, delay: 400, fill:'forwards'});
-                    finishAnim();
-                }, 600);
-            }, 800);
+        async function cI() {
+            const fmn = $('rs-fmn'), fes = $('rs-fes1'), q = $('rs-q');
+            const nb = blk(NADH_H, tv(13, 96));
+            tip('기질의 NADH (해당·TCA에서 생성)', off(tv(13, 96), 60, -14), 1500);
+            await fly(nb, [off(pos(fmn), 0, 64)], 900);
+            await W(200);
+            const es = [sp('e', off(pos(nb), -9, -16)), sp('e', off(pos(nb), 9, -16))], h = sp('h', off(pos(nb), 34, 0));
+            nb.innerHTML = NAD_H;
+            tip('NADH → NAD⁺ + H⁺ + 2e⁻', off(pos(nb), 0, -22), 1700, '#20bf6b');
+            const hgo = fly(h, [tv(5, 90)], 1000).then(() => fade(h, 0, 300));
+            await Promise.all(es.map((e, i) => fly(e, [off(pos(fmn), -9 + 18 * i, 0)], 700)));
+            $('rs-fmn').classList.add('red');
+            tip('FMN → FeS', off(pos(fes), 64, 0), 1200, '#f1c40f');
+            await Promise.all(es.map((e, i) => fly(e, [off(pos(fes), -9 + 18 * i, 0)], 700)));
+            $('rs-fmn').classList.remove('red'); $('rs-fes1').classList.add('red');
+            const pp = pump('rs-c1', 4, '전자가 이동하며 내놓은 에너지로 H⁺ 4개 펌핑');
+            tip('FeS → Q (유비퀴논)', off(pos(q), 0, -36), 1400, '#f1c40f');
+            await Promise.all(es.map((e, i) => land(e, q, 'e', i ? 10 : -10, -9, 800)));
+            $('rs-fes1').classList.remove('red');
+            const hs = [sp('h', tv(21, 92)), sp('h', tv(25, 92))];
+            tip('기질의 H⁺ 2개', off(tv(23, 92), 50, -10), 1300, '#00a8ff');
+            await Promise.all(hs.map((x, i) => land(x, q, 'h', i ? 11 : -11, 10, 900)));
+            q.classList.add('red'); lbl(q, 'QH₂'); pulse(q);
+            tip('Q + 2e⁻ + 2H⁺ → QH₂', off(pos(q), 0, -34), 1700);
+            await Promise.all([pp, hgo, away(nb, off(pos(nb), -60, 50), 900)]);
+            tip('NAD⁺는 다시 해당·TCA로 돌아감', tv(16, 86), 1500, '#8e44ad');
+            await shift(q, qAt3(), 1100);
+            tip('QH₂: 막 속을 이동해 복합체 III로', off(pos(q), 0, -34), 1600);
+            await W(1200);
         }
-        else if(data.anim.includes('nad_to_nadh') || data.anim.includes('fad_to_fadh2') || data.anim.includes('link_reaction')) {
-            let isFAD = data.anim.includes('fad');
-            let coenz = createAnimGroup(isFAD ? 'FAD' : 'NAD', midX, topY);
-            coenz.animate([{transform: 'translate(-50%, -80px)', opacity:0}, {transform: 'translate(-50%, 0)', opacity:1}], {duration:500, fill:'forwards'});
-            
-            setTimeout(() => {
-                // 전자 2개(2e-)와 수소 이온 2개(2H+) 생성
-                let e1 = createParticle('e', startX+20, midY-15); let e2 = createParticle('e', startX+40, midY-15);
-                let h1 = createParticle('h', startX+20, midY+15); let h2 = createParticle('h', startX+40, midY+15); 
-                
-                // e1, e2, h1은 조효소(NAD+/FAD) 안으로 흡수됨
-                e1.animate([{left:`${startX+20}px`, top:`${midY-15}px`}, {left:`${midX-10}px`, top:`${topY}px`}], {duration:500, fill:'forwards'});
-                e2.animate([{left:`${startX+40}px`, top:`${midY-15}px`}, {left:`${midX+10}px`, top:`${topY}px`}], {duration:500, fill:'forwards'});
-                h1.animate([{left:`${startX+20}px`, top:`${midY+15}px`}, {left:`${midX+30}px`, top:`${topY}px`}], {duration:500, fill:'forwards'});
-                
-                // h2는 밖으로 튕겨져 나감 (2H+ 중 1개 방출 디테일)
-                h2.animate([{left:`${startX+40}px`, top:`${midY+15}px`, opacity:1}, {left:`${midX+150}px`, top:`${botY-50}px`, opacity:0}], {duration:800, fill:'forwards'});
-
-                if(data.anim === 'nad_to_nadh_p') {
-                    let p = createParticle('p', midX, botY);
-                    p.animate([{left:`${midX}px`, top:`${botY}px`, opacity:1}, {left:`${prodX-30}px`, top:`${midY}px`, opacity:1}], {duration:600, fill:'forwards'});
-                    setTimeout(()=>p.remove(), 600);
-                }
-
-                if(data.anim.includes('co2') || data.anim.includes('link_reaction')) {
-                    let co2 = createAnimGroup('CO2', startX+30, midY);
-                    co2.animate([{opacity:1, transform:'translate(-50%, 0) scale(1)'}, {opacity:0, transform:'translate(30px, 80px) scale(0.5)'}], {duration:1000, fill:'forwards'});
-                }
-
-                if(data.anim.includes('link_reaction')) {
-                    let coa = createAnimGroup('CoA', midX, botY);
-                    coa.animate([{opacity:0, transform:'translate(-50%, 50px)'}, {opacity:1, transform:'translate(-50%, 0)'}, {opacity:0, transform:'translate(-120px, -80px)'}], {duration:1200, fill:'forwards'});
-                }
-
-                setTimeout(() => {
-                    e1.remove(); e2.remove(); h1.remove(); // 흡수된 입자 삭제
-                    coenz.innerHTML = `<div class="a-base ${isFAD ? 'a-fad':'a-nad'}" style="background:#20bf6b;">${isFAD ? 'FADH₂':'NADH + H⁺'}</div>`;
-                    coenz.animate([{transform: 'translate(-50%, 0)', opacity:1}, {transform: 'translate(-50%, -80px)', opacity:0}], {duration:800, delay:400, fill:'forwards'});
-                    finishAnim();
-                }, 500);
-            }, 800);
+        async function cII() {
+            const fad = $('rs-fad'), fes = $('rs-fes2'), q = $('rs-q'), c2 = $('rs-c2');
+            const sb = blk(`<div class="a-base a-suc">숙신산</div>`, tv(31, 97));
+            await fly(sb, [off(pos(fad), 0, 50)], 900);
+            tip('TCA 17단계가 바로 이 복합체에서 일어남', off(pos(c2), 0, 112), 1800, YEL);
+            await W(300);
+            const sbp = pos(sb), parts = [sp('e', off(sbp, -10, -14)), sp('e', off(sbp, 10, -14)), sp('h', off(sbp, -24, 0)), sp('h', off(sbp, 24, 0))];
+            await Promise.all(parts.map((x, i) => land(x, fad, i < 2 ? 'e' : 'h', [-8, 8, -22, 22][i], i < 2 ? -9 : 9, 800)));
+            sb.innerHTML = `<div class="a-base a-suc">푸마르산</div>`; lbl(fad, 'FADH₂'); fad.classList.add('red'); pulse(fad);
+            tip('숙신산 → 푸마르산 · FAD → FADH₂', off(pos(fad), 0, -22), 1800, '#20bf6b');
+            const sgo = W(800).then(() => away(sb, off(pos(sb), 30, 70), 900));
+            await W(800);
+            const qT = off(pos(c2), 0, -98);
+            await shift(q, qT, 900);
+            const es = atts(fad, 'e').map(detach), hs = atts(fad, 'h').map(detach);
+            fad.classList.remove('red'); lbl(fad, 'FAD');
+            tip('FADH₂ → FeS → Q', off(pos(fes), 66, 0), 1400, '#f1c40f');
+            await Promise.all(es.map((e, i) => fly(e, [off(pos(fes), -9 + 18 * i, 0)], 700)));
+            await Promise.all([...es.map((e, i) => land(e, q, 'e', i ? 10 : -10, -9, 800)), ...hs.map((h, i) => land(h, q, 'h', i ? 11 : -11, 10, 1100))]);
+            q.classList.add('red'); lbl(q, 'QH₂'); pulse(q);
+            tip('Q + 2e⁻ + 2H⁺ → QH₂', off(pos(q), 0, -34), 1600);
+            await sgo;
+            $('rs-nopump').style.opacity = 1; pulse($('rs-nopump'));
+            tip('복합체 II는 H⁺를 펌핑하지 않음', off(pos(c2), 0, -150), 2600, RED);
+            await W(1800);
+            tip('→ FADH₂의 전자는 복합체 I을 건너뜀 → H⁺ 6개 → ATP 약 1.5개', off(tv(50, 92), 0, 0), 3000, YEL);
+            await shift(q, qAt3(), 1100);
+            await W(1600);
         }
-        else if(data.anim === 'dehydration') {
-            let h2o = createAnimGroup('H2O', startX+30, midY);
-            h2o.animate([{opacity:1, transform:'translate(-50%, 0) scale(1)'}, {opacity:0, transform:'translate(0, 80px) scale(0.5)'}], {duration:1000, fill:'forwards'});
-            setTimeout(finishAnim, 800);
+        async function cIII() {
+            const q = $('rs-q'), c3 = $('rs-c3'), cytb = $('rs-cytb'), cytc1 = $('rs-cytc1'), cc = [$('rs-cc1'), $('rs-cc2')];
+            const hs = atts(q, 'h').map(detach);
+            tip('QH₂ 산화 → H⁺ 2개 막간 공간으로', off(pos(c3), 0, -122), 1900, '#00a8ff');
+            await Promise.all(hs.map((h, i) => fly(h, [off(pos(c3), -40 + i * 16, -20), off(pos(c3), -40 + i * 16, -80)], 1000).then(() => toPool(h, 600))));
+            const es = atts(q, 'e').map(detach);
+            q.classList.remove('red'); lbl(q, 'Q');
+            const back = homeC(q, 1000);
+            const pp = W(600).then(() => pump('rs-c3', 2, 'Q 회로: H⁺ 2개 추가 → 복합체 III 합계 H⁺ 4개', off(pos(c3), 0, -150)));
+            await Promise.all(es.map(async (e, i) => {
+                await W(i * 700);
+                await fly(e, [pos(cytb)], 600); cytb.classList.add('red');
+                await fly(e, [pos(cytc1)], 600); cytb.classList.remove('red'); cytc1.classList.add('red');
+                await land(e, cc[i], 'e', 0, -10, 800); cytc1.classList.remove('red');
+                cc[i].classList.add('red'); pulse(cc[i]);
+            }));
+            tip('시토크롬 c: 전자 1개씩 운반 (막간 공간 쪽)', off(pos(cc[0]), 30, -50), 2000);
+            await Promise.all([back, pp]);
+            await W(1300);
         }
-        else if(data.anim === 'hydration') {
-            let h2o = createAnimGroup('H2O', midX, botY);
-            h2o.animate([{opacity:0, transform:'translate(-50%, 50px)'}, {opacity:1, transform:'translate(-50%, 0)'}, {opacity:0, transform:'translate(-120px, -100px)'}], {duration:1200, fill:'forwards'});
-            setTimeout(finishAnim, 800);
+        async function cIV() {
+            const c4 = $('rs-c4'), cyta = $('rs-cyta'), a3 = $('rs-cyta3'), cc = [$('rs-cc1'), $('rs-cc2')];
+            const o = blk(O2_H, tv(65, 97));
+            tip('최종 전자 수용체: O₂', off(tv(65, 97), 70, -16), 1800, RED);
+            const ogo = fly(o, [off(pos(a3), 0, 72)], 1100);
+            for (let i = 0; i < 2; i++) {
+                await shift(cc[i], off(pos(c4), -18 + i * 36, -124), 800);
+                const e = detach(atts(cc[i], 'e')[0]); cc[i].classList.remove('red');
+                if (!i) tip('Cyt c → Cyt a → Cyt a₃', off(pos(cyta), 70, 0), 1500, '#f1c40f');
+                await fly(e, [pos(cyta)], 600); cyta.classList.add('red');
+                await land(e, a3, 'e', -9 + 18 * i, 0, 600); cyta.classList.remove('red'); a3.classList.add('red');
+                homeC(cc[i], 900).catch(() => {});
+            }
+            await ogo;
+            const pp = pump('rs-c4', 2, '복합체 IV: H⁺ 2개 펌핑', off(pos(c4), 0, -150));
+            const op = pos(o), hs = [sp('h', tv(60, 93)), sp('h', tv(70, 93))];
+            const es = atts(a3, 'e').map(detach); a3.classList.remove('red');
+            await Promise.all([...es.map((e, i) => fly(e, [off(op, -8 + 16 * i, -8)], 800)), ...hs.map((h, i) => fly(h, [off(op, -14 + 28 * i, 8)], 900))]);
+            [...es, ...hs].forEach(x => x.remove());
+            o.innerHTML = H2O_H; pulse(o);
+            tip('½O₂ + 2e⁻ + 2H⁺ → H₂O', off(op, 0, -24), 2000, '#3498db');
+            await W(1200);
+            await Promise.all([away(o, off(op, 60, 70), 1000), pp]);
+            tip('O₂가 없으면 전자가 막혀 H⁺ 펌핑과 ATP 합성이 멈춤', off(tv(48, 92), 0, 0), 2600, RED);
+            await W(2000);
         }
-        else if(data.anim === 'merge') {
-            let coa = createAnimGroup('CoA', midX, midY);
-            coa.animate([{opacity:1, transform:'translate(-50%, 0) scale(1)'}, {opacity:0, transform:'translate(50px, 80px) scale(0.5)'}], {duration:1000, fill:'forwards'});
-            setTimeout(finishAnim, 800);
+        async function synth(rounds) {
+            const f0 = pos($('rs-f0')), f1 = pos($('rs-f1'));
+            for (let r = 0; r < rounds; r++) {
+                poolN(4);
+                const adp = blk(ADP_H, off(f1, -150, -8)), pi = sp('p', off(f1, -150, 30), 'Pᵢ');
+                if (!r) tip('ADP + Pᵢ', off(f1, -150, -30), 1200);
+                await W(400);
+                $('rs-rotor').classList.add('fast');
+                if (!r) tip('H⁺가 농도 기울기를 따라 F₀를 통과 → 회전자 회전', off(f0, -110, -120), 2600, '#00a8ff');
+                const hs = []; for (let i = 0; i < 4; i++) hs.push(poolTake());
+                const flows = hs.map(async (h, i) => {
+                    await W(i * 260);
+                    await fly(h, [off(f0, 0, -90), f0, off(f1, 0, -46), off(f1, 30 - i * 14, 52)], 1500, 'linear');
+                    await fade(h, 0, 300); h.remove();
+                });
+                await W(900);
+                await Promise.all([fly(adp, [off(f1, -26, 0)], 800), fly(pi, [off(f1, 26, 0)], 800)]);
+                pi.remove(); adp.innerHTML = ATP_H; pulse(adp);
+                const n = $('rs-atpcnt'); n.textContent = +n.textContent + 1; pulse(n);
+                tip('ADP + Pᵢ → ATP (산화적 인산화)', off(f1, 0, -52), 1700, '#e84118');
+                await Promise.all(flows);
+                await away(adp, off(f1, -170, 40), 900);
+            }
+            $('rs-rotor').classList.remove('fast');
         }
-        else {
-            setTimeout(finishAnim, 600); // morph
+        function resetEtc() {
+            ['rs-q', 'rs-cc1', 'rs-cc2', 'rs-fad', 'rs-fmn', 'rs-fes1', 'rs-fes2', 'rs-cytb', 'rs-cytc1', 'rs-cyta', 'rs-cyta3'].forEach(i => {
+                const el = $(i); el.querySelectorAll('.att').forEach(a => a.remove());
+                el.getAnimations().forEach(a => a.cancel()); el.style.transform = ''; el._d = null; el.classList.remove('red');
+            });
+            lbl($('rs-q'), 'Q'); lbl($('rs-fad'), 'FAD'); lbl($('rs-cc1'), 'c'); lbl($('rs-cc2'), 'c');
+            $('rs-rotor').classList.remove('fast'); $('rs-nopump').style.opacity = 0;
+            $('rs-ledger').style.display = 'none'; $('rs-atpcnt').textContent = '0';
+            ['rs-c1', 'rs-c2', 'rs-c3', 'rs-c4', 'rs-f0', 'rs-f1', 'rs-q', 'rs-cc1', 'rs-cc2'].forEach(i => $(i).style.opacity = '');
         }
-    }
+        function focus(ids) {
+            ['rs-c1', 'rs-c2', 'rs-c3', 'rs-c4', 'rs-f0', 'rs-f1', 'rs-q', 'rs-cc1', 'rs-cc2'].forEach(i => { $(i).style.opacity = (ids === 'all' || ids.includes(i)) ? '' : '0.28'; });
+        }
+        const ETC = {
+            1: { focus: ['rs-c1', 'rs-q'], pre: () => {}, run: cI },
+            2: { focus: ['rs-c2', 'rs-q'], pre: () => poolN(4), run: cII },
+            3: { focus: ['rs-c3', 'rs-q', 'rs-cc1', 'rs-cc2'], pre: () => { const q = $('rs-q'); shiftNow(q, qAt3()); attach(q, 'e', -10, -9); attach(q, 'e', 10, -9); attach(q, 'h', -11, 10); attach(q, 'h', 11, 10); q.classList.add('red'); lbl(q, 'QH₂'); poolN(4); }, run: cIII },
+            4: { focus: ['rs-c4', 'rs-cc1', 'rs-cc2'], pre: () => { ['rs-cc1', 'rs-cc2'].forEach(i => { attach($(i), 'e', 0, -10); $(i).classList.add('red'); }); poolN(8); }, run: cIV },
+            5: { focus: ['rs-f0', 'rs-f1'], pre: () => poolN(10), run: async () => {
+                await synth(2);
+                tip('H⁺ 4개 → ATP 1개 · 남은 H⁺ 2개 = ATP 0.5개', off(pos($('rs-f1')), -150, -70), 2600, YEL);
+                await W(2200);
+                banner('NADH 1개 → H⁺ 10개 (I:4 + III:4 + IV:2) → ATP 약 2.5개');
+            } },
+            6: { focus: 'all', pre: () => {}, run: async () => {
+                banner('① 복합체 I : NADH → Q, H⁺ 4개 펌핑'); await cI();
+                banner('② 복합체 III : QH₂ → Cyt c, H⁺ 4개 펌핑'); await cIII();
+                banner('③ 복합체 IV : Cyt c → O₂ → H₂O, H⁺ 2개 펌핑'); await cIV();
+                banner('④ ATP 합성효소 : H⁺ 10개 → ATP 약 2.5개'); await synth(2);
+                await W(600);
+                banner('전자 흐름 : NADH → I → Q → III → Cyt c → IV → O₂');
+                const L = $('rs-ledger'); L.style.display = 'block'; await appear(L, 600);
+            } }
+        };
 
-    // ETC 20단계 전용 일회성 폭발 애니메이션
-    function playETCAnimation() {
-        const layer = document.getElementById('anim-layer');
-        layer.innerHTML = '';
+        /* =================== 컨트롤 =================== */
+        async function play(d) {
+            tok++; const my = tok;
+            layer().innerHTML = ''; pool = []; bannerEl = null;
+            if (d.view === 'etc') { resetEtc(); hcnt(); focus(ETC[d.key].focus); }
+            await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+            if (my !== tok) return;
+            try {
+                if (d.view === 'etc') { ETC[d.key].pre(); await ETC[d.key].run(); }
+                else if (STEP[d.step]) await STEP[d.step]();
+            } catch (e) { if (e !== 'rs-stop') console.error(e); }
+        }
+        function stop() { tok++; const l = layer(); if (l) l.innerHTML = ''; }
+        return { play, stop };
+    })();
 
-        const etcArea = document.getElementById('etc-view').getBoundingClientRect();
-        
-        // 1. NADH 산화 (Complex I)
-        setTimeout(() => {
-            let nadh = createAnimGroup('NADH', 100, etcArea.height - 40);
-            nadh.animate([{opacity:0, transform:'translateY(20px)'}, {opacity:1, transform:'translateY(0)'}], {duration:500, fill:'forwards'});
-            
-            setTimeout(() => {
-                let e1 = createParticle('e', 100, etcArea.height - 40);
-                let e2 = createParticle('e', 110, etcArea.height - 40);
-                let h1 = createParticle('h', 90, etcArea.height - 40);
-                let h2 = createParticle('h', 120, etcArea.height - 40);
+    function playCurrentAnimation() { RS.play(currentProcess[currentIndex]); }
 
-                e1.animate([{left:'100px', top:`${etcArea.height - 40}px`}, {left:'100px', top:`${etcArea.height/2}px`}], {duration:800, fill:'forwards'});
-                e2.animate([{left:'110px', top:`${etcArea.height - 40}px`}, {left:'110px', top:`${etcArea.height/2}px`}], {duration:800, fill:'forwards'});
-                
-                h1.animate([{left:'90px', top:`${etcArea.height - 40}px`}, {left:'90px', top:`${etcArea.height/2}px`}], {duration:800, fill:'forwards'});
-                h2.animate([{left:'120px', top:`${etcArea.height - 40}px`}, {left:'120px', top:`${etcArea.height/2}px`}], {duration:800, fill:'forwards'});
-
-                nadh.innerHTML = `<div class="a-base a-nad">NAD⁺</div>`;
-                nadh.animate([{opacity:1}, {opacity:0, transform:'translateY(20px)'}], {duration:500, delay: 500, fill:'forwards'});
-
-                setTimeout(() => { e1.remove(); e2.remove(); h1.remove(); h2.remove(); nadh.remove(); }, 1000);
-            }, 600);
-        }, 500);
-
-        // 2. FADH2 산화 (Complex II)
-        setTimeout(() => {
-            let fadh2 = createAnimGroup('FADH2', 250, etcArea.height - 30);
-            fadh2.animate([{opacity:0, transform:'translateY(20px)'}, {opacity:1, transform:'translateY(0)'}], {duration:500, fill:'forwards'});
-            
-            setTimeout(() => {
-                let e1 = createParticle('e', 250, etcArea.height - 30);
-                let e2 = createParticle('e', 260, etcArea.height - 30);
-                let h1 = createParticle('h', 240, etcArea.height - 30);
-                let h2 = createParticle('h', 270, etcArea.height - 30);
-
-                e1.animate([{left:'250px', top:`${etcArea.height - 30}px`}, {left:'250px', top:`${etcArea.height/2 + 20}px`}], {duration:800, fill:'forwards'});
-                e2.animate([{left:'260px', top:`${etcArea.height - 30}px`}, {left:'260px', top:`${etcArea.height/2 + 20}px`}], {duration:800, fill:'forwards'});
-                
-                h1.animate([{left:'240px', top:`${etcArea.height - 30}px`}, {left:'240px', top:`${etcArea.height/2 + 20}px`}], {duration:800, fill:'forwards'});
-                h2.animate([{left:'270px', top:`${etcArea.height - 30}px`}, {left:'270px', top:`${etcArea.height/2 + 20}px`}], {duration:800, fill:'forwards'});
-
-                fadh2.innerHTML = `<div class="a-base a-fad">FAD</div>`;
-                fadh2.animate([{opacity:1}, {opacity:0, transform:'translateY(20px)'}], {duration:500, delay: 500, fill:'forwards'});
-
-                setTimeout(() => { e1.remove(); e2.remove(); h1.remove(); h2.remove(); fadh2.remove(); }, 1000);
-            }, 600);
-        }, 2500);
-
-        // 3. 최종 전자 수용체 산소 결합 (Complex IV -> H2O)
-        setTimeout(() => {
-            let o2 = createAnimGroup('O2', etcArea.width * 0.8, etcArea.height - 40);
-            o2.animate([{opacity:0, transform:'scale(0.5)'}, {opacity:1, transform:'scale(1)'}], {duration:500, fill:'forwards'});
-
-            setTimeout(() => {
-                let e1 = createParticle('e', etcArea.width * 0.77, etcArea.height/2);
-                let e2 = createParticle('e', etcArea.width * 0.79, etcArea.height/2);
-                let h1 = createParticle('h', etcArea.width * 0.85, etcArea.height/2);
-                let h2 = createParticle('h', etcArea.width * 0.87, etcArea.height/2);
-
-                e1.animate([{top:`${etcArea.height/2}px`, opacity:1}, {top:`${etcArea.height - 40}px`, opacity:0}], {duration:800, fill:'forwards'});
-                e2.animate([{top:`${etcArea.height/2}px`, opacity:1}, {top:`${etcArea.height - 40}px`, opacity:0}], {duration:800, fill:'forwards'});
-                h1.animate([{top:`${etcArea.height/2}px`, opacity:1}, {left:`${etcArea.width * 0.8}px`, top:`${etcArea.height - 40}px`, opacity:0}], {duration:800, fill:'forwards'});
-                h2.animate([{top:`${etcArea.height/2}px`, opacity:1}, {left:`${etcArea.width * 0.8}px`, top:`${etcArea.height - 40}px`, opacity:0}], {duration:800, fill:'forwards'});
-
-                setTimeout(() => {
-                    o2.innerHTML = `<div class="a-base a-h2o">H₂O</div>`;
-                    o2.animate([{transform:'scale(1)'}, {transform:'translateY(30px) scale(0.5)', opacity:0}], {duration:1000, delay: 500, fill:'forwards'});
-                }, 800);
-            }, 600);
-        }, 5000);
-    }
-
-    /* ----- 4. 페이지 컨트롤러 ----- */
     function goHome() {
+        RS.stop();
         document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
         document.getElementById('nav-controls').style.display = 'none';
         document.getElementById('screen-main').classList.add('active');
@@ -933,7 +1353,7 @@
     function startSim(scope) {
         if (scope === 'glyco') currentProcess = DB.slice(0, 10);
         else if (scope === 'tca') currentProcess = DB.slice(10, 19);
-        else if (scope === 'etc') currentProcess = DB.slice(19, 20);
+        else if (scope === 'etc') currentProcess = DB.slice(19, 25);
         else currentProcess = DB;
         
         currentIndex = 0;
@@ -963,10 +1383,11 @@
         document.getElementById('info-enz').innerText = data.enz.replace(/\n/g, ' ');
         document.getElementById('info-desc').innerText = data.desc;
 
-        if (data.step === 20) {
+        document.querySelector('#screen-sim .views-container').classList.toggle('etc-mode', data.view === 'etc');
+        if (data.view === 'etc') {
             document.getElementById('reaction-view').style.display = 'none';
             document.getElementById('etc-view').style.display = 'block';
-            playETCAnimation();
+            RS.play(data);
         } else {
             document.getElementById('reaction-view').style.display = 'flex';
             document.getElementById('etc-view').style.display = 'none';
