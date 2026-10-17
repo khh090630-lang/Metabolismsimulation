@@ -695,7 +695,7 @@
             Row(H_left, C('C', 'h-l h-r'), COO_right)
     };
 
-    /* ----- 2. 시뮬레이션 단계 데이터베이스 ----- */
+    /* ----- 2. 시뮬레이터 단계 데이터베이스 ----- */
     const DB = [
         { step:1, phase:'해당과정 (투자기)', name:'1. 포도당 인산화', react:'Glucose', prod:'G6P', strR:M.glucose, strP:M.g6p, enz:'Hexokinase', anim:'atp_to_adp', desc:'ATP 블록이 날아와 인산기(P) 1개를 포도당 6번 탄소에 결합시킨다. 포도당이 세포 밖으로 빠져나가지 못하게 가두는 역할을 한다.' },
         { step:2, phase:'해당과정 (투자기)', name:'2. 이성질체화', react:'G6P', prod:'F6P', strR:M.g6p, strP:M.f6p, enz:'Phosphoglucose\nisomerase', anim:'morph', desc:'6각 고리 알도스(G6P, C1 = 알데하이드)가 5각 고리 케토스(F6P, C2 = 케톤)로 이성질화된다.\n\n고리가 바뀌면서 1번 탄소가 고리 밖의 CH₂OH로 노출되어, 다음 단계에서 인산기를 받을 수 있게 된다.' },
@@ -717,12 +717,12 @@
         { step:18, phase:'TCA 회로', name:'18. 수화 반응', react:'Fumarate', prod:'Malate', strR:M.fumarate, strP:M.malate, enz:'Fumarase', anim:'hydration', desc:'푸마르산의 C=C 이중결합에 물 분자(H₂O)가 첨가(수화)되어 OH기를 가진 말산이 생성된다. 이 OH기는 다음 단계에서 산화될 자리다.' },
         { step:19, phase:'TCA 회로', name:'19. OAA 재생', react:'Malate', prod:'Oxaloacetate', strR:M.malate, strP:M.oaa, enz:'Malate\ndehydrogenase', anim:'nad_to_nadh', desc:'말산의 OH기 탄소에서 2e⁻ + 2H⁺를 빼앗아 NADH를 만들고(C–OH → C=O), 회로를 다시 시작할 4탄소 옥살아세트산을 재생한다.\n\n[TCA 회로 1바퀴 정리] 아세틸 CoA 1 → CO₂ 2, NADH 3, FADH₂ 1, ATP(GTP) 1\n포도당 1분자당 2바퀴: CO₂ 4, NADH 6, FADH₂ 2, ATP 2' },
         
-        { step:20, view:'etc', key:1, phase:'산화적 인산화', name:'20. 복합체 I (NADH 탈수소효소)', react:'NADH, Q, 기질의 H⁺', prod:'NAD⁺, QH₂, H⁺ 4개(막간 공간)', strR:'', strP:'', enz:'복합체 I', anim:'etc_view', desc:'NADH가 복합체 I에 전자 2개(2e⁻)를 넘겨주고 NAD⁺가 된다. 전자는 FMN → FeS를 거쳐 유비퀴논(Q)으로 전달된다.\n\n전자가 에너지가 낮은 쪽으로 이동하며 내놓은 에너지로 복합체 I은 H⁺ 4개를 기질에서 막간 공간으로 펌핑한다. Q는 2e⁻와 기질의 H⁺ 2개를 받아 QH₂가 되고, 막 속을 이동해 복합체 III로 간다.' },
-        { step:21, view:'etc', key:2, phase:'산화적 인산화', name:'21. 복합체 II (숙신산 탈수소효소)', react:'FADH₂(숙신산), Q', prod:'FAD, QH₂ (H⁺ 펌핑 없음)', strR:'', strP:'', enz:'복합체 II', anim:'etc_view', desc:'TCA 회로 17단계(숙신산 → 푸마르산)가 바로 복합체 II에서 일어난다. 이때 생긴 FADH₂의 전자가 FeS를 거쳐 Q로 전달되어 QH₂가 된다.\n\n복합체 II는 H⁺를 펌핑하지 않는다. FADH₂의 전자는 복합체 I을 건너뛰므로 III(4개)과 IV(2개)에서만 H⁺ 6개가 펌핑되고, ATP는 약 1.5개 만들어진다. (NADH는 H⁺ 10개 → 약 2.5 ATP)' },
-        { step:22, view:'etc', key:3, phase:'산화적 인산화', name:'22. 복합체 III (시토크롬 bc₁)', react:'QH₂, Cyt c(산화형) × 2', prod:'Q, Cyt c(환원형) × 2, H⁺ 4개(막간 공간)', strR:'', strP:'', enz:'복합체 III', anim:'etc_view', desc:'QH₂가 복합체 III에서 산화되며 H⁺를 막간 공간으로 내보낸다. 전자 2개는 Cyt b → Cyt c₁을 거쳐 시토크롬 c(Cyt c)에 하나씩 실린다.\n\nCyt c는 전자를 1개씩만 나르는 막간 공간 쪽의 작은 단백질이므로 2분자가 필요하다. Q 회로를 거쳐 전자 2개당 H⁺ 4개가 막간 공간으로 이동한다.' },
-        { step:23, view:'etc', key:4, phase:'산화적 인산화', name:'23. 복합체 IV (시토크롬 산화효소)', react:'Cyt c(환원형) × 2, ½O₂, 기질의 H⁺', prod:'H₂O, H⁺ 2개(막간 공간)', strR:'', strP:'', enz:'복합체 IV', anim:'etc_view', desc:'Cyt c의 전자가 Cyt a → Cyt a₃를 거쳐 최종 전자 수용체인 산소에 전달된다. ½O₂ + 2e⁻ + 2H⁺ → H₂O (O₂ 1분자 기준: O₂ + 4e⁻ + 4H⁺ → 2H₂O)\n\n이 과정에서 H⁺ 2개가 막간 공간으로 펌핑된다. 산소가 없으면 전자가 막혀 전자 전달과 H⁺ 펌핑이 멈추고 ATP 합성도 중단된다. (호흡으로 들이마신 O₂가 쓰이는 곳)' },
-        { step:24, view:'etc', key:5, phase:'산화적 인산화', name:'24. ATP 합성효소 (화학 삼투)', react:'ADP, Pᵢ, H⁺(막간 공간)', prod:'ATP', strR:'', strP:'', enz:'ATP 합성효소 (F₀ · F₁)', anim:'etc_view', desc:'막간 공간에 쌓인 H⁺가 농도 기울기를 따라 ATP 합성효소의 F₀를 통해 기질로 돌아오며 회전자를 돌린다. 이 회전 에너지로 F₁이 ADP와 무기 인산(Pᵢ)을 결합해 ATP를 만든다(화학 삼투).\n\nH⁺ 약 4개가 들어올 때 ATP 1개가 만들어진다. 따라서 NADH 1개(H⁺ 10개) → ATP 약 2.5개, FADH₂ 1개(H⁺ 6개) → ATP 약 1.5개다.' },
-        { step:25, view:'etc', key:6, phase:'산화적 인산화', name:'25. 전체 연결과 ATP 정산', react:'NADH, FADH₂, O₂, ADP + Pᵢ', prod:'NAD⁺, FAD, H₂O, ATP', strR:'', strP:'', enz:'복합체 I~IV + ATP 합성효소', anim:'etc_view', desc:'20~24단계를 이어서 재생한다. 전자: NADH → I → Q → III → Cyt c → IV → O₂ / H⁺: I(4) + III(4) + IV(2) = 10개 → ATP 약 2.5개.\n\n[포도당 1분자의 ATP 정산]\n기질 수준 인산화: 해당 과정 2 + TCA 2 = 4\n산화적 인산화: NADH 10 × 2.5 + FADH₂ 2 × 1.5 = 28\n합계 약 32 ATP (말산-아스파트산 셔틀: 간·심장)\n글리세롤 인산 셔틀(근육·뇌)은 해당 과정의 NADH 2가 FADH₂ 2로 전달되어 약 30 ATP.' },
+        { step:20, view:'etc', key:1, phase:'산화적 인산화 (NADH 경로)', name:'20. [NADH ①] 복합체 I (NADH 탈수소효소)', react:'NADH, Q, 기질의 H⁺', prod:'NAD⁺, QH₂, H⁺ 4개(막간 공간)', strR:'', strP:'', enz:'복합체 I', anim:'etc_view', desc:'NADH가 복합체 I에 전자 2개(2e⁻)를 넘겨주고 NAD⁺로 산화된다. 전자는 FMN → FeS를 거쳐 유비퀴논(Q)으로 전달된다.\n\n전자가 이동하며 내놓은 에너지로 복합체 I은 H⁺ 4개를 기질에서 막간 공간으로 펌핑한다. Q는 2e⁻와 기질의 H⁺ 2개를 받아 유비퀴놀(QH₂)이 되어 복합체 III로 이동한다. (막간 공간 누적 H⁺: 4개)' },
+        { step:21, view:'etc', key:2, phase:'산화적 인산화 (NADH 경로)', name:'21. [NADH ②] 복합체 III (시토크롬 bc₁)', react:'QH₂(복합체 I 유래), Cyt c(산화형) × 2', prod:'Q, Cyt c(환원형) × 2, H⁺ 4개(막간 공간)', strR:'', strP:'', enz:'복합체 III', anim:'etc_view', desc:'복합체 I에서 넘어온 QH₂가 곧바로 복합체 III에서 산화되며 전자 2개를 Cyt b → Cyt c₁을 거쳐 시토크롬 c(Cyt c) 2분자에 1개씩 전달한다.\n\n이 과정에서 Q 회로를 통해 H⁺ 4개가 추가로 막간 공간으로 펌핑된다. (막간 공간 누적 H⁺: 4 + 4 = 8개)' },
+        { step:22, view:'etc', key:3, phase:'산화적 인산화 (NADH 경로)', name:'22. [NADH ③] 복합체 IV (시토크롬 산화효소)', react:'Cyt c(환원형) × 2, ½O₂, 기질의 H⁺', prod:'H₂O, H⁺ 2개(막간 공간)', strR:'', strP:'', enz:'복합체 IV', anim:'etc_view', desc:'환원된 Cyt c 2분자의 전자가 복합체 IV(Cyt a → Cyt a₃)를 거쳐 최종 전자 수용체인 산소(½O₂)에 전달되어 물(H₂O)을 생성한다.\n\n이때 H⁺ 2개가 막간 공간으로 추가 펌핑되어, NADH 1분자당 총 10개의 H⁺가 막간 공간에 모인다. (막간 공간 누적 H⁺: 4 + 4 + 2 = 10개)' },
+        { step:23, view:'etc', key:4, phase:'산화적 인산화 (NADH 경로)', name:'23. [NADH ④] ATP 합성효소 (NADH 1분자 → 2.5 ATP)', react:'ADP, Pᵢ, 막간 공간의 H⁺ 10개', prod:'ATP 2.5분자', strR:'', strP:'', enz:'ATP 합성효소 (F₀ · F₁)', anim:'etc_view', desc:'NADH 1분자가 펌핑해 놓은 H⁺ 10개가 농도 기울기를 따라 ATP 합성효소(F₀ → F₁)를 통과하며 회전자를 돌린다.\n\nH⁺ 4개당 ATP 1분자가 합성되므로, H⁺ 8개로 ATP 2분자를 만들고 남은 H⁺ 2개로 0.5분자를 추가 합성하여 NADH 1분자당 총 2.5 ATP가 생성된다.' },
+        { step:24, view:'etc', key:5, phase:'산화적 인산화 (FADH₂ 경로)', name:'24. [FADH₂ 경로] 복합체 II → III → IV → 1.5 ATP 합성', react:'FADH₂(숙신산), Q, ½O₂, ADP + Pᵢ', prod:'FAD, H₂O, H⁺ 6개 → ATP 1.5분자', strR:'', strP:'', enz:'복합체 II → III → IV → ATP 합성효소', anim:'etc_view', desc:'이제 FADH₂ 1분자의 전자 이동을 따라간다. TCA 회로의 숙신산이 복합체 II에서 푸마르산으로 산화되며 생성된 FADH₂는 전자를 FeS → Q로 넘겨 QH₂를 만든다. 이때 복합체 II는 H⁺를 펌핑하지 않는다(0개).\n\n이후 QH₂가 복합체 III(H⁺ 4개 펌핑) → Cyt c → 복합체 IV(H⁺ 2개 펌핑, H₂O 생성)를 거치며 총 6개의 H⁺를 막간 공간에 모으고, 이 6개의 H⁺가 ATP 합성효소를 통과해 FADH₂ 1분자당 총 1.5 ATP가 생성된다.' },
+        { step:25, view:'etc', key:6, phase:'산화적 인산화 (전체 비교 · 정산)', name:'25. 전체 연결 (NADH 2.5 ATP vs FADH₂ 1.5 ATP) & 정산', react:'NADH, FADH₂, O₂, ADP + Pᵢ', prod:'NAD⁺, FAD, H₂O, 총 32 ATP', strR:'', strP:'', enz:'복합체 I~IV + ATP 합성효소', anim:'etc_view', desc:'NADH 1분자의 전체 경로(I → Q → III → Cyt c → IV → O₂, 10H⁺ → 2.5 ATP)와 FADH₂ 1분자의 전체 경로(II → Q → III → Cyt c → IV → O₂, 6H⁺ → 1.5 ATP)를 연속으로 재생하여 비교한다.\n\n[포도당 1분자의 ATP 정산]\n• 기질 수준 인산화: 해당 과정 2 + TCA 회로 2 = 4 ATP\n• 산화적 인산화: NADH 10분자 × 2.5 = 25 ATP, FADH₂ 2분자 × 1.5 = 3 ATP (합계 28 ATP)\n• 총합: 4 + 28 = 32 ATP (말산-아스파트산 셔틀 기준 / 글리세롤 인산 셔틀은 30 ATP)' },
     ];
 
     let currentProcess = [];
@@ -1265,7 +1265,7 @@
             tip('O₂가 없으면 전자가 막혀 H⁺ 펌핑과 ATP 합성이 멈춤', off(tv(48, 92), 0, 0), 2600, RED);
             await W(2000);
         }
-        async function synth(rounds) {
+        async function synth(rounds, hasHalf = false) {
             const f0 = pos($('rs-f0')), f1 = pos($('rs-f1'));
             for (let r = 0; r < rounds; r++) {
                 poolN(4);
@@ -1273,7 +1273,7 @@
                 if (!r) tip('ADP + Pᵢ', off(f1, -150, -30), 1200);
                 await W(400);
                 $('rs-rotor').classList.add('fast');
-                if (!r) tip('H⁺가 농도 기울기를 따라 F₀를 통과 → 회전자 회전', off(f0, -110, -120), 2600, '#00a8ff');
+                if (!r) tip('H⁺ 4개가 농도 기울기를 따라 F₀를 통과 → ATP 1개씩 합성', off(f0, -110, -120), 2600, '#00a8ff');
                 const hs = []; for (let i = 0; i < 4; i++) hs.push(poolTake());
                 const flows = hs.map(async (h, i) => {
                     await W(i * 260);
@@ -1283,8 +1283,28 @@
                 await W(900);
                 await Promise.all([fly(adp, [off(f1, -26, 0)], 800), fly(pi, [off(f1, 26, 0)], 800)]);
                 pi.remove(); adp.innerHTML = ATP_H; pulse(adp);
-                const n = $('rs-atpcnt'); n.textContent = +n.textContent + 1; pulse(n);
+                const n = $('rs-atpcnt'); n.textContent = +(parseFloat(n.textContent) + 1).toFixed(1); pulse(n);
                 tip('ADP + Pᵢ → ATP (산화적 인산화)', off(f1, 0, -52), 1700, '#e84118');
+                await Promise.all(flows);
+                await away(adp, off(f1, -170, 40), 900);
+            }
+            if (hasHalf) {
+                poolN(2);
+                const adp = blk(ADP_H, off(f1, -150, -8)), pi = sp('p', off(f1, -150, 30), 'Pᵢ');
+                await W(350);
+                $('rs-rotor').classList.add('fast');
+                tip('남은 H⁺ 2개 통과 → 0.5 ATP 추가 합성 (4H⁺ = 1 ATP)', off(f0, -115, -120), 2400, '#00a8ff');
+                const hs = [poolTake(), poolTake()];
+                const flows = hs.map(async (h, i) => {
+                    await W(i * 260);
+                    await fly(h, [off(f0, 0, -90), f0, off(f1, 0, -46), off(f1, 20 - i * 20, 52)], 1400, 'linear');
+                    await fade(h, 0, 300); h.remove();
+                });
+                await W(800);
+                await Promise.all([fly(adp, [off(f1, -26, 0)], 750), fly(pi, [off(f1, 26, 0)], 750)]);
+                pi.remove(); adp.innerHTML = ATP_H + '<span class="xN">×0.5</span>'; pulse(adp);
+                const n = $('rs-atpcnt'); n.textContent = +(parseFloat(n.textContent) + 0.5).toFixed(1); pulse(n);
+                tip(`총 ${n.textContent} ATP 합성 완료!`, off(f1, 0, -52), 1900, YEL);
                 await Promise.all(flows);
                 await away(adp, off(f1, -170, 40), 900);
             }
@@ -1305,22 +1325,51 @@
         }
         const ETC = {
             1: { focus: ['rs-c1', 'rs-q'], pre: () => {}, run: cI },
-            2: { focus: ['rs-c2', 'rs-q'], pre: () => poolN(4), run: cII },
-            3: { focus: ['rs-c3', 'rs-q', 'rs-cc1', 'rs-cc2'], pre: () => { const q = $('rs-q'); shiftNow(q, qAt3()); attach(q, 'e', -10, -9); attach(q, 'e', 10, -9); attach(q, 'h', -11, 10); attach(q, 'h', 11, 10); q.classList.add('red'); lbl(q, 'QH₂'); poolN(4); }, run: cIII },
-            4: { focus: ['rs-c4', 'rs-cc1', 'rs-cc2'], pre: () => { ['rs-cc1', 'rs-cc2'].forEach(i => { attach($(i), 'e', 0, -10); $(i).classList.add('red'); }); poolN(8); }, run: cIV },
-            5: { focus: ['rs-f0', 'rs-f1'], pre: () => poolN(10), run: async () => {
-                await synth(2);
-                tip('H⁺ 4개 → ATP 1개 · 남은 H⁺ 2개 = ATP 0.5개', off(pos($('rs-f1')), -150, -70), 2600, YEL);
-                await W(2200);
-                banner('NADH 1개 → H⁺ 10개 (I:4 + III:4 + IV:2) → ATP 약 2.5개');
+            2: { focus: ['rs-c3', 'rs-q', 'rs-cc1', 'rs-cc2'], pre: () => {
+                const q = $('rs-q'); shiftNow(q, qAt3());
+                attach(q, 'e', -10, -9); attach(q, 'e', 10, -9); attach(q, 'h', -11, 10); attach(q, 'h', 11, 10);
+                q.classList.add('red'); lbl(q, 'QH₂'); poolN(4);
+            }, run: cIII },
+            3: { focus: ['rs-c4', 'rs-cc1', 'rs-cc2'], pre: () => {
+                ['rs-cc1', 'rs-cc2'].forEach(i => { attach($(i), 'e', 0, -10); $(i).classList.add('red'); });
+                poolN(8);
+            }, run: cIV },
+            4: { focus: ['rs-f0', 'rs-f1'], pre: () => poolN(10), run: async () => {
+                banner('NADH 1분자 정산 : 막간 공간 H⁺ 10개 (I:4 + III:4 + IV:2)');
+                await synth(2, true);
+                banner('NADH 1분자 최종 결과 : H⁺ 10개 ÷ 4 = 2.5 ATP 생성!');
+                await W(1200);
+            } },
+            5: { focus: ['rs-c2', 'rs-q', 'rs-c3', 'rs-cc1', 'rs-cc2', 'rs-c4', 'rs-f0', 'rs-f1'], pre: () => {}, run: async () => {
+                banner('[FADH₂ 경로 ①] 복합체 II : FADH₂ → QH₂ (H⁺ 펌핑 없음 · 0H⁺)');
+                await cII();
+                banner('[FADH₂ 경로 ②] 복합체 III : QH₂ → Cyt c × 2, H⁺ 4개 펌핑 (누적 4H⁺)');
+                await cIII();
+                banner('[FADH₂ 경로 ③] 복합체 IV : Cyt c → O₂ → H₂O, H⁺ 2개 펌핑 (누적 6H⁺)');
+                await cIV();
+                banner('[FADH₂ 경로 ④] ATP 합성효소 : H⁺ 6개 ÷ 4 = 1.5 ATP 생성!');
+                await synth(1, true);
+                $('rs-nopump').style.opacity = 0;
+                banner('FADH₂ 1분자 최종 결과 : H⁺ 6개 (II:0 + III:4 + IV:2) → 1.5 ATP 생성!');
+                await W(1200);
             } },
             6: { focus: 'all', pre: () => {}, run: async () => {
-                banner('① 복합체 I : NADH → Q, H⁺ 4개 펌핑'); await cI();
-                banner('② 복합체 III : QH₂ → Cyt c, H⁺ 4개 펌핑'); await cIII();
-                banner('③ 복합체 IV : Cyt c → O₂ → H₂O, H⁺ 2개 펌핑'); await cIV();
-                banner('④ ATP 합성효소 : H⁺ 10개 → ATP 약 2.5개'); await synth(2);
-                await W(600);
-                banner('전자 흐름 : NADH → I → Q → III → Cyt c → IV → O₂');
+                banner('[1부 : NADH 1분자] ① 복합체 I : NADH → QH₂ (H⁺ 4개 펌핑)'); await cI();
+                banner('[1부 : NADH 1분자] ② 복합체 III : QH₂ → Cyt c (H⁺ 4개 펌핑 · 누적 8H⁺)'); await cIII();
+                banner('[1부 : NADH 1분자] ③ 복합체 IV : Cyt c → O₂ → H₂O (H⁺ 2개 펌핑 · 누적 10H⁺)'); await cIV();
+                banner('[1부 : NADH 1분자] ④ ATP 합성효소 : H⁺ 10개 → 2.5 ATP 생성!'); await synth(2, true);
+                await W(1000);
+
+                $('rs-atpcnt').textContent = '0'; pulse($('rs-atpcnt'));
+                banner('[2부 : FADH₂ 1분자] ① 복합체 II : FADH₂ → QH₂ (H⁺ 펌핑 없음 · 0H⁺)'); await cII();
+                banner('[2부 : FADH₂ 1분자] ② 복합체 III : QH₂ → Cyt c (H⁺ 4개 펌핑 · 누적 4H⁺)'); await cIII();
+                banner('[2부 : FADH₂ 1분자] ③ 복합체 IV : Cyt c → O₂ → H₂O (H⁺ 2개 펌핑 · 누적 6H⁺)'); await cIV();
+                banner('[2부 : FADH₂ 1분자] ④ ATP 합성효소 : H⁺ 6개 → 1.5 ATP 생성!'); await synth(1, true);
+                $('rs-nopump').style.opacity = 0;
+                await W(800);
+
+                $('rs-atpcnt').textContent = '2.5 / 1.5';
+                banner('비교 완료 : NADH 1분자 = 2.5 ATP (10H⁺) · FADH₂ 1분자 = 1.5 ATP (6H⁺)');
                 const L = $('rs-ledger'); L.style.display = 'block'; await appear(L, 600);
             } }
         };
@@ -1800,7 +1849,7 @@
         const lastP = atp.querySelectorAll('.p-ball')[2], pp = pos(lastP);
         lastP.remove();
         const p = sp('p', pp);
-        tip('ATP → ADP + P (인산기 이탈)', off(top, 0, -24), 1500);
+        tip('ATP → ADP + P (말단 인산기 이탈)', off(top, 0, -24), 1500);
         await W(300);
         await fly(p, [pos($(targetId))], 850);
         p.remove(); showProd(); pulse($(targetId));
