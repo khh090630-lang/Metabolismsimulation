@@ -1252,12 +1252,14 @@
                 hideProd();
                 await h2o('in', AP(P, 'C', 1), 'C=C 이중결합에 H₂O 첨가 (수화)');
                 showProd();
-                const g = atomEl(P, 'O', 0); glow(g);
+                /* 변경 전: const g = atomEl(P, 'O', 0); glow(g); */
+                const g = atomEl(P, 'OH', 0); glow(g); 
                 tip('OH 생성 → 말산', off(pos(g), 0, -16), 2000, ORG); await W(1600);
             },
             19: async () => {
                 hideProd();
-                const g = atomEl(R, 'O', 0);
+                /* 변경 전: const g = atomEl(R, 'O', 0); */
+                const g = atomEl(R, 'OH', 0);
                 await reduce(false, pos(g), 'OH 탄소에서 2e⁻ + 2H⁺ 이탈 → C=O');
                 showProd();
                 banner('TCA 회로 1바퀴 : CO₂ 2 · NADH 3 · FADH₂ 1 · GTP 1<br><span style="color:#fed330;">옥살아세트산 재생 → 포도당 1분자당 2바퀴</span>');
