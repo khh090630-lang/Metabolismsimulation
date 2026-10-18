@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>세포호흡 · 광합성 시뮬레이터</title>
+    <title>세포호흡 · 광합성 · 발효 시뮬레이터</title>
     <style>
         :root {
             --bg: #1e272e;
@@ -251,6 +251,24 @@
         .cyc-token b { margin-right: 4px; }
         #screen-ps .mol-structure.zoom { zoom: 0.82; }
         #screen-ps .plus { margin: 4px 0; text-align: center; color: #e84118; font-size: 1.4rem; font-weight: bold; }
+
+        /* ================= 발효 시뮬레이터 (추가) ================= */
+        #screen-fm .progress-fill { background: #e056fd; }
+        #screen-fm .info-panel { border-top-color: #e056fd; }
+        #screen-fm .info-panel h3 { color: #e056fd; }
+        #screen-fm .desc-box { border-left-color: #e056fd; white-space: pre-line; }
+        #screen-fm .nav-btn:hover:not(:disabled) { background: #be2edd; border-color: #be2edd; }
+        #screen-fm .sim-body { min-height: 760px; }
+        #fm-anim-layer { position: absolute; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
+        .menu-card.fm-card:hover { border-color: #e056fd; }
+        .fm-all-btn { margin-top: 3rem; margin-bottom: 3rem; padding: 1.2rem 4rem; font-size: 1.3rem; cursor: pointer; background: #be2edd; color: white; border: none; border-radius: 40px; font-weight: bold; box-shadow: 0 4px 15px rgba(190, 46, 221, 0.4); }
+        #fm-box-prod { transition: opacity 0.5s, transform 0.5s; }
+        .fm-cmp { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 96; background: rgba(8,12,16,0.95); border: 2px solid #e056fd; border-radius: 16px; padding: 16px 22px; min-width: 560px; }
+        .fm-cmp h4 { margin: 0 0 10px; color: #e056fd; text-align: center; }
+        .fm-cmp table { border-collapse: collapse; width: 100%; font-size: 14px; color: #ddd; }
+        .fm-cmp th, .fm-cmp td { border-bottom: 1px solid #333; padding: 7px 8px; text-align: center; }
+        .fm-cmp th { color: #aaa; font-weight: normal; }
+        .fm-cmp td.n { color: #fed330; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -292,6 +310,19 @@
                 </div>
             </div>
             <button class="ps-all-btn" onclick="psStart('all')">광합성 전체 16단계 연속 재생</button>
+            <div class="menu-divider"></div>
+            <h2 class="menu-sec-title" style="color:#e056fd;">🍶 발효 (Fermentation)</h2>
+            <div class="menu-grid" style="margin-top:2rem;">
+                <div class="menu-card fm-card" onclick="fmStart('lactic')">
+                    <h2 style="color:#e056fd; margin-top:0;">젖산 발효</h2>
+                    <p style="color:#aaa;">1 ~ 2단계 + 정리<br>근육 세포 · 젖산균</p>
+                </div>
+                <div class="menu-card fm-card" onclick="fmStart('alcohol')">
+                    <h2 style="color:#fed330; margin-top:0;">알코올 발효</h2>
+                    <p style="color:#aaa;">1, 3 ~ 4단계 + 정리<br>효모 · 탈탄산 · 에탄올</p>
+                </div>
+            </div>
+            <button class="fm-all-btn" onclick="fmStart('all')">발효 전체 5단계 연속 재생</button>
         </div>
 
         <!-- 2. 시뮬레이터 화면 -->
@@ -396,6 +427,40 @@
                     <div class="info-row"><span class="badge b-prod" style="color:#10ac84;">생성물</span><span id="info-prod"></span></div>
                     <div class="info-row"><span class="badge b-enz" style="color:#feca57;">관여 효소</span><span id="info-enz"></span></div>
                     <div class="desc-box" id="info-desc">상세 설명</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. 발효 시뮬레이터 화면 (추가) -->
+        <div id="screen-fm" class="screen">
+            <div class="sim-header">
+                <h2 id="fm-title" style="margin:0; color:#e056fd;">단계명</h2>
+                <div class="progress-bar"><div class="progress-fill" id="fm-progress"></div></div>
+                <span id="fm-counter" style="font-weight:bold; font-size:1.2rem; color:#e056fd;">1 / 5</span>
+            </div>
+            <div class="sim-body">
+                <div class="visual-area">
+                    <div class="views-container">
+                        <div id="fm-anim-layer"></div>
+                        <div class="reaction-view" style="display:flex;">
+                            <div class="mol-box"><div class="mol-name" id="fm-name-react">반응물</div><div class="mol-structure" id="fm-struct-react"></div></div>
+                            <div class="arrow-wrap"><div class="enz-tag" id="fm-enz-name">효소</div><div class="arrow-line">&#10230;</div></div>
+                            <div class="mol-box" id="fm-box-prod" style="opacity:0.3;"><div class="mol-name prod" id="fm-name-prod">생성물</div><div class="mol-structure" id="fm-struct-prod"></div></div>
+                        </div>
+                    </div>
+                    <div class="nav-controls" style="display:flex;">
+                        <button class="nav-btn" onclick="goHome()">&#8962; 메뉴</button>
+                        <button class="nav-btn" id="fm-prev" onclick="fmMove(-1)">&#8592; 이전</button>
+                        <button class="nav-btn replay-btn" onclick="fmReplay()">다시 재생</button>
+                        <button class="nav-btn" id="fm-next" onclick="fmMove(1)">다음 &#8594;</button>
+                    </div>
+                </div>
+                <div class="info-panel">
+                    <h3 id="fm-info-name">단계명</h3>
+                    <div class="info-row"><span class="badge" style="color:#00d2d3;">반응물</span><span id="fm-info-react"></span></div>
+                    <div class="info-row"><span class="badge" style="color:#10ac84;">생성물</span><span id="fm-info-prod"></span></div>
+                    <div class="info-row"><span class="badge" style="color:#feca57;">관여 효소</span><span id="fm-info-enz"></span></div>
+                    <div class="desc-box" id="fm-info-desc"></div>
                 </div>
             </div>
         </div>
@@ -2244,5 +2309,217 @@
     window.addEventListener('resize', () => { if ($('screen-ps').classList.contains('active') && list.length) play(); });
 })();
 </script>
+<script>
+/* =====================================================================
+   발효 시뮬레이터 (추가) — 젖산 발효 / 알코올 발효
+   세포호흡의 구조식 헬퍼(Row, VRow, A, C, H_left ...)와 M.pyruvate 재사용
+   ===================================================================== */
+(function () {
+    const $ = id => document.getElementById(id);
+    let tok = 0, list = [], idx = 0, bannerEl = null;
+    window.addEventListener('unhandledrejection', ev => { if (ev.reason === 'fm-stop') ev.preventDefault(); });
+    const W = ms => new Promise((res, rej) => { const t = tok; setTimeout(() => (t === tok ? res() : rej('fm-stop')), ms); });
+    const layer = () => $('fm-anim-layer');
+
+    function pos(el) { const r = el.getBoundingClientRect(), L = layer().getBoundingClientRect(); return { x: r.left - L.left + r.width / 2, y: r.top - L.top + r.height / 2 }; }
+    const off = (p, dx = 0, dy = 0) => ({ x: p.x + dx, y: p.y + dy });
+    function mk(cls, html, p) { const d = document.createElement('div'); d.className = cls; d.innerHTML = html; d.style.left = p.x + 'px'; d.style.top = p.y + 'px'; layer().appendChild(d); return d; }
+    const PART = { e: ['fly-e', 'e⁻'], h: ['fly-h', 'H⁺'], p: ['fly-p', 'P'] };
+    function sp(t, p) { const d = mk(PART[t][0], PART[t][1], p); d.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200 }); return d; }
+    function fly(el, pts, dur = 700) {
+        const cur = { x: parseFloat(el.style.left), y: parseFloat(el.style.top) };
+        el.animate([cur, ...pts].map(q => ({ left: q.x + 'px', top: q.y + 'px' })), { duration: dur, easing: 'ease-in-out', fill: 'forwards' });
+        const last = pts[pts.length - 1];
+        return W(dur).then(() => { el.style.left = last.x + 'px'; el.style.top = last.y + 'px'; el.getAnimations().forEach(a => a.cancel()); });
+    }
+    function fade(el, to, dur = 400) { const from = getComputedStyle(el).opacity; el.animate([{ opacity: from }, { opacity: to }], { duration: dur, fill: 'forwards' }); return W(dur).then(() => { el.style.opacity = to; }); }
+    function appear(el, dur = 300) { el.style.opacity = 0; return fade(el, 1, dur); }
+    function pulse(el) { el.animate([{ filter: 'brightness(1)' }, { filter: 'brightness(2) drop-shadow(0 0 10px #fff)' }, { filter: 'brightness(1)' }], { duration: 650 }); }
+    function glow(el) { if (el) el.animate([{ boxShadow: '0 0 0 0 #fff' }, { boxShadow: '0 0 18px 6px #fed330' }, { boxShadow: '0 0 0 0 #fff' }], { duration: 1200 }); }
+    function tip(text, p, dur = 1800, color = '#e056fd') {
+        const t = mk('ps-tip', text, p); t.style.borderColor = color;
+        t.animate([{ opacity: 0, transform: 'translate(-50%, -70%)' }, { opacity: 1, transform: 'translate(-50%, -100%)', offset: 0.12 },
+            { opacity: 1, transform: 'translate(-50%, -100%)', offset: 0.88 }, { opacity: 0, transform: 'translate(-50%, -120%)' }], { duration: dur, fill: 'forwards' });
+        setTimeout(() => t.remove(), dur + 50); return t;
+    }
+    function banner(text) {
+        if (!bannerEl) { bannerEl = document.createElement('div'); bannerEl.className = 'cyc-banner'; bannerEl.style.borderColor = '#e056fd'; layer().appendChild(bannerEl); }
+        bannerEl.innerHTML = text; bannerEl.animate([{ opacity: 0.2 }, { opacity: 1 }], { duration: 350 });
+    }
+    function blk(html, p) { const b = mk('ps-blk', html, p); appear(b); return b; }
+    async function away(el, to, dur = 900) { await Promise.all([fly(el, [to], dur), W(dur * 0.45).then(() => fade(el, 0, dur * 0.55))]); el.remove(); }
+    async function token(text, from, to, dur = 1000, keep) { const t = mk('rs-token', text, from); t.style.borderColor = '#e056fd'; appear(t, 200); await fly(t, [to], dur); if (!keep) { await fade(t, 0, 300); t.remove(); } return t; }
+
+    const NAD_H = `<div class="a-base a-nad">NAD⁺</div>`;
+    const NADH_H = `<div class="a-base a-nad" style="background:#20bf6b;">NADH</div>`;
+    const CO2_H = `<div class="a-base a-co2">CO₂</div>`;
+    const ATP_H = `<div class="a-base a-ad">Ad</div><div style="display:flex;gap:2px;"><div class="p-ball">P</div><div class="p-ball">P</div><div class="p-ball" style="background:#e84118;color:white;">P</div></div>`;
+
+    /* ---------- 구조식 (세포호흡 헬퍼 재사용) ---------- */
+    const Hh = () => Row('', A('H'), '');
+    const S = {
+        pyruvate: () => M.pyruvate,
+        lactate: () => Row(O_minus_left, C('C', '', 'fm-c1'), O_db_right) + VRow('v') + Row(H_left, C('C', '', 'fm-c2'), OH_right) + VRow('v') + Row(H_left, C('C', ''), H_right) + VRow('v') + Hh(),
+        acetal: (id = '') => Row(H_left, C('C', '', id || 'fm-ald'), O_db_right) + VRow('v') + Row(H_left, C('C', ''), H_right) + VRow('v') + Hh(),
+        ethanol: () => Hh() + VRow('v') + Row(H_left, C('C', '', 'fm-eth'), OH_right) + VRow('v') + Row(H_left, C('C', ''), H_right) + VRow('v') + Hh(),
+        glucose: () => `<div style="display:flex;flex-direction:column;align-items:center;gap:8px;"><div class="rs-token" style="position:static;transform:none;">포도당 (6C)</div></div>`,
+        pyr2: () => `<div style="display:flex;flex-direction:column;align-items:center;gap:8px;"><div class="rs-token" style="position:static;transform:none;">피루브산 (3C) × 2</div><div class="rs-token" style="position:static;transform:none;border-color:#20bf6b;">NADH × 2</div><div class="rs-token" style="position:static;transform:none;border-color:#e84118;">ATP × 2 (순)</div></div>`
+    };
+    const atomsOf = (box, cls) => [...$(box).querySelectorAll('.atom' + (cls ? '.' + cls : ''))].sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
+    const E = () => pos($('fm-enz-name'));
+    const TOP = () => off(E(), 0, -112);
+    function hideProd() { const b = $('fm-box-prod'); b.style.opacity = '0.3'; b.style.transform = 'scale(0.95)'; }
+    function showProd() { const b = $('fm-box-prod'); b.style.opacity = '1'; b.style.transform = 'scale(1)'; }
+
+    // NADH가 2e⁻ + H⁺를 기질 탄소에 넘기고 NAD⁺로 산화 → 해당 과정으로 귀환
+    async function oxidizeNADH(targetEl, endTip) {
+        const top = TOP();
+        const b = blk(NADH_H, off(top, 0, -60)); await fly(b, [top], 600);
+        tip('해당 과정에서 만든 NADH', off(top, 0, -26), 1300, '#20bf6b');
+        await W(700);
+        const bp = pos(b), es = [sp('e', off(bp, -10, 0)), sp('e', off(bp, 10, 0))], h1 = sp('h', off(bp, 0, 16));
+        const h2 = sp('h', off(E(), 70, 160));
+        b.innerHTML = NAD_H; pulse(b);
+        tip('NADH → NAD⁺ + 2e⁻ + H⁺ (산화)', off(top, 0, -26), 1700, '#f1c40f');
+        tip('용액의 H⁺ 1개', off(E(), 70, 142), 1500, '#00a8ff');
+        await W(400);
+        const t = pos(targetEl);
+        await Promise.all([...es.map((e, i) => fly(e, [off(t, -8 + 16 * i, -6)], 1000 + i * 100)), fly(h1, [off(t, -14, 10)], 1150), fly(h2, [off(t, 14, 10)], 1250)]);
+        [...es, h1, h2].forEach(x => x.remove());
+        showProd(); glow(targetEl);
+        tip(endTip, off(t, 0, -18), 2200, '#fed330');
+        await W(900);
+        tip('NAD⁺ 재생 → 다시 해당 과정 6단계로!', off(top, -60, -60), 2200, '#8e44ad');
+        await away(b, off(top, -170, -60), 1300);
+        await W(1300);
+    }
+
+    /* ---------- 단계 애니메이션 ---------- */
+    async function F1() {
+        hideProd();
+        const src = pos($('fm-struct-react'));
+        const nad = blk(NAD_H, off(E(), 0, -110));
+        tip('해당 과정 6단계: NAD⁺가 전자를 받아야 진행', off(E(), 0, -136), 1900);
+        await W(900);
+        const es = [sp('e', off(src, -10, 0)), sp('e', off(src, 10, 0)), sp('h', off(src, 0, 16))];
+        await Promise.all(es.map((e, i) => fly(e, [off(pos(nad), -10 + i * 10, 0)], 1000)));
+        es.forEach(e => e.remove()); nad.innerHTML = NADH_H; pulse(nad); showProd();
+        tip('NAD⁺ → NADH', off(pos(nad), 0, -22), 1500, '#20bf6b');
+        await W(1300);
+        const x = mk('ps-tip', '✕ O₂ 없음 → 전자전달계 정지', off(E(), 0, 150)); x.style.borderColor = '#ff6b6b';
+        await W(1300);
+        tip('NADH가 쌓이고 NAD⁺가 바닥남', off(pos(nad), 0, -22), 2000, '#ff6b6b');
+        await W(1600);
+        banner('NAD⁺가 없으면 해당 과정이 멈춤 → ATP 2개조차 못 만듦<br><span style="color:#fed330;">해결책: 피루브산에 NADH의 전자를 넘겨 NAD⁺를 재생 = 발효</span>');
+        await W(800);
+    }
+    async function F2() {
+        hideProd();
+        const c2 = atomsOf('fm-struct-react', 'C')[1];
+        glow(c2); tip('C2의 C=O (케톤기)', off(pos(c2), 60, -14), 1600);
+        await W(800);
+        await oxidizeNADH($('fm-c2') || c2, 'C=O → CH–OH (환원) : 젖산');
+    }
+    async function F3() {
+        hideProd();
+        const c1 = atomsOf('fm-struct-react', 'C')[0], p = pos(c1);
+        glow(c1); tip('C1의 카복실기 (COO⁻)', off(p, 70, -14), 1600);
+        await W(900);
+        const c = blk(CO2_H, p);
+        tip('탈탄산: CO₂ 방출 (3C → 2C)', off(p, 0, -24), 1900, '#a4b0be');
+        await W(500);
+        await away(c, off(p, -40, -160), 1500);
+        tip('빵이 부풀고 술에 거품이 생기는 이유', off(E(), 0, 150), 2200, '#fed330');
+        showProd(); glow($('fm-ald'));
+        await W(1200);
+        tip('아세트알데하이드 (2C)', off(pos($('fm-ald')), 0, -18), 2000);
+        await W(1800);
+    }
+    async function F4() {
+        hideProd();
+        const c = $('fm-ald2'); glow(c);
+        tip('알데하이드기 (C=O)', off(pos(c), 60, -14), 1600);
+        await W(800);
+        await oxidizeNADH($('fm-eth'), 'C=O → CH₂–OH (환원) : 에탄올');
+    }
+    async function F5() {
+        const box = document.createElement('div'); box.className = 'fm-cmp';
+        box.innerHTML = `<h4>발효 정리 (포도당 1분자 기준)</h4><table>
+            <tr><th></th><th>젖산 발효</th><th>알코올 발효</th></tr>
+            <tr><td>생물</td><td>젖산균, 사람 근육 세포(산소 부족 시)</td><td>효모</td></tr>
+            <tr><td>최종 전자 수용체</td><td>피루브산</td><td>아세트알데하이드</td></tr>
+            <tr><td>최종 산물</td><td class="n">젖산 2</td><td class="n">에탄올 2 + CO₂ 2</td></tr>
+            <tr><td>NAD⁺ 재생</td><td>2</td><td>2</td></tr>
+            <tr><td>ATP</td><td class="n">2 (해당 과정만)</td><td class="n">2 (해당 과정만)</td></tr>
+            <tr><td>장소</td><td colspan="2">세포질 (미토콘드리아 사용 안 함)</td></tr></table>
+            <div style="margin-top:8px;font-size:12px;color:#aaa;text-align:center;">산소 호흡(약 32 ATP)과 비교하면 매우 비효율적 → 젖산·에탄올에 아직 에너지가 많이 남아 있음</div>`;
+        layer().appendChild(box); await appear(box, 600);
+        const L = layer().getBoundingClientRect();
+        const loop = mk('rs-token', '포도당 → 피루브산 (NAD⁺ → NADH)', { x: L.width / 2, y: 40 });
+        loop.style.borderColor = '#e056fd';
+        for (let i = 0; i < 3; i++) {
+            await W(1200);
+            loop.textContent = '피루브산 → 젖산/에탄올 (NADH → NAD⁺)'; pulse(loop);
+            await W(1200);
+            loop.textContent = '포도당 → 피루브산 (NAD⁺ → NADH)'; pulse(loop);
+        }
+    }
+
+    const FDB = [
+        { g: 'all', phase: '공통 · 해당 과정', name: '1. 산소가 없다면? (NAD⁺ 고갈)', nr: '포도당', np: '피루브산 × 2', strR: S.glucose, strP: S.pyr2, enz: '해당 과정\n10단계',
+          react: '포도당, 2NAD⁺, 2ADP', prod: '피루브산 2, NADH 2, ATP 2(순)', run: F1,
+          desc: '해당 과정은 산소 없이 세포질에서 일어나 ATP 2개를 만든다. 다만 6단계에서 반드시 NAD⁺가 전자를 받아 NADH가 되어야 한다.\n\n산소가 없으면 전자전달계가 멈춰 NADH가 NAD⁺로 돌아가지 못한다. NAD⁺가 바닥나면 해당 과정마저 멈춘다.\n\n그래서 세포는 NADH의 전자를 피루브산(또는 그 산물)에 넘겨 NAD⁺를 재생하는데, 이것이 발효다.' },
+        { g: 'lactic', phase: '젖산 발효', name: '2. 피루브산의 환원 → 젖산', nr: '피루브산 (3C)', np: '젖산 (3C)', strR: S.pyruvate, strP: S.lactate, enz: '젖산 탈수소효소\n(LDH)',
+          react: '피루브산 + NADH + H⁺', prod: '젖산 + NAD⁺', run: F2,
+          desc: '젖산 탈수소효소(LDH)가 NADH의 전자 2개와 H⁺를 피루브산의 C2(C=O)에 넘겨, 피루브산이 젖산으로 환원된다.\n\n이때 NADH는 NAD⁺로 산화되어 다시 해당 과정에 쓰인다. CO₂는 생기지 않는다.\n\n예: 젖산균(요구르트, 김치), 산소가 부족한 근육 세포. 근육에 쌓인 젖산은 간으로 운반되어 다시 포도당으로 바뀐다.' },
+        { g: 'alcohol', phase: '알코올 발효', name: '3. 탈탄산 → 아세트알데하이드', nr: '피루브산 (3C)', np: '아세트알데하이드 (2C) + CO₂', strR: S.pyruvate, strP: () => S.acetal(), enz: '피루브산\n탈탄산효소',
+          react: '피루브산', prod: '아세트알데하이드 + CO₂', run: F3,
+          desc: '피루브산 탈탄산효소가 피루브산의 카복실기(C1)를 CO₂로 떼어내 2탄소 아세트알데하이드를 만든다.\n\n이 단계에서는 NADH가 쓰이지 않는다. 이때 나온 CO₂가 빵 반죽을 부풀리고 술에 거품을 만든다.' },
+        { g: 'alcohol', phase: '알코올 발효', name: '4. 아세트알데하이드의 환원 → 에탄올', nr: '아세트알데하이드 (2C)', np: '에탄올 (2C)', strR: () => S.acetal('fm-ald2'), strP: S.ethanol, enz: '알코올\n탈수소효소',
+          react: '아세트알데하이드 + NADH + H⁺', prod: '에탄올 + NAD⁺', run: F4,
+          desc: '알코올 탈수소효소가 NADH의 전자 2개와 H⁺를 아세트알데하이드의 알데하이드기에 넘겨 에탄올로 환원시킨다.\n\nNADH는 NAD⁺로 재생되어 해당 과정으로 돌아간다. 알코올 발효에서 최종 전자 수용체는 아세트알데하이드다.\n\n예: 효모(빵, 맥주, 와인).' },
+        { g: 'all', phase: '발효 정리', name: '5. 젖산 발효 vs 알코올 발효', nr: '', np: '', strR: () => '', strP: () => '', enz: '',
+          react: '포도당', prod: '젖산 2 / 에탄올 2 + CO₂ 2, ATP 2', run: F5,
+          desc: '두 발효 모두 목적은 NAD⁺ 재생이다. 발효 단계 자체에서는 ATP가 만들어지지 않으므로 ATP는 해당 과정의 2개뿐이다.\n\n산소 호흡(약 32 ATP)에 비해 효율이 매우 낮지만, 산소 없이도 빠르게 ATP를 얻을 수 있다.\n\n* 발효는 주로 미생물의 대사를 설명할 때 쓰는 말이고, 사람의 대사에서는 무산소(혐기성) 경로로 표현하기도 한다.' }
+    ];
+
+    async function play() {
+        const d = list[idx]; tok++; const my = tok;
+        layer().innerHTML = ''; bannerEl = null;
+        $('fm-name-react').innerText = d.nr; $('fm-name-prod').innerText = d.np;
+        $('fm-struct-react').innerHTML = d.strR(); $('fm-struct-prod').innerHTML = d.strP();
+        $('fm-enz-name').innerText = d.enz;
+        document.querySelector('#screen-fm .reaction-view').style.visibility = d.nr ? 'visible' : 'hidden';
+        $('fm-box-prod').style.opacity = '1'; $('fm-box-prod').style.transform = 'scale(1)';
+        await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+        if (my !== tok) return;
+        try { await d.run(); } catch (e) { if (e !== 'fm-stop') console.error(e); }
+    }
+    function update() {
+        const d = list[idx];
+        $('fm-title').innerText = d.phase;
+        $('fm-counter').innerText = `${idx + 1} / ${list.length}`;
+        $('fm-progress').style.width = `${((idx + 1) / list.length) * 100}%`;
+        $('fm-info-name').innerText = d.name; $('fm-info-react').innerText = d.react;
+        $('fm-info-prod').innerText = d.prod; $('fm-info-enz').innerText = d.enz.replace(/\n/g, ' ') || '—';
+        $('fm-info-desc').innerText = d.desc;
+        $('fm-prev').disabled = idx === 0; $('fm-next').disabled = idx === list.length - 1;
+        play();
+    }
+    window.fmStart = function (scope) {
+        list = scope === 'all' ? FDB : FDB.filter(d => d.g === 'all' || d.g === scope);
+        idx = 0;
+        document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+        $('screen-fm').classList.add('active');
+        const nc = $('nav-controls'); if (nc) nc.style.display = 'none';
+        window.scrollTo(0, 0); update();
+    };
+    window.fmMove = dir => { idx = Math.max(0, Math.min(list.length - 1, idx + dir)); update(); };
+    window.fmReplay = () => play();
+    const _home = window.goHome;
+    window.goHome = function () { tok++; if (layer()) layer().innerHTML = ''; if (_home) _home(); };
+})();
+</script>
+
 </body>
 </html>
