@@ -2833,5 +2833,688 @@
 })();
 </script>
 
+    <!-- ===================== 🧪 세포호흡 저해제 시뮬레이터 (독립 추가 모듈) ===================== -->
+<style>
+    /* 메인 메뉴 저해제 카드 스타일 */
+    .menu-card.inh-card:hover { border-color: #ff6b6b; }
+    .inh-all-btn { margin-top: 2.5rem; margin-bottom: 3rem; padding: 1.1rem 3.5rem; font-size: 1.25rem; cursor: pointer; background: #eb3b5a; color: white; border: none; border-radius: 40px; font-weight: bold; box-shadow: 0 4px 15px rgba(235, 59, 90, 0.4); transition: 0.2s; }
+    .inh-all-btn:hover { transform: translateY(-2px); background: #fc5c65; }
+
+    /* 저해제 전용 화면 테마 */
+    #screen-inh .sim-body { min-height: 760px; }
+    #screen-inh .views-container { padding-bottom: 150px; }
+    #screen-inh .progress-fill { background: #ff6b6b; }
+    #screen-inh .info-panel { border-top-color: #ff6b6b; }
+    #screen-inh .info-panel h3 { color: #ff6b6b; }
+    #screen-inh .desc-box { border-left-color: #ff6b6b; white-space: pre-line; }
+    #screen-inh .nav-btn:hover:not(:disabled) { background: #eb3b5a; border-color: #eb3b5a; }
+    #screen-inh .replay-btn:hover { background: #f1c40f !important; border-color: #f1c40f !important; }
+    #inh-anim-layer { position: absolute; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
+
+    /* 미토콘드리아 내막 뷰 (저해제용) */
+    #inh-etc-view { position: relative; width: 100%; height: 100%; min-height: 540px; border-radius: 15px; overflow: hidden;
+        background: linear-gradient(to bottom, #2a1a12 0%, #24160f 38%, #0f1e26 62%, #0b1a22 100%); transition: background 0.5s; }
+    #inh-etc-view.over-h { background: linear-gradient(to bottom, #153c52 0%, #102e40 38%, #0f1e26 62%, #0b1a22 100%); }
+    #inh-etc-view.heat-mode { background: linear-gradient(to bottom, #2a1a12 0%, #24160f 38%, #2e1612 62%, #3b1710 100%); }
+
+    /* 상태 계기판 (O₂ 소비, ATP 생성, 열 발생) */
+    .inh-meters { position: absolute; right: 14px; top: 10px; z-index: 15; display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .inh-meter { color: #ddd; font-weight: bold; font-size: 13px; background: rgba(0,0,0,0.6); border: 1px solid #555; border-radius: 10px; padding: 5px 11px; display: flex; align-items: center; gap: 5px; }
+    .inh-meter b { font-size: 1.05rem; }
+
+    /* 전자전달계 저해 부위 세부 선택 탭 */
+    .inh-subtabs { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 80; display: none; gap: 8px; background: rgba(15, 22, 30, 0.9); padding: 6px 12px; border-radius: 25px; border: 1px solid #555; }
+    .inh-subbtn { background: #2f3640; color: #ccc; border: 1px solid #666; border-radius: 16px; padding: 5px 12px; font-size: 12px; font-weight: bold; cursor: pointer; transition: 0.2s; white-space: nowrap; }
+    .inh-subbtn:hover { border-color: #ff6b6b; color: #fff; }
+    .inh-subbtn.active { background: #eb3b5a; color: #fff; border-color: #ff6b6b; box-shadow: 0 0 10px rgba(235,59,90,0.5); }
+
+    /* 저해제 블록 & 짝풀림제 통로 & 열 입자 */
+    .inh-blocker { position: absolute; transform: translate(-50%, -50%); background: #3b0d11; border: 2px solid #ff4757; color: #ff6b81; padding: 5px 11px; border-radius: 10px; font-size: 12px; font-weight: 900; z-index: 85; white-space: nowrap; box-shadow: 0 0 18px rgba(255, 71, 87, 0.85); pointer-events: none; }
+    .inh-uncoupler { position: absolute; left: 75.5%; top: 51%; transform: translate(-50%, -50%); width: 56px; height: 126px; background: repeating-linear-gradient(180deg, #e67e22 0 10px, #d35400 10px 20px); border: 2px dashed #fed330; border-radius: 14px; z-index: 6; display: none; flex-direction: column; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 11px; box-shadow: 0 0 20px rgba(243, 156, 18, 0.7); text-align: center; line-height: 1.25; }
+    .inh-uncoupler .u-arrow { font-size: 18px; color: #fed330; margin-top: 2px; animation: uFlow 0.55s infinite linear; }
+    @keyframes uFlow { 0% { transform: translateY(-4px); opacity: 0.4; } 50% { opacity: 1; } 100% { transform: translateY(6px); opacity: 0.4; } }
+    .fly-heat { position: absolute; transform: translate(-50%, -50%); background: radial-gradient(circle, #fff200 0%, #ff7f50 55%, #eb2f06 100%); color: #111; font-weight: 900; font-size: 10px; padding: 3px 8px; border-radius: 12px; z-index: 78; box-shadow: 0 0 14px #ff5252; white-space: nowrap; pointer-events: none; }
+    .thy-rotor.stopped { animation-play-state: paused !important; opacity: 0.45; }
+</style>
+
+<script>
+(function () {
+    const $ = id => document.getElementById(id);
+
+    /* 1. 메인 메뉴에 '세포호흡 저해제' 섹션 및 3대 카드 자동 주입 */
+    function injectMenuAndScreen() {
+        const main = $('screen-main');
+        const app = $('app');
+        if (!main || !app) return;
+
+        const menuHtml = `
+            <div class="menu-divider"></div>
+            <h2 class="menu-sec-title" style="color:#ff6b6b;">🧪 세포호흡 저해제 (Respiration Inhibitors)</h2>
+            <div class="menu-grid" style="margin-top:2rem;">
+                <div class="menu-card inh-card" onclick="inhStart('etc')">
+                    <h2 style="color:#ff6b6b; margin-top:0;">전자전달계 저해제</h2>
+                    <p style="color:#aaa;">로테논 · 안티마이신 A · CN⁻ / CO<br>전자 전달 차단 · H⁺ 펌핑 중단</p>
+                </div>
+                <div class="menu-card inh-card" onclick="inhStart('atp')">
+                    <h2 style="color:#f7b731; margin-top:0;">ATP 합성효소 저해제</h2>
+                    <p style="color:#aaa;">올리고마이신 (Oligomycin)<br>F₀ 통로 차단 · H⁺ 과축적 후 정지</p>
+                </div>
+                <div class="menu-card inh-card" onclick="inhStart('uncoupler')">
+                    <h2 style="color:#ff9f43; margin-top:0;">짝풀림제 (Uncoupler)</h2>
+                    <p style="color:#aaa;">DNP · 써모제닌 (갈색 지방)<br>H⁺ 기울기 소실 · O₂ 급증 · 발열</p>
+                </div>
+            </div>
+            <button class="inh-all-btn" onclick="inhStart('all')">저해제 3종 연속 재생 & 종합 비교</button>
+        `;
+        main.insertAdjacentHTML('beforeend', menuHtml);
+
+        /* 2. 저해제 전용 시뮬레이터 화면(#screen-inh) 주입 */
+        const screenHtml = `
+        <div id="screen-inh" class="screen">
+            <div class="sim-header">
+                <h2 id="inh-title" style="margin:0; color:#ff6b6b;">단계명</h2>
+                <div class="progress-bar"><div class="progress-fill" id="inh-progress"></div></div>
+                <span id="inh-counter" style="font-weight:bold; font-size:1.2rem; color:#ff6b6b;">1 / 4</span>
+            </div>
+
+            <div class="sim-body">
+                <div class="visual-area">
+                    <div class="views-container" id="inh-views">
+                        <div id="inh-anim-layer"></div>
+
+                        <div id="inh-etc-view">
+                            <div class="rs-label" style="top:10px;">막간 공간 (<span id="inh-ims-state">H⁺ 고농도</span>)<span class="hcnt" id="inh-hcnt"></span></div>
+                            <div class="rs-label" style="bottom:10px;">미토콘드리아 기질 (H⁺ 저농도)</div>
+
+                            <div class="inh-meters">
+                                <div class="inh-meter">O₂ 소비<b id="inh-o2-stat" style="color:#00d2d3;">정상</b></div>
+                                <div class="inh-meter">ATP 생성<b id="inh-atp-stat" style="color:#e84118;">0</b></div>
+                                <div class="inh-meter">열 발생<b id="inh-heat-stat" style="color:#fed330;">정상</b></div>
+                            </div>
+
+                            <div class="rs-mem"><span class="mem-tag">미토콘드리아 내막</span></div>
+
+                            <div class="rx rx-I" id="inh-c1">
+                                <div class="rx-title">복합체 I</div>
+                                <div class="rs-sub" id="inh-fes1" style="top:42%;">FeS</div>
+                                <div class="rs-sub" id="inh-fmn" style="top:80%;">FMN</div>
+                            </div>
+                            <div class="carrier rs-q" id="inh-q"><span class="lbl">Q</span></div>
+                            <div class="rx rx-II" id="inh-c2">
+                                <div class="rx-title">복합체 II</div>
+                                <div class="rs-sub" id="inh-fes2" style="top:44%;">FeS</div>
+                                <div class="rs-sub" id="inh-fad" style="top:76%;"><span class="lbl">FAD</span></div>
+                            </div>
+                            <div class="rx rx-III" id="inh-c3">
+                                <div class="rx-title">복합체 III</div>
+                                <div class="rs-sub" id="inh-cytc1" style="top:30%;">Cyt c₁</div>
+                                <div class="rs-sub" id="inh-cytb" style="top:62%;">Cyt b</div>
+                            </div>
+                            <div class="carrier rs-c" id="inh-cc1" style="left:53%; top:34%;"><span class="lbl">c</span></div>
+                            <div class="carrier rs-c" id="inh-cc2" style="left:56.5%; top:27%;"><span class="lbl">c</span></div>
+                            <div class="rx rx-IV" id="inh-c4">
+                                <div class="rx-title">복합체 IV</div>
+                                <div class="rs-sub" id="inh-cyta" style="top:30%;">Cyt a</div>
+                                <div class="rs-sub" id="inh-cyta3" style="top:64%;">Cyt a₃</div>
+                            </div>
+
+                            <!-- 짝풀림제(DNP/써모제닌) H⁺ 누출 통로 -->
+                            <div class="inh-uncoupler" id="inh-unc">
+                                <span>DNP<br>써모제닌</span>
+                                <span class="u-arrow">&#8595;</span>
+                            </div>
+
+                            <div class="rx rx-f0" id="inh-f0"><div class="thy-rotor" id="inh-rotor"></div><span style="position:relative;">F₀</span></div>
+                            <div class="rs-stalk"></div>
+                            <div class="rx rx-f1" id="inh-f1">F₁<span>ATP 합성효소</span></div>
+
+                            <div class="thy-legend" style="bottom:auto; top:48px;">
+                                <span><i style="background:#f1c40f;"></i>e⁻</span>
+                                <span><i style="background:#00a8ff;"></i>H⁺</span>
+                                <span><i style="background:#ff4757;"></i>저해제</span>
+                                <span><i style="background:#ff7f50;"></i>열(Heat)</span>
+                            </div>
+
+                            <!-- 전자전달계 저해제 세부 선택 탭 -->
+                            <div class="inh-subtabs" id="inh-subtabs">
+                                <button class="inh-subbtn active" data-sub="c4" onclick="inhSelectEtcSub('c4')">복합체 IV 저해 (CN⁻ · CO)</button>
+                                <button class="inh-subbtn" data-sub="c1" onclick="inhSelectEtcSub('c1')">복합체 I 저해 (로테논 · 아미탈)</button>
+                                <button class="inh-subbtn" data-sub="c3" onclick="inhSelectEtcSub('c3')">복합체 III 저해 (안티마이신 A)</button>
+                            </div>
+
+                            <!-- 종합 비교 정산표 -->
+                            <div class="rs-ledger" id="inh-ledger" style="border-color:#ff6b6b; min-width:620px;">
+                                <h4 style="color:#ff6b6b;">세포호흡 저해제 3종 종합 비교</h4>
+                                <table>
+                                    <tr><th>구분</th><th>정상 호흡</th><th>전자전달계 저해제<br><span style="font-size:11px;color:#aaa;">(로테논, 안티마이신A, CN⁻)</span></th><th>ATP 합성효소 저해제<br><span style="font-size:11px;color:#aaa;">(올리고마이신)</span></th><th>짝풀림제<br><span style="font-size:11px;color:#aaa;">(DNP, 써모제닌)</span></th></tr>
+                                    <tr><td>작용 표적</td><td>—</td><td>복합체 I / III / IV 차단</td><td>ATP 합성효소(F₀) 차단</td><td>내막 H⁺ 투과성 증가</td></tr>
+                                    <tr><td>전자 전달 · O₂ 소비</td><td>정상</td><td class="n" style="color:#ff6b6b;">정지 (감소)</td><td class="n" style="color:#ff6b6b;">과축적 후 정지 (감소)</td><td class="n" style="color:#26de81;">급증 (최대 속도)</td></tr>
+                                    <tr><td>막간 공간 H⁺ 농도</td><td>고농도 유지</td><td>기울기 소실 (감소)</td><td class="n" style="color:#00a8ff;">과축적 (최대치)</td><td>기울기 소실 (급감)</td></tr>
+                                    <tr><td>산화적 인산화 ATP</td><td>약 28 ATP</td><td class="n" style="color:#ff6b6b;">0 (합성 정지)</td><td class="n" style="color:#ff6b6b;">0 (합성 정지)</td><td class="n" style="color:#ff6b6b;">0 (급감)</td></tr>
+                                    <tr><td>열에너지 방출</td><td>정상</td><td>감소</td><td>감소</td><td class="n" style="color:#ff9f43;">🔥 급증 (발열)</td></tr>
+                                </table>
+                                <div class="note">• 전자전달계 저해제 & 올리고마이신: 전자 전달과 O₂ 소비가 모두 멈추지만, 막간 공간 H⁺ 농도는 정반대다.<br>• 짝풀림제(DNP)를 첨가하면 올리고마이신으로 멈췄던 전자 전달과 O₂ 소비가 다시 급증하며 열이 발생한다.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="nav-controls" id="inh-nav" style="display:flex;">
+                        <button class="nav-btn" onclick="goHome()">&#8962; 메뉴</button>
+                        <button class="nav-btn" id="inh-prev" onclick="inhMove(-1)">&#8592; 이전</button>
+                        <button class="nav-btn replay-btn" onclick="inhReplay()">다시 재생</button>
+                        <button class="nav-btn" id="inh-next" onclick="inhMove(1)">다음 &#8594;</button>
+                    </div>
+                </div>
+
+                <div class="info-panel">
+                    <h3 id="inh-info-name">단계명</h3>
+                    <div class="info-row"><span class="badge" style="color:#ff6b6b;">대표 물질</span><span id="inh-info-agent"></span></div>
+                    <div class="info-row"><span class="badge" style="color:#feca57;">작용 부위</span><span id="inh-info-target"></span></div>
+                    <div class="info-row"><span class="badge" style="color:#00d2d3;">핵심 결과</span><span id="inh-info-result"></span></div>
+                    <div class="desc-box" id="inh-info-desc">상세 설명</div>
+                </div>
+            </div>
+        </div>
+        `;
+        app.insertAdjacentHTML('beforeend', screenHtml);
+    }
+
+    /* 3. 애니메이션 도우미 엔진 */
+    let tok = 0, idx = 0, etcSub = 'c4', pool = [], bannerEl = null;
+    window.addEventListener('unhandledrejection', ev => { if (ev.reason === 'inh-stop') ev.preventDefault(); });
+    const W = ms => new Promise((res, rej) => { const t = tok; setTimeout(() => (t === tok ? res() : rej('inh-stop')), ms); });
+    const layer = () => $('inh-anim-layer');
+
+    function pos(el) {
+        const r = el.getBoundingClientRect(), L = layer().getBoundingClientRect();
+        return { x: r.left - L.left + r.width / 2, y: r.top - L.top + r.height / 2 };
+    }
+    const off = (p, dx = 0, dy = 0) => ({ x: p.x + dx, y: p.y + dy });
+    function tv(px, py) {
+        const v = $('inh-etc-view').getBoundingClientRect(), L = layer().getBoundingClientRect();
+        return { x: v.left - L.left + v.width * px / 100, y: v.top - L.top + v.height * py / 100 };
+    }
+    function mk(cls, html, p) {
+        const d = document.createElement('div');
+        d.className = cls; d.innerHTML = html;
+        d.style.left = p.x + 'px'; d.style.top = p.y + 'px';
+        layer().appendChild(d); return d;
+    }
+    const PART = { e: ['fly-e', 'e⁻'], h: ['fly-h', 'H⁺'], p: ['fly-p', 'P'] };
+    function sp(type, p, text) {
+        const d = mk(PART[type][0], text || PART[type][1], p);
+        if (text) d.style.fontSize = '9px';
+        d.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200 });
+        return d;
+    }
+    function fly(el, pts, dur = 700, easing = 'ease-in-out') {
+        const cur = { x: parseFloat(el.style.left), y: parseFloat(el.style.top) };
+        el.animate([cur, ...pts].map(q => ({ left: q.x + 'px', top: q.y + 'px' })), { duration: dur, easing, fill: 'forwards' });
+        const last = pts[pts.length - 1];
+        return W(dur).then(() => { el.style.left = last.x + 'px'; el.style.top = last.y + 'px'; el.getAnimations().forEach(a => a.cancel()); });
+    }
+    function fade(el, to, dur = 400) {
+        const from = getComputedStyle(el).opacity;
+        el.animate([{ opacity: from }, { opacity: to }], { duration: dur, fill: 'forwards' });
+        return W(dur).then(() => { el.style.opacity = to; });
+    }
+    function appear(el, dur = 300) { el.style.opacity = 0; return fade(el, 1, dur); }
+    function pulse(el) {
+        el.animate([{ filter: 'brightness(1)' }, { filter: 'brightness(2) drop-shadow(0 0 10px #fff)' }, { filter: 'brightness(1)' }], { duration: 650 });
+    }
+    function shake(el) {
+        const cur = { x: parseFloat(el.style.left), y: parseFloat(el.style.top) };
+        el.animate([
+            { left: cur.x + 'px' }, { left: (cur.x - 7) + 'px' }, { left: (cur.x + 7) + 'px' },
+            { left: (cur.x - 5) + 'px' }, { left: (cur.x + 5) + 'px' }, { left: cur.x + 'px' }
+        ], { duration: 420 });
+        return W(420);
+    }
+    function tip(text, p, dur = 2000, color = '#ff6b6b') {
+        const t = mk('ps-tip', text, p);
+        t.style.borderColor = color;
+        t.animate([
+            { opacity: 0, transform: 'translate(-50%, -70%)' },
+            { opacity: 1, transform: 'translate(-50%, -100%)', offset: 0.12 },
+            { opacity: 1, transform: 'translate(-50%, -100%)', offset: 0.88 },
+            { opacity: 0, transform: 'translate(-50%, -120%)' }], { duration: dur, fill: 'forwards' });
+        setTimeout(() => t.remove(), dur + 50);
+        return t;
+    }
+    function banner(text, color = '#ff6b6b') {
+        if (!bannerEl) { bannerEl = document.createElement('div'); bannerEl.className = 'cyc-banner'; layer().appendChild(bannerEl); }
+        bannerEl.style.borderColor = color;
+        bannerEl.innerHTML = text;
+        bannerEl.animate([{ opacity: 0.2 }, { opacity: 1 }], { duration: 350 });
+    }
+    function blk(html, p) { const b = mk('ps-blk', html, p); appear(b); return b; }
+    async function away(el, to, dur = 900) { await Promise.all([fly(el, [to], dur), W(dur * 0.45).then(() => fade(el, 0, dur * 0.55))]); el.remove(); }
+
+    function attach(host, type, dx, dy) {
+        const d = document.createElement('div');
+        d.className = 'att att-' + type;
+        d.textContent = type === 'e' ? 'e⁻' : 'H⁺';
+        d.style.left = `calc(50% + ${dx}px)`; d.style.top = `calc(50% + ${dy}px)`;
+        host.appendChild(d);
+        return d;
+    }
+    async function land(part, host, type, dx, dy, dur = 700) {
+        await fly(part, [off(pos(host), dx, dy)], dur);
+        part.remove();
+        return attach(host, type, dx, dy);
+    }
+    function detach(dot) {
+        const type = dot.classList.contains('att-e') ? 'e' : 'h';
+        const p = pos(dot); dot.remove();
+        return sp(type, p);
+    }
+    const atts = (host, type) => [...host.querySelectorAll(':scope > .att' + (type ? '.att-' + type : ''))];
+    const tf = d => `translate(calc(-50% + ${d.x}px), calc(-50% + ${d.y}px))`;
+    function setD(el, d) { el._d = d; el.style.transform = tf(d); }
+    function shiftD(el, nd, dur = 900) {
+        const cur = el._d || { x: 0, y: 0 };
+        el.animate([{ transform: tf(cur) }, { transform: tf(nd) }], { duration: dur, easing: 'ease-in-out', fill: 'forwards' });
+        el._d = nd;
+        return W(dur).then(() => { setD(el, nd); el.getAnimations().forEach(a => a.cancel()); });
+    }
+    function shift(el, target, dur = 900) { const c = pos(el), cur = el._d || { x: 0, y: 0 }; return shiftD(el, { x: cur.x + target.x - c.x, y: cur.y + target.y - c.y }, dur); }
+    const homeC = (el, dur = 800) => shiftD(el, { x: 0, y: 0 }, dur);
+    const lbl = (el, t) => { el.querySelector('.lbl').textContent = t; };
+
+    const PB = (red) => `<div class="p-ball"${red ? ' style="background:#e84118;color:white;"' : ''}>P</div>`;
+    const ADP_H = `<div class="a-base a-ad">Ad</div><div style="display:flex;gap:2px;">${PB()}${PB()}</div>`;
+    const NAD_H = `<div class="a-base a-nad">NAD⁺</div>`;
+    const NADH_H = `<div class="a-base a-nad" style="background:#20bf6b;">NADH</div>`;
+    const H2O_H = `<div class="a-base a-h2o">H₂O</div>`;
+    const O2_H = `<div class="a-o2" style="width:42px;height:42px;font-size:12px;color:#fff;">½O₂</div>`;
+
+    const SLOTS = [[22, 12], [30, 21], [12, 23], [38, 11], [27, 30], [45, 19], [62, 11], [69, 22], [76, 13], [8, 14], [35, 31], [48, 30], [72, 31], [18, 31], [58, 18], [42, 26], [65, 30], [79, 26], [52, 11], [15, 11]];
+    const slot = i => tv(...SLOTS[i % SLOTS.length]);
+    function hcnt() { $('inh-hcnt').textContent = pool.length ? `H⁺ × ${pool.length}` : ''; }
+    function toPool(h, dur = 650) { const s = slot(pool.length); pool.push(h); hcnt(); return fly(h, [s], dur); }
+    function poolN(n) { while (pool.length < n) pool.push(mk('fly-h', 'H⁺', slot(pool.length))); hcnt(); }
+    function poolTake() { const h = pool.pop(); hcnt(); return h; }
+
+    function setMeters(o2, o2Col, atp, atpCol, heat, heatCol, imsText) {
+        const o = $('inh-o2-stat'), a = $('inh-atp-stat'), h = $('inh-heat-stat'), ims = $('inh-ims-state');
+        if (o2 != null) { o.textContent = o2; o.style.color = o2Col || '#00d2d3'; pulse(o); }
+        if (atp != null) { a.textContent = atp; a.style.color = atpCol || '#e84118'; pulse(a); }
+        if (heat != null) { h.textContent = heat; h.style.color = heatCol || '#fed330'; pulse(h); }
+        if (imsText != null) ims.textContent = imsText;
+    }
+
+    function resetInhView() {
+        ['inh-q', 'inh-cc1', 'inh-cc2', 'inh-fad', 'inh-fmn', 'inh-fes1', 'inh-fes2', 'inh-cytb', 'inh-cytc1', 'inh-cyta', 'inh-cyta3'].forEach(i => {
+            const el = $(i); if (!el) return;
+            el.querySelectorAll('.att').forEach(a => a.remove());
+            el.getAnimations().forEach(a => a.cancel()); el.style.transform = ''; el._d = null; el.classList.remove('red');
+        });
+        lbl($('inh-q'), 'Q'); lbl($('inh-fad'), 'FAD'); lbl($('inh-cc1'), 'c'); lbl($('inh-cc2'), 'c');
+        $('inh-rotor').classList.remove('fast', 'stopped');
+        $('inh-unc').style.display = 'none';
+        $('inh-ledger').style.display = 'none';
+        $('inh-etc-view').classList.remove('over-h', 'heat-mode');
+        setMeters('정상', '#00d2d3', '0', '#e84118', '정상', '#fed330', 'H⁺ 고농도');
+    }
+
+    async function pumpH(cxId, n, label, dur = 850) {
+        const c = pos($(cxId)), m = tv(0, 92).y;
+        if (label) tip(label, off(c, 0, -118), 1900, '#00a8ff');
+        await Promise.all(Array.from({ length: n }, async (_, i) => {
+            await W(i * 200);
+            const x = c.x - 18 + i * (36 / Math.max(1, n - 1));
+            const h = sp('h', { x, y: m });
+            await fly(h, [{ x, y: c.y + 35 }, { x, y: c.y - 68 }], dur);
+            await toPool(h, 500);
+        }));
+    }
+
+    /* ==================== 시나리오 1: 전자전달계 저해제 ==================== */
+    async function runEtcInhibitor() {
+        const fmn = $('inh-fmn'), fes1 = $('inh-fes1'), q = $('inh-q'), c1 = $('inh-c1');
+        const c3 = $('inh-c3'), cytb = $('inh-cytb'), cytc1 = $('inh-cytc1'), cc1 = $('inh-cc1'), cc2 = $('inh-cc2');
+        const c4 = $('inh-c4'), cyta = $('inh-cyta'), a3 = $('inh-cyta3'), f0 = $('inh-f0'), f1 = $('inh-f1');
+
+        if (etcSub === 'c1') {
+            /* (A) 로테논 / 아미탈 : 복합체 I → Q 차단 */
+            banner('전자전달계 저해제 ① 로테논 · 아미탈 : 복합체 I → 유비퀴논(Q) 전자 이동 차단');
+            const blkMark = mk('inh-blocker', '🚫 로테논 결합 (FeS ↛ Q 차단)', off(pos(c1), 0, -115));
+            await appear(blkMark, 350);
+            await fly(blkMark, [off(pos(fes1), 18, -2)], 750);
+
+            const nb = blk(NADH_H, tv(13, 95));
+            tip('기질의 NADH 도착', off(tv(13, 95), 55, -14), 1400, '#20bf6b');
+            await fly(nb, [off(pos(fmn), 0, 58)], 800);
+            const es = [sp('e', off(pos(nb), -9, -14)), sp('e', off(pos(nb), 9, -14))];
+            nb.innerHTML = NAD_H;
+            await Promise.all(es.map((e, i) => fly(e, [off(pos(fmn), -8 + 16 * i, 0)], 650)));
+            fmn.classList.add('red');
+            await Promise.all(es.map((e, i) => fly(e, [off(pos(fes1), -8 + 16 * i, 0)], 650)));
+            fmn.classList.remove('red'); fes1.classList.add('red');
+
+            tip('✕ 로테논에 막혀 Q로 전자 전달 불가!', off(pos(fes1), 30, -32), 2400, '#ff4757');
+            await Promise.all(es.map(e => shake(e)));
+            await W(400);
+
+            mk('inh-blocker', '✕ H⁺ 펌핑 모두 중단', off(pos(c3), 0, -115));
+            $('inh-rotor').classList.add('stopped');
+            setMeters('0 (정지)', '#ff6b6b', '0 (정지)', '#ff6b6b', '감소', '#aaa', 'H⁺ 기울기 소실');
+            tip('H⁺ 농도 기울기 소실 → ATP 합성 정지!', off(pos(f1), -40, -45), 2600, '#ff4757');
+            await W(1800);
+            banner('결과 : 복합체 I 전자 정체 → H⁺ 펌핑 중단 · O₂ 소비 중단 · ATP 합성 정지');
+        } else if (etcSub === 'c3') {
+            /* (B) 안티마이신 A : 복합체 III (Cyt b → Cyt c₁) 차단 */
+            banner('전자전달계 저해제 ② 안티마이신 A : 복합체 III (Cyt b → Cyt c₁) 전자 이동 차단');
+            const blkMark = mk('inh-blocker', '🚫 안티마이신 A (Cyt b ↛ c₁)', off(pos(c3), 0, -115));
+            await appear(blkMark, 350);
+            await fly(blkMark, [off(pos(cytb), 0, -24)], 750);
+
+            const nb = blk(NADH_H, tv(13, 95));
+            await fly(nb, [off(pos(fmn), 0, 58)], 750);
+            const es = [sp('e', off(pos(nb), -9, -14)), sp('e', off(pos(nb), 9, -14))];
+            nb.innerHTML = NAD_H;
+            await Promise.all(es.map((e, i) => fly(e, [off(pos(fes1), -8 + 16 * i, 0)], 650)));
+            await Promise.all(es.map((e, i) => land(e, q, 'e', i ? 9 : -9, -8, 650)));
+            q.classList.add('red'); lbl(q, 'QH₂');
+            away(nb, off(pos(nb), -50, 40), 700);
+            await shift(q, off(pos(c3), -72, 0), 900);
+
+            const qEs = atts(q, 'e').map(detach);
+            await Promise.all(qEs.map((e, i) => fly(e, [off(pos(cytb), -8 + 16 * i, 0)], 650)));
+            cytb.classList.add('red');
+            tip('✕ 안티마이신 A 차단 → Cyt c₁로 이동 불가!', off(pos(c3), 0, -115), 2400, '#ff4757');
+            await Promise.all(qEs.map(e => shake(e)));
+
+            $('inh-rotor').classList.add('stopped');
+            setMeters('0 (정지)', '#ff6b6b', '0 (정지)', '#ff6b6b', '감소', '#aaa', 'H⁺ 기울기 소실');
+            tip('앞쪽(복합체 I · Q)까지 전자 정체 → O₂ 소비 및 ATP 합성 중단!', off(pos(c4), 0, -115), 2600, '#ff4757');
+            await W(1800);
+            banner('결과 : 복합체 III 차단 → 앞쪽 경로 전자 정체 · H⁺ 기울기 소실 · ATP 합성 정지');
+        } else {
+            /* (C) 사이안화물(CN⁻) · 일산화탄소(CO) : 복합체 IV → O₂ 차단 */
+            banner('전자전달계 저해제 ③ 사이안화물(CN⁻) · CO : 복합체 IV → O₂ 전자 전달 차단');
+            const blkMark = mk('inh-blocker', '🚫 CN⁻ / CO 결합 (Cyt a₃ ↛ O₂)', off(pos(c4), 0, -120));
+            await appear(blkMark, 350);
+            await fly(blkMark, [off(pos(a3), 0, 26)], 800);
+
+            const o2 = blk(O2_H, tv(65, 95));
+            await fly(o2, [off(pos(a3), 0, 74)], 800);
+            tip('산소(O₂)가 대기 중이지만 전자를 받을 수 없음', off(pos(o2), 0, 28), 2000, '#ff6b6b');
+
+            const nb = blk(NADH_H, tv(13, 95));
+            await fly(nb, [off(pos(fmn), 0, 58)], 700);
+            const es = [sp('e', off(pos(nb), -9, -14)), sp('e', off(pos(nb), 9, -14))];
+            nb.innerHTML = NAD_H;
+            away(nb, off(pos(nb), -50, 40), 700);
+
+            await Promise.all(es.map((e, i) => fly(e, [off(pos(fes1), -8 + 16 * i, 0)], 550)));
+            await Promise.all(es.map((e, i) => land(e, q, 'e', i ? 9 : -9, -8, 550)));
+            q.classList.add('red'); lbl(q, 'QH₂');
+            await shift(q, off(pos(c3), -72, 0), 800);
+
+            const qEs = atts(q, 'e').map(detach);
+            q.classList.remove('red'); lbl(q, 'Q'); homeC(q, 700);
+            await Promise.all(qEs.map((e, i) => fly(e, [pos(cytb), pos(cytc1)], 700).then(() => land(e, i ? cc2 : cc1, 'e', 0, -9, 500))));
+            cc1.classList.add('red'); cc2.classList.add('red');
+
+            await Promise.all([
+                shift(cc1, off(pos(c4), -18, -122), 700),
+                shift(cc2, off(pos(c4), 18, -122), 700)
+            ]);
+            const cEs = [detach(atts(cc1, 'e')[0]), detach(atts(cc2, 'e')[0])];
+            await Promise.all(cEs.map((e, i) => fly(e, [pos(cyta), off(pos(a3), -9 + 18 * i, 0)], 750)));
+            a3.classList.add('red');
+
+            tip('✕ CN⁻ / CO가 복합체 IV를 막아 O₂로 전자 이동 불가!', off(pos(c4), 0, -125), 2500, '#ff4757');
+            await Promise.all(cEs.map(e => shake(e)));
+
+            /* 역방향 전자 정체 표시 */
+            fmn.classList.add('red'); fes1.classList.add('red'); q.classList.add('red'); cytb.classList.add('red'); cytc1.classList.add('red');
+            mk('inh-blocker', '⚠️ 전 경로 전자 포화 · H⁺ 펌핑 정지', off(pos(c3), 0, -118));
+            $('inh-rotor').classList.add('stopped');
+            setMeters('0 (정지)', '#ff6b6b', '0 (정지)', '#ff6b6b', '감소', '#aaa', 'H⁺ 기울기 소실');
+
+            const adp = blk(ADP_H, off(pos(f1), -140, 0));
+            tip('H⁺ 기울기가 사라져 ATP 합성효소 정지!', off(pos(f1), -60, -48), 2600, '#ff4757');
+            await shake(adp);
+            await W(1600);
+            banner('결과 : 복합체 IV 차단 → 전자전달계 전체 마비 · O₂ 소비 중단 · ATP 합성 0');
+        }
+    }
+
+    /* ==================== 시나리오 2: ATP 합성효소 저해제 (올리고마이신) ==================== */
+    async function runOligomycin() {
+        const fmn = $('inh-fmn'), fes1 = $('inh-fes1'), q = $('inh-q'), c1 = $('inh-c1');
+        const c3 = $('inh-c3'), cytb = $('inh-cytb'), cytc1 = $('inh-cytc1'), cc1 = $('inh-cc1');
+        const c4 = $('inh-c4'), f0 = $('inh-f0'), f1 = $('inh-f1');
+
+        banner('ATP 합성효소 저해제 (올리고마이신) : F₀ 양성자(H⁺) 통로 직접 차단', '#f7b731');
+        poolN(6);
+
+        /* 1. 올리고마이신이 F0 통로를 막음 */
+        const oligo = mk('inh-blocker', '🚫 올리고마이신 (F₀ 통로 차단)', off(pos(f0), 0, -110));
+        oligo.style.borderColor = '#f7b731'; oligo.style.color = '#fed330';
+        await appear(oligo, 350);
+        await fly(oligo, [pos(f0)], 800);
+        $('inh-rotor').classList.add('stopped');
+        setMeters('초기 작동', '#feca57', '0 (차단)', '#ff6b6b', '정상', '#fed330', 'H⁺ 배출 막힘!');
+        tip('F₀ 통로 봉쇄 → 막간 공간의 H⁺이 기질로 내려갈 수 없음!', off(pos(f0), -90, -85), 2400, '#f7b731');
+
+        /* H⁺이 F0를 통과하려다 막혀서 튕겨 나감 */
+        const tryH = poolTake();
+        await fly(tryH, [off(pos(f0), 0, -55)], 600);
+        await shake(tryH);
+        tip('✕ H⁺ 통과 불가 (ATP 합성 정지)', off(pos(f1), -60, -45), 2000, '#ff4757');
+        await toPool(tryH, 500);
+
+        /* 2. 초기 전자 전달로 H⁺이 계속 펌핑되어 과축적됨 */
+        const nb = blk(NADH_H, tv(13, 95));
+        await fly(nb, [off(pos(fmn), 0, 58)], 700);
+        const es = [sp('e', off(pos(nb), -9, -14)), sp('e', off(pos(nb), 9, -14))];
+        nb.innerHTML = NAD_H; away(nb, off(pos(nb), -50, 40), 700);
+
+        await Promise.all(es.map((e, i) => fly(e, [off(pos(fes1), -8 + 16 * i, 0)], 550)));
+        const p1 = pumpH('inh-c1', 4, '초기에는 H⁺이 계속 막간 공간으로 펌핑됨');
+        await Promise.all(es.map((e, i) => land(e, q, 'e', i ? 9 : -9, -8, 600)));
+        q.classList.add('red'); lbl(q, 'QH₂');
+        await Promise.all([p1, shift(q, off(pos(c3), -72, 0), 850)]);
+
+        const qEs = atts(q, 'e').map(detach);
+        q.classList.remove('red'); lbl(q, 'Q'); homeC(q, 700);
+        const p3 = pumpH('inh-c3', 4, '막간 공간에 H⁺ 급격히 누적!');
+        await Promise.all([p3, ...qEs.map(e => fly(e, [pos(cytb), pos(cytc1)], 750))]);
+        poolN(18);
+        $('inh-etc-view').classList.add('over-h');
+
+        /* 3. 막간 공간 H⁺ 과축적에 의한 역압으로 전자 전달마저 멈춤 */
+        setMeters('0 (역압 정지)', '#ff6b6b', '0 (정지)', '#ff6b6b', '감소', '#aaa', 'H⁺ 과축적 (최대 농도!)');
+        mk('inh-blocker', '⚠️ 막간 공간 H⁺ 과포화 → 강한 역압으로 펌핑·전자전달 연쇄 정지!', off(pos(c3), 0, -125));
+        tip('기울기가 너무 커져서 더 이상 H⁺을 퍼올릴 수 없음 → 전자 전달도 멈춤!', off(pos(c4), -40, -105), 3000, '#00a8ff');
+        await Promise.all(qEs.map(e => shake(e)));
+        await W(2000);
+        banner('결과 : F₀ 차단 → ATP 합성 즉시 정지 + 막간 공간 H⁺ 과축적(pH 급감) → 결국 전자 전달 · O₂ 소비도 정지', '#f7b731');
+    }
+
+    /* ==================== 시나리오 3: 짝풀림제 (DNP / 써모제닌) ==================== */
+    async function runUncoupler() {
+        const fmn = $('inh-fmn'), fes1 = $('inh-fes1'), q = $('inh-q'), c1 = $('inh-c1');
+        const c3 = $('inh-c3'), cytb = $('inh-cytb'), cytc1 = $('inh-cytc1'), cc1 = $('inh-cc1'), cc2 = $('inh-cc2');
+        const c4 = $('inh-c4'), cyta = $('inh-cyta'), a3 = $('inh-cyta3'), f0 = $('inh-f0'), f1 = $('inh-f1');
+        const unc = $('inh-unc');
+
+        banner('짝풀림제 (DNP · 써모제닌) : 내막 H⁺ 투과성 증가 → 화학 삼투(기울기) 소실 & 열 방출', '#ff9f43');
+        poolN(6);
+
+        /* 1. 내막에 DNP / 써모제닌 H⁺ 누출 통로 생성 */
+        unc.style.display = 'flex';
+        pulse(unc);
+        $('inh-etc-view').classList.add('heat-mode');
+        $('inh-rotor').classList.add('stopped');
+        tip('DNP / 써모제닌이 내막에 H⁺ 우회 통로를 만듦!', off(pos(unc), 0, -85), 2400, '#ff9f43');
+        await W(900);
+
+        /* 2. 막간 공간의 H⁺이 ATP 합성효소 대신 DNP 통로로 쏟아져 내려오며 열 방출 */
+        setMeters('급증 (최대!)', '#26de81', '0 (급감)', '#ff6b6b', '🔥 급증 (발열)', '#ff9f43', 'H⁺ 기울기 소실!');
+        const leakPos = pos(unc);
+        const leakJob = (async () => {
+            while (pool.length > 0) {
+                const h = poolTake();
+                fly(h, [off(leakPos, 0, -55), leakPos, off(leakPos, (Math.random() - 0.5) * 60, 110)], 650, 'linear').then(async () => {
+                    const hp = pos(h); h.remove();
+                    const heat = mk('fly-heat', '🔥 열(Heat)', hp);
+                    await Promise.all([fly(heat, [off(hp, (Math.random() - 0.5) * 50, 45)], 750), fade(heat, 0, 750)]);
+                    heat.remove();
+                }).catch(() => {});
+                await W(180);
+            }
+        })();
+
+        /* 3. 역압이 사라져 전자전달계는 최대 속도로 맹렬히 작동 (O₂ 소비 급증) */
+        tip('H⁺ 역압이 전혀 없어 전자 전달과 O₂ 소비가 최대 속도로 폭주!', off(pos(c3), 0, -120), 2600, '#26de81');
+        for (let round = 0; round < 2; round++) {
+            const nb = blk(NADH_H, tv(13, 95));
+            const o2 = blk(O2_H, tv(65, 95));
+            await Promise.all([fly(nb, [off(pos(fmn), 0, 55)], 420), fly(o2, [off(pos(a3), 0, 70)], 420)]);
+            const es = [sp('e', off(pos(nb), -8, -12)), sp('e', off(pos(nb), 8, -12))];
+            nb.innerHTML = NAD_H; away(nb, off(pos(nb), -45, 35), 450);
+
+            await Promise.all(es.map((e, i) => fly(e, [off(pos(fes1), -8 + 16 * i, 0), pos(q), pos(cytb), pos(cytc1), pos(cyta), pos(a3)], 950, 'linear')));
+            es.forEach(e => e.remove());
+            o2.innerHTML = H2O_H; pulse(o2);
+            away(o2, off(pos(o2), 45, 45), 500);
+
+            /* 펌핑된 H⁺도 즉시 DNP 통로로 새어 나가 열로 바뀜 */
+            const pumped = [sp('h', off(pos(c1), 0, -70)), sp('h', off(pos(c3), 0, -70)), sp('h', off(pos(c4), 0, -70))];
+            await Promise.all(pumped.map(async (h, i) => {
+                await fly(h, [off(leakPos, 0, -60), leakPos, off(leakPos, -25 + i * 25, 115)], 750, 'linear');
+                const hp = pos(h); h.remove();
+                const heat = mk('fly-heat', '🔥 열 방출', hp);
+                await Promise.all([fly(heat, [off(hp, 0, 40)], 700), fade(heat, 0, 700)]);
+                heat.remove();
+            }));
+        }
+        await leakJob;
+        tip('ATP 합성효소로는 H⁺이 흐르지 않아 ATP는 합성되지 않음!', off(pos(f1), -70, -48), 2600, '#ff4757');
+        await W(1800);
+        banner('결과 : 전자 전달 · O₂ 소비는 최대치로 급증하지만, H⁺ 기울기가 소실되어 ATP 대신 열(🔥)만 대량 방출!', '#ff9f43');
+    }
+
+    /* ==================== 시나리오 4: 전체 비교 정산 ==================== */
+    async function runComparison() {
+        banner('세포호흡 저해제 3종 핵심 비교 : 전자 전달(O₂ 소비) · H⁺ 농도 기울기 · ATP 합성 · 발열', '#ff6b6b');
+        const L = $('inh-ledger');
+        L.style.display = 'block';
+        await appear(L, 500);
+    }
+
+    /* 4. 단계 데이터베이스 */
+    const INH_DB = [
+        {
+            phase: '세포호흡 저해제 ① · 전자전달계 저해제',
+            name: '1. 전자전달계 저해제 (ETC Inhibitors)',
+            agent: '로테논, 아미탈, 안티마이신 A, 사이안화물(CN⁻), 일산화탄소(CO)',
+            target: '복합체 I (로테논) · 복합체 III (안티마이신 A) · 복합체 IV (CN⁻, CO)',
+            result: '전자 전달 정지 · O₂ 소비 중단 · H⁺ 기울기 소실 · ATP 합성 정지',
+            desc: '전자전달계의 특정 단백질 복합체에 결합하여 전자의 이동을 직접 차단하는 물질이다. (화면 하단 버튼으로 복합체 I·III·IV 저해를 각각 전환해 볼 수 있다)\n\n• 로테논·아미탈: 복합체 I → 유비퀴논(Q) 전자 전달 차단\n• 안티마이신 A: 복합체 III(Cyt b → Cyt c₁) 전자 전달 차단\n• 사이안화물(CN⁻)·일산화탄소(CO): 복합체 IV → O₂ 전자 전달 차단\n\n[핵심 결과] 전자가 이동하지 못하므로 H⁺ 능동 수송(펌핑)이 즉시 중단되어 막간 공간의 H⁺ 농도 기울기가 사라진다. 산소(O₂)가 있어도 전자를 받지 못해 O₂ 소비와 H₂O 생성이 멈추고, 화학 삼투가 일어나지 않아 ATP 합성도 완전히 정지한다.',
+            run: runEtcInhibitor
+        },
+        {
+            phase: '세포호흡 저해제 ② · ATP 합성효소 저해제',
+            name: '2. ATP 합성효소 저해제 (Oligomycin)',
+            agent: '올리고마이신 (Oligomycin)',
+            target: 'ATP 합성효소의 F₀ 양성자(H⁺) 통로 차단',
+            result: 'ATP 합성 즉시 정지 → 막간 공간 H⁺ 과축적 → 전자 전달 및 O₂ 소비 연쇄 정지',
+            desc: '올리고마이신은 ATP 합성효소의 F₀ 부위(수소 이온 통로)에 결합하여 막간 공간의 H⁺이 기질로 확산되는 것을 직접 막는다.\n\n[핵심 결과]\n1) H⁺이 ATP 합성효소를 통과하지 못하므로 산화적 인산화에 의한 ATP 합성이 즉시 멈춘다.\n2) 초기에는 전자전달계가 작동하여 H⁺을 막간 공간으로 퍼올리므로 막간 공간의 H⁺ 농도가 극도로 높아진다(pH 급감).\n3) 결국 막간 공간에 과축적된 H⁺의 강한 농도 기울기(역압) 때문에 복합체 I·III·IV가 더 이상 H⁺을 펌핑하지 못하게 되어, 전자 전달과 O₂ 소비마저 연쇄적으로 정지한다.',
+            run: runOligomycin
+        },
+        {
+            phase: '세포호흡 저해제 ③ · 짝풀림제 (탈공역제)',
+            name: '3. 짝풀림제 (Uncouplers : DNP · 써모제닌)',
+            agent: 'DNP (2,4-디니트로페놀), 써모제닌 (Thermogenin / UCP1, 갈색 지방)',
+            target: '미토콘드리아 내막의 인지질 이중층 (H⁺ 투과성 증가 · 우회 통로)',
+            result: 'H⁺ 농도 기울기 소실 · ATP 합성 중단 · 전자 전달 및 O₂ 소비 급증 · 대량 발열(🔥)',
+            desc: '짝풀림제는 전자전달계나 ATP 합성효소를 고장 내지 않고, 미토콘드리아 내막 자체를 통해 H⁺이 기질로 자유롭게 새어 나가게 만드는 물질이다. (전자 전달과 ATP 합성의 짝지음[coupling]을 풀어버린다)\n\n[핵심 결과]\n1) 막간 공간의 H⁺이 ATP 합성효소를 거치지 않고 내막을 통해 기질로 바로 빠져나가므로 H⁺ 농도 기울기가 소실되어 ATP가 합성되지 않는다.\n2) 반면 막간 공간의 H⁺ 역압이 완전히 사라지므로, 전자전달계는 저항 없이 최대 속도로 작동하여 NADH 산화와 O₂ 소비량이 급증한다.\n3) ATP 합성에 쓰이지 못한 전자 전달의 에너지는 모두 열에너지(🔥)로 방출되어 체온이 올라간다. 겨울잠을 자는 동물이나 신생아의 갈색 지방에 있는 써모제닌이 이 원리로 체온을 유지한다.',
+            run: runUncoupler
+        },
+        {
+            phase: '세포호흡 저해제 · 전체 비교 및 정리',
+            name: '4. 저해제 3종 종합 비교 (실험 자료 해석 핵심)',
+            agent: '전자전달계 저해제 vs 올리고마이신 vs 짝풀림제(DNP)',
+            target: 'O₂ 소비량 · 막간 공간 pH(H⁺ 농도) · ATP 합성량 비교',
+            result: '올리고마이신 처리 후 DNP를 추가하면 멈췄던 O₂ 소비가 다시 급증함',
+            desc: '생명과학 실험 문제에서 세 가지 저해제는 [O₂ 소비량], [ATP 합성량], [막간 공간의 H⁺ 농도(또는 pH)] 변화로 구분한다.\n\n• 전자전달계 저해제 vs 올리고마이신: 둘 다 ATP 합성과 O₂ 소비가 멈추지만, 막간 공간의 H⁺ 농도는 전자전달계 저해제 처리 시 낮아지고(pH 상승), 올리고마이신 처리 시 과축적되어 높아진다(pH 하강).\n• 올리고마이신 + 짝풀림제(DNP) 연속 처리 실험: 올리고마이신을 처리해 전자 전달과 O₂ 소비가 멈춘 미토콘드리아에 DNP를 추가하면, 과축적된 H⁺이 내막으로 빠져나가 역압이 해소되면서 멈춰 있던 전자 전달과 O₂ 소비가 다시 급격히 증가한다(단, ATP는 여전히 합성되지 않고 열만 발생한다).',
+            run: runComparison
+        }
+    ];
+
+    /* 5. 화면 업데이트 및 네비게이션 컨트롤 */
+    async function playInh() {
+        const d = INH_DB[idx];
+        tok++; const my = tok;
+        layer().innerHTML = ''; pool = []; bannerEl = null;
+        resetInhView(); hcnt();
+        $('inh-subtabs').style.display = (idx === 0) ? 'flex' : 'none';
+        await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+        if (my !== tok) return;
+        try { await d.run(); } catch (e) { if (e !== 'inh-stop') console.error(e); }
+    }
+
+    function updateInhUI() {
+        const d = INH_DB[idx];
+        $('inh-title').innerText = d.phase;
+        $('inh-counter').innerText = `${idx + 1} / ${INH_DB.length}`;
+        $('inh-progress').style.width = `${((idx + 1) / INH_DB.length) * 100}%`;
+        $('inh-info-name').innerText = d.name;
+        $('inh-info-agent').innerText = d.agent;
+        $('inh-info-target').innerText = d.target;
+        $('inh-info-result').innerText = d.result;
+        $('inh-info-desc').innerText = d.desc;
+        $('inh-prev').disabled = (idx === 0);
+        $('inh-next').disabled = (idx === INH_DB.length - 1);
+        playInh();
+    }
+
+    window.inhStart = function (mode) {
+        if (mode === 'etc') idx = 0;
+        else if (mode === 'atp') idx = 1;
+        else if (mode === 'uncoupler') idx = 2;
+        else idx = 0;
+
+        document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+        $('screen-inh').classList.add('active');
+        const nc = $('nav-controls'); if (nc) nc.style.display = 'none';
+        window.scrollTo(0, 0);
+        updateInhUI();
+    };
+
+    window.inhMove = function (dir) {
+        idx = Math.max(0, Math.min(INH_DB.length - 1, idx + dir));
+        updateInhUI();
+    };
+
+    window.inhReplay = function () { playInh(); };
+
+    window.inhSelectEtcSub = function (sub) {
+        etcSub = sub;
+        document.querySelectorAll('#inh-subtabs .inh-subbtn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.sub === sub);
+        });
+        playInh();
+    };
+
+    function initInh() {
+        injectMenuAndScreen();
+        const prevHome = window.goHome;
+        window.goHome = function () {
+            tok++;
+            if (layer()) layer().innerHTML = '';
+            if (prevHome) prevHome();
+        };
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initInh);
+    else initInh();
+})();
+        </script>
 </body>
 </html>
