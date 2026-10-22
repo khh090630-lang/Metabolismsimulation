@@ -2565,7 +2565,7 @@
         el('rect', { x: xx - 3, y: yy - 11, width: 6, height: 22, fill: '#1a2a33' }, mg); });
       txt(mg, 960, 120, '포린', { fill: '#1abc9c', 'font-size': 13 });
       txt(mg, 950, 470, '미토콘드리아', { fill: '#f39c12', 'font-size': 13 });
-      txt(mg, 950, 488, '외막 (포린)', { fill: '#f39c12', 'font-size': 11 });
+      txt(mg, 950, 488, '외막', { fill: '#f39c12', 'font-size': 11 });
       if (o && o.noO2) { txt(g, 920, 300, '✕ O₂ 없음', { fill: '#ff7675', 'font-size': 18 }); txt(g, 920, 322, '미토콘드리아 경로 정지', { fill: '#ff7675', 'font-size': 11 }); }
       label(g, '📍 세포질 (Cytosol) — 미토콘드리아 외막 바깥', '#74b9ff');
     },
@@ -2579,10 +2579,10 @@
       el('path', { d: bot + ` L1200 ${H} L0 ${H} Z`, fill: '#8a6a1f', stroke: 'none' }, g);
       el('path', { d: top, fill: 'none', stroke: '#e67e22', 'stroke-width': 7 }, g);
       el('path', { d: bot, fill: 'none', stroke: '#e67e22', 'stroke-width': 7 }, g);
-      txt(g, 880, 30, '막사이 공간 (H⁺ 고농도)', { fill: '#fff3c4', 'font-size': 12 });
+      txt(g, 880, 30, '막사이 공간', { fill: '#fff3c4', 'font-size': 12 });
       txt(g, 880, H - 22, '막사이 공간', { fill: '#fff3c4', 'font-size': 12 });
       txt(g, 930, 128, '내막 (크리스타)', { fill: '#e67e22', 'font-size': 11 });
-      txt(g, 500, H / 2 + 150, '기질 (Matrix)', { fill: '#a29bfe88', 'font-size': 13 });
+      txt(g, 500, H / 2 + 150, '바탕질', { fill: '#a29bfe88', 'font-size': 13 });
       if (o && o.entry) { // 피루브산 진입: 왼쪽에 외막(포린) + 내막(운반체)
         el('rect', { x: 0, y: 0, width: 150, height: H, fill: '#1a2a33' }, g);
         el('line', { x1: 150, y1: 0, x2: 150, y2: H, stroke: '#f39c12', 'stroke-width': 7 }, g);
@@ -2597,7 +2597,7 @@
         el('rect', { x: E - 70, y: H - 120, width: 140, height: 90, rx: 18, fill: '#00b894', stroke: '#55efc4', 'stroke-width': 3 }, g);
         txt(g, E, H - 50, '복합체 II', { 'font-size': 13 });
       }
-      label(g, '📍 미토콘드리아 기질 (Matrix)', '#a29bfe');
+      label(g, '📍 미토콘드리아 바탕질', '#a29bfe');
     },
     stroma(g) {
       el('rect', { x: 0, y: 0, width: W, height: H, fill: '#13301f' }, g);
