@@ -2193,11 +2193,8 @@
         { phase: PH_L, view: 'thy', key: 7, focus: ['ps-cf1', 'ps-cf0'], run: L7,
           name: '7. 광인산화 (ATP 합성)', react: 'ADP, Pᵢ, H⁺(내강)', prod: 'ATP', enz: 'ATP 합성효소 (CF₀ · CF₁)',
           desc: '틸라코이드 내강에 쌓인 H⁺가 농도 기울기를 따라 ATP 합성효소의 CF₀를 통해 스트로마로 빠져나가며 회전자를 돌린다. 이 에너지로 CF₁이 ADP에 무기 인산(Pᵢ)을 붙여 ATP를 만든다.\n\n빛 에너지로 만든 H⁺ 기울기를 이용하므로 광인산화(화학 삼투)라고 한다. 세포호흡과 달리 H⁺는 내강 → 스트로마로 흐르고, ATP는 스트로마에서 만들어져 캘빈 회로에 바로 쓰인다. (애니메이션은 H⁺ 4개당 ATP 1개로 단순화)' },
-        { phase: PH_L, view: 'thy', key: 8, focus: 'all', run: L8,
-          name: '8. 비순환적 전자 흐름 (전체 연결)', react: 'H₂O, NADP⁺, ADP + Pᵢ, 빛', prod: 'O₂, NADPH, ATP', enz: '광계 II → PQ → b₆f → PC → 광계 I → Fd → FNR',
-          desc: '1~7단계를 이어서 재생한다.\n\n전자는 H₂O → 광계 II → PQ → Cyt b₆f → PC → 광계 I → Fd → FNR → NADP⁺의 한 방향으로 흐르며(Z-체계), O₂·NADPH·ATP가 모두 만들어진다.\n\n세포호흡의 전자전달계는 NADH의 전자를 O₂로 보내 H₂O를 만들고, 명반응은 H₂O의 전자를 NADP⁺로 보내 O₂를 만든다. 두 과정은 전자 흐름의 방향이 반대다.' },
         { phase: PH_L, view: 'thy', key: 9, focus: ['ps-psi', 'ps-fd', 'ps-pq', 'ps-b6f', 'ps-pc1', 'ps-pc2', 'ps-cf1', 'ps-cf0'], run: L9,
-          name: '9. 순환적 전자 흐름', react: '빛, ADP + Pᵢ', prod: 'ATP (NADPH·O₂ 생성 없음)', enz: '광계 I → Fd → PQ → b₆f → PC → 광계 I',
+          name: '8. 순환적 전자 흐름', react: '빛, ADP + Pᵢ', prod: 'ATP (NADPH·O₂ 생성 없음)', enz: '광계 I → Fd → PQ → b₆f → PC → 광계 I',
           desc: '광계 I에서 들뜬 전자가 NADP⁺로 가지 않고 Fd에서 다시 PQ로 돌아와 b₆f → PC → 광계 I로 되돌아오는 경로다.\n\n광계 II·물의 광분해·FNR이 관여하지 않아 O₂와 NADPH는 생기지 않고, b₆f에서 H⁺만 내강으로 옮겨져 ATP만 만들어진다. 캘빈 회로는 ATP를 NADPH보다 많이 쓰므로(9 : 6) 부족한 ATP를 보충한다.' },
 
         { phase: PH_C + ' · (i) 탄소 고정', view: 'rx', run: K10, zoomR: true, zoomP: true,
