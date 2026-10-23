@@ -2737,7 +2737,7 @@
       await A.co2(m, 0, 2, [], '아세틸기 (2C)'); await A.reduce(m, 0, 'NAD⁺', UP, OUT);
       const c = A.Tok('CoA', 860, 110); await c.move(m.pos(1).x + 56, Y, 900); c.fade(); m.set(null, null, '아세틸 CoA (2C)', { coa: true }, 'coa'); await A.S(600); await m.move(R, Y); }, { entry: true }],
     12: ['matrix', 'Citrate synthase', async A => { const a = A.Mol(L, Y - 90, 2, [], '아세틸 CoA', { coa: true }), o = A.Mol(L, Y + 90, 4, [], '옥살아세트산 (4C)');
-      await Promise.all([a.move(E - 76, Y - 50), o.move(E + 19, Y + 30)]); const c = A.Tok('CoA', E - 2, Y - 50); a.set(null, null, null, {}); A.tip('CoA-SH 이탈', E, Y - 100, 1500); c.move(860, 100, 1000); setTimeout(() => c.fade(), 1000);
+      await Promise.all([a.move(E - 76, Y - 50), o.move(E + 19, Y + 30)]); const w = A.Tok('H₂O', 120, 470); A.tip('H₂O 참여 → 티오에스터 결합 가수분해', E, Y + 110, 1600); await w.move(E - 2, Y - 10, 1000); w.fade(); await A.S(300); const c = A.Tok('CoA', E - 2, Y - 50); a.set(null, null, null, {}); A.tip('가수분해로 CoA-SH 이탈', E, Y - 100, 1500); c.move(860, 100, 1000); setTimeout(() => c.fade(), 1000);
       await A.S(900); a.rm(); o.rm(); const m = A.Mol(E, Y, 6, [], '시트르산 (6C)'); A.tip('2C + 4C → 6C', E, Y + 110); await A.S(1200); await m.move(R, Y); }],
     13: ['matrix', 'Aconitase', async A => { const m = A.Mol(L, Y, 6, [], '시트르산'); await m.move(E, Y); m.glow(2); m.glow(3); A.tip('OH 위치 이동 (이성질체화)', E, Y + 100); await A.S(1600); m.set(null, null, '아이소시트르산 (6C)'); await A.S(600); await m.move(R, Y); }],
     14: ['matrix', 'Isocitrate dehydrogenase', async A => { const m = A.Mol(L, Y, 6, [], '아이소시트르산'); await m.move(E, Y); await A.reduce(m, 2, 'NAD⁺', UP, OUT); await A.co2(m, 5, 5, [], 'α-케토글루타르산 (5C)'); await A.S(500); await m.move(R, Y); }],
