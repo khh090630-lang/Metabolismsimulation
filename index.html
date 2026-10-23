@@ -859,7 +859,7 @@
         { step:22, view:'etc', key:3, phase:'산화적 인산화 (NADH 경로)', name:'22. [NADH ③] 복합체 IV (시토크롬 산화효소)', react:'Cyt c(환원형) × 2, ½O₂, 기질의 H⁺', prod:'H₂O, H⁺ 2개(막간 공간)', strR:'', strP:'', enz:'복합체 IV', anim:'etc_view', desc:'환원된 Cyt c 2분자의 전자가 복합체 IV(Cyt a → Cyt a₃)를 거쳐 최종 전자 수용체인 산소(½O₂)에 전달되어 물(H₂O)을 생성한다.\n\n이때 H⁺ 2개가 막간 공간으로 추가 펌핑되어, NADH 1분자당 총 10개의 H⁺가 막간 공간에 모인다. (막간 공간 누적 H⁺: 4 + 4 + 2 = 10개)' },
         { step:23, view:'etc', key:4, phase:'산화적 인산화 (NADH 경로)', name:'23. [NADH ④] ATP 합성효소 (NADH 1분자 → 2.5 ATP)', react:'ADP, Pᵢ, 막간 공간의 H⁺ 10개', prod:'ATP 2.5분자', strR:'', strP:'', enz:'ATP 합성효소 (F₀ · F₁)', anim:'etc_view', desc:'NADH 1분자가 펌핑해 놓은 H⁺ 10개가 농도 기울기를 따라 ATP 합성효소(F₀ → F₁)를 통과하며 회전자를 돌린다.\n\nH⁺ 4개당 ATP 1분자가 합성되므로, H⁺ 8개로 ATP 2분자를 만들고 남은 H⁺ 2개로 0.5분자를 추가 합성하여 NADH 1분자당 총 2.5 ATP가 생성된다.' },
         { step:24, view:'etc', key:5, phase:'산화적 인산화 (FADH₂ 경로)', name:'24. [FADH₂ 경로] 복합체 II → III → IV → 1.5 ATP 합성', react:'FADH₂(숙신산), Q, ½O₂, ADP + Pᵢ', prod:'FAD, H₂O, H⁺ 6개 → ATP 1.5분자', strR:'', strP:'', enz:'복합체 II → III → IV → ATP 합성효소', anim:'etc_view', desc:'이제 FADH₂ 1분자의 전자 이동을 따라간다. TCA 회로의 숙신산이 복합체 II에서 푸마르산으로 산화되며 생성된 FADH₂는 전자를 FeS → Q로 넘겨 QH₂를 만든다. 이때 복합체 II는 H⁺를 펌핑하지 않는다(0개).\n\n이후 QH₂가 복합체 III(H⁺ 4개 펌핑) → Cyt c → 복합체 IV(H⁺ 2개 펌핑, H₂O 생성)를 거치며 총 6개의 H⁺를 막간 공간에 모으고, 이 6개의 H⁺가 ATP 합성효소를 통과해 FADH₂ 1분자당 총 1.5 ATP가 생성된다.' },
-        { step:25, view:'etc', key:6, phase:'산화적 인산화 (전체 비교 · 정산)', name:'25. 전체 연결 (NADH 2.5 ATP vs FADH₂ 1.5 ATP) & 정산', react:'NADH, FADH₂, O₂, ADP + Pᵢ', prod:'NAD⁺, FAD, H₂O, 총 32 ATP', strR:'', strP:'', enz:'복합체 I~IV + ATP 합성효소', anim:'etc_view', desc:'NADH 1분자의 전체 경로(I → Q → III → Cyt c → IV → O₂, 10H⁺ → 2.5 ATP)와 FADH₂ 1분자의 전체 경로(II → Q → III → Cyt c → IV → O₂, 6H⁺ → 1.5 ATP)를 연속으로 재생하여 비교한다.\n\n[포도당 1분자의 ATP 정산]\n• 기질 수준 인산화: 해당 과정 2 + TCA 회로 2 = 4 ATP\n• 산화적 인산화: NADH 10분자 × 2.5 = 25 ATP, FADH₂ 2분자 × 1.5 = 3 ATP (합계 28 ATP)\n• 총합: 4 + 28 = 32 ATP (말산-아스파트산 셔틀 기준 / 글리세롤 인산 셔틀은 30 ATP)' },
+        { step:25, view:'etc', key:6, phase:'산화적 인산화 (ATP 최종 정산)', name:'25. 포도당 1분자의 ATP 정산', react:'NADH 10, FADH₂ 2, O₂, ADP + Pᵢ', prod:'NAD⁺, FAD, H₂O, 총 32 ATP', strR:'', strP:'', enz:'복합체 I~IV + ATP 합성효소', anim:'etc_view', desc:'[포도당 1분자의 ATP 정산]\n• 기질 수준 인산화: 해당 과정 2 + TCA 회로 2 = 4 ATP\n• 산화적 인산화: NADH 10분자 × 2.5 = 25 ATP, FADH₂ 2분자 × 1.5 = 3 ATP (합계 28 ATP)\n• 총합: 4 + 28 = 32 ATP (말산-아스파트산 셔틀 기준 / 글리세롤 인산 셔틀은 30 ATP)' },
     ];
 
     let currentProcess = [];
@@ -1494,24 +1494,11 @@
                 await W(1200);
             } },
             6: { focus: 'all', pre: () => {}, run: async () => {
-                banner('[1부 : NADH 1분자] ① 복합체 I : NADH → QH₂ (H⁺ 4개 펌핑)'); await cI();
-                banner('[1부 : NADH 1분자] ② 복합체 III : QH₂ → Cyt c (H⁺ 4개 펌핑 · 누적 8H⁺)'); await cIII();
-                banner('[1부 : NADH 1분자] ③ 복합체 IV : Cyt c → O₂ → H₂O (H⁺ 2개 펌핑 · 누적 10H⁺)'); await cIV();
-                banner('[1부 : NADH 1분자] ④ ATP 합성효소 : H⁺ 10개 → 2.5 ATP 생성!'); await synth(2, true);
-                await W(1000);
-
-                $('rs-atpcnt').textContent = '0'; pulse($('rs-atpcnt'));
-                banner('[2부 : FADH₂ 1분자] ① 복합체 II : FADH₂ → QH₂ (H⁺ 펌핑 없음 · 0H⁺)'); await cII();
-                banner('[2부 : FADH₂ 1분자] ② 복합체 III : QH₂ → Cyt c (H⁺ 4개 펌핑 · 누적 4H⁺)'); await cIII();
-                banner('[2부 : FADH₂ 1분자] ③ 복합체 IV : Cyt c → O₂ → H₂O (H⁺ 2개 펌핑 · 누적 6H⁺)'); await cIV();
-                banner('[2부 : FADH₂ 1분자] ④ ATP 합성효소 : H⁺ 6개 → 1.5 ATP 생성!'); await synth(1, true);
-                $('rs-nopump').style.opacity = 0;
-                await W(800);
-
                 $('rs-atpcnt').textContent = '2.5 / 1.5';
-                banner('비교 완료 : NADH 1분자 = 2.5 ATP (10H⁺) · FADH₂ 1분자 = 1.5 ATP (6H⁺)');
+                banner('포도당 1분자 최종 정산 : NADH 1분자 = 2.5 ATP (10H⁺) · FADH₂ 1분자 = 1.5 ATP (6H⁺)');
                 const L = $('rs-ledger'); L.style.display = 'block'; await appear(L, 600);
             } }
+
         };
 
         /* =================== 컨트롤 =================== */
