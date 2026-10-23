@@ -2297,7 +2297,7 @@
         play();
     }
     window.psStart = function (scope) {
-        list = scope === 'light' ? PSDB.slice(0, 9) : scope === 'calvin' ? PSDB.slice(9) : PSDB;
+        list = scope === 'light' ? PSDB.slice(0, 8) : scope === 'calvin' ? PSDB.slice(8) : PSDB;
         idx = 0;
         document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
         $('screen-ps').classList.add('active');
@@ -3565,6 +3565,183 @@
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initInh);
     else initInh();
+})();
+</script>
+<!-- ===================== ⚡ 배속 조절 & 자동 넘기기 컨트롤 모듈 ===================== -->
+<style>
+    .sim-header { flex-wrap: wrap; gap: 0.7rem; }
+    .spd-auto-bar { display: flex; align-items: center; gap: 12px; margin-left: auto; flex-wrap: wrap; }
+    .spd-group { display: flex; align-items: center; background: #181f26; border: 1px solid #485460; border-radius: 20px; padding: 3px; gap: 2px; }
+    .spd-btn { background: transparent; color: #a4b0be; border: none; border-radius: 15px; padding: 4px 9px; font-size: 12px; font-weight: 800; cursor: pointer; transition: 0.15s; white-space: nowrap; }
+    .spd-btn:hover { color: #fff; }
+    .spd-btn.active { background: var(--primary); color: #111; box-shadow: 0 0 8px rgba(15, 185, 177, 0.5); }
+
+    /* 자동 넘기기 스위치 스타일 */
+    .auto-switch-wrap { display: flex; align-items: center; gap: 7px; background: #181f26; border: 1px solid #485460; border-radius: 20px; padding: 4px 11px; cursor: pointer; user-select: none; }
+    .auto-switch-lbl { font-size: 12.5px; font-weight: bold; color: #d1d8e0; white-space: nowrap; }
+    .auto-switch { position: relative; width: 38px; height: 20px; background: #485460; border-radius: 20px; transition: 0.25s; flex-shrink: 0; }
+    .auto-switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; background: #fff; border-radius: 50%; transition: 0.25s; box-shadow: 0 1px 3px rgba(0,0,0,0.4); }
+    .auto-switch-wrap.on { border-color: #20bf6b; }
+    .auto-switch-wrap.on .auto-switch { background: #20bf6b; }
+    .auto-switch-wrap.on .auto-switch::after { transform: translateX(18px); }
+    .auto-switch-state { font-size: 11px; font-weight: 900; color: #7f8c8d; min-width: 24px; }
+    .auto-switch-wrap.on .auto-switch-state { color: #26de81; }
+</style>
+
+<script>
+(function () {
+    const SPEEDS = [1, 1.25, 1.5, 1.75, 2];
+    window.__simSpeed = 1;
+    window.__autoNext = false;
+
+    let activeTokTimers = 0;
+    let autoNextTimer = null;
+    let lastStepTriggerTime = 0;
+
+    /* 1. 현재 활성화된 화면의 '다음' 버튼 찾기 */
+    function getActiveNextBtn() {
+        const map = [
+            ['screen-sim', 'btn-next'],
+            ['screen-ps', 'ps-next'],
+            ['screen-fm', 'fm-next'],
+            ['screen-inh', 'inh-next']
+        ];
+        for (const [scrId, btnId] of map) {
+            const scr = document.getElementById(scrId);
+            if (scr && scr.classList.contains('active')) {
+                return document.getElementById(btnId);
+            }
+        }
+        return null;
+    }
+
+    /* 2. 단계 애니메이션 종료 감지 후 자동 넘기기 실행 */
+    function scheduleAutoNextCheck() {
+        clearTimeout(autoNextTimer);
+        if (!window.__autoNext) return;
+        if (activeTokTimers > 0) return;
+
+        const waitMs = Math.max(450, Math.round(950 / window.__simSpeed));
+        autoNextTimer = origSetTimeout(() => {
+            if (!window.__autoNext || activeTokTimers > 0) return;
+            const nextBtn = getActiveNextBtn();
+            if (nextBtn && !nextBtn.disabled) {
+                nextBtn.click();
+            }
+        }, waitMs);
+    }
+
+    /* 3. setTimeout 가로채기 (애니메이션 대기 시간 배속 적용 & 종료 감지) */
+    const origSetTimeout = window.setTimeout.bind(window);
+    const origClearTimeout = window.clearTimeout.bind(window);
+
+    window.setTimeout = function (fn, delay, ...args) {
+        if (typeof fn !== 'function') return origSetTimeout(fn, delay, ...args);
+
+        const fnStr = fn.toString();
+        const isStepAnimTimer = fnStr.includes('tok');
+        const numDelay = typeof delay === 'number' ? delay : 0;
+
+        /* 40ms 이상의 애니메이션 타이머에 배속 적용 */
+        const scaledDelay = (numDelay >= 40) ? Math.max(15, Math.round(numDelay / window.__simSpeed)) : numDelay;
+
+        if (isStepAnimTimer) {
+            activeTokTimers++;
+            clearTimeout(autoNextTimer);
+            const wrapped = function (...a) {
+                activeTokTimers = Math.max(0, activeTokTimers - 1);
+                try {
+                    return fn.apply(this, a);
+                } finally {
+                    if (activeTokTimers === 0) scheduleAutoNextCheck();
+                }
+            };
+            return origSetTimeout(wrapped, scaledDelay, ...args);
+        }
+
+        return origSetTimeout(fn, scaledDelay, ...args);
+    };
+
+    /* 4. Web Animations API (el.animate) 배속 적용 */
+    const origAnimate = Element.prototype.animate;
+    Element.prototype.animate = function (keyframes, options) {
+        const spd = window.__simSpeed || 1;
+        if (spd !== 1) {
+            if (typeof options === 'number') {
+                options = options / spd;
+            } else if (options && typeof options === 'object') {
+                options = Object.assign({}, options);
+                if (typeof options.duration === 'number') options.duration = options.duration / spd;
+                if (typeof options.delay === 'number') options.delay = options.delay / spd;
+            }
+        }
+        return origAnimate.call(this, keyframes, options);
+    };
+
+    /* 5. 🔬 시각화 모드(SVG)의 CSS transition 배속 적용 */
+    const transDesc = Object.getOwnPropertyDescriptor(CSSStyleDeclaration.prototype, 'transition');
+    if (transDesc && transDesc.set) {
+        Object.defineProperty(CSSStyleDeclaration.prototype, 'transition', {
+            get() { return transDesc.get.call(this); },
+            set(val) {
+                const spd = window.__simSpeed || 1;
+                if (typeof val === 'string' && spd !== 1 && val !== 'none') {
+                    val = val.replace(/(\d+(?:\.\d+)?)(ms|s)/g, (_, num, unit) => {
+                        return (parseFloat(num) / spd).toFixed(2) + unit;
+                    });
+                }
+                transDesc.set.call(this, val);
+            }
+        });
+    }
+
+    /* 6. 배속 및 자동 넘기기 UI 동기화 */
+    window.setSimSpeed = function (spd) {
+        window.__simSpeed = spd;
+        document.querySelectorAll('.spd-btn').forEach(btn => {
+            btn.classList.toggle('active', parseFloat(btn.dataset.spd) === spd);
+        });
+    };
+
+    window.toggleAutoNext = function () {
+        window.__autoNext = !window.__autoNext;
+        document.querySelectorAll('.auto-switch-wrap').forEach(w => {
+            w.classList.toggle('on', window.__autoNext);
+            const st = w.querySelector('.auto-switch-state');
+            if (st) st.textContent = window.__autoNext ? 'ON' : 'OFF';
+        });
+        if (window.__autoNext && activeTokTimers === 0) {
+            scheduleAutoNextCheck();
+        } else if (!window.__autoNext) {
+            origClearTimeout(autoNextTimer);
+        }
+    };
+
+    /* 7. 각 시뮬레이터 헤더(.sim-header)에 배속 버튼 & 자동 넘기기 스위치 주입 */
+    function injectControls() {
+        document.querySelectorAll('.sim-header').forEach(header => {
+            if (header.querySelector('.spd-auto-bar')) return;
+            const bar = document.createElement('div');
+            bar.className = 'spd-auto-bar';
+            bar.innerHTML = `
+                <div class="spd-group" title="애니메이션 재생 속도">
+                    ${SPEEDS.map(s => `<button type="button" class="spd-btn${s === window.__simSpeed ? ' active' : ''}" data-spd="${s}" onclick="setSimSpeed(${s})">x${s}</button>`).join('')}
+                </div>
+                <div class="auto-switch-wrap${window.__autoNext ? ' on' : ''}" onclick="toggleAutoNext()" title="애니메이션 완료 후 다음 단계로 자동 이동">
+                    <span class="auto-switch-lbl">자동 넘기기</span>
+                    <div class="auto-switch"></div>
+                    <span class="auto-switch-state">${window.__autoNext ? 'ON' : 'OFF'}</span>
+                </div>
+            `;
+            header.appendChild(bar);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => origSetTimeout(injectControls, 0));
+    } else {
+        origSetTimeout(injectControls, 0);
+    }
 })();
 </script>
 
