@@ -2305,6 +2305,7 @@
         window.scrollTo(0, 0);
         update();
     };
+    window.psStartRange = function (a, b) { window.psStart('all'); list = PSDB.slice(a, b); idx = 0; update(); };
     window.psMove = function (dir) { idx = Math.max(0, Math.min(list.length - 1, idx + dir)); update(); };
     window.psReplay = function () { play(); };
     window.addEventListener('resize', () => { if ($('screen-ps').classList.contains('active') && list.length) play(); });
@@ -2515,6 +2516,7 @@
         const nc = $('nav-controls'); if (nc) nc.style.display = 'none';
         window.scrollTo(0, 0); update();
     };
+    window.fmStartIdx = function (ix) { window.fmStart('all'); list = ix.map(i => FDB[i]); idx = 0; update(); };
     window.fmMove = dir => { idx = Math.max(0, Math.min(list.length - 1, idx + dir)); update(); };
     window.fmReplay = () => play();
     const _home = window.goHome;
@@ -2615,7 +2617,7 @@
   function makeAPI(svg, my) {
     const S = ms => new Promise((res, rej) => setTimeout(() => (my === tok ? res() : rej('cv-stop')), ms));
     const fg = el('g', {}, svg);
-    async function go(n, x, y, ms = 900) { n.getBoundingClientRect(); n.style.transition = `transform ${ms}ms ease-in-out, opacity .4s`; n.style.transform = `translate(${x}px,${y}px)`; n._x = x; n._y = y; await S(ms); }
+    async function go(n, x, y, ms = 900) { n.getBoundingClientRect(); n.style.transition = `transform ${ms / (window.SPD || 1)}ms ease-in-out, opacity .4s`; n.style.transform = `translate(${x}px,${y}px)`; n._x = x; n._y = y; await S(ms); }
 
     /* 탄소 골격 분자: n = 탄소 수, ps = 인산기가 붙은 탄소 번호(0부터), o = {coa, dbl, lbl} */
     function Mol(x, y, n, ps, lbl, o) {
@@ -3746,5 +3748,202 @@
 </script>
 
                 
+
+<!-- ===================== ⏩ 배속 · 자동 넘기기 (독립 추가 모듈) ===================== -->
+<script>
+(function(){
+  window.SPD=1; let pend=0, auto=false, quiet=0;
+  const _st=window.setTimeout.bind(window), _ct=window.clearTimeout.bind(window), live=new Set();
+  window.setTimeout=function(fn,ms,...a){ ms=+ms||0; const track=ms>=100; let id;
+    id=_st(()=>{ if(track) live.delete(id); typeof fn==='function'?fn(...a):eval(fn); }, ms/window.SPD); if(track) live.add(id); return id; };
+  window.clearTimeout=function(id){ live.delete(id); _ct(id); };
+  const _an=Element.prototype.animate;
+  Element.prototype.animate=function(k,o){ if(typeof o==='number') o/=window.SPD; else if(o&&o.duration) o=Object.assign({},o,{duration:o.duration/window.SPD}); return _an.call(this,k,o); };
+  const NEXT=['btn-next','ps-next','fm-next','inh-next'];
+  function busy(){ if(live.size) return true; return document.getAnimations().some(a=>a.playState==='running'&&a.effect&&a.effect.getTiming().iterations!==Infinity&&!(a instanceof CSSAnimation)); }
+  setInterval(()=>{   /* 실제 시간 0.2초마다 확인 */
+    if(!auto){ quiet=0; return; }
+    const b=NEXT.map(i=>document.getElementById(i)).find(b=>b&&b.offsetParent&&!b.disabled);
+    if(!b||busy()){ quiet=0; return; }
+    quiet+=200; if(quiet>=1500){ quiet=0; b.click(); }
+  },200);
+  function init(){
+    document.querySelectorAll('.nav-controls').forEach(nav=>{
+      const s=document.createElement('select'); s.className='nav-btn spd-sel'; s.title='애니메이션 배속'; s.style.padding='0.5rem 0.8rem';
+      [1,1.25,1.5,1.75,2].forEach(v=>s.add(new Option('x'+v,v)));
+      s.onchange=()=>{ window.SPD=+s.value; document.querySelectorAll('.spd-sel').forEach(o=>o.value=s.value); };
+      const a=document.createElement('button'); a.className='nav-btn auto-btn'; a.textContent='⏭ 자동 OFF';
+      a.onclick=()=>{ auto=!auto; quiet=0; document.querySelectorAll('.auto-btn').forEach(x=>{ x.textContent=auto?'⏭ 자동 ON':'⏭ 자동 OFF'; x.style.background=auto?'#20bf6b':''; }); };
+      nav.append(s,a);
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+})();
+</script>
+<!-- ===================== 📝 물질 생성 퀴즈 (독립 추가 모듈) ===================== -->
+<style>
+  .qz-card{width:240px;padding:2rem 1.5rem}
+  #screen-quiz .qz-wrap{max-width:860px;margin:0 auto;width:100%;padding:1rem}
+  .qz-modes{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;margin:1rem 0}
+  .qz-mode{background:#2f3542;color:#ddd;border:2px solid #555;border-radius:20px;padding:.5rem 1.1rem;font-weight:bold;cursor:pointer}
+  .qz-mode.on{background:#4b7bec;border-color:#4b7bec;color:#fff}
+  .qz-q{background:var(--panel);border-radius:15px;padding:1.6rem;text-align:center;box-shadow:0 6px 20px rgba(0,0,0,.3)}
+  .qz-mol{display:inline-block;background:#2f3542;border:2px solid #4b7bec;border-radius:12px;padding:.6rem 1.2rem;font-size:1.3rem;font-weight:bold;color:#fff}
+  .qz-arrow{font-size:1.6rem;margin:0 .8rem;color:#fed330}
+  .qz-in{width:100%;box-sizing:border-box;margin-top:1.2rem;padding:.8rem 1rem;font-size:1.15rem;border-radius:10px;border:2px solid #555;background:#1e272e;color:#fff}
+  .qz-btns{display:flex;gap:.6rem;justify-content:center;margin-top:1rem;flex-wrap:wrap}
+  .qz-res{margin-top:1.2rem;text-align:left;line-height:1.7;color:#ddd}
+  .qz-res table{border-collapse:collapse;width:100%;font-size:14px;margin-top:.5rem}
+  .qz-res td,.qz-res th{border-bottom:1px solid #444;padding:4px 8px;text-align:center}
+  .qz-ok{color:#26de81;font-weight:bold;font-size:1.2rem}.qz-no{color:#ff6b6b;font-weight:bold;font-size:1.2rem}
+  .qz-hint{color:#aaa;font-size:.9rem;margin-top:.5rem}
+  .qz-score{color:#fed330;font-weight:bold}
+</style>
+<script>
+(function(){
+  /* 각 과정: 분자 목록(포도당 1분자 기준) + 단계별 생성물/소비물 */
+  const Q = {
+    rs:{ title:'⚡ 세포호흡',
+      hint:'생성된 물질을 모두 적으세요 (ATP·NADH·FADH₂·CO₂·ADP 등 · H₂O·CoA 제외) · GTP는 ATP로 · 포도당 1분자 기준',
+      mols:['포도당','포도당 6-인산','과당 6-인산','과당 1,6-2인산','2 G3P','2 1,3-BPG','2 3PG','2 2PG','2 PEP','2 피루브산','2 아세틸 CoA','2 시트르산','2 아이소시트르산','2 α-케토글루타르산','2 숙시닐 CoA','2 숙신산','2 푸마르산','2 말산','2 옥살아세트산'],
+      steps:[
+        {p:{ADP:1},c:{ATP:1}},{},{p:{ADP:1},c:{ATP:1}},{x:'DHAP → G3P 전환 포함'},
+        {p:{NADH:2},c:{'NAD⁺':2,Pi:2}},{p:{ATP:2},c:{ADP:2}},{},{p:{'H₂O':2}},{p:{ATP:2},c:{ADP:2}},
+        {p:{NADH:2,'CO₂':2},c:{'NAD⁺':2,CoA:2}},{p:{CoA:2},c:{'H₂O':2},x:'가수분해로 CoA 이탈'},{x:'H₂O 이탈 후 다시 결합'},
+        {p:{NADH:2,'CO₂':2},c:{'NAD⁺':2}},{p:{NADH:2,'CO₂':2},c:{'NAD⁺':2,CoA:2}},
+        {p:{ATP:2,CoA:2},c:{ADP:2,Pi:2},x:'GTP → ATP로 계산'},{p:{'FADH₂':2},c:{FAD:2}},{c:{'H₂O':2}},{p:{NADH:2},c:{'NAD⁺':2}}],
+      sim:i=>i<=2?[i]:i===3?[3,4]:[i+1],   /* DB 인덱스 */
+      ranges:{glyco:['해당과정',0,9],tca:['피루브산 산화 · TCA',9,18],all:['전 과정',0,18]} },
+    ps:{ title:'🌿 광합성 (캘빈 회로)',
+      hint:'생성된 물질을 모두 적으세요 (ADP·NADP⁺·Pi 등) · CO₂ 3분자 고정(3회전) 기준',
+      mols:['3 RuBP','6 3PG','6 1,3-BPG','6 G3P','5 G3P (1 G3P 방출)','3 Ru5P','3 RuBP'],
+      steps:[{c:{'CO₂':3,'H₂O':3}},{p:{ADP:6},c:{ATP:6}},{p:{'NADP⁺':6,Pi:6},c:{NADPH:6}},{x:'G3P 1분자 방출'},{p:{Pi:2}},{p:{ADP:3},c:{ATP:3}}],
+      sim:i=>[8+i],
+      ranges:{calvin:['캘빈 회로',0,6]} },
+    fm:{ title:'🍶 발효',
+      hint:'생성된 물질을 모두 적으세요 (ATP·NADH·NAD⁺·ADP·CO₂ 등 · H₂O 제외) · 포도당 1분자 기준 (ATP는 생성량 기준)',
+      chains:{
+        lac:{mols:['포도당','2 피루브산','2 젖산'],steps:[{p:{ATP:4,NADH:2,ADP:2,'H₂O':2},c:{ATP:2,ADP:4,'NAD⁺':2,Pi:2}},{p:{'NAD⁺':2},c:{NADH:2}}],sim:[0,1]},
+        alc:{mols:['포도당','2 피루브산','2 아세트알데하이드','2 에탄올'],steps:[{p:{ATP:4,NADH:2,ADP:2,'H₂O':2},c:{ATP:2,ADP:4,'NAD⁺':2,Pi:2}},{p:{'CO₂':2}},{p:{'NAD⁺':2},c:{NADH:2}}],sim:[0,2,3]} },
+      ranges:{lac:['젖산 발효'],alc:['알코올 발효'],all:['발효 전체 (무작위)']} }
+  };
+  let proc='rs', mode='all', cur=null, score=0, total=0, answered=false;
+  const $=id=>document.getElementById(id);
+
+  function pick(){
+    let P=Q[proc], mols, steps, lo, hi;
+    let chain=null; if(proc==='fm'){ const k=mode==='all'?(Math.random()<.5?'lac':'alc'):mode; chain=k; ({mols,steps}=P.chains[k]); lo=0; hi=mols.length-1; }
+    else { mols=P.mols; steps=P.steps; [,lo,hi]=P.ranges[mode]; }
+    let a,b,sum,tries=0;
+    do{ a=lo+Math.floor(Math.random()*(hi-lo)); b=a+1+Math.floor(Math.random()*(hi-a)); sum=calc(steps,a,b); tries++; }
+    while(Object.keys(sum.p).length===0 && tries<50);
+    cur={mols,steps,a,b,sum,proc,chain};
+  }
+  const IGN=['H₂O','CoA']; function calc(steps,a,b){ const p={},c={},x=[]; for(let i=a;i<b;i++){const s=steps[i]; for(const k in s.p||{}) if(!IGN.includes(k)) p[k]=(p[k]||0)+s.p[k]; for(const k in s.c||{}) if(!IGN.includes(k)) c[k]=(c[k]||0)+s.c[k]; if(s.x)x.push(s.x);} return {p,c,x}; }
+  function norm(t){ return t.replace(/[₀-₉]/g,d=>'0123456789'['₀₁₂₃₄₅₆₇₈₉'.indexOf(d)]).replace(/⁺/g,'+').replace(/\s+/g,'').toUpperCase(); }
+  function parse(t){ const s=norm(t), out={}, re=/(\d*)(NADPH|NADP\+|NADH|NAD\+|FADH2|FAD|ATP|ADP|GTP|GDP|CO2|H2O|COA|PI)/g; let m;
+    while((m=re.exec(s))){ if(m[2]==='H2O'||m[2]==='COA') continue; let k={NADPH:'NADPH','NADP+':'NADP⁺',NADH:'NADH','NAD+':'NAD⁺',FADH2:'FADH₂',FAD:'FAD',ATP:'ATP',GTP:'ATP',ADP:'ADP',GDP:'ADP',CO2:'CO₂',H2O:'H₂O',COA:'CoA',PI:'Pi'}[m[2]]; out[k]=(out[k]||0)+(m[1]?+m[1]:1); } return out; }
+  const fmt=o=>Object.keys(o).filter(k=>o[k]).map(k=>o[k]+' '+k).join(', ')||'없음';
+
+  function render(){
+    const P=Q[proc]; const rs=P.ranges;
+    $('qz-proc').querySelectorAll('.qz-mode').forEach(b=>b.classList.toggle('on',b.dataset.p===proc));
+    $('qz-range').innerHTML=Object.keys(rs).map(k=>`<button class="qz-mode${k===mode?' on':''}" data-m="${k}">${rs[k][0]}</button>`).join('');
+    $('qz-range').querySelectorAll('.qz-mode').forEach(b=>b.onclick=()=>{mode=b.dataset.m;render();next();});
+    $('qz-hint').textContent=P.hint;
+  }
+  function next(){
+    pick(); answered=false; $('qz-sim').disabled=true;
+    $('qz-a').textContent=cur.mols[cur.a]; $('qz-b').textContent=cur.mols[cur.b];
+    $('qz-in').value=''; $('qz-res').innerHTML=''; $('qz-in').focus();
+  }
+  function check(){
+    if(!cur) return;
+    const ans=parse($('qz-in').value), keys=Object.keys(cur.sum.p), want={};
+    keys.forEach(k=>{ if(cur.sum.p[k]) want[k]=cur.sum.p[k]; });
+    const all=new Set([...keys,...Object.keys(ans)]);
+    let ok=true, rows='';
+    all.forEach(k=>{ const w=want[k]||0, g=ans[k]||0; if(!w&&!g)return; const good=w===g; if(!good)ok=false;
+      rows+=`<tr><td>${k}</td><td>${w}</td><td>${g}</td><td>${good?'✅':'❌'}</td></tr>`; });
+    if(!answered){ total++; if(ok)score++; answered=true; } $('qz-sim').disabled=false;
+    let det=''; for(let i=cur.a;i<cur.b;i++){ const s=cur.steps[i]; det+=`<div>• ${cur.mols[i]} → ${cur.mols[i+1]} : 생성 ${fmt(s.p||{})}${s.c?` / 소비 ${fmt(s.c)}`:''}${s.x?` <span style="color:#aaa">(${s.x})</span>`:''}</div>`; }
+    $('qz-res').innerHTML=`<div class="${ok?'qz-ok':'qz-no'}">${ok?'정답입니다! 🎉':'아쉬워요, 다시 확인해 보세요.'}</div>
+      <div><b>정답 :</b> ${fmt(want)}</div>${Object.keys(cur.sum.c).length?`<div style="color:#aaa"><b>참고 · 소비된 물질 :</b> ${fmt(cur.sum.c)}</div>`:''}
+      <table><tr><th>물질</th><th>정답</th><th>내 답</th><th></th></tr>${rows}</table>
+      <div style="margin-top:.8rem"><b>단계별 해설</b>${det}</div>`;
+    $('qz-score').textContent=`${score} / ${total}`;
+  }
+
+  /* ---------- 시뮬레이션으로 보기 ---------- */
+  let simCtx=null, simTimer=null;
+  function simulate(){
+    if(!cur||!answered) return;
+    const P=Q[cur.proc], map=[]; // map: 재생 목록 위치 → 퀴즈 단계 i
+    let ix=[];
+    for(let i=cur.a;i<cur.b;i++){ const s=cur.proc==='fm'?[P.chains[cur.chain].sim[i]]:P.sim(i); s.forEach(v=>{ix.push(v);map.push(i);}); }
+    const want={}; Object.keys(cur.sum.p).forEach(k=>want[k]=cur.sum.p[k]);
+    simCtx={proc:cur.proc,map,want,steps:cur.steps,a:cur.mols[cur.a],b:cur.mols[cur.b]};
+    if(cur.proc==='rs'){ startSim('all'); currentProcess=ix.map(k=>DB[k]); currentIndex=0; updateUI(); }
+    else if(cur.proc==='ps') window.psStartRange(ix[0],ix[ix.length-1]+1);
+    else window.fmStartIdx(ix);
+    showCounter();
+  }
+  function curPos(){
+    const id={rs:['screen-sim',()=>currentIndex],ps:['screen-ps',()=>parseInt($('ps-counter').innerText)-1],fm:['screen-fm',()=>parseInt(($('fm-counter')||{}).innerText)-1]}[simCtx.proc];
+    if(!$(id[0]).classList.contains('active')) return null; return id[1]();
+  }
+  function showCounter(){
+    let box=$('qz-counter');
+    if(!box){ box=document.createElement('div'); box.id='qz-counter'; document.body.appendChild(box);
+      box.style.cssText='position:fixed;right:16px;top:16px;z-index:9999;background:rgba(15,20,28,.95);border:2px solid #4b7bec;border-radius:14px;padding:10px 14px;color:#fff;font-size:14px;min-width:190px;box-shadow:0 6px 20px rgba(0,0,0,.5)'; }
+    box.style.display='block'; clearInterval(simTimer); let last='';
+    simTimer=setInterval(()=>{
+      const pos=curPos(); if(pos===null||isNaN(pos)){ box.style.display='none'; clearInterval(simTimer); simCtx=null; return; }
+      const qi=simCtx.map[pos], got={}; const done=new Set(simCtx.map.slice(0,pos+1));
+      done.forEach(i=>{ const p=simCtx.steps[i].p||{}; for(const k in p) if(!IGN.includes(k)) got[k]=(got[k]||0)+p[k]; });
+      const html=`<div style="color:#4b7bec;font-weight:bold;margin-bottom:4px">📝 생성물 카운트</div><div style="color:#aaa;font-size:12px;margin-bottom:6px">${simCtx.a} ⟶ ${simCtx.b}</div>`+
+        Object.keys(simCtx.want).map(k=>{ const g=got[k]||0, w=simCtx.want[k]; return `<div style="display:flex;justify-content:space-between;gap:12px"><span>${k}</span><b style="color:${g>=w?'#26de81':'#fed330'}">${g} / ${w}</b></div>`; }).join('')+
+        `<button class="nav-btn" style="margin-top:8px;padding:4px 12px;font-size:12px;width:100%" id="qz-back">↩ 퀴즈로 돌아가기</button>`;
+      if(html!==last){ box.innerHTML=html; last=html; $('qz-back').onclick=()=>{ goHome(); document.querySelectorAll('.screen').forEach(e=>e.classList.remove('active')); $('screen-quiz').classList.add('active'); box.style.display='none'; }; }
+    },250);
+  }
+
+  function init(){
+    const main=$('screen-main'); if(!main) return;
+    const sec=document.createElement('div'); sec.style.cssText='display:flex;flex-direction:column;align-items:center;';
+    sec.innerHTML=`<h2 class="menu-sec-title" style="color:#4b7bec;">📝 물질 생성 퀴즈 (Quiz)</h2>
+      <div class="menu-grid" style="margin-top:2rem;margin-bottom:3rem;">
+        <div class="menu-card qz-card" data-p="rs"><h2 style="color:var(--primary);margin-top:0;">세포호흡 퀴즈</h2><p style="color:#aaa;">해당과정 · TCA · 전 과정</p></div>
+        <div class="menu-card qz-card" data-p="fm"><h2 style="color:#e056fd;margin-top:0;">발효 퀴즈</h2><p style="color:#aaa;">젖산 · 알코올 발효</p></div>
+        <div class="menu-card qz-card" data-p="ps"><h2 style="color:#26de81;margin-top:0;">광합성 퀴즈</h2><p style="color:#aaa;">캘빈 회로</p></div></div>`;
+    main.appendChild(sec);
+    const scr=document.createElement('div'); scr.id='screen-quiz'; scr.className='screen';
+    scr.innerHTML=`<div class="qz-wrap">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem">
+        <h2 style="margin:0;color:#4b7bec;">📝 물질 생성 퀴즈</h2><div>점수 <span class="qz-score" id="qz-score">0 / 0</span></div></div>
+      <div class="qz-modes" id="qz-proc">
+        <button class="qz-mode" data-p="rs">세포호흡</button><button class="qz-mode" data-p="fm">발효</button><button class="qz-mode" data-p="ps">광합성</button></div>
+      <div class="qz-modes" id="qz-range"></div>
+      <div class="qz-q">
+        <div style="color:#aaa;margin-bottom:1rem">A 분자가 B 분자가 될 때 <b style="color:#fed330">생성되는 물질</b>의 종류와 개수를 모두 적으세요.</div>
+        <span class="qz-mol" id="qz-a"></span><span class="qz-arrow">⟶</span><span class="qz-mol" id="qz-b"></span>
+        <input class="qz-in" id="qz-in" placeholder="예: 4ATP, 4NADH, 2CO2, 2ADP">
+        <div class="qz-hint" id="qz-hint"></div>
+        <div class="qz-hint">입력 예: 2CO2 / 2 NAD+ / 2ADP / FADH2 · H₂O·CoA는 적지 않아도 됨 · 숫자를 생략하면 1개 · 생성물이 없으면 비워 두고 제출</div>
+        <div class="qz-btns"><button class="nav-btn" onclick="goHome()">&#8962; 메뉴</button>
+          <button class="nav-btn" id="qz-check">채점</button><button class="nav-btn" id="qz-sim" disabled title="채점 후 볼 수 있습니다">▶ 시뮬레이션으로 보기</button><button class="nav-btn" id="qz-next">다음 문제 →</button></div>
+        <div class="qz-res" id="qz-res"></div></div></div>`;
+    main.parentNode.appendChild(scr);
+    const open=p=>{ proc=p; mode=Object.keys(Q[p].ranges).includes('all')?'all':Object.keys(Q[p].ranges)[0];
+      document.querySelectorAll('.screen').forEach(e=>e.classList.remove('active')); scr.classList.add('active'); window.scrollTo(0,0); render(); next(); };
+    sec.querySelectorAll('.qz-card').forEach(c=>c.onclick=()=>open(c.dataset.p));
+    scr.querySelectorAll('#qz-proc .qz-mode').forEach(b=>b.onclick=()=>open(b.dataset.p));
+    $('qz-check').onclick=check; $('qz-sim').onclick=simulate; $('qz-next').onclick=next;
+    $('qz-in').addEventListener('keydown',e=>{ if(e.key==='Enter'){ answered?next():check(); } });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+})();
+</script>
+
 </body>
 </html>
