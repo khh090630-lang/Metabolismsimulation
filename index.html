@@ -4113,72 +4113,8 @@
 </script>
 
 
-<!-- ===================== 🔭 막 화면(산화적 인산화·명반응) 확대·축소 + 3D 입체 효과 (독립 추가 모듈) ===================== -->
-<svg width="0" height="0" style="position:absolute;width:0;height:0" aria-hidden="true">
-  <defs>
-    <!-- 구형 분자(탄소·인산 등) : 광택 + 그림자 -->
-    <filter id="cv3dball" x="-40%" y="-40%" width="180%" height="190%" color-interpolation-filters="sRGB">
-      <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="b"/>
-      <feSpecularLighting in="b" surfaceScale="5" specularConstant="1.1" specularExponent="22" lighting-color="#ffffff" result="s">
-        <feDistantLight azimuth="225" elevation="48"/>
-      </feSpecularLighting>
-      <feComposite in="s" in2="SourceAlpha" operator="in" result="sp"/>
-      <feComposite in="SourceGraphic" in2="sp" operator="arithmetic" k1="0" k2="1" k3="0.85" k4="0" result="lit"/>
-      <feDropShadow dx="2" dy="4" stdDeviation="3" flood-color="#000" flood-opacity="0.55"/>
-    </filter>
-    <!-- 막 · 단백질 덩어리 : 입체 볼록(bevel) -->
-    <filter id="cv3dbevel" x="-10%" y="-10%" width="120%" height="130%" color-interpolation-filters="sRGB">
-      <feGaussianBlur in="SourceAlpha" stdDeviation="7" result="b"/>
-      <feSpecularLighting in="b" surfaceScale="6" specularConstant="0.8" specularExponent="14" lighting-color="#ffffff" result="s">
-        <feDistantLight azimuth="235" elevation="40"/>
-      </feSpecularLighting>
-      <feComposite in="s" in2="SourceAlpha" operator="in" result="sp"/>
-      <feComposite in="SourceGraphic" in2="sp" operator="arithmetic" k1="0" k2="1" k3="0.55" k4="0" result="lit"/>
-      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#000" flood-opacity="0.5"/>
-    </filter>
-  </defs>
-</svg>
+<!-- ===================== 🔭 막 화면(산화적 인산화·명반응) 확대·축소 (독립 추가 모듈) ===================== -->
 <style>
-  /* ---------- 3D : 시각화(SVG) 화면 ---------- */
-  .cv-wrap svg circle[stroke="#fff"], .mz-world svg circle[stroke="#fff"] { filter: url(#cv3dball); }
-  .cv-wrap svg ellipse, .mz-world svg ellipse,
-  .cv-wrap svg rect[rx], .mz-world svg rect[rx] { filter: url(#cv3dbevel); }
-  .cv-wrap svg { background: radial-gradient(ellipse at 50% 40%, #1d2b33 0%, #0a1014 100%); }
-
-  /* ---------- 3D : 전자전달계 · 명반응 막 화면 ---------- */
-  #etc-view, #ps-thy-view { box-shadow: inset 0 0 90px rgba(0,0,0,0.75); }
-  #etc-view .rs-mem, #ps-thy-view .thy-mem { border-top: none; border-bottom: none; }
-  #etc-view .rs-mem {
-    background:
-      radial-gradient(circle at 50% 35%, #ffe0b2 0 3px, #e67e22 4px 6px, #8a3d06 7px, transparent 8px) 0 0 / 16px 16px repeat-x,
-      radial-gradient(circle at 50% 65%, #ffe0b2 0 3px, #e67e22 4px 6px, #8a3d06 7px, transparent 8px) 0 100% / 16px 16px repeat-x,
-      repeating-linear-gradient(90deg, rgba(243,156,18,0.38) 0 2px, transparent 2px 5px, rgba(243,156,18,0.38) 5px 7px, transparent 7px 16px),
-      linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(230,126,34,0.10) 50%, rgba(0,0,0,0.0));
-    box-shadow: 0 -10px 18px -10px rgba(0,0,0,0.8) inset, 0 10px 18px -10px rgba(0,0,0,0.8) inset;
-  }
-  #ps-thy-view .thy-mem {
-    background:
-      radial-gradient(circle at 50% 35%, #d5f5e3 0 3px, #27ae60 4px 6px, #0e5a2e 7px, transparent 8px) 0 0 / 16px 16px repeat-x,
-      radial-gradient(circle at 50% 65%, #d5f5e3 0 3px, #27ae60 4px 6px, #0e5a2e 7px, transparent 8px) 0 100% / 16px 16px repeat-x,
-      repeating-linear-gradient(90deg, rgba(46,204,113,0.32) 0 2px, transparent 2px 5px, rgba(46,204,113,0.32) 5px 7px, transparent 7px 16px),
-      linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(38,222,129,0.10) 50%, rgba(0,0,0,0.0));
-    box-shadow: 0 -10px 18px -10px rgba(0,0,0,0.8) inset, 0 10px 18px -10px rgba(0,0,0,0.8) inset;
-  }
-  /* 단백질 복합체 : 광택 + 음영으로 입체감 (색은 그대로) */
-  #etc-view .rx, #ps-thy-view .cx {
-    background-image:
-      radial-gradient(ellipse at 28% 18%, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0) 45%),
-      radial-gradient(ellipse at 70% 105%, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 60%);
-    box-shadow: inset -8px -10px 22px rgba(0,0,0,0.55), inset 6px 6px 16px rgba(255,255,255,0.18), 0 14px 22px rgba(0,0,0,0.6);
-  }
-  #etc-view .carrier, #ps-thy-view .carrier, .att, .pig, #ps-thy-view .rc, #ps-thy-view .sub,
-  #etc-view .rs-sub {
-    background-image: radial-gradient(circle at 32% 26%, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0) 50%),
-                      radial-gradient(circle at 70% 85%, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 60%);
-  }
-  #etc-view .carrier, #ps-thy-view .carrier { box-shadow: 0 5px 9px rgba(0,0,0,0.6); }
-  .atom { background-image: radial-gradient(circle at 32% 26%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 48%); }
-
   /* ---------- 확대·축소 ---------- */
   .mz-root { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding:inherit; transform-origin:0 0; will-change:transform; }
   .mz-world { position:absolute; pointer-events:none; opacity:0; z-index:0; }
@@ -4200,6 +4136,92 @@
     return new DOMRect(f(r.left, C.left, x), f(r.top, C.top, y), r.width / s, r.height / s);
   };
 
+
+  // ── 막 화면용 전체 지도 ──
+  // 막 화면의 위·아래 구획이 지도의 실제 구획과 겹치도록, 반응 위치 상자에 맞춰 크리스타/틸라코이드를 그린다.
+  //  · 전자전달계 화면 : 위 40% = 막사이 공간, 40~62% = 내막, 아래 = 바탕질
+  //    → 내막이 안쪽으로 접힌 크리스타의 아래쪽 막에 상자를 걸쳐 놓음 (크리스타 안쪽 = 막사이 공간과 연결)
+  //  · 명반응 화면 : 위 38% = 스트로마, 38~62% = 틸라코이드 막, 아래 = 틸라코이드 내강
+  //    → 그라나 맨 위 틸라코이드의 윗막에 상자를 걸쳐 놓음
+  function memLine(g, tag, at, col, core) {
+    el(tag, Object.assign({ fill: 'none', stroke: col, 'stroke-width': 40, opacity: 0.14 }, at), g);
+    el(tag, Object.assign({ fill: 'none', stroke: col, 'stroke-width': 22 }, at), g);
+    el(tag, Object.assign({ fill: 'none', stroke: core, 'stroke-width': 9 }, at), g);
+    el(tag, Object.assign({ fill: 'none', stroke: col, 'stroke-width': 9, 'stroke-dasharray': '3 11', opacity: 0.55 }, at), g);
+  }
+  function mbg(g, defs, id, c1, c2) {
+    const rg = el('radialGradient', { id, cx: '45%', cy: '35%', r: '75%' }, defs);
+    el('stop', { offset: '0%', 'stop-color': c1 }, rg); el('stop', { offset: '100%', 'stop-color': c2 }, rg);
+    el('rect', { x: 0, y: 0, width: WW, height: WH, fill: `url(#${id})` }, g);
+    for (let i = 0; i < 90; i++) el('circle', { cx: (i * 211) % WW, cy: (i * 127) % WH, r: 3, fill: '#ffffff10' }, g);
+  }
+  const T2 = (g, x, y, s, fs, col, extra) => txt(g, x, y, s, Object.assign({ 'font-size': fs, fill: col, 'font-weight': 600 }, extra || {}));
+  const MEMW = {
+    mito(g, defs, x0, y0, bw, bh, cfg) {
+      const C = '#f0a35e', IMS = '#3b2445', MAT = '#1a1638', CORE = '#2a1a33';
+      mbg(g, defs, 'mzbgM', '#221a4a', '#0b0a1a');
+      const cx = 2000, cy = 1080, RX = 1830, RY = 965, rx = 1735, ry = 872;
+      el('ellipse', { cx, cy, rx: RX, ry: RY, fill: IMS }, g);
+      memLine(g, 'ellipse', { cx, cy, rx: RX, ry: RY }, C, '#120e24');
+      el('ellipse', { cx, cy, rx, ry, fill: MAT }, g);
+      memLine(g, 'ellipse', { cx, cy, rx, ry }, C, CORE);
+      const edge = (x, top) => { const d = (x - cx) / rx; const h = ry * Math.sqrt(Math.max(0, 1 - d * d)); return top ? cy - h : cy + h; };
+      const memY = y0 + bh * 0.51;
+      const F = [
+        { x: x0 + bw / 2, w: bw + 340, top: true, to: memY, main: true },
+        { x: 640, w: 150, top: false, to: 980 }, { x: 2230, w: 170, top: false, to: 760 },
+        { x: 2660, w: 170, top: true, to: 1430 }, { x: 3090, w: 170, top: false, to: 760 },
+        { x: 3500, w: 150, top: true, to: 1330 }];
+      F.forEach(f => {
+        const x1 = f.x - f.w / 2, x2 = f.x + f.w / 2, e1 = edge(x1, f.top), e2 = edge(x2, f.top), r = Math.min(f.w / 2, 70), sg = f.top ? 1 : -1, t = f.to;
+        const side = `M${x1} ${e1} L${x1} ${t - sg * r} Q${x1} ${t} ${x1 + r} ${t} L${x2 - r} ${t} Q${x2} ${t} ${x2} ${t - sg * r} L${x2} ${e2}`;
+        el('path', { d: side + ` L${x2} ${e2 - sg * 45} L${x1} ${e1 - sg * 45} Z`, fill: IMS }, g);
+        memLine(g, 'path', { d: side }, C, CORE);
+        if (!f.main) for (let k = 1; k <= 3; k++) {          // 크리스타 막에 박힌 전자전달계 · ATP 합성효소 (작게)
+          const yy = e1 + (t - e1) * k / 4.2;
+          el('rect', { x: x1 - 16, y: yy - 22, width: 32, height: 44, rx: 10, fill: ['#8e7cc3', '#5b8def', '#e06666'][k - 1], opacity: 0.9 }, g);
+          el('circle', { cx: x2 + 30, cy: yy, r: 17, fill: '#f6b26b', opacity: 0.9 }, g);
+        }
+      });
+      const fm = F[0];
+      T2(g, 150, 110, '세포질', 40, '#8fa3d9', { 'text-anchor': 'start' });
+      T2(g, cx, cy - RY - 40, '미토콘드리아 외막', 38, C);
+      T2(g, fm.x, edge(fm.x, true) + 110, '막사이 공간 (H⁺ 고농도)', 42, '#ffb98a');
+      T2(g, fm.x, edge(fm.x, true) + 160, '크리스타 안쪽 = 막사이 공간', 30, '#c9a0a0');
+      T2(g, fm.x + fm.w / 2 + 30, (edge(fm.x, true) + memY) / 2, '내막 (크리스타)', 36, C, { 'text-anchor': 'start' });
+      T2(g, fm.x, y0 + bh + 250, '◉ 바탕질 (H⁺ 저농도)', 44, '#9fb4ff');
+      T2(g, 2900, cy + 40, 'TCA 회로', 38, '#9fb4ff'); 
+      el('circle', { cx: 2900, cy: cy + 25, r: 120, fill: 'none', stroke: '#9fb4ff', 'stroke-width': 6, 'stroke-dasharray': '22 14', opacity: 0.6 }, g);
+    },
+    chloro(g, defs, x0, y0, bw, bh, cfg) {
+      const G = '#62d39a', LUM = '#1d4b3c', STR = '#10202a', CORE = '#0f2a22';
+      mbg(g, defs, 'mzbgC', '#1b2148', '#0a0b1a');
+      const cx = 2000, cy = 1080;
+      el('ellipse', { cx, cy, rx: 1890, ry: 975, fill: '#18263a' }, g);
+      memLine(g, 'ellipse', { cx, cy, rx: 1890, ry: 975 }, G, '#0d1424');
+      el('ellipse', { cx, cy, rx: 1830, ry: 920, fill: STR }, g);
+      memLine(g, 'ellipse', { cx, cy, rx: 1830, ry: 920 }, G, CORE);
+      const memY = y0 + bh * 0.5, dh = bh * 0.5 + 75, dw = bw + 300, gap = 26;
+      const stacks = [{ x: x0 + bw / 2, top: memY, n: 3, w: dw }, { x: 2950, top: 900, n: 3, w: dw - 60 }, { x: 2050, top: 1260, n: 2, w: dw - 120 }];
+      // 스트로마 라멜라 (그라나 연결)
+      const lam = (xa, ya, xb, yb) => { const d = `M${xa} ${ya} L${xb} ${yb}`; el('path', { d, stroke: LUM, 'stroke-width': 44, fill: 'none' }, g);
+        el('path', { d, stroke: G, 'stroke-width': 58, fill: 'none', opacity: 0.25 }, g); el('path', { d, stroke: LUM, 'stroke-width': 40, fill: 'none' }, g); };
+      const mid = (st, i) => st.top + i * (dh + gap) + dh / 2;
+      lam(stacks[0].x, mid(stacks[0], 1), stacks[2].x, mid(stacks[2], 0));
+      lam(stacks[2].x, mid(stacks[2], 1), stacks[1].x, mid(stacks[1], 1));
+      stacks.forEach(st => { for (let i = st.n - 1; i >= 0; i--) {
+        const y = st.top + i * (dh + gap), at = { x: st.x - st.w / 2, y, width: st.w, height: dh, rx: Math.min(dh / 2, 90) };
+        el('rect', Object.assign({ fill: LUM }, at), g); memLine(g, 'rect', at, G, CORE); } });
+      const s0 = stacks[0], s1 = stacks[1];
+      T2(g, 150, 110, '세포질', 40, '#8fa3d9', { 'text-anchor': 'start' });
+      T2(g, cx, 60, '엽록체 외막 · 내막', 38, G);
+      T2(g, s1.x, s1.top + 2 * (dh + gap) + dh / 2 + 14, '틸라코이드 내강 (H⁺ 고농도)', 36, '#a8f0c8');
+      T2(g, s0.x, s0.top + s0.n * (dh + gap) + 40, '그라나 (틸라코이드 더미)', 38, G);
+      T2(g, 2050, 1840, '◉ 스트로마 (H⁺ 저농도)', 46, '#9fd8ff');
+      el('circle', { cx: 2150, cy: 560, r: 130, fill: 'none', stroke: '#9fd8ff', 'stroke-width': 6, 'stroke-dasharray': '22 14', opacity: 0.6 }, g);
+      T2(g, 2150, 575, '캘빈 회로', 38, '#9fd8ff');
+    }
+  };
   function setup(cfg) {
     const cont = document.querySelector(cfg.cont), view = document.getElementById(cfg.view);
     if (!cont || !view) return;
@@ -4211,10 +4233,10 @@
     // 전체 지도 (미토콘드리아 / 엽록체)
     const wd = document.createElement('div'); wd.className = 'mz-world'; root.insertBefore(wd, view);
     const svg = el('svg', { viewBox: `0 0 ${WW} ${WH}`, preserveAspectRatio: 'none' }, wd), defs = el('defs', {}, svg);
-    WORLD[cfg.world](el('g', {}, svg), defs, cfg.world === 'mito' ? 'rs' : 'ps', null, {});
+    const gW = el('g', {}, svg); let lastBh = -1;
     const hl = el('rect', { fill: 'none', stroke: '#ffeaa7', 'stroke-width': 14, rx: 10, class: 'cvz-pulse' }, svg);
-    const lb = txt(svg, 0, 0, '▶ ' + cfg.label, { 'font-size': 46, fill: '#ffeaa7' });
-    const lb2 = txt(svg, 0, 0, cfg.sub, { 'font-size': 34, fill: '#dfe6e9' });
+    const lb = txt(svg, 0, 0, '▶ ' + cfg.label, { 'font-size': 42, fill: '#ffeaa7', 'font-weight': 700 });
+    const lb2 = txt(svg, 0, 0, cfg.sub, { 'font-size': 32, fill: '#c9c6e8' });
 
     // 버튼
     const ctl = document.createElement('div'); ctl.className = 'cvz-ctl mz-ctl'; cont.appendChild(ctl);
@@ -4224,8 +4246,10 @@
       const bw = cfg.bw, bh = bw * vh / vw, k = vw / bw, x0 = cfg.cx - bw / 2, y0 = cfg.cy - bh / 2;
       Object.assign(geo, { k, L: view.offsetLeft - x0 * k, T: view.offsetTop - y0 * k, WWk: WW * k, WHk: WH * k });
       Object.assign(wd.style, { left: geo.L + 'px', top: geo.T + 'px', width: geo.WWk + 'px', height: geo.WHk + 'px' });
+      if (Math.abs(bh - lastBh) > 0.5) { lastBh = bh; while (gW.firstChild) gW.removeChild(gW.firstChild); while (defs.firstChild) defs.removeChild(defs.firstChild); MEMW[cfg.world](gW, defs, x0, y0, bw, bh, cfg); }
       hl.setAttribute('x', x0 - 10); hl.setAttribute('y', y0 - 10); hl.setAttribute('width', bw + 20); hl.setAttribute('height', bh + 20);
-      lb.setAttribute('x', cfg.cx); lb.setAttribute('y', y0 - 70); lb2.setAttribute('x', cfg.cx); lb2.setAttribute('y', y0 - 28);
+      if (cfg.below) { lb.setAttribute('x', cfg.cx); lb.setAttribute('y', y0 + bh + 72); lb2.setAttribute('x', cfg.cx); lb2.setAttribute('y', y0 + bh + 118); }
+      else { lb.setAttribute('x', cfg.cx); lb.setAttribute('y', y0 - 70); lb2.setAttribute('x', cfg.cx); lb2.setAttribute('y', y0 - 28); }
       return true;
     }
     function sMin() { const cw = cont.clientWidth, ch = cont.clientHeight; return Math.min(cw / geo.WWk, ch / geo.WHk); }
@@ -4292,13 +4316,60 @@
   }
 
   function init() {
-    setup({ cont: '#screen-sim .views-container', view: 'etc-view', world: 'mito', cx: 1400, cy: 1355, bw: 700,
+    setup({ cont: '#screen-sim .views-container', view: 'etc-view', world: 'mito', cx: 1400, cy: 1240, bw: 600, below: true,
             label: '지금 반응이 일어나는 곳 : 미토콘드리아 내막 (크리스타)', sub: '전자전달계 · ATP 합성효소 — 막사이 공간 ↔ 바탕질' });
-    setup({ cont: '#ps-views', view: 'ps-thy-view', world: 'chloro', cx: 700, cy: 1500, bw: 520,
-            label: '지금 반응이 일어나는 곳 : 틸라코이드 막', sub: '광계 II · I, ATP 합성효소 — 틸라코이드 내부 ↔ 스트로마' });
+    setup({ cont: '#ps-views', view: 'ps-thy-view', world: 'chloro', cx: 1150, cy: 760, bw: 380,
+            label: '지금 반응이 일어나는 곳 : 틸라코이드 막', sub: '광계 II · I, ATP 합성효소 — 스트로마 ↔ 틸라코이드 내강' });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
+<style id="ui-refined">
+/* ===== 세련된 UI 테마 (다크 네이비 · 코랄 포인트) — 색·글꼴·여백만 바꿈, 기능 변경 없음 ===== */
+:root { --bg:#0a0b1a; --panel:rgba(22,22,48,.72); --ink:#eef0ff; --mute:#9aa0c8; --line:rgba(255,255,255,.08); --coral:#ff5a45; }
+body { background: radial-gradient(1200px 700px at 85% -10%, rgba(120,70,220,.28), transparent 60%),
+                    radial-gradient(900px 600px at -10% 110%, rgba(255,80,70,.16), transparent 60%), #0a0b1a fixed; color: var(--ink); letter-spacing: -.01em; }
+body header { background: rgba(10,11,26,.82); backdrop-filter: blur(10px); box-shadow: none; border-bottom: 1px solid var(--line); padding: 1.05rem 2rem; }
+body header h1 { color: #fff; font-size: 1.05rem; font-weight: 800; letter-spacing: .18em; }
+body header h1::after { content: ' / SIMULATOR'; color: var(--coral); letter-spacing: .14em; font-weight: 700; margin-left: .2rem; }
+body .home-btn { background: transparent; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; color: #dfe2ff; font-weight: 700; letter-spacing: .04em; padding: .45rem 1.1rem; }
+body .home-btn:hover { background: #fff; color: #0a0b1a; }
+
+/* 메뉴 */
+body .menu-sec-title { font-size: 1.25rem; font-weight: 800; letter-spacing: .02em; }
+body .menu-card { background: linear-gradient(160deg, rgba(40,36,84,.75), rgba(18,18,40,.85)); border: 1px solid var(--line); border-radius: 18px;
+                  box-shadow: 0 18px 40px rgba(0,0,0,.35); backdrop-filter: blur(6px); }
+body .menu-card:hover { background: linear-gradient(160deg, rgba(56,48,120,.85), rgba(22,22,50,.9)); border-color: rgba(255,255,255,.28); transform: translateY(-4px); }
+body .menu-divider { opacity: .35; }
+
+/* 상단 진행 바 */
+body .sim-header { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; box-shadow: none; backdrop-filter: blur(8px); padding: .85rem 1.5rem; }
+body .sim-header h2 { font-weight: 800 !important; letter-spacing: -.02em; }
+body .sim-header h2::before { content: 'STAGE'; display: block; font-size: .68rem; font-weight: 800; letter-spacing: .22em; color: var(--coral); margin-bottom: 2px; }
+body .progress-bar { height: 4px; background: rgba(255,255,255,.08); border-radius: 4px; }
+body .spd-group, body .auto-switch-wrap { background: rgba(255,255,255,.04); border-color: rgba(255,255,255,.12); }
+
+/* 시각화 영역 */
+body .visual-area { background: radial-gradient(120% 90% at 50% 0%, #1c1745 0%, #0c0c22 55%, #08081a 100%); border: 1px solid var(--line); border-radius: 20px;
+                    box-shadow: 0 20px 50px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.02); }
+body .nav-controls { background: rgba(14,14,34,.78); border: 1px solid rgba(255,255,255,.1); backdrop-filter: blur(12px); box-shadow: 0 10px 30px rgba(0,0,0,.4); }
+body .nav-btn { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.14); box-shadow: none; font-weight: 700; letter-spacing: .01em; }
+body .nav-btn:hover:not(:disabled) { background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.35); }
+body .replay-btn { background: #fff; color: #0a0b1a; border: none; }
+body .replay-btn:hover:not(:disabled) { background: #ffd9d3 !important; }
+
+/* 오른쪽 설명 패널 */
+body .info-panel { background: var(--panel); border: 1px solid var(--line); border-top: 2px solid var(--primary); border-radius: 18px; box-shadow: none; backdrop-filter: blur(8px); }
+body .info-panel h3 { color: #fff !important; font-weight: 800; letter-spacing: -.02em; border-bottom: 1px solid var(--line); line-height: 1.3; }
+body .info-panel h3::before { content: 'STEP'; display: block; font-size: .7rem; font-weight: 800; letter-spacing: .24em; color: var(--coral); margin-bottom: .35rem; }
+body .badge { background: transparent; border: 1px solid rgba(255,255,255,.16); border-radius: 999px; font-size: .78rem; letter-spacing: .04em; }
+body .desc-box { background: rgba(255,255,255,.035); border-radius: 12px; color: #c9cdf0; border-left-width: 3px; }
+
+/* 시각화 화면의 분자 상자·효소 태그 */
+body .mol-box { background: rgba(28,26,62,.85); border: 1px solid rgba(255,255,255,.1); }
+body .mol-name { background: rgba(0,0,0,.35); border-color: rgba(255,255,255,.12); }
+body .enz-tag { background: rgba(10,10,28,.9); border-radius: 999px; }
+::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 8px; }
+</style>
 </body>
 </html>
