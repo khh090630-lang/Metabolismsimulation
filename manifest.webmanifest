@@ -1,0 +1,21 @@
+{
+  "id": "./",
+  "name": "세포호흡 · 광합성 · 발효 시뮬레이터",
+  "short_name": "대사 시뮬",
+  "description": "세포호흡·광합성·발효 과정을 단계별 애니메이션으로 보는 학습용 시뮬레이터 (고등학생 모드 / 심화 모드)",
+  "lang": "ko",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "any",
+  "background_color": "#0a0b1a",
+  "theme_color": "#0a0b1a",
+  "categories": ["education"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
