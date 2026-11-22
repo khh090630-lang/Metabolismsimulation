@@ -290,8 +290,34 @@
         .fm-cmp th { color: #aaa; font-weight: normal; }
         .fm-cmp td.n { color: #fed330; font-weight: bold; }
 
-        /* 고등학생 모드일 때 구조식 토글 버튼 숨김 (시각화 전용) */
+        /* 고등학생 모드일 때 구조식 토글 버튼 숨김 & 교육과정 범위 밖 명칭 숨김 */
         body.hs-mode .cv-btn { display: none !important; }
+        body.hs-mode #ps-pheo, body.hs-mode #ps-fx { width: 84px; font-size: 9.5px; white-space: nowrap; }
+        body.hs-mode #ps-pq .lbl,
+        body.hs-mode #ps-pc1 .lbl,
+        body.hs-mode #ps-pc2 .lbl,
+        body.hs-mode #ps-fd .lbl,
+        body.hs-mode #ps-b6f-t,
+        body.hs-mode #ps-cytb,
+        body.hs-mode #ps-cytf,
+        body.hs-mode #ps-fnr { font-size: 0 !important; color: transparent !important; }
+        body.hs-mode #rs-q .lbl,
+        body.hs-mode #rs-cc1 .lbl,
+        body.hs-mode #rs-cc2 .lbl,
+        body.hs-mode #rs-fmn,
+        body.hs-mode #rs-fes1,
+        body.hs-mode #rs-fes2,
+        body.hs-mode #rs-cytb,
+        body.hs-mode #rs-cytc1,
+        body.hs-mode #rs-cyta,
+        body.hs-mode #rs-cyta3,
+        body.hs-mode #rs-c1-t,
+        body.hs-mode #rs-c2-t,
+        body.hs-mode #rs-c3-t,
+        body.hs-mode #rs-c4-t { font-size: 0 !important; color: transparent !important; }
+        body.hs-mode #rs-f0 > span,
+        body.hs-mode #rs-f1 { font-size: 0 !important; color: transparent !important; }
+        body.hs-mode #rs-f1 span { font-size: 13px !important; font-weight: bold !important; color: #2b1a00 !important; }
     </style>
 </head>
 <body>
@@ -1802,7 +1828,7 @@
         const p = pos(pq), y0 = tv(0, 8).y;
         const hs = [sp('h', { x: p.x - 26, y: y0 }), sp('h', { x: p.x + 26, y: y0 })];
         await Promise.all(hs.map((h, i) => land(h, pq, 'h', i ? 11 : -11, 10, 900)));
-        pq.classList.add('red'); lbl(pq, window.isHS() ? '운반체' : 'PQH₂'); pulse(pq);
+        pq.classList.add('red'); lbl(pq, window.isHS() ? '' : 'PQH₂'); pulse(pq);
         await W(700);
         await shift(pq, off(pos($('ps-b6f')), -58, -30), 900);
     }
@@ -1817,7 +1843,7 @@
         tip(window.isHS() ? '스트로마 → 타이라코이드 내부로 H⁺ 능동수송' : 'PQH₂ 산화 → H⁺는 내강으로', off(bp, 0, -100), 1800);
         await Promise.all(hs.map((h, i) => fly(h, [off(bp, -12 + i * 24, 10), off(bp, -12 + i * 24, 112)], 1000).then(() => toPool(h, 700))));
         const es = atts(pq, 'e').map(detach);
-        pq.classList.remove('red'); lbl(pq, window.isHS() ? '운반체' : 'PQ');
+        pq.classList.remove('red'); lbl(pq, window.isHS() ? '' : 'PQ');
         const back = homeC(pq, 900);
         const pcs = [$('ps-pc1'), $('ps-pc2')];
         await Promise.all(es.map(async (e, i) => {
@@ -1836,6 +1862,7 @@
         rcSet(rc, 'ex'); tip('P700*', off(pos(rc), 0, -34), 1000);
         await W(300);
         const e = sp('e', pos(rc));
+        if (window.isHS()) tip('고에너지 전자 방출 → 1차 전자수용체', off(pos($('ps-fx')), 0, -16), 1000);
         await fly(e, [pos($('ps-fx'))], 550);
         await land(e, fd, 'e', k ? 10 : -10, 0, 600);
         fd.classList.add('red');
@@ -1905,7 +1932,7 @@
         for (let k = 0; k < 2; k++) { await psi(k); await pcDonate(k); }
         const fd = $('ps-fd');
         const es = atts(fd, 'e').map(detach); fd.classList.remove('red');
-        tip('전자가 NADP⁺로 전달되지 않고 전자전달계를 거쳐 P700으로 복귀', off(pos(fd), -90, -36), 2200, '#fed330');
+        tip(window.isHS() ? '전자가 NADP⁺로 전달되지 않고 전자전달계를 거쳐 P700으로 복귀' : '전자가 NADP⁺ 대신 PQ로 되돌아감', off(pos(fd), -90, -36), 2200, '#fed330');
         const pq = pos($('ps-pq'));
         await Promise.all(es.map((e, i) => fly(e, [tv(48, 20 + i * 5), off(pq, -6 + i * 12, -64)], 1400)));
         await pqLoad(es);
@@ -2285,13 +2312,16 @@
     function fixTpId() { const w = $('ps-tp-wrap'); if (w) { const p = w.querySelector('.atom.P'); p.id = 'ps-tp'; } }
 
     function resetThy() {
+        const hs = window.isHS();
         ['ps-pq', 'ps-pc1', 'ps-pc2', 'ps-fd', 'ps-pheo', 'ps-fx', 'ps-p680', 'ps-p700', 'ps-oec', 'ps-cytb', 'ps-cytf', 'ps-fnr'].forEach(i => {
             const el = $(i);
             el.querySelectorAll('.att').forEach(a => a.remove());
             el.getAnimations().forEach(a => a.cancel());
             el.style.transform = ''; el._d = null; el.classList.remove('red');
         });
-        lbl($('ps-pq'), 'PQ'); lbl($('ps-pc1'), 'PC'); lbl($('ps-pc2'), 'PC'); lbl($('ps-fd'), 'Fd');
+        lbl($('ps-pq'), hs ? '' : 'PQ'); lbl($('ps-pc1'), hs ? '' : 'PC'); lbl($('ps-pc2'), hs ? '' : 'PC'); lbl($('ps-fd'), hs ? '' : 'Fd');
+        $('ps-pheo').textContent = hs ? '1차 전자수용체' : 'Pheo';
+        $('ps-fx').textContent = hs ? '1차 전자수용체' : 'Fx';
         rcSet($('ps-p680'), ''); rcSet($('ps-p700'), ''); rotor(false);
     }
     function focus(ids) {
@@ -2305,7 +2335,7 @@
         if (key === 4) {
             shiftNow(pq, off(pos($('ps-b6f')), -58, -30));
             attach(pq, 'e', -10, -9); attach(pq, 'e', 10, -9); attach(pq, 'h', -11, 10); attach(pq, 'h', 11, 10);
-            pq.classList.add('red'); lbl(pq, 'PQH₂'); poolN(2);
+            pq.classList.add('red'); lbl(pq, window.isHS() ? '' : 'PQH₂'); poolN(2);
         }
         if (key === 5 || key === 9) { pcs.forEach(pc => { attach(pc, 'e', 0, -11); pc.classList.add('red'); }); poolN(key === 5 ? 4 : 2); }
         if (key === 6) { attach(fd, 'e', -10, 0); attach(fd, 'e', 10, 0); fd.classList.add('red'); poolN(4); }
@@ -2906,8 +2936,10 @@
   };
   function curKey() { for (const k in SCR) if ($(SCR[k].scr) && $(SCR[k].scr).classList.contains('active')) return k; return null; }
   function spec(k) {
-    if (k === 'sim' && typeof currentProcess !== 'undefined' && currentProcess[currentIndex] && currentProcess[currentIndex].cvKey) {
-      return RS[currentProcess[currentIndex].cvKey];
+    if (k === 'sim' && typeof currentProcess !== 'undefined' && currentProcess[currentIndex]) {
+      const cur = currentProcess[currentIndex];
+      if (cur.view === 'etc') return null;
+      if (cur.cvKey) return RS[cur.cvKey];
     }
     if (k === 'ps' && window.isHS()) {
       const n = parseInt(($(SCR[k].name).innerText || '').trim(), 10);
@@ -4541,3 +4573,4 @@ body .enz-tag { background: rgba(10,10,28,.9); border-radius: 999px; }
 </style>
 </body>
 </html>
+
