@@ -1,6 +1,6 @@
 /* 대사 시뮬레이터 서비스 워커: 한 번 열어 두면 인터넷이 없어도 실행되도록 파일을 저장해 둠.
    파일을 고친 뒤에는 아래 VERSION 숫자를 하나 올려 주면 새 버전으로 교체됩니다. */
-const VERSION = 'metabolism-sim-v2';
+const VERSION = 'metabolism-sim-v3';
 const FILES = [
   './',
   './index.html',
