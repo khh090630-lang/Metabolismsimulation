@@ -60,32 +60,32 @@
         .progress-bar { flex: 1; height: 8px; background: #111; margin: 0 1.2rem; border-radius: 5px; overflow: hidden; min-width: 120px; }
         .progress-fill { height: 100%; background: var(--primary); width: 0%; transition: 0.3s; }
         
-        .sim-body { display: flex; gap: 0.9rem; flex: 1; min-height: 520px; align-items: stretch; }
+        .sim-body { display: flex; gap: 0.9rem; flex: 1; min-height: 490px; align-items: stretch; }
         
         /* 시각화 컨테이너 */
-        .visual-area { flex: 2; min-width: 680px; background: #0b0e14; border-radius: 15px; border: 2px solid #444; display: flex; flex-direction: column; box-shadow: inset 0 0 50px rgba(0,0,0,0.8); position: relative; overflow: hidden; margin-bottom: 0.5rem; }
-        .views-container { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; padding: 0.75rem; overflow: hidden; padding-bottom: 68px; min-height: 460px; }
+        .visual-area { flex: 2; min-width: 680px; background: #0b0e14; border-radius: 15px; border: 2px solid #444; display: flex; flex-direction: column; box-shadow: inset 0 0 50px rgba(0,0,0,0.8); position: relative; overflow: hidden; margin-bottom: 0.4rem; }
+        .views-container { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; padding: 0.65rem; overflow: hidden; padding-bottom: 62px; min-height: 430px; }
         
         /* 하단 고정 네비게이션 컨트롤 */
-        .nav-controls { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); background: rgba(30, 39, 46, 0.95); padding: 7px 18px; display: flex; justify-content: center; gap: 12px; border: 2px solid #555; border-radius: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); z-index: 9999; backdrop-filter: blur(5px); }
-        .nav-btn { background: var(--panel); color: white; border: 2px solid #666; border-radius: 30px; padding: 0.45rem 1.35rem; font-size: 0.98rem; font-weight: bold; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.3); white-space: nowrap; }
+        .nav-controls { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); background: rgba(30, 39, 46, 0.95); padding: 6px 16px; display: flex; justify-content: center; gap: 10px; border: 2px solid #555; border-radius: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); z-index: 9999; backdrop-filter: blur(5px); }
+        .nav-btn { background: var(--panel); color: white; border: 2px solid #666; border-radius: 30px; padding: 0.42rem 1.25rem; font-size: 0.95rem; font-weight: bold; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.3); white-space: nowrap; }
         .nav-btn:hover:not(:disabled) { background: var(--primary); border-color: var(--primary); }
         .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
         .replay-btn { background: #f1c40f; color: #111; border: none; }
 
-        /* 완벽한 루이스 구조식 Grid-Flex 시스템 */
-        .reaction-view { display: flex; width: 100%; align-items: center; justify-content: center; gap: 1.5rem; position: relative; z-index: 10; padding-bottom: 0.5rem; }
-        .mol-box { background: #2f3542; padding: 1.1rem; border-radius: 15px; border: 1px solid #555; display: flex; flex-direction: column; align-items: center; min-width: 280px; z-index: 10; transition: opacity 0.5s, transform 0.5s; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
-        .mol-name { font-weight: bold; background: #111; padding: 0.4rem 1.2rem; border-radius: 20px; margin-bottom: 1rem; color: var(--primary); border: 1px solid #444; text-align: center; font-size: 1rem; }
+        /* 루이스 구조식 Grid-Flex 시스템 */
+        .reaction-view { display: flex; width: 100%; align-items: center; justify-content: center; gap: 1.5rem; position: relative; z-index: 10; padding-bottom: 0.4rem; }
+        .mol-box { background: #2f3542; padding: 1rem; border-radius: 15px; border: 1px solid #555; display: flex; flex-direction: column; align-items: center; min-width: 270px; z-index: 10; transition: opacity 0.5s, transform 0.5s; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+        .mol-name { font-weight: bold; background: #111; padding: 0.38rem 1.15rem; border-radius: 20px; margin-bottom: 0.85rem; color: var(--primary); border: 1px solid #444; text-align: center; font-size: 0.98rem; }
         .mol-name.prod { color: var(--secondary); border-color: var(--secondary); }
         
-        .m-row { display: flex; justify-content: center; align-items: center; height: 28px; width: 100%; }
-        .m-vrow { display: flex; justify-content: center; align-items: center; height: 15px; width: 100%; }
-        .mol-l { width: 100px; display: flex; justify-content: flex-end; align-items: center; position: relative; }
-        .mol-r { width: 100px; display: flex; justify-content: flex-start; align-items: center; position: relative; }
-        .mol-c { width: 32px; position: relative; display: flex; justify-content: center; align-items: center; z-index: 2; }
+        .m-row { display: flex; justify-content: center; align-items: center; height: 26px; width: 100%; }
+        .m-vrow { display: flex; justify-content: center; align-items: center; height: 14px; width: 100%; }
+        .mol-l { width: 96px; display: flex; justify-content: flex-end; align-items: center; position: relative; }
+        .mol-r { width: 96px; display: flex; justify-content: flex-start; align-items: center; position: relative; }
+        .mol-c { width: 30px; position: relative; display: flex; justify-content: center; align-items: center; z-index: 2; }
         
-        .atom { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 11px; z-index: 5; box-shadow: inset -1px -2px 4px rgba(0,0,0,0.4); position: relative; }
+        .atom { width: 23px; height: 23px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 11px; z-index: 5; box-shadow: inset -1px -2px 4px rgba(0,0,0,0.4); position: relative; }
         .atom.C { background: var(--atom-c); color: white; border: 1px solid #333; }
         .atom.O { background: var(--atom-o); color: white; border: 1px solid #333; }
         .atom.H { background: var(--atom-h); color: #222; border: 1px solid #999; }
@@ -96,17 +96,16 @@
         .atom.OH { background: var(--atom-o); color: white; width: 32px; border-radius: 12px; font-size: 10px; border: 1px solid #333; }
 
         .bond { position: absolute; background: #8395a7; z-index: 1; }
-        .bond.h { width: 18px; height: 4px; }
-        .bond.hd { width: 18px; height: 10px; border-top: 3px solid #8395a7; border-bottom: 3px solid #8395a7; background: transparent; }
-        .bond.v { height: 15px; width: 4px; }
-        .bond.vd { height: 15px; width: 10px; border-left: 3px solid #8395a7; border-right: 3px solid #8395a7; background: transparent; }
+        .bond.h { width: 17px; height: 4px; }
+        .bond.hd { width: 17px; height: 10px; border-top: 3px solid #8395a7; border-bottom: 3px solid #8395a7; background: transparent; }
+        .bond.v { height: 14px; width: 4px; }
+        .bond.vd { height: 14px; width: 10px; border-left: 3px solid #8395a7; border-right: 3px solid #8395a7; background: transparent; }
 
-        .arrow-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 145px; z-index: 5; position: relative; }
-        .enz-tag { background: #111; color: #f1c40f; padding: 0.65rem; border-radius: 10px; font-size: 0.9rem; font-weight: bold; text-align: center; border: 1px solid #f1c40f; box-shadow: 0 4px 10px rgba(0,0,0,0.5); z-index: 10; width: 125%; white-space: pre-wrap; line-height: 1.35; }
-        .arrow-line { font-size: 3rem; color: #555; margin: -8px 0; }
+        .arrow-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 140px; z-index: 5; position: relative; }
+        .enz-tag { background: #111; color: #f1c40f; padding: 0.6rem; border-radius: 10px; font-size: 0.88rem; font-weight: bold; text-align: center; border: 1px solid #f1c40f; box-shadow: 0 4px 10px rgba(0,0,0,0.5); z-index: 10; width: 125%; white-space: pre-wrap; line-height: 1.35; }
+        .arrow-line { font-size: 2.8rem; color: #555; margin: -6px 0; }
 
         #anim-layer { position: absolute; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
-        .anim-group { position: absolute; display: flex; align-items: center; gap: 3px; opacity: 0; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5)); transform: translate(-50%, -50%); z-index: 100;}
         .a-base { padding: 5px 10px; border-radius: 6px; font-weight: bold; color: white; font-size: 12px; border: 1px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; }
         .a-ad { background: #2980b9; }
         .a-nad { background: #8e44ad; }
@@ -122,64 +121,64 @@
         .fly-h { position: absolute; width: 16px; height: 16px; border-radius: 50%; background: #00a8ff; color: white; z-index: 60; display: flex; justify-content: center; align-items: center; font-size: 9px; font-weight: bold; transform: translate(-50%, -50%); border: 1px solid white; box-shadow: 0 0 8px #00a8ff; }
 
         /* ================= 세포호흡 막 뷰 ================= */
-        #screen-sim .sim-body { min-height: 520px; }
-        #screen-sim .views-container.etc-mode { padding-bottom: 68px; }
-        #etc-view { display: none; position: relative; width: 100%; height: 450px; min-height: 450px; max-height: 450px; border-radius: 15px; overflow: hidden;
+        #screen-sim .sim-body { min-height: 490px; }
+        #screen-sim .views-container.etc-mode { padding-bottom: 62px; }
+        #etc-view { display: none; position: relative; width: 100%; height: 420px; min-height: 420px; max-height: 420px; border-radius: 15px; overflow: hidden;
             background: linear-gradient(to bottom, #2a1a12 0%, #24160f 38%, #0f1e26 62%, #0b1a22 100%); }
-        .rs-label { position: absolute; left: 14px; font-weight: bold; font-size: 0.98rem; color: #a4b0be; z-index: 3; }
+        .rs-label { position: absolute; left: 14px; font-weight: bold; font-size: 0.95rem; color: #a4b0be; z-index: 3; }
         .rs-label .hcnt { color: #00a8ff; margin-left: 6px; }
         .rs-mem { position: absolute; left: 0; right: 0; top: 40%; height: 22%; background: rgba(230, 126, 34, 0.08); border-top: 6px dotted #d35400; border-bottom: 6px dotted #d35400; z-index: 1; }
         .rs-mem .mem-tag { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #e67e22; font-size: 11px; font-weight: bold; writing-mode: vertical-lr; white-space: nowrap; letter-spacing: 2px; opacity: 0.8; }
         .rx { position: absolute; transform: translate(-50%, -50%); border-radius: 16px; color: white; font-weight: bold; text-align: center; box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 6px 14px rgba(0,0,0,0.45); z-index: 5; transition: opacity 0.4s; }
         .rx-title { position: absolute; top: 5px; left: 0; right: 0; font-size: 12px; }
-        .rx-I { left: 13%; top: 51%; width: 106px; height: 175px; background: #8e44ad; border: 2px solid #5b2c6f; }
-        .rx-II { left: 31%; top: 65%; width: 84px; height: 105px; background: #d35400; border: 2px solid #873600; }
-        .rx-III { left: 44%; top: 51%; width: 102px; height: 175px; background: #2471a3; border: 2px solid #154360; }
-        .rx-IV { left: 65%; top: 51%; width: 102px; height: 175px; background: #c0392b; border: 2px solid #78281f; }
-        .rx-f0 { left: 86%; top: 51%; width: 64px; height: 102px; background: #7f8c8d; border: 2px solid #4d5656; border-radius: 12px; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; font-size: 10px; padding-bottom: 4px; }
+        .rx-I { left: 13%; top: 51%; width: 104px; height: 164px; background: #8e44ad; border: 2px solid #5b2c6f; }
+        .rx-II { left: 31%; top: 65%; width: 82px; height: 98px; background: #d35400; border: 2px solid #873600; }
+        .rx-III { left: 44%; top: 51%; width: 100px; height: 164px; background: #2471a3; border: 2px solid #154360; }
+        .rx-IV { left: 65%; top: 51%; width: 100px; height: 164px; background: #c0392b; border: 2px solid #78281f; }
+        .rx-f0 { left: 86%; top: 51%; width: 64px; height: 96px; background: #7f8c8d; border: 2px solid #4d5656; border-radius: 12px; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; font-size: 10px; padding-bottom: 4px; }
         .rx-f0 .thy-rotor { background: repeating-linear-gradient(90deg, #bdc3c7 0 6px, #566573 6px 12px); background-size: 24px 100%; }
-        .rs-stalk { position: absolute; left: 86%; top: 61%; height: 12%; width: 12px; transform: translateX(-50%); background: #566573; z-index: 4; }
-        .rx-f1 { left: 86%; top: 81%; width: 118px; height: 64px; background: #f39c12; border: 2px solid #9c640c; border-radius: 16px 16px 34px 34px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 13px; color: #2b1a00; line-height: 1.2; }
+        .rs-stalk { position: absolute; left: 86%; top: 61%; height: 11%; width: 12px; transform: translateX(-50%); background: #566573; z-index: 4; }
+        .rx-f1 { left: 86%; top: 81%; width: 116px; height: 58px; background: #f39c12; border: 2px solid #9c640c; border-radius: 16px 16px 32px 32px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 12px; color: #2b1a00; line-height: 1.2; }
         .rx-f1 span { font-size: 11px; font-weight: 800; }
         .rs-sub { position: absolute; left: 50%; transform: translate(-50%, -50%); min-width: 46px; height: 22px; padding: 0 5px; border-radius: 8px; font-size: 10px; display: flex; align-items: center; justify-content: center; z-index: 6; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.55); transition: box-shadow 0.3s, background 0.3s; white-space: nowrap; }
         .rs-sub.red { background: #f1c40f; color: #111; box-shadow: 0 0 12px #f1c40f; }
-        .rs-nopump { position: absolute; left: 50%; top: -28px; transform: translateX(-50%); color: #ff6b6b; background: #3b1414; border: 2px dashed #ff6b6b; border-radius: 10px; padding: 1px 7px; font-size: 11px; opacity: 0; transition: opacity 0.4s; white-space: nowrap; }
-        .rs-q { min-width: 46px; height: 38px; padding: 0 6px; border-radius: 14px; left: 23%; top: 51%; background: #f5b041; border: 2px solid #b9770e; color: #3e2400; white-space: nowrap; }
+        .rs-nopump { position: absolute; left: 50%; top: -26px; transform: translateX(-50%); color: #ff6b6b; background: #3b1414; border: 2px dashed #ff6b6b; border-radius: 10px; padding: 1px 7px; font-size: 11px; opacity: 0; transition: opacity 0.4s; white-space: nowrap; }
+        .rs-q { min-width: 46px; height: 36px; padding: 0 6px; border-radius: 14px; left: 23%; top: 51%; background: #f5b041; border: 2px solid #b9770e; color: #3e2400; white-space: nowrap; }
         .rs-q.red { background: #e67e22; box-shadow: 0 0 12px #e67e22; }
-        .rs-c { min-width: 38px; height: 34px; padding: 0 6px; border-radius: 14px; background: #ec7063; border: 2px solid #922b21; color: #fff; white-space: nowrap; }
+        .rs-c { min-width: 38px; height: 32px; padding: 0 6px; border-radius: 14px; background: #ec7063; border: 2px solid #922b21; color: #fff; white-space: nowrap; }
         .rs-c.red { background: #f5b7b1; color: #641e16; box-shadow: 0 0 12px #ec7063; }
         #rs-cc1 { left: 53%; top: 34%; }
         #rs-cc2 { left: 56.5%; top: 27%; }
-        .rs-cnt { position: absolute; right: 12px; top: 8px; z-index: 3; color: #ddd; font-weight: bold; background: rgba(0,0,0,0.5); border: 1px solid #555; border-radius: 10px; padding: 3px 10px; font-size: 13px; }
-        .rs-cnt b { color: #e84118; font-size: 1.05rem; margin-left: 4px; }
-        .rs-ledger { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 96; background: rgba(8, 12, 16, 0.95); border: 2px solid var(--primary); border-radius: 16px; padding: 14px 18px; display: none; min-width: 500px; }
-        .rs-ledger h4 { margin: 0 0 8px; color: var(--primary); text-align: center; font-size: 1rem; }
-        .rs-ledger table { border-collapse: collapse; width: 100%; font-size: 13px; color: #ddd; }
-        .rs-ledger th, .rs-ledger td { border-bottom: 1px solid #333; padding: 5px 6px; text-align: center; }
+        .rs-cnt { position: absolute; right: 12px; top: 8px; z-index: 3; color: #ddd; font-weight: bold; background: rgba(0,0,0,0.5); border: 1px solid #555; border-radius: 10px; padding: 3px 10px; font-size: 12.5px; }
+        .rs-cnt b { color: #e84118; font-size: 1rem; margin-left: 4px; }
+        .rs-ledger { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 96; background: rgba(8, 12, 16, 0.95); border: 2px solid var(--primary); border-radius: 16px; padding: 12px 16px; display: none; min-width: 490px; }
+        .rs-ledger h4 { margin: 0 0 6px; color: var(--primary); text-align: center; font-size: 0.98rem; }
+        .rs-ledger table { border-collapse: collapse; width: 100%; font-size: 12.5px; color: #ddd; }
+        .rs-ledger th, .rs-ledger td { border-bottom: 1px solid #333; padding: 4px 6px; text-align: center; }
         .rs-ledger th { color: #aaa; font-weight: normal; }
         .rs-ledger td.n { color: #fed330; font-weight: bold; }
-        .rs-ledger tr.sum td { border-top: 2px solid var(--primary); border-bottom: none; font-size: 15px; font-weight: bold; color: #fff; }
-        .rs-ledger tr.sum td.n { color: #e84118; font-size: 18px; }
+        .rs-ledger tr.sum td { border-top: 2px solid var(--primary); border-bottom: none; font-size: 14px; font-weight: bold; color: #fff; }
+        .rs-ledger tr.sum td.n { color: #e84118; font-size: 16px; }
         .rs-ledger .note { margin-top: 6px; font-size: 11px; color: #aaa; text-align: center; }
         .rs-token { position: absolute; transform: translate(-50%, -50%); background: #111; border: 2px solid var(--primary); border-radius: 14px; padding: 4px 10px; font-size: 12px; font-weight: bold; color: #fff; z-index: 72; white-space: nowrap; box-shadow: 0 0 12px rgba(15,185,177,0.55); }
         .a-base.a-suc { background: #e67e22; color: #fff; }
         .a-base.a-gdp { background: #8e44ad; color: #fff; }
 
         /* 오른쪽 정보 패널 */
-        .info-panel { flex: 1; min-width: 300px; background: var(--panel); border-radius: 15px; padding: 1.4rem 1.6rem; display: flex; flex-direction: column; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border-top: 5px solid var(--primary); margin-bottom: 0.5rem; }
-        .info-panel h3 { margin-top: 0; color: var(--primary); font-size: 1.35rem; border-bottom: 2px solid #555; padding-bottom: 0.7rem; margin-bottom: 0.8rem; }
-        .info-row { margin-bottom: 0.65rem; font-size: 0.98rem; display: flex; align-items: flex-start; gap: 0.5rem; line-height: 1.35; }
-        .badge { padding: 0.25rem 0.55rem; border-radius: 5px; font-size: 0.82rem; font-weight: bold; width: 82px; text-align: center; flex-shrink: 0; background: #111; border: 1px solid #555; }
-        .desc-box { background: #222f3e; padding: 1.1rem 1.2rem; border-radius: 10px; font-size: 0.98rem; line-height: 1.55; color: #c8d6e5; margin-top: auto; border-left: 4px solid var(--primary); white-space: pre-line; }
+        .info-panel { flex: 1; min-width: 300px; background: var(--panel); border-radius: 15px; padding: 1.25rem 1.5rem; display: flex; flex-direction: column; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border-top: 5px solid var(--primary); margin-bottom: 0.4rem; }
+        .info-panel h3 { margin-top: 0; color: var(--primary); font-size: 1.28rem; border-bottom: 2px solid #555; padding-bottom: 0.6rem; margin-bottom: 0.7rem; }
+        .info-row { margin-bottom: 0.55rem; font-size: 0.95rem; display: flex; align-items: flex-start; gap: 0.5rem; line-height: 1.35; }
+        .badge { padding: 0.22rem 0.55rem; border-radius: 5px; font-size: 0.8rem; font-weight: bold; width: 80px; text-align: center; flex-shrink: 0; background: #111; border: 1px solid #555; }
+        .desc-box { background: #222f3e; padding: 0.95rem 1.1rem; border-radius: 10px; font-size: 0.95rem; line-height: 1.5; color: #c8d6e5; margin-top: auto; border-left: 4px solid var(--primary); white-space: pre-line; }
 
         /* ================= 광합성 시뮬레이터 ================= */
-        .menu-sec-title { margin: 1.6rem 0 0; font-size: 1.35rem; text-align: center; }
-        .menu-divider { width: 80%; max-width: 900px; height: 2px; margin: 2rem auto 0; background: linear-gradient(90deg, transparent, #555, transparent); }
+        .menu-sec-title { margin: 1.4rem 0 0; font-size: 1.3rem; text-align: center; }
+        .menu-divider { width: 80%; max-width: 900px; height: 2px; margin: 1.6rem auto 0; background: linear-gradient(90deg, transparent, #555, transparent); }
         .menu-card.ps-card:hover { border-color: #26de81; }
-        .ps-all-btn { margin-top: 1.8rem; margin-bottom: 1.8rem; padding: 0.95rem 3rem; font-size: 1.15rem; cursor: pointer; background: #20bf6b; color: white; border: none; border-radius: 40px; font-weight: bold; box-shadow: 0 4px 15px rgba(32, 191, 107, 0.4); }
+        .ps-all-btn { margin-top: 1.5rem; margin-bottom: 1.5rem; padding: 0.85rem 2.8rem; font-size: 1.1rem; cursor: pointer; background: #20bf6b; color: white; border: none; border-radius: 40px; font-weight: bold; box-shadow: 0 4px 15px rgba(32, 191, 107, 0.4); }
 
-        #screen-ps .sim-body { min-height: 520px; }
-        #screen-ps .views-container { padding-bottom: 68px; }
+        #screen-ps .sim-body { min-height: 490px; }
+        #screen-ps .views-container { padding-bottom: 62px; }
         #screen-ps .progress-fill { background: #26de81; }
         #screen-ps .info-panel { border-top-color: #26de81; }
         #screen-ps .info-panel h3 { color: #26de81; }
@@ -199,64 +198,64 @@
         .att-e { width: 13px; height: 13px; background: #f1c40f; color: #000; font-size: 8px; box-shadow: 0 0 8px yellow; }
         .att-h { width: 15px; height: 15px; background: #00a8ff; color: #fff; font-size: 8px; border: 1px solid #fff; box-shadow: 0 0 6px #00a8ff; }
 
-        /* 타이라코이드(틸라코이드) 막 뷰 */
-        #ps-thy-view { display: none; position: relative; width: 100%; height: 450px; min-height: 450px; max-height: 450px; border-radius: 15px; overflow: hidden;
+        /* 타이라코이드 막 뷰 */
+        #ps-thy-view { display: none; position: relative; width: 100%; height: 420px; min-height: 420px; max-height: 420px; border-radius: 15px; overflow: hidden;
             background: linear-gradient(to bottom, #0d231a 0%, #0f2a1e 38%, #2a2210 62%, #33240c 100%); }
-        .thy-label { position: absolute; left: 14px; font-weight: bold; font-size: 0.98rem; color: #a4b0be; z-index: 3; }
+        .thy-label { position: absolute; left: 14px; font-weight: bold; font-size: 0.95rem; color: #a4b0be; z-index: 3; }
         .thy-label .hcnt { color: #00a8ff; margin-left: 6px; }
         .thy-mem { position: absolute; left: 0; right: 0; top: 38%; height: 24%; background: rgba(38, 222, 129, 0.09); border-top: 6px dotted #20bf6b; border-bottom: 6px dotted #20bf6b; z-index: 1; }
         .thy-mem .mem-tag { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #2ecc71; font-size: 11px; font-weight: bold; writing-mode: vertical-lr; white-space: nowrap; letter-spacing: 2px; opacity: 0.75; }
         .cx { position: absolute; transform: translate(-50%, -50%); border-radius: 16px; color: white; font-weight: bold; text-align: center; box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 6px 14px rgba(0,0,0,0.45); z-index: 5; transition: opacity 0.4s; }
         .cx.dim { opacity: 0.3; }
         .cx-title { position: absolute; top: 5px; left: 0; right: 0; font-size: 12px; }
-        .cx-ps2 { left: 15%; top: 50%; width: 118px; height: 175px; background: #1e8449; border: 2px solid #145a32; }
-        .cx-ps1 { left: 57%; top: 50%; width: 118px; height: 175px; background: #117a65; border: 2px solid #0b5345; }
-        .cx-b6f { left: 37%; top: 50%; width: 88px; height: 158px; background: #b9770e; border: 2px solid #7e5109; }
-        .cx-fnr { left: 76%; top: calc(38% - 24px); width: 78px; height: 40px; background: #6c3483; border: 2px solid #4a235a; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 11px; }
-        .cx-cf1 { left: 90%; top: calc(38% - 46px); width: 112px; height: 64px; background: #c0392b; border: 2px solid #922b21; border-radius: 30px 30px 16px 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 12px; line-height: 1.2; }
+        .cx-ps2 { left: 15%; top: 50%; width: 116px; height: 164px; background: #1e8449; border: 2px solid #145a32; }
+        .cx-ps1 { left: 57%; top: 50%; width: 116px; height: 164px; background: #117a65; border: 2px solid #0b5345; }
+        .cx-b6f { left: 37%; top: 50%; width: 86px; height: 148px; background: #b9770e; border: 2px solid #7e5109; }
+        .cx-fnr { left: 76%; top: calc(38% - 22px); width: 78px; height: 38px; background: #6c3483; border: 2px solid #4a235a; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 11px; }
+        .cx-cf1 { left: 90%; top: calc(38% - 42px); width: 112px; height: 58px; background: #c0392b; border: 2px solid #922b21; border-radius: 28px 28px 16px 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 12px; line-height: 1.2; }
         .cx-cf1 span { font-size: 11px; font-weight: 800; }
-        .cx-stalk { position: absolute; left: 90%; top: calc(38% - 14px); width: 12px; height: 24px; transform: translateX(-50%); background: #922b21; z-index: 4; }
-        .cx-cf0 { left: 90%; top: 50%; width: 58px; height: 112px; background: #922b21; border: 2px solid #641e16; border-radius: 12px; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; font-size: 10px; padding-bottom: 4px; }
-        .thy-rotor { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 34px; height: 78px; border-radius: 8px; background: repeating-linear-gradient(90deg, #e74c3c 0 6px, #7b241c 6px 12px); background-size: 24px 100%; animation: psRotor 1.2s linear infinite; }
+        .cx-stalk { position: absolute; left: 90%; top: calc(38% - 14px); width: 12px; height: 22px; transform: translateX(-50%); background: #922b21; z-index: 4; }
+        .cx-cf0 { left: 90%; top: 50%; width: 58px; height: 102px; background: #922b21; border: 2px solid #641e16; border-radius: 12px; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; font-size: 10px; padding-bottom: 4px; }
+        .thy-rotor { position: absolute; top: 9px; left: 50%; transform: translateX(-50%); width: 34px; height: 70px; border-radius: 8px; background: repeating-linear-gradient(90deg, #e74c3c 0 6px, #7b241c 6px 12px); background-size: 24px 100%; animation: psRotor 1.2s linear infinite; }
         .thy-rotor.fast { animation-duration: 0.22s; }
         @keyframes psRotor { from { background-position-x: 0; } to { background-position-x: 24px; } }
         .pig { position: absolute; width: 12px; height: 12px; border-radius: 50%; background: #2ecc71; border: 1px solid #0b5345; transform: translate(-50%, -50%); box-shadow: 0 0 4px #2ecc71; }
-        .rc { position: absolute; left: 50%; top: 72%; transform: translate(-50%, -50%); width: 50px; height: 50px; border-radius: 50%; background: #0e3b24; border: 3px solid #f4d03f; color: #f4d03f; font-size: 11px; display: flex; align-items: center; justify-content: center; transition: background 0.3s, color 0.3s, box-shadow 0.3s; z-index: 6; }
+        .rc { position: absolute; left: 50%; top: 72%; transform: translate(-50%, -50%); width: 48px; height: 48px; border-radius: 50%; background: #0e3b24; border: 3px solid #f4d03f; color: #f4d03f; font-size: 11px; display: flex; align-items: center; justify-content: center; transition: background 0.3s, color 0.3s, box-shadow 0.3s; z-index: 6; }
         .rc.ex { background: #f4d03f; color: #111; box-shadow: 0 0 22px 6px #f4d03f; }
         .rc.ox { border: 3px dashed #ff6b6b; color: #ff6b6b; background: #3b1414; }
         .sub { position: absolute; transform: translate(-50%, -50%); border-radius: 7px; font-size: 10px; display: flex; align-items: center; justify-content: center; z-index: 6; white-space: nowrap; padding: 0 4px; }
         .sub-pheo { left: 74%; top: 38%; width: 46px; height: 20px; background: #0b3d20; border: 1px solid #82e0aa; }
-        .sub-oec { left: 50%; top: 100%; width: 38px; height: 28px; background: #8e44ad; border: 2px solid #5b2c6f; border-radius: 50%; font-size: 9px; line-height: 1; }
+        .sub-oec { left: 50%; top: 100%; width: 38px; height: 26px; background: #8e44ad; border: 2px solid #5b2c6f; border-radius: 50%; font-size: 9px; line-height: 1; }
         .sub-fx { left: 72%; top: 34%; width: 40px; height: 20px; background: #0b3d33; border: 1px solid #76d7c4; }
         .sub-heme { left: 50%; width: 34px; height: 22px; background: #7e5109; border: 1px solid #f8c471; border-radius: 10px; }
         .carrier { position: absolute; transform: translate(-50%, -50%); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 10px; z-index: 8; transition: background 0.3s; padding: 0 6px; white-space: nowrap; }
-        .carrier.pq { min-width: 44px; height: 36px; background: #f5b041; border: 2px solid #b9770e; color: #3e2400; }
+        .carrier.pq { min-width: 44px; height: 34px; background: #f5b041; border: 2px solid #b9770e; color: #3e2400; }
         .carrier.pq.red { background: #e67e22; box-shadow: 0 0 12px #e67e22; }
-        .carrier.pc { min-width: 38px; height: 32px; background: #5dade2; border: 2px solid #21618c; color: #0b2a40; }
+        .carrier.pc { min-width: 38px; height: 30px; background: #5dade2; border: 2px solid #21618c; color: #0b2a40; }
         .carrier.pc.red { background: #85c1e9; box-shadow: 0 0 12px #5dade2; }
-        .carrier.fd { left: 69%; top: calc(38% - 36px); min-width: 44px; height: 36px; background: #cd6155; border: 2px solid #922b21; color: white; }
+        .carrier.fd { left: 69%; top: calc(38% - 34px); min-width: 44px; height: 34px; background: #cd6155; border: 2px solid #922b21; color: white; }
         .carrier.fd.red { box-shadow: 0 0 12px #ec7063; }
         .thy-legend { position: absolute; right: 12px; bottom: 8px; display: flex; gap: 8px; font-size: 11px; color: #ccc; z-index: 3; background: rgba(0,0,0,0.45); padding: 4px 9px; border-radius: 10px; }
         .thy-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; vertical-align: -1px; }
 
         /* 캘빈 회로 뷰 */
-        #ps-cyc-view { display: none; position: relative; width: 100%; height: 450px; min-height: 450px; max-height: 450px; border-radius: 15px; background: radial-gradient(circle at 50% 50%, #12261c 0%, #0c1712 70%); overflow: hidden; }
+        #ps-cyc-view { display: none; position: relative; width: 100%; height: 420px; min-height: 420px; max-height: 420px; border-radius: 15px; background: radial-gradient(circle at 50% 50%, #12261c 0%, #0c1712 70%); overflow: hidden; }
         #ps-cyc-svg { position: absolute; inset: 0; z-index: 1; }
-        .cyc-top { position: absolute; right: 14px; bottom: 8px; font-weight: bold; color: #a4b0be; font-size: 0.92rem; z-index: 3; }
-        .cyc-node { position: absolute; transform: translate(-50%, -50%); background: #1e272e; border: 2px solid #26de81; border-radius: 12px; padding: 5px 11px; text-align: center; z-index: 5; min-width: 104px; box-shadow: 0 6px 14px rgba(0,0,0,0.5); }
-        .cyc-node b { display: block; font-size: 14px; color: #fff; }
-        .cyc-node span { font-size: 11px; color: #aaa; }
+        .cyc-top { position: absolute; right: 14px; bottom: 8px; font-weight: bold; color: #a4b0be; font-size: 0.9rem; z-index: 3; }
+        .cyc-node { position: absolute; transform: translate(-50%, -50%); background: #1e272e; border: 2px solid #26de81; border-radius: 12px; padding: 5px 10px; text-align: center; z-index: 5; min-width: 98px; box-shadow: 0 6px 14px rgba(0,0,0,0.5); }
+        .cyc-node b { display: block; font-size: 13.5px; color: #fff; }
+        .cyc-node span { font-size: 10.5px; color: #aaa; }
         .cdots { display: flex; justify-content: center; gap: 2px; margin-top: 3px; }
-        .cd { width: 11px; height: 11px; border-radius: 50%; background: var(--atom-c); border: 1px solid #222; display: inline-block; }
-        .cyc-out { position: absolute; transform: translate(-50%, -50%); background: #3d2c06; border: 2px dashed #fed330; color: #fed330; border-radius: 10px; padding: 6px 10px; font-weight: bold; font-size: 12px; text-align: center; z-index: 5; }
-        .cyc-center { position: absolute; left: 50%; top: 48%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.55); border: 1px solid #444; border-radius: 12px; padding: 8px 14px; z-index: 4; min-width: 190px; }
-        .cyc-center .cc-title { color: #26de81; font-weight: bold; text-align: center; margin-bottom: 4px; font-size: 13px; }
-        .cc-row { display: flex; justify-content: space-between; gap: 12px; font-size: 12.5px; color: #ddd; padding: 1px 0; }
-        .cc-row b { color: #fed330; font-size: 14px; display: inline-block; min-width: 16px; text-align: right; }
-        .cyc-tag { position: absolute; transform: translate(-50%, -50%); font-size: 11px; font-weight: bold; color: #f1c40f; background: rgba(0,0,0,0.6); border-radius: 8px; padding: 2px 7px; z-index: 3; white-space: pre; text-align: center; line-height: 1.25; }
+        .cd { width: 10px; height: 10px; border-radius: 50%; background: var(--atom-c); border: 1px solid #222; display: inline-block; }
+        .cyc-out { position: absolute; transform: translate(-50%, -50%); background: #3d2c06; border: 2px dashed #fed330; color: #fed330; border-radius: 10px; padding: 5px 10px; font-weight: bold; font-size: 11.5px; text-align: center; z-index: 5; }
+        .cyc-center { position: absolute; left: 50%; top: 48%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.55); border: 1px solid #444; border-radius: 12px; padding: 7px 13px; z-index: 4; min-width: 180px; }
+        .cyc-center .cc-title { color: #26de81; font-weight: bold; text-align: center; margin-bottom: 4px; font-size: 12.5px; }
+        .cc-row { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; color: #ddd; padding: 1px 0; }
+        .cc-row b { color: #fed330; font-size: 13.5px; display: inline-block; min-width: 16px; text-align: right; }
+        .cyc-tag { position: absolute; transform: translate(-50%, -50%); font-size: 10.5px; font-weight: bold; color: #f1c40f; background: rgba(0,0,0,0.65); border-radius: 8px; padding: 2px 7px; z-index: 3; white-space: pre; text-align: center; line-height: 1.25; }
         .cyc-token { position: absolute; transform: translate(-50%, -50%); background: #111; border: 2px solid #26de81; border-radius: 12px; padding: 3px 8px; font-size: 11px; font-weight: bold; color: #fff; z-index: 70; display: flex; gap: 2px; align-items: center; white-space: nowrap; box-shadow: 0 0 12px rgba(38,222,129,0.6); }
         .cyc-token .cd { width: 9px; height: 9px; }
-        .cyc-banner { position: absolute; left: 50%; top: 8px; transform: translateX(-50%); background: rgba(0,0,0,0.85); border: 2px solid #fed330; color: #fff; padding: 6px 14px; border-radius: 12px; font-weight: bold; font-size: 12.5px; z-index: 95; white-space: nowrap; text-align: center; line-height: 1.4; }
+        .cyc-banner { position: absolute; left: 50%; top: 7px; transform: translateX(-50%); background: rgba(0,0,0,0.85); border: 2px solid #fed330; color: #fff; padding: 5px 13px; border-radius: 12px; font-weight: bold; font-size: 12px; z-index: 95; white-space: nowrap; text-align: center; line-height: 1.35; }
 
         .ps-dim { opacity: 0.25 !important; }
         .carrier { transition: background 0.3s, opacity 0.4s, box-shadow 0.3s; }
@@ -265,7 +264,7 @@
         .cyc-node.hi { border-color: #fed330; box-shadow: 0 0 24px rgba(254, 211, 48, 0.8); }
         .cyc-token b { margin-right: 4px; }
         #screen-ps .mol-structure.zoom { zoom: 0.82; }
-        #screen-ps .plus { margin: 4px 0; text-align: center; color: #e84118; font-size: 1.3rem; font-weight: bold; }
+        #screen-ps .plus { margin: 4px 0; text-align: center; color: #e84118; font-size: 1.25rem; font-weight: bold; }
 
         /* ================= 발효 시뮬레이터 ================= */
         #screen-fm .progress-fill { background: #e056fd; }
@@ -273,15 +272,15 @@
         #screen-fm .info-panel h3 { color: #e056fd; }
         #screen-fm .desc-box { border-left-color: #e056fd; }
         #screen-fm .nav-btn:hover:not(:disabled) { background: #be2edd; border-color: #be2edd; }
-        #screen-fm .sim-body { min-height: 520px; }
+        #screen-fm .sim-body { min-height: 490px; }
         #fm-anim-layer { position: absolute; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
         .menu-card.fm-card:hover { border-color: #e056fd; }
-        .fm-all-btn { margin-top: 1.8rem; margin-bottom: 1.8rem; padding: 0.95rem 3rem; font-size: 1.15rem; cursor: pointer; background: #be2edd; color: white; border: none; border-radius: 40px; font-weight: bold; box-shadow: 0 4px 15px rgba(190, 46, 221, 0.4); }
+        .fm-all-btn { margin-top: 1.5rem; margin-bottom: 1.5rem; padding: 0.85rem 2.8rem; font-size: 1.1rem; cursor: pointer; background: #be2edd; color: white; border: none; border-radius: 40px; font-weight: bold; box-shadow: 0 4px 15px rgba(190, 46, 221, 0.4); }
         #fm-box-prod { transition: opacity 0.5s, transform 0.5s; }
-        .fm-cmp { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 96; background: rgba(8,12,16,0.95); border: 2px solid #e056fd; border-radius: 16px; padding: 14px 18px; min-width: 520px; }
-        .fm-cmp h4 { margin: 0 0 8px; color: #e056fd; text-align: center; }
-        .fm-cmp table { border-collapse: collapse; width: 100%; font-size: 13px; color: #ddd; }
-        .fm-cmp th, .fm-cmp td { border-bottom: 1px solid #333; padding: 6px 7px; text-align: center; }
+        .fm-cmp { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 96; background: rgba(8,12,16,0.95); border: 2px solid #e056fd; border-radius: 16px; padding: 12px 16px; min-width: 500px; }
+        .fm-cmp h4 { margin: 0 0 6px; color: #e056fd; text-align: center; }
+        .fm-cmp table { border-collapse: collapse; width: 100%; font-size: 12.5px; color: #ddd; }
+        .fm-cmp th, .fm-cmp td { border-bottom: 1px solid #333; padding: 5px 6px; text-align: center; }
         .fm-cmp th { color: #aaa; font-weight: normal; }
         .fm-cmp td.n { color: #fed330; font-weight: bold; }
 
@@ -290,9 +289,9 @@
         body.hs-mode #ps-cf1, body.hs-mode #ps-cf0 { font-size: 0 !important; color: transparent !important; }
         body.hs-mode #ps-cf1 span { font-size: 11px !important; font-weight: 800 !important; color: #fff !important; }
         body.hs-mode #rs-f0 > span, body.hs-mode #rs-f1 { font-size: 0 !important; color: transparent !important; }
-        body.hs-mode #rs-f1 span { font-size: 12px !important; font-weight: 800 !important; color: #2b1a00 !important; }
+        body.hs-mode #rs-f1 span { font-size: 11.5px !important; font-weight: 800 !important; color: #2b1a00 !important; }
         body.hs-mode #inh-f0 > span, body.hs-mode #inh-f1 { font-size: 0 !important; color: transparent !important; }
-        body.hs-mode #inh-f1 span { font-size: 12px !important; font-weight: 800 !important; color: #2b1a00 !important; }
+        body.hs-mode #inh-f1 span { font-size: 11.5px !important; font-weight: 800 !important; color: #2b1a00 !important; }
     </style>
 </head>
 <body>
@@ -326,7 +325,7 @@
                     <p id="card-desc-etc" style="color:#aaa;">8 ~ 10단계<br>전자전달계 · 화학삼투 · ATP 정산</p>
                 </div>
             </div>
-            <button id="btn-all-rs" style="margin-top:2rem; padding:0.95rem 3rem; font-size:1.15rem; cursor:pointer; background:var(--primary); color:white; border:none; border-radius:40px; font-weight:bold; box-shadow: 0 4px 15px rgba(15, 185, 177, 0.4);" onclick="startSim('all')">세포호흡 전체 10단계 연속 재생</button>
+            <button id="btn-all-rs" style="margin-top:1.8rem; padding:0.85rem 2.8rem; font-size:1.1rem; cursor:pointer; background:var(--primary); color:white; border:none; border-radius:40px; font-weight:bold; box-shadow: 0 4px 15px rgba(15, 185, 177, 0.4);" onclick="startSim('all')">세포호흡 전체 10단계 연속 재생</button>
             <div class="menu-divider"></div>
             <h2 class="menu-sec-title" style="color:#e056fd;">🍶 발효 (Fermentation)</h2>
             <div class="menu-grid" style="margin-top:1.2rem;">
@@ -354,7 +353,7 @@
             <button id="btn-all-ps" class="ps-all-btn" onclick="psStart('all')">광합성 전체 7단계 연속 재생</button>
         </div>
 
-        <!-- 2. 시뮬레이터 화면 -->
+        <!-- 2. 세포호흡 시뮬레이터 화면 -->
         <div id="screen-sim" class="screen">
             <div class="sim-header">
                 <h2 id="sim-title" style="margin:0; color:var(--primary);">단계명</h2>
@@ -418,7 +417,7 @@
                             <div class="rs-stalk"></div>
                             <div class="rx rx-f1" id="rs-f1">F₁<span>ATP 합성효소</span></div>
 
-                            <div class="thy-legend" style="bottom:auto; top:40px;">
+                            <div class="thy-legend" style="bottom:auto; top:38px;">
                                 <span><i style="background:#f1c40f;"></i>e⁻</span>
                                 <span><i style="background:#00a8ff;"></i>H⁺</span>
                                 <span><i style="background:#f7b731;"></i>P(인산기)</span>
@@ -722,9 +721,6 @@
     let currentProcess = [];
     let currentIndex = 0;
 
-    /* =====================================================================
-       세포호흡 애니메이션 v2
-       ===================================================================== */
     const RS = (function () {
         const $ = id => document.getElementById(id);
         let tok = 0, pool = [], bannerEl = null;
@@ -837,7 +833,7 @@
         const O2_H = `<div class="a-o2" style="width:40px;height:40px;font-size:11px;color:#fff;">½O₂</div>`;
 
         const E = () => pos($('enz-name'));
-        const TOP = () => off(E(), 0, -100);
+        const TOP = () => off(E(), 0, -90);
         function atomsOf(box, cls) {
             return [...$(box).querySelectorAll('.atom' + (cls ? '.' + cls : ''))].sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
         }
@@ -851,299 +847,238 @@
 
         async function giveP(targetEl, tTarget, endTip, endColor) {
             const top = TOP();
-            const a = blk(ATP_H, off(top, 0, -50)); await fly(a, [top], 550);
-            await W(400);
+            const a = blk(ATP_H, off(top, 0, -45)); await fly(a, [top], 550);
+            await W(350);
             const last = a.querySelectorAll('.p-ball')[2], pp = pos(last); last.remove();
             const p = sp('p', pp);
-            await W(400);
-            await fly(p, [off(pos(targetEl), 0, -35), pos(targetEl)], 900);
+            await W(350);
+            await fly(p, [off(pos(targetEl), 0, -32), pos(targetEl)], 850);
             p.remove(); showProd(); glow(targetEl);
-            tip(tTarget, off(pos(targetEl), 0, -16), 1800, ORG);
-            await Promise.all([away(a, off(top, -80, -35), 800), W(800)]);
-            if (endTip) tip(endTip, off(E(), 0, 110), 2200, endColor || YEL);
-            await W(1500);
+            tip(tTarget, off(pos(targetEl), 0, -15), 1700, ORG);
+            await Promise.all([away(a, off(top, -75, -30), 750), W(750)]);
+            if (endTip) tip(endTip, off(E(), 0, 95), 2000, endColor || YEL);
+            await W(1200);
         }
         async function takeP(srcEl, srcTip, isG, endTip) {
             hideProd();
             const top = TOP();
-            const a = blk(isG ? GDP_H : ADP_H, off(top, 0, -50)); await fly(a, [top], 550);
+            const a = blk(isG ? GDP_H : ADP_H, off(top, 0, -45)); await fly(a, [top], 550);
             await W(250);
             const p = sp('p', pos(srcEl)); glow(srcEl);
-            tip(srcTip, off(pos(srcEl), 0, -16), 1400, ORG);
-            await W(500);
+            tip(srcTip, off(pos(srcEl), 0, -15), 1300, ORG);
+            await W(450);
             const ar = a.getBoundingClientRect();
-            await fly(p, [off(pos(a), ar.width / 2 + 12, 0)], 850);
+            await fly(p, [off(pos(a), ar.width / 2 + 12, 0)], 800);
             p.remove(); a.innerHTML = isG ? GTP_H : ATP_H; pulse(a); showProd();
-            tip(`${isG ? 'GDP' : 'ADP'} + P → ${isG ? 'GTP' : 'ATP'}`, off(top, 0, -24), 1600, '#e84118');
-            await W(1000);
-            await away(a, off(top, 80, -35), 800);
-            if (endTip) tip(endTip, off(E(), 0, 110), 2200, YEL);
-            await W(1400);
+            tip(`${isG ? 'GDP' : 'ADP'} + P → ${isG ? 'GTP' : 'ATP'}`, off(top, 0, -22), 1500, '#e84118');
+            await W(900);
+            await away(a, off(top, 75, -30), 750);
+            if (endTip) tip(endTip, off(E(), 0, 95), 2000, YEL);
+            await W(1200);
         }
         async function reduce(isFAD, src, srcTip, endTip) {
             const top = TOP();
-            const b = blk(isFAD ? FAD_H : NAD_H, off(top, 0, -50)); await fly(b, [top], 550);
-            await W(500);
-            const es = [sp('e', off(src, -9, -6)), sp('e', off(src, 9, -6))];
-            const hs = [sp('h', off(src, -10, 12)), sp('h', off(src, 10, 12))];
-            tip(srcTip || '2e⁻ + 2H⁺ 이탈 (산화)', off(src, 0, -20), 1400, '#f1c40f');
-            await W(600);
+            const b = blk(isFAD ? FAD_H : NAD_H, off(top, 0, -45)); await fly(b, [top], 550);
+            await W(450);
+            const es = [sp('e', off(src, -8, -5)), sp('e', off(src, 8, -5))];
+            const hs = [sp('h', off(src, -9, 10)), sp('h', off(src, 9, 10))];
+            tip(srcTip || '2e⁻ + 2H⁺ 이탈 (산화)', off(src, 0, -18), 1300, '#f1c40f');
+            await W(550);
             const bp = pos(b);
-            const go = [...es.map((e, i) => fly(e, [off(bp, -12 + i * 24, 0)], 800 + i * 90).then(() => e.remove())),
-                fly(hs[0], [off(bp, 0, 0)], 950).then(() => hs[0].remove())];
-            if (isFAD) go.push(fly(hs[1], [off(bp, 10, 0)], 1050).then(() => hs[1].remove()));
-            else go.push(fly(hs[1], [off(src, 55, 75)], 950));
+            const go = [...es.map((e, i) => fly(e, [off(bp, -10 + i * 20, 0)], 750 + i * 80).then(() => e.remove())),
+                fly(hs[0], [off(bp, 0, 0)], 850).then(() => hs[0].remove())];
+            if (isFAD) go.push(fly(hs[1], [off(bp, 10, 0)], 950).then(() => hs[1].remove()));
+            else go.push(fly(hs[1], [off(src, 50, 65)], 850));
             await Promise.all(go);
-            if (!isFAD) fade(hs[1], 0, 350).then(() => hs[1].remove()).catch(() => {});
+            if (!isFAD) fade(hs[1], 0, 300).then(() => hs[1].remove()).catch(() => {});
             b.innerHTML = isFAD ? FADH2_H : NADH_H; pulse(b); showProd();
-            tip(isFAD ? 'FAD → FADH₂' : 'NAD⁺ → NADH', off(top, 0, -24), 1600, '#20bf6b');
-            await W(1200);
-            await away(b, off(top, 60, -60), 850);
-            if (endTip) { tip(endTip, off(E(), 0, 110), 2200, YEL); await W(1500); }
+            tip(isFAD ? 'FAD → FADH₂' : 'NAD⁺ → NADH', off(top, 0, -22), 1500, '#20bf6b');
+            await W(1000);
+            await away(b, off(top, 55, -50), 750);
+            if (endTip) { tip(endTip, off(E(), 0, 95), 2000, YEL); await W(1300); }
         }
         async function co2Out(src, t) {
             const c = blk(CO2_H, src);
-            tip(t || 'CO₂ 방출', off(src, 0, -18), 1500, '#a4b0be');
-            await W(450);
-            await away(c, off(src, -10, 120), 1100);
+            tip(t || 'CO₂ 방출', off(src, 0, -16), 1400, '#a4b0be');
+            await W(400);
+            await away(c, off(src, -10, 105), 1000);
         }
         async function h2o(dir, p, t) {
-            if (dir === 'out') { const w = blk(H2O_H, p); tip(t, off(p, 0, -18), 1500, '#3498db'); await W(450); await away(w, off(p, 0, 120), 1000); }
-            else { const w = blk(H2O_H, off(p, 0, 120)); tip(t, off(p, 0, -18), 1500, '#3498db'); await fly(w, [p], 850); await fade(w, 0, 300); w.remove(); }
+            if (dir === 'out') { const w = blk(H2O_H, p); tip(t, off(p, 0, -16), 1400, '#3498db'); await W(400); await away(w, off(p, 0, 105), 950); }
+            else { const w = blk(H2O_H, off(p, 0, 105)); tip(t, off(p, 0, -16), 1400, '#3498db'); await fly(w, [p], 800); await fade(w, 0, 280); w.remove(); }
         }
-        async function token(text, from, to, dur = 1000, keep) {
+        async function token(text, from, to, dur = 900, keep) {
             const t = mk('rs-token', text, from); appear(t, 200);
             await fly(t, [to], dur);
-            if (!keep) { await fade(t, 0, 300); t.remove(); }
+            if (!keep) { await fade(t, 0, 280); t.remove(); }
             return t;
         }
 
         const R = 'struct-react', P = 'struct-prod';
         const STEP = {
             1: async () => { hideProd(); await giveP($('target-p'), '포도당 C6에 인산기 결합 → G6P', 'G6P는 세포 밖으로 빠져나가지 못함'); },
-            2: async () => {
-                hideProd();
-                const t = await token('⬡ 알도스', pos($(R)), off(E(), 0, -60), 900, true);
-                t.textContent = '⬠ 케토스'; pulse(t); showProd();
-                await fly(t, [pos($(P))], 900); await fade(t, 0, 300); t.remove();
-            },
+            2: async () => { hideProd(); const t = await token('⬡ 알도스', pos($(R)), off(E(), 0, -55), 850, true); t.textContent = '⬠ 케토스'; pulse(t); showProd(); await fly(t, [pos($(P))], 850); await fade(t, 0, 280); t.remove(); },
             3: async () => { hideProd(); await giveP(atomEl(P, 'P', 0), 'C1에 인산기 결합 → F1,6BP', 'PFK-1: 속도 조절 단계', RED); },
-            4: async () => {
-                hideProd();
-                const r = $(R).getBoundingClientRect(), L = layer().getBoundingClientRect();
-                const cut = { x: r.left - L.left + r.width / 2, y: r.top - L.top + r.height / 2 };
-                await W(700); showProd();
-                const pr = $(P).getBoundingClientRect();
-                await Promise.all([
-                    token('DHAP (3C)', off(cut, 0, -35), { x: pr.left - L.left + pr.width / 2, y: pr.top - L.top + pr.height * 0.22 }, 1000),
-                    token('G3P (3C)', off(cut, 0, 35), { x: pr.left - L.left + pr.width / 2, y: pr.top - L.top + pr.height * 0.78 }, 1000)
-                ]);
-            },
-            5: async () => {
-                hideProd();
-                const t = await token('DHAP (3C)', pos($(R)), off(E(), 0, -60), 900, true);
-                t.textContent = 'G3P (3C)'; pulse(t); showProd();
-                await fly(t, [pos($(P))], 900); await fade(t, 0, 300); t.remove();
-            },
-            6: async () => {
-                hideProd();
-                await reduce(false, atomEl(R, 'C', 0), '2e⁻ + 2H⁺ 이탈 (산화)');
-                const tp = atomEl(P, 'P', 0), pi = sp('p', off(E(), 0, 150), 'Pᵢ');
-                await W(350); await fly(pi, [pos(tp)], 950); pi.remove(); glow(tp); showProd();
-            },
+            4: async () => { hideProd(); const r = $(R).getBoundingClientRect(), L = layer().getBoundingClientRect(); const cut = { x: r.left - L.left + r.width / 2, y: r.top - L.top + r.height / 2 }; await W(600); showProd(); const pr = $(P).getBoundingClientRect(); await Promise.all([token('DHAP (3C)', off(cut, 0, -30), { x: pr.left - L.left + pr.width / 2, y: pr.top - L.top + pr.height * 0.22 }, 900), token('G3P (3C)', off(cut, 0, 30), { x: pr.left - L.left + pr.width / 2, y: pr.top - L.top + pr.height * 0.78 }, 900)]); },
+            5: async () => { hideProd(); const t = await token('DHAP (3C)', pos($(R)), off(E(), 0, -55), 850, true); t.textContent = 'G3P (3C)'; pulse(t); showProd(); await fly(t, [pos($(P))], 850); await fade(t, 0, 280); t.remove(); },
+            6: async () => { hideProd(); await reduce(false, atomEl(R, 'C', 0), '2e⁻ + 2H⁺ 이탈 (산화)'); const tp = atomEl(P, 'P', 0), pi = sp('p', off(E(), 0, 130), 'Pᵢ'); await W(300); await fly(pi, [pos(tp)], 850); pi.remove(); glow(tp); showProd(); },
             7: async () => { await takeP(atomEl(R, 'P', 0), '고에너지 인산기 이탈', false, '×2 → ATP 2개'); },
-            8: async () => {
-                hideProd();
-                const s = $(R).querySelector('#target-p') || atomEl(R, 'P', -1), t = $(P).querySelector('#target-p') || atomEl(P, 'P', -1);
-                const p = sp('p', pos(s)); glow(s);
-                await W(400); await fly(p, [off(E(), 0, -50), pos(t)], 1100); p.remove(); showProd(); glow(t);
-            },
+            8: async () => { hideProd(); const s = $(R).querySelector('#target-p') || atomEl(R, 'P', -1), t = $(P).querySelector('#target-p') || atomEl(P, 'P', -1); const p = sp('p', pos(s)); glow(s); await W(350); await fly(p, [off(E(), 0, -45), pos(t)], 950); p.remove(); showProd(); glow(t); },
             9: async () => { hideProd(); await h2o('out', atomEl(R, 'C', 1), 'H₂O 이탈'); showProd(); },
             10: async () => { await takeP($(R).querySelector('#target-p') || atomEl(R, 'P', 0), '인산기 이탈', false, '순 ATP 2 · NADH 2 생성'); },
-            11: async () => {
-                hideProd();
-                await co2Out(atomEl(R, 'C', 0), 'CO₂ 방출 (3C → 2C)');
-                await reduce(false, atomEl(R, 'C', 1), '2e⁻ + 2H⁺ 이탈');
-                const s = atomEl(P, 'S', 0), c = blk(COA_H, off(E(), 0, 140));
-                await fly(c, [pos(s)], 900); await fade(c, 0, 300); c.remove(); glow(s); showProd();
-            },
-            12: async () => {
-                hideProd();
-                const s = atomEl(R, 'S', 0), cp = blk(COA_H, pos(s));
-                const goCoa = away(cp, off(pos(s), -35, -90), 1100);
-                const rr = $(R).getBoundingClientRect(), L = layer().getBoundingClientRect(), pc = pos($(P));
-                const a = mk('rs-token', '아세틸기 (2C)', off(pos(s), 25, 18)), o = mk('rs-token', '옥살아세트산 (4C)', { x: rr.left - L.left + rr.width / 2, y: rr.bottom - L.top - 45 });
-                await Promise.all([goCoa, fly(a, [off(E(), 0, -35)], 850), fly(o, [off(E(), 0, 35)], 850)]);
-                a.remove(); o.textContent = '시트르산 (6C)'; pulse(o); showProd();
-                await fly(o, [pc], 800); await fade(o, 0, 300); o.remove();
-            },
+            11: async () => { hideProd(); await co2Out(atomEl(R, 'C', 0), 'CO₂ 방출'); await reduce(false, atomEl(R, 'C', 1), '2e⁻ + 2H⁺ 이탈'); const s = atomEl(P, 'S', 0), c = blk(COA_H, off(E(), 0, 125)); await fly(c, [pos(s)], 850); await fade(c, 0, 280); c.remove(); glow(s); showProd(); },
+            12: async () => { hideProd(); const s = atomEl(R, 'S', 0), cp = blk(COA_H, pos(s)); const goCoa = away(cp, off(pos(s), -30, -80), 950); const rr = $(R).getBoundingClientRect(), L = layer().getBoundingClientRect(), pc = pos($(P)); const a = mk('rs-token', '아세틸기 (2C)', off(pos(s), 22, 15)), o = mk('rs-token', '옥살아세트산 (4C)', { x: rr.left - L.left + rr.width / 2, y: rr.bottom - L.top - 40 }); await Promise.all([goCoa, fly(a, [off(E(), 0, -30)], 800), fly(o, [off(E(), 0, 30)], 800)]); a.remove(); o.textContent = '시트르산 (6C)'; pulse(o); showProd(); await fly(o, [pc], 750); await fade(o, 0, 280); o.remove(); },
             13: async () => { hideProd(); await h2o('out', pos($(R)), '탈수'); await h2o('in', pos($(P)), '수화'); showProd(); },
             14: async () => { hideProd(); await reduce(false, atomEl(R, 'C', 2), '산화'); await co2Out(atomEl(R, 'COO', 1), 'CO₂ 방출'); showProd(); },
-            15: async () => {
-                hideProd();
-                await co2Out(atomEl(R, 'COO', 0), 'CO₂ 방출');
-                await reduce(false, atomEl(R, 'C', 1), '산화');
-                const s = atomEl(P, 'S', 0), c = blk(COA_H, off(E(), 0, 140));
-                await fly(c, [pos(s)], 900); await fade(c, 0, 300); c.remove(); glow(s); showProd();
-            },
-            16: async () => {
-                hideProd();
-                const top = TOP(), g = blk(GDP_H, off(top, 0, -50)); await fly(g, [top], 550);
-                const s = atomEl(R, 'S', 0), c = blk(COA_H, pos(s));
-                const goC = away(c, off(pos(s), 25, 110), 1100);
-                const pi = sp('p', off(E(), 0, 150), 'Pᵢ');
-                const gr = g.getBoundingClientRect();
-                await Promise.all([goC, fly(pi, [off(pos(g), gr.width / 2 + 12, 0)], 950)]);
-                pi.remove(); g.innerHTML = GTP_H; pulse(g); showProd();
-                await away(g, off(top, 70, -55), 850);
-            },
+            15: async () => { hideProd(); await co2Out(atomEl(R, 'COO', 0), 'CO₂ 방출'); await reduce(false, atomEl(R, 'C', 1), '산화'); const s = atomEl(P, 'S', 0), c = blk(COA_H, off(E(), 0, 125)); await fly(c, [pos(s)], 850); await fade(c, 0, 280); c.remove(); glow(s); showProd(); },
+            16: async () => { hideProd(); const top = TOP(), g = blk(GDP_H, off(top, 0, -45)); await fly(g, [top], 550); const s = atomEl(R, 'S', 0), c = blk(COA_H, pos(s)); const goC = away(c, off(pos(s), 22, 95), 950); const pi = sp('p', off(E(), 0, 130), 'Pᵢ'); const gr = g.getBoundingClientRect(); await Promise.all([goC, fly(pi, [off(pos(g), gr.width / 2 + 12, 0)], 850)]); pi.remove(); g.innerHTML = GTP_H; pulse(g); showProd(); await away(g, off(top, 65, -50), 750); },
             17: async () => { hideProd(); await reduce(true, atomEl(R, 'C', 1), 'FAD → FADH₂'); showProd(); },
-            18: async () => { hideProd(); await h2o('in', atomEl(P, 'C', 1), '수화 (H₂O 첨가)'); showProd(); },
+            18: async () => { hideProd(); await h2o('in', atomEl(P, 'C', 1), '수화'); showProd(); },
             19: async () => { hideProd(); const g = atomEl(R, 'OH', 0); await reduce(false, pos(g), '산화 → 옥살아세트산 재생'); showProd(); }
         };
 
         const SLOTS = [[22, 12], [30, 21], [12, 23], [38, 12], [27, 29], [45, 19], [62, 12], [69, 22], [76, 14], [8, 15], [35, 30], [48, 29], [72, 30], [18, 30], [58, 18], [42, 25], [65, 29], [79, 25], [52, 11], [15, 12]];
         const slot = i => tv(...SLOTS[i % SLOTS.length]);
         function hcnt() { $('rs-hcnt').textContent = pool.length ? `H⁺ × ${pool.length}` : ''; }
-        function toPool(h, dur = 650) { const s = slot(pool.length); pool.push(h); hcnt(); return fly(h, [s], dur); }
+        function toPool(h, dur = 600) { const s = slot(pool.length); pool.push(h); hcnt(); return fly(h, [s], dur); }
         function poolN(n) { while (pool.length < n) pool.push(mk('fly-h', 'H⁺', slot(pool.length))); hcnt(); }
         function poolTake() { const h = pool.pop(); hcnt(); return h; }
-        const qAt3 = () => off(pos($('rs-c3')), -72, 0);
+        const qAt3 = () => off(pos($('rs-c3')), -68, 0);
         async function pump(cx, n, label, lab) {
             const c = pos($(cx)), m = tv(0, 90).y;
-            if (label) tip(label, lab || off(c, 0, -108), 2000, '#00a8ff');
+            if (label) tip(label, lab || off(c, 0, -95), 1800, '#00a8ff');
             await Promise.all(Array.from({ length: n }, async (_, i) => {
-                await W(i * 220);
-                const x = c.x - 18 + i * (36 / Math.max(1, n - 1));
+                await W(i * 200);
+                const x = c.x - 16 + i * (32 / Math.max(1, n - 1));
                 const h = sp('h', { x, y: m });
-                await fly(h, [{ x, y: c.y + 34 }, { x, y: c.y - 60 }], 900);
-                await toPool(h, 550);
+                await fly(h, [{ x, y: c.y + 30 }, { x, y: c.y - 52 }], 850);
+                await toPool(h, 500);
             }));
         }
         async function cI() {
             const fmn = $('rs-fmn'), fes = $('rs-fes1'), q = $('rs-q');
-            const nb = blk(NADH_H, tv(13, 92));
-            await fly(nb, [off(pos(fmn), 0, 52)], 800);
-            const es = [sp('e', off(pos(nb), -9, -14)), sp('e', off(pos(nb), 9, -14))], h = sp('h', off(pos(nb), 34, 0));
+            const nb = blk(NADH_H, tv(13, 90));
+            await fly(nb, [off(pos(fmn), 0, 48)], 750);
+            const es = [sp('e', off(pos(nb), -8, -12)), sp('e', off(pos(nb), 8, -12))], h = sp('h', off(pos(nb), 30, 0));
             nb.innerHTML = NAD_H;
-            const hgo = fly(h, [tv(5, 88)], 850).then(() => fade(h, 0, 300));
-            await Promise.all(es.map((e, i) => fly(e, [off(pos(fmn), -9 + 18 * i, 0)], 650)));
+            const hgo = fly(h, [tv(5, 88)], 800).then(() => fade(h, 0, 280));
+            await Promise.all(es.map((e, i) => fly(e, [off(pos(fmn), -8 + 16 * i, 0)], 600)));
             $('rs-fmn').classList.add('red');
-            await Promise.all(es.map((e, i) => fly(e, [off(pos(fes), -9 + 18 * i, 0)], 650)));
+            await Promise.all(es.map((e, i) => fly(e, [off(pos(fes), -8 + 16 * i, 0)], 600)));
             $('rs-fmn').classList.remove('red'); $('rs-fes1').classList.add('red');
             const pp = pump('rs-c1', 4, window.isHS() ? '바탕질 → 막사이공간으로 H⁺ 능동수송' : 'H⁺ 4개 펌핑');
-            await Promise.all(es.map((e, i) => land(e, q, 'e', i ? 10 : -10, -8, 700)));
+            await Promise.all(es.map((e, i) => land(e, q, 'e', i ? 8 : -8, -7, 650)));
             $('rs-fes1').classList.remove('red');
             const hs = [sp('h', tv(21, 90)), sp('h', tv(25, 90))];
-            await Promise.all(hs.map((x, i) => land(x, q, 'h', i ? 11 : -11, 9, 800)));
+            await Promise.all(hs.map((x, i) => land(x, q, 'h', i ? 9 : -9, 8, 750)));
             q.classList.add('red'); lbl(q, window.isHS() ? '전자운반체' : 'QH₂'); pulse(q);
-            await Promise.all([pp, hgo, away(nb, off(pos(nb), -55, 45), 800)]);
-            await shift(q, qAt3(), 950);
-            await W(900);
+            await Promise.all([pp, hgo, away(nb, off(pos(nb), -50, 40), 750)]);
+            await shift(q, qAt3(), 900);
+            await W(800);
         }
         async function cII() {
             const fad = $('rs-fad'), fes = $('rs-fes2'), q = $('rs-q'), c2 = $('rs-c2');
-            const sb = blk(`<div class="a-base a-suc">숙신산</div>`, tv(31, 93));
-            await fly(sb, [off(pos(fad), 0, 44)], 800);
-            const sbp = pos(sb), parts = [sp('e', off(sbp, -10, -14)), sp('e', off(sbp, 10, -14)), sp('h', off(sbp, -24, 0)), sp('h', off(sbp, 24, 0))];
-            await Promise.all(parts.map((x, i) => land(x, fad, i < 2 ? 'e' : 'h', [-8, 8, -22, 22][i], i < 2 ? -8 : 8, 700)));
+            const sb = blk(`<div class="a-base a-suc">숙신산</div>`, tv(31, 92));
+            await fly(sb, [off(pos(fad), 0, 40)], 750);
+            const sbp = pos(sb), parts = [sp('e', off(sbp, -9, -12)), sp('e', off(sbp, 9, -12)), sp('h', off(sbp, -20, 0)), sp('h', off(sbp, 20, 0))];
+            await Promise.all(parts.map((x, i) => land(x, fad, i < 2 ? 'e' : 'h', [-7, 7, -18, 18][i], i < 2 ? -7 : 7, 650)));
             sb.innerHTML = `<div class="a-base a-suc">푸마르산</div>`; lbl(fad, 'FADH₂'); fad.classList.add('red'); pulse(fad);
-            const sgo = W(700).then(() => away(sb, off(pos(sb), 30, 60), 800));
-            await W(700);
-            await shift(q, off(pos(c2), 0, -86), 800);
+            const sgo = W(650).then(() => away(sb, off(pos(sb), 25, 50), 750));
+            await W(650);
+            await shift(q, off(pos(c2), 0, -78), 750);
             const es = atts(fad, 'e').map(detach), hs = atts(fad, 'h').map(detach);
             fad.classList.remove('red'); lbl(fad, 'FAD');
-            await Promise.all(es.map((e, i) => fly(e, [off(pos(fes), -9 + 18 * i, 0)], 650)));
-            await Promise.all([...es.map((e, i) => land(e, q, 'e', i ? 10 : -10, -8, 700)), ...hs.map((h, i) => land(h, q, 'h', i ? 11 : -11, 9, 900))]);
+            await Promise.all(es.map((e, i) => fly(e, [off(pos(fes), -8 + 16 * i, 0)], 600)));
+            await Promise.all([...es.map((e, i) => land(e, q, 'e', i ? 8 : -8, -7, 650)), ...hs.map((h, i) => land(h, q, 'h', i ? 9 : -9, 8, 800))]);
             q.classList.add('red'); lbl(q, window.isHS() ? '전자운반체' : 'QH₂'); pulse(q);
             await sgo;
             $('rs-nopump').style.opacity = 1; pulse($('rs-nopump'));
-            await W(1100);
-            await shift(q, qAt3(), 950);
-            await W(900);
+            await W(950);
+            await shift(q, qAt3(), 900);
+            await W(800);
         }
         async function cIII() {
             const q = $('rs-q'), c3 = $('rs-c3'), cytb = $('rs-cytb'), cytc1 = $('rs-cytc1'), cc = [$('rs-cc1'), $('rs-cc2')];
             const hs = atts(q, 'h').map(detach);
-            await Promise.all(hs.map((h, i) => fly(h, [off(pos(c3), -36 + i * 16, -18), off(pos(c3), -36 + i * 16, -70)], 850).then(() => toPool(h, 550))));
+            await Promise.all(hs.map((h, i) => fly(h, [off(pos(c3), -32 + i * 14, -16), off(pos(c3), -32 + i * 14, -62)], 800).then(() => toPool(h, 500))));
             const es = atts(q, 'e').map(detach);
             q.classList.remove('red'); lbl(q, window.isHS() ? '전자운반체' : 'Q');
-            const back = homeC(q, 850);
-            const pp = W(500).then(() => pump('rs-c3', 2, window.isHS() ? '막사이공간으로 H⁺ 능동수송' : 'H⁺ 펌핑', off(pos(c3), 0, -125)));
+            const back = homeC(q, 800);
+            const pp = W(450).then(() => pump('rs-c3', 2, window.isHS() ? '막사이공간으로 H⁺ 능동수송' : 'H⁺ 펌핑', off(pos(c3), 0, -110)));
             await Promise.all(es.map(async (e, i) => {
-                await W(i * 550);
-                await fly(e, [pos(cytb)], 550); cytb.classList.add('red');
-                await fly(e, [pos(cytc1)], 550); cytb.classList.remove('red'); cytc1.classList.add('red');
-                await land(e, cc[i], 'e', 0, -9, 700); cytc1.classList.remove('red');
+                await W(i * 500);
+                await fly(e, [pos(cytb)], 500); cytb.classList.add('red');
+                await fly(e, [pos(cytc1)], 500); cytb.classList.remove('red'); cytc1.classList.add('red');
+                await land(e, cc[i], 'e', 0, -8, 650); cytc1.classList.remove('red');
                 cc[i].classList.add('red'); pulse(cc[i]);
             }));
             await Promise.all([back, pp]);
-            await W(800);
+            await W(750);
         }
         async function cIV() {
             const c4 = $('rs-c4'), cyta = $('rs-cyta'), a3 = $('rs-cyta3'), cc = [$('rs-cc1'), $('rs-cc2')];
-            const o = blk(O2_H, tv(65, 93));
-            tip('최종 전자수용체: 산소(O₂)', off(tv(65, 93), 65, -14), 1600, RED);
-            const ogo = fly(o, [off(pos(a3), 0, 62)], 900);
+            const o = blk(O2_H, tv(65, 92));
+            tip('최종 전자수용체: 산소(O₂)', off(tv(65, 92), 60, -12), 1500, RED);
+            const ogo = fly(o, [off(pos(a3), 0, 56)], 850);
             for (let i = 0; i < 2; i++) {
-                await shift(cc[i], off(pos(c4), -18 + i * 36, -108), 700);
+                await shift(cc[i], off(pos(c4), -16 + i * 32, -96), 650);
                 const e = detach(atts(cc[i], 'e')[0]); cc[i].classList.remove('red');
-                await fly(e, [pos(cyta)], 550); cyta.classList.add('red');
-                await land(e, a3, 'e', -9 + 18 * i, 0, 550); cyta.classList.remove('red'); a3.classList.add('red');
-                homeC(cc[i], 800).catch(() => {});
+                await fly(e, [pos(cyta)], 500); cyta.classList.add('red');
+                await land(e, a3, 'e', -8 + 16 * i, 0, 500); cyta.classList.remove('red'); a3.classList.add('red');
+                homeC(cc[i], 750).catch(() => {});
             }
             await ogo;
-            const pp = pump('rs-c4', 2, window.isHS() ? 'H⁺ 농도 기울기 형성 (막사이공간 pH ↓)' : 'H⁺ 2개 펌핑', off(pos(c4), 0, -125));
+            const pp = pump('rs-c4', 2, window.isHS() ? 'H⁺ 농도 기울기 형성 (막사이공간 pH ↓)' : 'H⁺ 2개 펌핑', off(pos(c4), 0, -110));
             const op = pos(o), hs = [sp('h', tv(60, 90)), sp('h', tv(70, 90))];
             const es = atts(a3, 'e').map(detach); a3.classList.remove('red');
-            await Promise.all([...es.map((e, i) => fly(e, [off(op, -8 + 16 * i, -8)], 700)), ...hs.map((h, i) => fly(h, [off(op, -14 + 28 * i, 8)], 800))]);
+            await Promise.all([...es.map((e, i) => fly(e, [off(op, -8 + 16 * i, -7)], 650)), ...hs.map((h, i) => fly(h, [off(op, -12 + 24 * i, 7)], 750))]);
             [...es, ...hs].forEach(x => x.remove());
             o.innerHTML = H2O_H; pulse(o);
-            tip('½O₂ + 2e⁻ + 2H⁺ → H₂O', off(op, 0, -22), 1800, '#3498db');
-            await W(950);
-            await Promise.all([away(o, off(op, 55, 60), 850), pp]);
-            await W(1100);
+            tip('½O₂ + 2e⁻ + 2H⁺ → H₂O', off(op, 0, -20), 1700, '#3498db');
+            await W(900);
+            await Promise.all([away(o, off(op, 50, 55), 800), pp]);
+            await W(1000);
         }
         async function synth(rounds, hasHalf = false) {
             const f0 = pos($('rs-f0')), f1 = pos($('rs-f1'));
             for (let r = 0; r < rounds; r++) {
                 poolN(4);
-                const adp = blk(ADP_H, off(f1, -135, -6)), pi = sp('p', off(f1, -135, 26), 'Pᵢ');
-                if (!r) tip('ADP + Pᵢ', off(f1, -135, -28), 1100);
-                await W(350);
+                const adp = blk(ADP_H, off(f1, -125, -6)), pi = sp('p', off(f1, -125, 22), 'Pᵢ');
+                if (!r) tip('ADP + Pᵢ', off(f1, -125, -24), 1000);
+                await W(300);
                 $('rs-rotor').classList.add('fast');
-                if (!r) tip(window.isHS() ? 'H⁺이 ATP 합성효소를 통해 바탕질로 확산 (화학삼투)' : 'H⁺ 4개 통과 → ATP 1개 합성', off(f0, -100, -100), 2200, '#00a8ff');
+                if (!r) tip('H⁺이 ATP 합성효소를 통해 바탕질로 확산 (화학삼투)', off(f0, -90, -88), 2100, '#00a8ff');
                 const hs = []; for (let i = 0; i < 4; i++) hs.push(poolTake());
                 const flows = hs.map(async (h, i) => {
-                    await W(i * 220);
-                    await fly(h, [off(f0, 0, -78), f0, off(f1, 0, -40), off(f1, 26 - i * 12, 44)], 1300, 'linear');
-                    await fade(h, 0, 280); h.remove();
+                    await W(i * 200);
+                    await fly(h, [off(f0, 0, -70), f0, off(f1, 0, -34), off(f1, 22 - i * 10, 38)], 1200, 'linear');
+                    await fade(h, 0, 260); h.remove();
                 });
-                await W(800);
-                await Promise.all([fly(adp, [off(f1, -24, 0)], 700), fly(pi, [off(f1, 24, 0)], 700)]);
+                await W(700);
+                await Promise.all([fly(adp, [off(f1, -22, 0)], 650), fly(pi, [off(f1, 22, 0)], 650)]);
                 pi.remove(); adp.innerHTML = ATP_H; pulse(adp);
                 const n = $('rs-atpcnt'); n.textContent = +(parseFloat(n.textContent) + 1).toFixed(1); pulse(n);
-                tip('ATP 합성', off(f1, 0, -44), 1500, '#e84118');
+                tip('ATP 합성', off(f1, 0, -38), 1400, '#e84118');
                 await Promise.all(flows);
-                await away(adp, off(f1, -150, 35), 800);
+                await away(adp, off(f1, -140, 30), 750);
             }
             if (hasHalf) {
                 poolN(2);
-                const adp = blk(ADP_H, off(f1, -135, -6)), pi = sp('p', off(f1, -135, 26), 'Pᵢ');
-                await W(300);
+                const adp = blk(ADP_H, off(f1, -125, -6)), pi = sp('p', off(f1, -125, 22), 'Pᵢ');
+                await W(280);
                 $('rs-rotor').classList.add('fast');
                 const hs = [poolTake(), poolTake()];
                 const flows = hs.map(async (h, i) => {
-                    await W(i * 220);
-                    await fly(h, [off(f0, 0, -78), f0, off(f1, 0, -40), off(f1, 18 - i * 18, 44)], 1200, 'linear');
-                    await fade(h, 0, 280); h.remove();
+                    await W(i * 200);
+                    await fly(h, [off(f0, 0, -70), f0, off(f1, 0, -34), off(f1, 16 - i * 16, 38)], 1100, 'linear');
+                    await fade(h, 0, 260); h.remove();
                 });
-                await W(700);
-                await Promise.all([fly(adp, [off(f1, -24, 0)], 650), fly(pi, [off(f1, 24, 0)], 650)]);
+                await W(650);
+                await Promise.all([fly(adp, [off(f1, -22, 0)], 600), fly(pi, [off(f1, 22, 0)], 600)]);
                 pi.remove(); adp.innerHTML = ATP_H + '<span class="xN">×0.5</span>'; pulse(adp);
                 const n = $('rs-atpcnt'); n.textContent = +(parseFloat(n.textContent) + 0.5).toFixed(1); pulse(n);
                 await Promise.all(flows);
-                await away(adp, off(f1, -150, 35), 800);
+                await away(adp, off(f1, -140, 30), 750);
             }
             $('rs-rotor').classList.remove('fast');
         }
@@ -1173,11 +1108,11 @@
             1: { focus: ['rs-c1', 'rs-q'], pre: () => {}, run: cI },
             2: { focus: ['rs-c3', 'rs-q', 'rs-cc1', 'rs-cc2'], pre: () => {
                 const q = $('rs-q'); shiftNow(q, qAt3());
-                attach(q, 'e', -10, -8); attach(q, 'e', 10, -8); attach(q, 'h', -11, 9); attach(q, 'h', 11, 9);
+                attach(q, 'e', -8, -7); attach(q, 'e', 8, -7); attach(q, 'h', -9, 8); attach(q, 'h', 9, 8);
                 q.classList.add('red'); lbl(q, window.isHS() ? '전자운반체' : 'QH₂'); poolN(4);
             }, run: cIII },
             3: { focus: ['rs-c4', 'rs-cc1', 'rs-cc2'], pre: () => {
-                ['rs-cc1', 'rs-cc2'].forEach(i => { attach($(i), 'e', 0, -9); $(i).classList.add('red'); });
+                ['rs-cc1', 'rs-cc2'].forEach(i => { attach($(i), 'e', 0, -8); $(i).classList.add('red'); });
                 poolN(8);
             }, run: cIV },
             4: { focus: ['rs-f0', 'rs-f1'], pre: () => poolN(10), run: async () => {
@@ -1198,12 +1133,12 @@
                 await cI();
                 await cIV();
                 banner('막사이공간 H⁺ 농도 ↑ (pH ↓) · O₂ 환원 → H₂O 생성');
-                await W(900);
+                await W(800);
             } },
             102: { focus: ['rs-f0', 'rs-f1'], pre: () => poolN(10), run: async () => {
                 banner('화학삼투 : 막사이공간 → 바탕질로 H⁺ 확산 · ATP 합성');
                 await synth(2, true);
-                await W(1000);
+                await W(900);
             } }
         };
 
@@ -1414,23 +1349,23 @@
     function poolTake() { const h = pool.shift(); hcnt(); return h; }
 
     async function photon(target, dur = 800) {
-        const t = pos(target), s = { x: t.x - 110, y: tv(0, 0).y + 6 };
+        const t = pos(target), s = { x: t.x - 105, y: tv(0, 0).y + 6 };
         const ph = mk('ps-photon', 'hν', s), pts = [], n = 12;
         for (let i = 1; i <= n; i++) {
-            const k = i / n, w = i < n ? Math.sin(k * Math.PI * 5) * 8 : 0;
+            const k = i / n, w = i < n ? Math.sin(k * Math.PI * 5) * 7 : 0;
             pts.push({ x: s.x + (t.x - s.x) * k + w * 0.7, y: s.y + (t.y - s.y) * k - w * 0.7 });
         }
         await fly(ph, pts, dur, 'linear');
-        ph.animate([{ transform: 'translate(-50%,-50%) scale(1)', opacity: 1 }, { transform: 'translate(-50%,-50%) scale(2.2)', opacity: 0 }], { duration: 280, fill: 'forwards' });
-        await W(280); ph.remove();
+        ph.animate([{ transform: 'translate(-50%,-50%) scale(1)', opacity: 1 }, { transform: 'translate(-50%,-50%) scale(2.2)', opacity: 0 }], { duration: 260, fill: 'forwards' });
+        await W(260); ph.remove();
     }
     async function resonance(cx, rc, k) {
         const pigs = [...cx.querySelectorAll('.pig')];
         const order = k ? [pigs[1], pigs[3], pigs[5]] : [pigs[0], pigs[2], pigs[4]];
         const g = mk('ps-photon', '', pos(order[0]));
         g.style.width = g.style.height = '14px';
-        order.forEach((p, i) => setTimeout(() => pulse(p), i * 150));
-        await fly(g, [...order.slice(1), rc].map(pos), 600, 'linear');
+        order.forEach((p, i) => setTimeout(() => pulse(p), i * 140));
+        await fly(g, [...order.slice(1), rc].map(pos), 580, 'linear');
         g.remove(); pulse(rc);
     }
 
@@ -1445,153 +1380,153 @@
         const cx = $('ps-psii'), rc = $('ps-p680');
         await photon(cx.querySelectorAll('.pig')[k ? 1 : 0]);
         await resonance(cx, rc, k);
-        rcSet(rc, 'ex'); tip('P680*', off(pos(rc), 0, -30), 1000);
-        await W(300);
+        rcSet(rc, 'ex'); tip('P680*', off(pos(rc), 0, -28), 950);
+        await W(280);
         const e = sp('e', pos(rc));
-        tip('고에너지 전자 방출 → 1차 전자수용체', off(pos($('ps-pheo')), 0, -14), 1000);
-        await land(e, $('ps-pheo'), 'e', k ? 10 : -10, 0, 600);
+        tip('고에너지 전자 방출 → 1차 전자수용체', off(pos($('ps-pheo')), 0, -14), 950);
+        await land(e, $('ps-pheo'), 'e', k ? 10 : -10, 0, 550);
         rcSet(rc, 'ox');
     }
     async function L1() {
-        tip('안테나 색소 빛에너지 흡수 → 반응 중심 색소 전달', off(pos($('ps-psii')), 45, -96), 1800);
+        tip('안테나 색소 빛에너지 흡수 → 반응 중심 색소 전달', off(pos($('ps-psii')), 45, -88), 1600);
         for (let k = 0; k < 2; k++) await psii(k);
-        tip('P680⁺ (산화)', off(pos($('ps-p680')), 0, -32), 1800, '#ff6b6b');
-        await W(1200);
+        tip('P680⁺ (산화)', off(pos($('ps-p680')), 0, -30), 1600, '#ff6b6b');
+        await W(1000);
     }
     async function L2() {
         const oec = $('ps-oec'), o = pos(oec), rc = $('ps-p680');
-        const w = mk('ps-blk', `<div class="a-base a-h2o">H₂O</div>`, off(o, 0, 65));
-        appear(w); await fly(w, [off(o, 0, 22)], 650);
-        tip('물의 광분해 (O₂ 발생)', off(o, 55, 0), 1400);
-        await W(350);
-        const e1 = sp('e', off(o, -7, 16)), e2 = sp('e', off(o, 7, 16));
-        const h1 = sp('h', off(o, -15, 26)), h2 = sp('h', off(o, 15, 26));
+        const w = mk('ps-blk', `<div class="a-base a-h2o">H₂O</div>`, off(o, 0, 58));
+        appear(w); await fly(w, [off(o, 0, 20)], 600);
+        tip('물의 광분해 (O₂ 발생)', off(o, 50, 0), 1300);
+        await W(320);
+        const e1 = sp('e', off(o, -7, 14)), e2 = sp('e', off(o, 7, 14));
+        const h1 = sp('h', off(o, -14, 24)), h2 = sp('h', off(o, 14, 24));
         w.innerHTML = `<div class="a-o2">½O₂</div>`;
         const p = pos(rc);
         await Promise.all([
-            fly(e1, [off(p, -6, 4)], 700).then(() => e1.remove()),
-            fly(e2, [off(p, 6, 4)], 850).then(() => e2.remove()),
-            W(250).then(() => toPool(h1, 750)), W(400).then(() => toPool(h2, 750)),
-            fly(w, [off(o, 50, 95)], 1100).then(() => fade(w, 0, 350))
+            fly(e1, [off(p, -6, 4)], 650).then(() => e1.remove()),
+            fly(e2, [off(p, 6, 4)], 800).then(() => e2.remove()),
+            W(220).then(() => toPool(h1, 700)), W(360).then(() => toPool(h2, 700)),
+            fly(w, [off(o, 45, 85)], 1000).then(() => fade(w, 0, 320))
         ]);
         rcSet(rc, ''); pulse(rc);
-        await W(1100);
+        await W(950);
     }
     async function pqLoad(es) {
         const pq = $('ps-pq');
-        await Promise.all(es.map((e, i) => land(e, pq, 'e', i ? 10 : -10, -8, 700)));
+        await Promise.all(es.map((e, i) => land(e, pq, 'e', i ? 10 : -10, -8, 650)));
         const p = pos(pq), y0 = tv(0, 8).y;
-        const hs = [sp('h', { x: p.x - 24, y: y0 }), sp('h', { x: p.x + 24, y: y0 })];
-        await Promise.all(hs.map((h, i) => land(h, pq, 'h', i ? 10 : -10, 9, 800)));
-        pq.classList.add('red'); lbl(pq, window.isHS() ? '전자운반체' : 'PQH₂'); pulse(pq);
-        await W(600);
-        await shift(pq, off(pos($('ps-b6f')), -54, -26), 800);
+        const hs = [sp('h', { x: p.x - 22, y: y0 }), sp('h', { x: p.x + 22, y: y0 })];
+        await Promise.all(hs.map((h, i) => land(h, pq, 'h', i ? 10 : -10, 9, 750)));
+        pq.classList.add('red'); lbl(pq, '전자운반체'); pulse(pq);
+        await W(550);
+        await shift(pq, off(pos($('ps-b6f')), -50, -24), 750);
     }
     async function L3() {
         const es = atts($('ps-pheo'), 'e').map(detach);
         await pqLoad(es);
-        await W(900);
+        await W(800);
     }
     async function L4() {
         const pq = $('ps-pq'), bp = pos($('ps-b6f'));
         const hs = atts(pq, 'h').map(detach);
-        tip(window.isHS() ? '스트로마 → 타이라코이드 내부로 H⁺ 능동수송' : 'H⁺ 이동', off(bp, 0, -88), 1600);
-        await Promise.all(hs.map((h, i) => fly(h, [off(bp, -12 + i * 24, 10), off(bp, -12 + i * 24, 96)], 900).then(() => toPool(h, 600))));
+        tip('스트로마 → 타이라코이드 내부로 H⁺ 능동수송', off(bp, 0, -82), 1500);
+        await Promise.all(hs.map((h, i) => fly(h, [off(bp, -12 + i * 24, 10), off(bp, -12 + i * 24, 88)], 850).then(() => toPool(h, 550))));
         const es = atts(pq, 'e').map(detach);
-        pq.classList.remove('red'); lbl(pq, window.isHS() ? '전자운반체' : 'PQ');
-        const back = homeC(pq, 800);
+        pq.classList.remove('red'); lbl(pq, '전자운반체');
+        const back = homeC(pq, 750);
         const pcs = [$('ps-pc1'), $('ps-pc2')];
         await Promise.all(es.map(async (e, i) => {
-            await W(i * 400);
-            await fly(e, [pos($('ps-cytb')), pos($('ps-cytf'))], 800);
-            await land(e, pcs[i], 'e', 0, -10, 650);
+            await W(i * 380);
+            await fly(e, [pos($('ps-cytb')), pos($('ps-cytf'))], 750);
+            await land(e, pcs[i], 'e', 0, -10, 600);
             pcs[i].classList.add('red'); pulse(pcs[i]);
         }));
         await back;
-        await W(900);
+        await W(800);
     }
     async function psi(k) {
         const cx = $('ps-psi'), rc = $('ps-p700'), fd = $('ps-fd');
         await photon(cx.querySelectorAll('.pig')[k ? 1 : 0]);
         await resonance(cx, rc, k);
-        rcSet(rc, 'ex'); tip('P700*', off(pos(rc), 0, -30), 950);
+        rcSet(rc, 'ex'); tip('P700*', off(pos(rc), 0, -28), 900);
         await W(250);
         const e = sp('e', pos(rc));
-        if (window.isHS()) tip('고에너지 전자 방출 → 1차 전자수용체', off(pos($('ps-fx')), 0, -14), 950);
-        await fly(e, [pos($('ps-fx'))], 500);
-        await land(e, fd, 'e', k ? 10 : -10, 0, 550);
+        tip('고에너지 전자 방출 → 1차 전자수용체', off(pos($('ps-fx')), 0, -14), 900);
+        await fly(e, [pos($('ps-fx'))], 480);
+        await land(e, fd, 'e', k ? 10 : -10, 0, 520);
         fd.classList.add('red');
         rcSet(rc, 'ox');
     }
     async function pcDonate(k) {
         const pc = $(k ? 'ps-pc2' : 'ps-pc1'), rc = $('ps-p700');
         const pr = $('ps-psi').getBoundingClientRect(), L = layer().getBoundingClientRect();
-        await shift(pc, { x: pos(rc).x - 22 + k * 44, y: pr.bottom - L.top + 18 }, 700);
+        await shift(pc, { x: pos(rc).x - 20 + k * 40, y: pr.bottom - L.top + 16 }, 650);
         const dots = atts(pc, 'e');
-        if (dots.length) { const e = detach(dots[0]); await fly(e, [pos(rc)], 500); e.remove(); }
+        if (dots.length) { const e = detach(dots[0]); await fly(e, [pos(rc)], 480); e.remove(); }
         pc.classList.remove('red'); rcSet(rc, ''); pulse(rc);
-        await homeC(pc, 700);
+        await homeC(pc, 650);
     }
     async function L5() {
         for (let k = 0; k < 2; k++) {
             await psi(k);
-            tip('P700⁺ 환원', off(pos($('ps-p700')), 0, -32), 1300, '#ff6b6b');
+            tip('P700⁺ 환원', off(pos($('ps-p700')), 0, -30), 1200, '#ff6b6b');
             await pcDonate(k);
         }
-        await W(900);
+        await W(800);
     }
     async function L6() {
         const fd = $('ps-fd'), fnr = $('ps-fnr'), f = pos(fnr);
-        const nb = mk('ps-blk', NADP_H, off(f, 0, -95));
-        appear(nb); await fly(nb, [off(f, 0, -52)], 600);
+        const nb = mk('ps-blk', NADP_H, off(f, 0, -85));
+        appear(nb); await fly(nb, [off(f, 0, -46)], 550);
         const es = atts(fd, 'e').map(detach); fd.classList.remove('red');
-        await Promise.all(es.map((e, i) => fly(e, [off(f, 0, 0), off(pos(nb), -10 + i * 20, 0)], 850).then(() => e.remove())));
-        const h = sp('h', off(f, -60, -82));
-        await fly(h, [pos(nb)], 650); h.remove();
+        await Promise.all(es.map((e, i) => fly(e, [off(f, 0, 0), off(pos(nb), -10 + i * 20, 0)], 800).then(() => e.remove())));
+        const h = sp('h', off(f, -55, -74));
+        await fly(h, [pos(nb)], 600); h.remove();
         nb.innerHTML = NADPH_H; pulse(nb);
-        tip('NADP⁺ + 2e⁻ + H⁺ → NADPH', off(pos(nb), 0, -18), 1400);
-        await W(1100);
-        await Promise.all([fly(nb, [off(pos(nb), -35, -45)], 800), W(350).then(() => fade(nb, 0, 450))]);
-        await W(300);
+        tip('NADP⁺ + 2e⁻ + H⁺ → NADPH', off(pos(nb), 0, -18), 1300);
+        await W(1000);
+        await Promise.all([fly(nb, [off(pos(nb), -35, -40)], 750), W(300).then(() => fade(nb, 0, 400))]);
+        await W(250);
     }
     async function atpSynth(nH = 4) {
         const c1 = pos($('ps-cf1')), c0 = pos($('ps-cf0'));
         poolN(nH);
-        const adp = mk('ps-blk', ADP_H, off(c1, -100, -60)); appear(adp);
-        const pi = sp('p', off(c1, -155, -34), 'Pᵢ');
-        tip('ADP + Pᵢ', off(c1, -125, -78), 1200);
-        await W(400);
+        const adp = mk('ps-blk', ADP_H, off(c1, -95, -52)); appear(adp);
+        const pi = sp('p', off(c1, -145, -30), 'Pᵢ');
+        tip('ADP + Pᵢ', off(c1, -120, -68), 1100);
+        await W(350);
         rotor(true);
-        tip(window.isHS() ? 'H⁺이 ATP 합성효소를 통해 확산 → ATP 합성' : 'H⁺ 통과 → ATP 합성', off(c0, -35, 115), 2100);
+        tip('H⁺이 ATP 합성효소를 통해 확산 → ATP 합성', off(c0, -30, 102), 2000);
         const hs = []; for (let i = 0; i < nH; i++) hs.push(poolTake());
         const flows = hs.map(async (h, i) => {
-            await W(i * 260);
-            await fly(h, [off(c0, 0, 82), off(c0, 0, 5), off(c1, 0, 0), off(c1, -18 + i * 10, -50)], 1300, 'linear');
-            await fade(h, 0, 280); h.remove();
+            await W(i * 220);
+            await fly(h, [off(c0, 0, 74), off(c0, 0, 5), off(c1, 0, 0), off(c1, -16 + i * 9, -44)], 1150, 'linear');
+            await fade(h, 0, 260); h.remove();
         });
-        await W(1200);
+        await W(1050);
         const ar = adp.getBoundingClientRect();
-        await fly(pi, [off(pos(adp), ar.width / 2 + 12, 0)], 650);
+        await fly(pi, [off(pos(adp), ar.width / 2 + 12, 0)], 600);
         pi.remove(); adp.innerHTML = ATP_H; pulse(adp);
-        tip('ATP 합성 (광인산화)', off(pos(adp), 0, -20), 1700, '#e84118');
+        tip('ATP 합성 (광인산화)', off(pos(adp), 0, -18), 1600, '#e84118');
         await Promise.all(flows);
         rotor(false);
-        await W(750);
-        await Promise.all([fly(adp, [off(pos(adp), -45, -35)], 800), W(350).then(() => fade(adp, 0, 450))]);
+        await W(650);
+        await Promise.all([fly(adp, [off(pos(adp), -40, -30)], 750), W(300).then(() => fade(adp, 0, 400))]);
     }
-    async function L7() { await atpSynth(4); await W(400); }
+    async function L7() { await atpSynth(4); await W(350); }
     async function L9() {
         banner('순환적 전자흐름 : 광계 I → 1차 전자수용체 → 전자운반체 → 광계 I 복귀');
         for (let k = 0; k < 2; k++) { await psi(k); await pcDonate(k); }
         const fd = $('ps-fd');
         const es = atts(fd, 'e').map(detach); fd.classList.remove('red');
         const pq = pos($('ps-pq'));
-        await Promise.all(es.map((e, i) => fly(e, [tv(48, 20 + i * 5), off(pq, -6 + i * 12, -55)], 1200)));
+        await Promise.all(es.map((e, i) => fly(e, [tv(48, 20 + i * 5), off(pq, -6 + i * 12, -48)], 1100)));
         await pqLoad(es);
         await L4();
         await atpSynth(4);
         banner('순환적 전자흐름 완료 : ATP만 생성 (O₂ · NADPH 생성 X)');
-        await W(600);
+        await W(500);
     }
 
     async function L_HS_NONCYCLIC() {
@@ -1636,100 +1571,99 @@
 
     async function K10() {
         hideProd();
-        const e = enzP(), mid = off(e, 0, -70);
+        const e = enzP(), mid = off(e, 0, -65);
         const ch = mk('cyc-token', chip('RuBP', 5), pos($('ps-rubp-wrap')));
         appear(ch);
-        await fly(ch, [off(mid, -12, 0)], 800);
+        await fly(ch, [off(mid, -12, 0)], 750);
         const cEl = $('ps-co2c'), fc = mk('ps-flyc', 'C', pos(cEl));
         cEl.style.opacity = '0.25';
-        await fly(fc, [off(mid, 54, 0)], 800);
+        await fly(fc, [off(mid, 52, 0)], 750);
         fc.remove(); ch.innerHTML = chip('6C', 6, { newAt: 5 }); pulse(ch);
-        const w = mk('ps-blk', `<div class="a-base a-h2o">H₂O</div>`, off(e, 0, 95));
-        appear(w); await fly(w, [off(mid, 0, 16)], 700); w.remove();
-        await W(600); ch.remove();
-        const a = mk('cyc-token', chip('3PG', 3, { newAt: 0 }), off(mid, -28, 0));
-        const b = mk('cyc-token', chip('3PG', 3), off(mid, 28, 0));
-        await W(350); showProd();
-        await Promise.all([fly(a, [pos($('ps-pg3a'))], 900), fly(b, [pos($('ps-pg3b'))], 950)]);
-        await Promise.all([fade(a, 0, 350), fade(b, 0, 350)]);
+        const w = mk('ps-blk', `<div class="a-base a-h2o">H₂O</div>`, off(e, 0, 88));
+        appear(w); await fly(w, [off(mid, 0, 14)], 650); w.remove();
+        await W(500); ch.remove();
+        const a = mk('cyc-token', chip('3PG', 3, { newAt: 0 }), off(mid, -26, 0));
+        const b = mk('cyc-token', chip('3PG', 3), off(mid, 26, 0));
+        await W(300); showProd();
+        await Promise.all([fly(a, [pos($('ps-pg3a'))], 850), fly(b, [pos($('ps-pg3b'))], 900)]);
+        await Promise.all([fade(a, 0, 320), fade(b, 0, 320)]);
         a.remove(); b.remove();
     }
     async function atpTransfer(targetId, note) {
         hideProd();
-        const e = enzP(), top = off(e, 0, -95);
-        const atp = mk('ps-blk', ATP_H, off(top, 0, -50));
-        appear(atp); await fly(atp, [top], 550);
-        await W(250);
+        const e = enzP(), top = off(e, 0, -88);
+        const atp = mk('ps-blk', ATP_H, off(top, 0, -45));
+        appear(atp); await fly(atp, [top], 500);
+        await W(220);
         const lastP = atp.querySelectorAll('.p-ball')[2], pp = pos(lastP);
         lastP.remove();
         const p = sp('p', pp);
-        await W(250);
-        await fly(p, [pos($(targetId))], 750);
+        await W(220);
+        await fly(p, [pos($(targetId))], 700);
         p.remove(); showProd(); pulse($(targetId));
-        await Promise.all([fly(atp, [off(top, 0, -60)], 650), fade(atp, 0, 650)]);
-        if (note) tip(note, off(e, 0, 100), 2000, '#fed330');
-        await W(1400);
+        await Promise.all([fly(atp, [off(top, 0, -55)], 600), fade(atp, 0, 600)]);
+        if (note) tip(note, off(e, 0, 90), 1800, '#fed330');
+        await W(1200);
     }
     async function K12() {
         hideProd();
-        const e = enzP(), top = off(e, 0, -95);
-        const nb = mk('ps-blk', NADPH_H, off(top, 0, -50));
-        appear(nb); await fly(nb, [top], 550);
-        await W(250);
+        const e = enzP(), top = off(e, 0, -88);
+        const nb = mk('ps-blk', NADPH_H, off(top, 0, -45));
+        appear(nb); await fly(nb, [top], 500);
+        await W(220);
         const leave = $('ps-leavep'), lp = pos(leave.querySelector('.atom.P'));
         leave.style.transition = 'opacity 0.5s'; leave.style.opacity = '0.15';
         const pi = sp('p', lp, 'Pᵢ');
-        const flyPi = fly(pi, [off(lp, 0, 60), off(e, -10, 175)], 1200).then(() => fade(pi, 0, 350));
+        const flyPi = fly(pi, [off(lp, 0, 55), off(e, -10, 155)], 1100).then(() => fade(pi, 0, 320));
         const np = pos(nb);
         const parts = [sp('e', off(np, -16, 12)), sp('e', off(np, 0, 12)), sp('h', off(np, 16, 12))];
         nb.innerHTML = NADP_H;
-        await W(250);
+        await W(220);
         const t = pos($('ps-th'));
-        await Promise.all(parts.map((q, i) => fly(q, [off(t, -6 + i * 6, 0)], 800 + i * 100).then(() => q.remove())));
+        await Promise.all(parts.map((q, i) => fly(q, [off(t, -6 + i * 6, 0)], 750 + i * 90).then(() => q.remove())));
         showProd(); pulse($('ps-th'));
-        await Promise.all([flyPi, fly(nb, [off(top, 0, -60)], 650), fade(nb, 0, 650)]);
-        await W(1300);
+        await Promise.all([flyPi, fly(nb, [off(top, 0, -55)], 600), fade(nb, 0, 600)]);
+        await W(1100);
     }
     async function K14() {
         hideProd();
         const enzEl = $('ps-enz-name'), e = pos(enzEl), src = pos($('ps-struct-react'));
         enzEl.style.transition = 'opacity 0.3s'; enzEl.style.opacity = '0.2';
-        const ys = [-130, -65, 0, 65, 130];
+        const ys = [-120, -60, 0, 60, 120];
         const g = ys.map(() => mk('cyc-token', chip('G3P', 3, { p: 1 }), src));
-        await Promise.all(g.map(async (c, i) => { appear(c, 200); await W(i * 120); await fly(c, [off(e, 0, ys[i])], 650); }));
-        await W(800);
-        await Promise.all(g.map(c => fly(c, [e], 550)));
+        await Promise.all(g.map(async (c, i) => { appear(c, 180); await W(i * 110); await fly(c, [off(e, 0, ys[i])], 600); }));
+        await W(700);
+        await Promise.all(g.map(c => fly(c, [e], 500)));
         g.forEach(c => c.remove());
-        const r = [-90, 0, 90].map(() => mk('cyc-token', chip('Ru5P', 5, { p: 1 }), e));
+        const r = [-82, 0, 82].map(() => mk('cyc-token', chip('Ru5P', 5, { p: 1 }), e));
         const pis = [sp('p', e, 'Pᵢ'), sp('p', e, 'Pᵢ')];
         await Promise.all([
-            ...r.map((c, i) => fly(c, [off(e, 0, [-90, 0, 90][i])], 650)),
-            ...pis.map((p, i) => fly(p, [off(e, -25 + i * 50, 180)], 800).then(() => fade(p, 0, 350)))
+            ...r.map((c, i) => fly(c, [off(e, 0, [-82, 0, 82][i])], 600)),
+            ...pis.map((p, i) => fly(p, [off(e, -24 + i * 48, 160)], 750).then(() => fade(p, 0, 320)))
         ]);
         showProd();
         const tgt = pos($('ps-struct-prod'));
-        await Promise.all(r.map((c, i) => fly(c, [off(tgt, 0, (i - 1) * 45)], 800).then(() => fade(c, 0, 350))));
+        await Promise.all(r.map((c, i) => fly(c, [off(tgt, 0, (i - 1) * 42)], 750).then(() => fade(c, 0, 320))));
         enzEl.style.opacity = '1';
-        await W(900);
+        await W(800);
     }
 
-    /* 캘빈회로 아크: 고등학생 모드에서는 Ru5P 없이 PGAL 5분자 → RuBP 3분자로 직접 재생 */
     function getArcs(hs) {
         if (hs) {
             return [
-                ['fix', 'cn-rubp', 'cn-pg3', 42, '#26de81', 'CO₂ × 3 고정\n루비스코'],
-                ['atp', 'cn-pg3', 'cn-bpg', 36, '#26de81', 'ATP 6 → ADP 6'],
-                ['nad', 'cn-bpg', 'cn-g3p', 36, '#26de81', 'NADPH 6 → NADP⁺ 6'],
-                ['regen', 'cn-g3p', 'cn-rubp', -44, '#26de81', 'PGAL 5분자 + 3ATP\n→ RuBP 3 재생'],
+                ['fix', 'cn-rubp', 'cn-pg3', 38, '#26de81', 'CO₂ × 3 고정\n루비스코'],
+                ['atp', 'cn-pg3', 'cn-bpg', 32, '#26de81', 'ATP 6 → ADP 6'],
+                ['nad', 'cn-bpg', 'cn-g3p', 32, '#26de81', 'NADPH 6 → NADP⁺ 6'],
+                ['regen', 'cn-g3p', 'cn-rubp', -40, '#26de81', 'PGAL 5분자 + 3ATP\n→ RuBP 3 재생'],
                 ['out', 'cn-g3p', 'cn-out', 8, '#fed330', '']
             ];
         }
         return [
-            ['fix', 'cn-rubp', 'cn-pg3', 42, '#26de81', 'CO₂ × 3 고정\n루비스코'],
-            ['atp', 'cn-pg3', 'cn-bpg', 36, '#26de81', 'ATP 6 → ADP 6'],
-            ['nad', 'cn-bpg', 'cn-g3p', 36, '#26de81', 'NADPH 6 → NADP⁺ 6'],
-            ['regen', 'cn-g3p', 'cn-ru5p', 36, '#26de81', 'G3P 5 (15C)\n탄소 재배열'],
-            ['ru', 'cn-ru5p', 'cn-rubp', 42, '#26de81', 'ATP 3 → ADP 3'],
+            ['fix', 'cn-rubp', 'cn-pg3', 38, '#26de81', 'CO₂ × 3 고정\n루비스코'],
+            ['atp', 'cn-pg3', 'cn-bpg', 32, '#26de81', 'ATP 6 → ADP 6'],
+            ['nad', 'cn-bpg', 'cn-g3p', 32, '#26de81', 'NADPH 6 → NADP⁺ 6'],
+            ['regen', 'cn-g3p', 'cn-ru5p', 32, '#26de81', 'G3P 5 (15C)\n탄소 재배열'],
+            ['ru', 'cn-ru5p', 'cn-rubp', 38, '#26de81', 'ATP 3 → ADP 3'],
             ['out', 'cn-g3p', 'cn-out', 8, '#fed330', '']
         ];
     }
@@ -1765,7 +1699,7 @@
             if (tag) {
                 const t = document.createElement('div'); t.className = 'cyc-tag'; t.textContent = tag;
                 const qx = 0.25 * s.x + 0.5 * ctrl.x + 0.25 * e.x, qy = 0.25 * s.y + 0.5 * ctrl.y + 0.25 * e.y;
-                const push = bend < 0 ? -36 : 30;
+                const push = bend < 0 ? -32 : 26;
                 t.style.left = (qx + nx * push) + 'px'; t.style.top = (qy + ny * push) + 'px';
                 v.appendChild(t);
             }
@@ -1773,13 +1707,13 @@
     }
     function cycPt(x, y) { const v = $('ps-cyc-view').getBoundingClientRect(), L = layer().getBoundingClientRect(); return { x: v.left - L.left + x, y: v.top - L.top + y }; }
     function arcPt(key, t) { const p = $('ps-arc-' + key); const q = p.getPointAtLength(p.getTotalLength() * t); return cycPt(q.x, q.y); }
-    function along(el, key, dur = 1200, from = 0, to = 1) {
+    function along(el, key, dur = 1100, from = 0, to = 1) {
         const pts = []; for (let i = 0; i <= 30; i++) pts.push(arcPt(key, from + (to - from) * i / 30));
         return fly(el, pts, dur, 'linear');
     }
     function hi(id) { document.querySelectorAll('#ps-cyc-view .cyc-node').forEach(n => n.classList.toggle('hi', n.id === id)); if (id) pulse($(id)); }
     function setCnt(c, a, n, g) { $('cnt-co2').textContent = c; $('cnt-atp').textContent = a; $('cnt-nadph').textContent = n; $('cnt-g3p').textContent = g; }
-    async function countUp(id, from, to, dur = 750) {
+    async function countUp(id, from, to, dur = 650) {
         const el = $(id), n = to - from;
         for (let i = 1; i <= n; i++) { await W(dur / n); el.textContent = from + i; pulse(el); }
     }
@@ -1790,22 +1724,17 @@
         setCnt(3, 6, 6, 0); hi('cn-g3p');
         banner(`${nm} 6분자(18C) → 1분자 방출 + 5분자 재생`);
         const g = pos($('cn-g3p'));
-        const tk = mk('cyc-token', chip(`${nm} ×6`, 3), off(g, 0, -44)); appear(tk);
-        await W(900);
-        const out = mk('cyc-token', chip(`${nm} ×1`, 3), off(g, 0, -44));
+        const tk = mk('cyc-token', chip(`${nm} ×6`, 3), off(g, 0, -40)); appear(tk);
+        await W(800);
+        const out = mk('cyc-token', chip(`${nm} ×1`, 3), off(g, 0, -40));
         tk.innerHTML = chip(`${nm} ×5`, 3); pulse(tk);
-        await along(out, 'out', 1100);
+        await along(out, 'out', 1000);
         $('cnt-g3p').textContent = 1; pulse($('cn-out'));
-        tip('포도당 합성에 이용', off(pos($('cn-out')), 150, 10), 1800, '#fed330');
-        await W(700);
-        if (!hs) {
-            await along(tk, 'regen', 1300);
-            hi('cn-ru5p');
-        } else {
-            await along(tk, 'regen', 1300);
-            hi('cn-rubp');
-        }
-        await W(1000);
+        tip('포도당 합성에 이용', off(pos($('cn-out')), 140, 8), 1600, '#fed330');
+        await W(600);
+        await along(tk, 'regen', 1150);
+        hi(hs ? 'cn-rubp' : 'cn-ru5p');
+        await W(900);
     }
 
     async function K16() {
@@ -1815,72 +1744,71 @@
         const tk = mk('cyc-token', chip('RuBP ×3', 5), arcPt('fix', 0)); appear(tk);
         for (let i = 0; i < 3; i++) {
             const c = mk('ps-blk', `<div class="a-base a-co2">CO₂</div>`, cycPt(R.width * 0.92, 16));
-            appear(c, 180);
-            await fly(c, [arcPt('fix', 0.12)], 550);
+            appear(c, 160);
+            await fly(c, [arcPt('fix', 0.12)], 500);
             c.remove(); $('cnt-co2').textContent = i + 1; pulse($('cnt-co2')); pulse(tk);
         }
         tk.innerHTML = chip('6C ×3', 6, { newAt: 5 });
-        await along(tk, 'fix', 1100);
+        await along(tk, 'fix', 950);
         tk.innerHTML = chip('3PG ×6', 3); hi('cn-pg3');
-        await W(400);
+        await W(350);
 
         banner('2) 3PG 환원 단계 — ATP 6 · NADPH 6');
         const mA = arcPt('atp', 0.5);
-        const atp = mk('ps-blk', ATP_H + '<span class="xN">×6</span>', off(mA, 110, 0)); appear(atp);
-        await Promise.all([fly(atp, [off(mA, 45, 0)], 600), along(tk, 'atp', 600, 0, 0.5)]);
-        const pp = sp('p', off(mA, 45, 0)); await fly(pp, [pos(tk)], 400); pp.remove();
+        const atp = mk('ps-blk', ATP_H + '<span class="xN">×6</span>', off(mA, 100, 0)); appear(atp);
+        await Promise.all([fly(atp, [off(mA, 42, 0)], 550), along(tk, 'atp', 550, 0, 0.5)]);
+        const pp = sp('p', off(mA, 42, 0)); await fly(pp, [pos(tk)], 380); pp.remove();
         atp.innerHTML = ADP_H + '<span class="xN">×6</span>';
-        countUp('cnt-atp', 0, 6, 600);
+        countUp('cnt-atp', 0, 6, 550);
         tk.innerHTML = chip(`${bnm} ×6`, 3); pulse(tk);
-        await Promise.all([fly(atp, [off(mA, 120, 24)], 700).then(() => fade(atp, 0, 250)), along(tk, 'atp', 700, 0.5, 1)]);
+        await Promise.all([fly(atp, [off(mA, 110, 20)], 650).then(() => fade(atp, 0, 220)), along(tk, 'atp', 650, 0.5, 1)]);
         hi('cn-bpg');
         const mN = arcPt('nad', 0.5);
-        const nad = mk('ps-blk', NADPH_H + '<span class="xN">×6</span>', off(mN, 0, 75)); appear(nad);
-        await Promise.all([fly(nad, [off(mN, 0, 36)], 600), along(tk, 'nad', 600, 0, 0.5)]);
-        const ee = [sp('e', off(mN, -8, 36)), sp('e', off(mN, 4, 36)), sp('h', off(mN, 16, 36))];
+        const nad = mk('ps-blk', NADPH_H + '<span class="xN">×6</span>', off(mN, 0, 68)); appear(nad);
+        await Promise.all([fly(nad, [off(mN, 0, 32)], 550), along(tk, 'nad', 550, 0, 0.5)]);
+        const ee = [sp('e', off(mN, -8, 32)), sp('e', off(mN, 4, 32)), sp('h', off(mN, 16, 32))];
         nad.innerHTML = NADP_H + '<span class="xN">×6</span>';
-        await Promise.all(ee.map(q => fly(q, [pos(tk)], 450).then(() => q.remove())));
-        countUp('cnt-nadph', 0, 6, 600);
+        await Promise.all(ee.map(q => fly(q, [pos(tk)], 420).then(() => q.remove())));
+        countUp('cnt-nadph', 0, 6, 550);
         tk.innerHTML = chip(`${nm} ×6`, 3); pulse(tk);
-        await Promise.all([fly(nad, [off(mN, 0, 95)], 700).then(() => fade(nad, 0, 250)), along(tk, 'nad', 700, 0.5, 1)]);
+        await Promise.all([fly(nad, [off(mN, 0, 88)], 650).then(() => fade(nad, 0, 220)), along(tk, 'nad', 650, 0.5, 1)]);
         hi('cn-g3p');
-        await W(450);
+        await W(400);
 
-        /* PGAL 6분자 중 1분자 방출 + 남은 PGAL 5분자가 인산기(P)를 받아 RuBP 3분자로 재생 */
         banner(`${nm} 6분자 중 1분자는 포도당 합성에 이용 · 5분자는 RuBP 재생에 이용`);
         const out = mk('cyc-token', chip(`${nm} ×1`, 3), pos(tk));
         tk.innerHTML = chip(`${nm} ×5`, 3); pulse(tk);
-        await along(out, 'out', 1050);
+        await along(out, 'out', 950);
         $('cnt-g3p').textContent = 1; pulse($('cn-out')); pulse($('cnt-g3p'));
-        tip(`${nm} 1분자 → 포도당 합성`, off(pos($('cn-out')), 150, 10), 1700, '#fed330');
-        await W(500);
+        tip(`${nm} 1분자 → 포도당 합성`, off(pos($('cn-out')), 140, 8), 1600, '#fed330');
+        await W(450);
 
         banner('3) RuBP 재생성 단계 — ATP 3에서 인산기(P)를 받아 RuBP 재생');
         if (hs) {
-            await along(tk, 'regen', 750, 0, 0.5);
-            const atp2 = mk('ps-blk', ATP_H + '<span class="xN">×3</span>', off(pos(tk), -110, -20));
-            appear(atp2); await fly(atp2, [off(pos(tk), -50, -10)], 550);
-            const p2 = sp('p', off(pos(tk), -50, -10));
-            await fly(p2, [pos(tk)], 450); p2.remove();
+            await along(tk, 'regen', 680, 0, 0.5);
+            const atp2 = mk('ps-blk', ATP_H + '<span class="xN">×3</span>', off(pos(tk), -100, -18));
+            appear(atp2); await fly(atp2, [off(pos(tk), -45, -8)], 500);
+            const p2 = sp('p', off(pos(tk), -45, -8));
+            await fly(p2, [pos(tk)], 420); p2.remove();
             atp2.innerHTML = ADP_H + '<span class="xN">×3</span>';
-            countUp('cnt-atp', 6, 9, 550);
+            countUp('cnt-atp', 6, 9, 500);
             tk.innerHTML = chip('RuBP ×3', 5, { p: 1 }); pulse(tk);
-            await Promise.all([fly(atp2, [off(pos(atp2), -70, -30)], 650).then(() => fade(atp2, 0, 250)), along(tk, 'regen', 750, 0.5, 1)]);
+            await Promise.all([fly(atp2, [off(pos(atp2), -65, -25)], 600).then(() => fade(atp2, 0, 220)), along(tk, 'regen', 680, 0.5, 1)]);
             hi('cn-rubp');
         } else {
-            await along(tk, 'regen', 1100);
+            await along(tk, 'regen', 950);
             tk.innerHTML = chip('Ru5P ×3', 5); hi('cn-ru5p');
             const mR = arcPt('ru', 0.5);
-            const atp2 = mk('ps-blk', ATP_H + '<span class="xN">×3</span>', off(mR, -130, 0)); appear(atp2);
-            await Promise.all([fly(atp2, [off(mR, -50, 0)], 600), along(tk, 'ru', 600, 0, 0.5)]);
-            const p2 = sp('p', off(mR, -50, 0)); await fly(p2, [pos(tk)], 400); p2.remove();
+            const atp2 = mk('ps-blk', ATP_H + '<span class="xN">×3</span>', off(mR, -120, 0)); appear(atp2);
+            await Promise.all([fly(atp2, [off(mR, -45, 0)], 550), along(tk, 'ru', 550, 0, 0.5)]);
+            const p2 = sp('p', off(mR, -45, 0)); await fly(p2, [pos(tk)], 380); p2.remove();
             atp2.innerHTML = ADP_H + '<span class="xN">×3</span>';
-            countUp('cnt-atp', 6, 9, 550);
+            countUp('cnt-atp', 6, 9, 500);
             tk.innerHTML = chip('RuBP ×3', 5); pulse(tk);
-            await Promise.all([fly(atp2, [off(mR, -140, 24)], 700).then(() => fade(atp2, 0, 250)), along(tk, 'ru', 700, 0.5, 1)]);
+            await Promise.all([fly(atp2, [off(mR, -130, 20)], 650).then(() => fade(atp2, 0, 220)), along(tk, 'ru', 650, 0.5, 1)]);
             hi('cn-rubp');
         }
-        await W(450);
+        await W(400);
         banner(`캘빈회로 한 바퀴 : CO₂ 3 + ATP 9 + NADPH 6 → ${nm} 1 방출 · RuBP 3 재생`);
     }
 
@@ -1921,7 +1849,7 @@
           strR: () => `<div id="ps-rubp-wrap">${S.rubp('', 'ps-r-c2')}</div>${PLUS}${S.co2()}`,
           strP: () => `<div id="ps-pg3a">${S.pg3(true)}</div>${PLUS}<div id="ps-pg3b">${S.pg3()}</div>`,
           name: '5. 캘빈회로 1단계 : 탄소 고정', react: '3CO₂ + 3RuBP (5탄소 화합물)', prod: '6 3PG (3탄소 화합물)', enz: '루비스코\n(RuBP 카복실화효소)',
-          desc: '엽록체의 스트로마로 들어온 CO₂가 루비스코의 작용으로 5탄소 화합물인 RuBP와 반응해 6탄소 화합물이 된 다음, 3탄소 화합물인 3PG 2분자로 나누어진다.\n\n• 3PG: 캘빈회로에서 최초의 CO₂ 고정 산물 (CO₂ 3분자 고정 시 3PG 6분자 생성)\n• CO₂ 공급이 차단되면 일시적으로 RuBP 농도는 높아지고 3PG 농도는 낮아진다.' },
+          desc: '엽록체의 스트로마로 들어온 CO₂가 루비스코의 작용으로 5탄소 화합물인 RuBP와 반응해 6탄소 화합물이 된 다음, 불안정하여 곧바로 3탄소 화합물인 3PG 2분자로 나누어진다.\n\n• 3PG: 캘빈회로에서 최초의 CO₂ 고정 산물 (CO₂ 3분자 고정 시 3PG 6분자 생성)\n• CO₂ 공급이 차단되면 일시적으로 RuBP 농도는 높아지고 3PG 농도는 낮아진다.' },
         { group: 'calvin', phase: '탄소 고정 반응 · 엽록체 스트로마', view: 'rx', cvKey: 106,
           nr: '6 3PG + 6ATP + 6NADPH', np: '6 PGAL (→ 1 PGAL 포도당 합성)', strR: () => S.pg3(), strP: () => S.g3p('ps-th'),
           name: '6. 캘빈회로 2단계 : 3PG 환원 (BPGA → PGAL)', react: '6 3PG, 6ATP, 6NADPH + 6H⁺', prod: '6 PGAL, 6ADP, 6NADP⁺, 6Pᵢ', enz: '스트로마 효소',
@@ -1961,7 +1889,7 @@
         if (key === 2) { rcSet($('ps-p680'), 'ox'); attach(pheo, 'e', -10, 0); attach(pheo, 'e', 10, 0); }
         if (key === 3) { attach(pheo, 'e', -10, 0); attach(pheo, 'e', 10, 0); poolN(2); }
         if (key === 4) {
-            shiftNow(pq, off(pos($('ps-b6f')), -54, -26));
+            shiftNow(pq, off(pos($('ps-b6f')), -50, -24));
             attach(pq, 'e', -10, -8); attach(pq, 'e', 10, -8); attach(pq, 'h', -10, 9); attach(pq, 'h', 10, 9);
             pq.classList.add('red'); lbl(pq, window.isHS() ? '전자운반체' : 'PQH₂'); poolN(2);
         }
@@ -2088,38 +2016,38 @@
     };
     const atomsOf = (box, cls) => [...$(box).querySelectorAll('.atom' + (cls ? '.' + cls : ''))].sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
     const E = () => pos($('fm-enz-name'));
-    const TOP = () => off(E(), 0, -95);
+    const TOP = () => off(E(), 0, -90);
     function hideProd() { const b = $('fm-box-prod'); b.style.opacity = '0.3'; b.style.transform = 'scale(0.95)'; }
     function showProd() { const b = $('fm-box-prod'); b.style.opacity = '1'; b.style.transform = 'scale(1)'; }
 
     async function oxidizeNADH(targetEl, endTip) {
         const top = TOP();
-        const b = blk(NADH_H, off(top, 0, -50)); await fly(b, [top], 550);
-        await W(600);
-        const bp = pos(b), es = [sp('e', off(bp, -10, 0)), sp('e', off(bp, 10, 0))], h1 = sp('h', off(bp, 0, 14));
-        const h2 = sp('h', off(E(), 60, 130));
+        const b = blk(NADH_H, off(top, 0, -45)); await fly(b, [top], 550);
+        await W(550);
+        const bp = pos(b), es = [sp('e', off(bp, -9, 0)), sp('e', off(bp, 9, 0))], h1 = sp('h', off(bp, 0, 12));
+        const h2 = sp('h', off(E(), 55, 115));
         b.innerHTML = NAD_H; pulse(b);
-        await W(350);
+        await W(320);
         const t = pos(targetEl);
-        await Promise.all([...es.map((e, i) => fly(e, [off(t, -8 + 16 * i, -6)], 850 + i * 90)), fly(h1, [off(t, -14, 10)], 950), fly(h2, [off(t, 14, 10)], 1050)]);
+        await Promise.all([...es.map((e, i) => fly(e, [off(t, -8 + 16 * i, -6)], 800 + i * 80)), fly(h1, [off(t, -12, 9)], 900), fly(h2, [off(t, 12, 9)], 950)]);
         [...es, h1, h2].forEach(x => x.remove());
         showProd(); glow(targetEl);
-        tip(endTip, off(t, 0, -16), 1900, '#fed330');
-        await away(b, off(top, -150, -50), 1050);
-        await W(1000);
+        tip(endTip, off(t, 0, -15), 1800, '#fed330');
+        await away(b, off(top, -140, -45), 950);
+        await W(850);
     }
 
     async function F1() {
         hideProd();
         const src = pos($('fm-struct-react'));
-        const nad = blk(NAD_H, off(E(), 0, -95));
-        await W(750);
-        const es = [sp('e', off(src, -10, 0)), sp('e', off(src, 10, 0)), sp('h', off(src, 0, 14))];
-        await Promise.all(es.map((e, i) => fly(e, [off(pos(nad), -10 + i * 10, 0)], 850)));
+        const nad = blk(NAD_H, off(E(), 0, -88));
+        await W(650);
+        const es = [sp('e', off(src, -9, 0)), sp('e', off(src, 9, 0)), sp('h', off(src, 0, 12))];
+        await Promise.all(es.map((e, i) => fly(e, [off(pos(nad), -9 + i * 9, 0)], 800)));
         es.forEach(e => e.remove()); nad.innerHTML = NADH_H; pulse(nad); showProd();
-        await W(1100);
+        await W(950);
         banner('NAD⁺ 재생을 위해 피루브산(또는 아세트알데하이드)에 전자 전달 = 발효');
-        await W(700);
+        await W(650);
     }
     async function F2() {
         hideProd();
@@ -2132,10 +2060,10 @@
         const c1 = atomsOf('fm-struct-react', 'C')[0], p = pos(c1);
         glow(c1);
         const c = blk(CO2_H, p);
-        tip('탈탄산 반응: CO₂ 방출', off(p, 0, -20), 1600, '#a4b0be');
-        await away(c, off(p, -35, -130), 1200);
+        tip('탈탄산 반응: CO₂ 방출', off(p, 0, -18), 1500, '#a4b0be');
+        await away(c, off(p, -30, -110), 1050);
         showProd(); glow($('fm-ald'));
-        await W(1100);
+        await W(950);
     }
     async function F4() {
         hideProd();
@@ -2153,7 +2081,7 @@
             <tr><td>탈탄산 반응</td><td>일어나지 않음 (CO₂ 생성 X)</td><td>일어남 (CO₂ 생성 O)</td></tr>
             <tr><td>ATP 생성량</td><td class="n">2분자 (해당 과정 · 기질수준인산화)</td><td class="n">2분자 (해당 과정 · 기질수준인산화)</td></tr>
             <tr><td>장소</td><td colspan="2">세포질 (${hs ? '마이토콘드리아' : '미토콘드리아'} 관여 X)</td></tr></table>`;
-        layer().appendChild(box); await appear(box, 500);
+        layer().appendChild(box); await appear(box, 450);
     }
 
     const FDB = [
@@ -2390,7 +2318,7 @@
     4: ['cyto', 'Aldolase', async A => { const m = A.Mol(L, Y, 6, [0, 5], 'F1,6BP'); await m.move(E, Y); await A.S(800); m.rm(); const a = A.Mol(E - 57, Y, 3, [0], 'DHAP'), b = A.Mol(E + 57, Y, 3, [2], 'G3P'); await Promise.all([a.move(R - 30, Y - 75), b.move(R + 30, Y + 75)]); }],
     5: ['cyto', 'Triose phosphate isomerase', async A => { const m = A.Mol(L, Y, 3, [0], 'DHAP'); await m.move(E, Y); await A.S(700); m.set(null, [2], 'G3P'); await A.S(600); await m.move(R, Y); }],
     6: ['cyto', 'G3P dehydrogenase', async A => { const m = A.Mol(L, Y, 3, [2], 'G3P'); await m.move(E, Y); await A.reduce(m, 0, 'NAD⁺', UP, OUT); const pi = A.Bead('P', 120, 440); const p = m.ppos(0); await pi.fly(p.x, p.y, 900); pi.rm(); m.addP(0); m.set(null, null, '1,3-BPG', null, 'p0'); await A.S(700); await m.move(R, Y); }],
-    7: ['cyto', 'Phosphoglycerate kinase', async A => { const m = A.Mol(L, Y, 3, [0, 2], '1,3-BPG'); await m.move(E, Y); await A.takeP(m, 0, UPR, OUTR); m.set(null, null, '3PG', null, 'none'); await m.move(R, Y); }],
+    7: ['cyto', 'Phosphoglycerate kinase', async A => { const m = A.Mol(L, Y, 3, [0, 2], '1,3-BPG'); await m.move(E, Y); await A.takeP(m, 0, UPR, OUTR); m.set(null, null, '3PG', null, 'none'); await A.S(700); await m.move(R, Y); }],
     8: ['cyto', 'Phosphoglycerate mutase', async A => { const m = A.Mol(L, Y, 3, [2], '3PG'); await m.move(E, Y); const p = m.ppos(2); m.delP(2); const b = A.Bead('P', p.x, p.y); await b.fly(m.ppos(1).x, p.y, 800); b.rm(); m.addP(1); m.set(null, null, '2PG', null, 'none'); await A.S(500); await m.move(R, Y); }],
     9: ['cyto', 'Enolase', async A => { const m = A.Mol(L, Y, 3, [1], '2PG'); await m.move(E, Y); const w = A.Tok('H₂O', E + 20, Y); await w.move(E + 110, 440, 850); w.fade(); m.set(null, null, 'PEP', { dbl: 1 }); await A.S(800); await m.move(R, Y); }],
     10: ['cyto', 'Pyruvate kinase', async A => { const m = A.Mol(L, Y, 3, [1], 'PEP', { dbl: 1 }); await m.move(E, Y); await A.takeP(m, 1, UPR, OUTR); m.set(null, null, '피루브산 (3C)', {}); await A.S(400); await m.move(820, Y - 1, 950); }],
@@ -2492,33 +2420,32 @@
     }]
   };
 
-  /* 고등학생 모드 캘빈회로(7단계) 시각화: PGAL 6분자 중 1분자 방출 + 남은 PGAL 5분자 → RuBP 3분자(인산기 P 결합) */
-  const PS_HS_CYCLE = ['stroma', '루비스코 · 스트로마 효소', async A => {
+  /* 고등학생 모드 7단계 시각화: 심화 13단계 방식 그대로 PGAL 6 -> 1 방출 + 남은 5 -> RuBP 3 (인산기 P 결합, Ru5P 없음) */
+  const PS_HS_CYCLE = ['stroma', '', async A => {
     const ms = [];
     for (let i = 0; i < 6; i++) {
-      ms.push(A.Mol(E - 60, 85 + i * 54, 3, [2], i === 0 ? 'PGAL × 6 (18C)' : '', {}));
+      ms.push(A.Mol(E - 60, 80 + i * 52, 3, [2], i === 0 ? 'PGAL × 6 (18C)' : '', {}));
     }
     await A.S(700);
-    A.tip('PGAL 6분자 중 1분자가 빠져나와 포도당 합성에 이용', E + 155, 105, 1900);
-    await ms[5].move(840, 360, 1050);
-    ms[5].set(null, null, 'PGAL × 1 → 포도당 합성');
+    A.tip('6 PGAL 중 1분자만 회로 밖으로', E + 150, 100, 1800);
+    await ms[5].move(840, 355, 1050);
+    ms[5].set(null, null, '→ 포도당 합성');
     await A.S(600);
 
     const rem = ms.slice(0, 5);
-    rem[0].set(null, null, '남은 PGAL × 5 (15C)');
-    A.tip('나머지 PGAL 5분자가 인산기(P)를 받아 RuBP 3분자로 재생', E, 435, 2100);
+    rem[0].set(null, null, 'PGAL × 5 (15C)');
+    A.tip('나머지 5개는 인산기(P)를 받아 RuBP 3 재생', E, 430, 2000);
     await Promise.all(rem.map(m => m.move(E, Y, 850)));
     rem.forEach(m => m.rm());
 
-    const pBeads = [0, 1, 2].map(i => A.Bead('P', 130 + i * 35, 445));
+    const pBeads = [0, 1, 2].map(i => A.Bead('P', 120 + i * 32, 440));
     const out = [0, 1, 2].map(i => A.Mol(E, Y, 5, [0, 4], i === 0 ? 'RuBP × 3 (15C)' : ''));
     await Promise.all([
-      ...pBeads.map((b, i) => b.fly(out[i].ppos(0).x, out[i].ppos(0).y, 750)),
-      ...out.map((m, i) => m.move(R, 135 + i * 95, 850))
+      ...pBeads.map((b, i) => b.fly(out[i].ppos(0).x, out[i].ppos(0).y, 700)),
+      ...out.map((m, i) => m.move(R, 130 + i * 92, 850))
     ]);
     pBeads.forEach(b => b.rm());
-    A.banner('PGAL 6분자 → 1분자 포도당 합성 · 5분자 → RuBP 3분자 재생');
-    await A.S(1000);
+    await A.S(900);
   }];
 
   const FM = {
@@ -2799,44 +2726,44 @@
 <!-- ===================== 🧪 세포호흡 저해제 시뮬레이터 ===================== -->
 <style>
     .menu-card.inh-card:hover { border-color: #ff6b6b; }
-    .inh-all-btn { margin-top: 1.8rem; margin-bottom: 1.8rem; padding: 0.95rem 3rem; font-size: 1.15rem; cursor: pointer; background: #eb3b5a; color: white; border: none; border-radius: 40px; font-weight: bold; box-shadow: 0 4px 15px rgba(235, 59, 90, 0.4); transition: 0.2s; }
+    .inh-all-btn { margin-top: 1.5rem; margin-bottom: 1.5rem; padding: 0.85rem 2.8rem; font-size: 1.1rem; cursor: pointer; background: #eb3b5a; color: white; border: none; border-radius: 40px; font-weight: bold; box-shadow: 0 4px 15px rgba(235, 59, 90, 0.4); transition: 0.2s; }
     .inh-all-btn:hover { transform: translateY(-2px); background: #fc5c65; }
 
-    #screen-inh .sim-header { padding: 0.75rem 1.5rem; margin-bottom: 0.75rem; }
-    #screen-inh .sim-body { min-height: 520px; align-items: stretch; }
+    #screen-inh .sim-header { padding: 0.75rem 1.4rem; margin-bottom: 0.75rem; }
+    #screen-inh .sim-body { min-height: 490px; align-items: stretch; }
     #screen-inh .visual-area { justify-content: flex-start; }
-    #screen-inh .views-container { padding: 0.75rem; align-items: center; padding-bottom: 68px; }
+    #screen-inh .views-container { padding: 0.65rem; align-items: center; padding-bottom: 62px; }
     #screen-inh .progress-fill { background: #ff6b6b; }
-    #screen-inh .info-panel { border-top-color: #ff6b6b; padding: 1.3rem 1.5rem; }
-    #screen-inh .info-panel h3 { color: #ff6b6b; font-size: 1.35rem; padding-bottom: 0.7rem; margin-bottom: 0.8rem; }
-    #screen-inh .info-row { margin-bottom: 0.65rem; font-size: 0.98rem; line-height: 1.35; }
-    #screen-inh .desc-box { border-left-color: #ff6b6b; white-space: pre-line; padding: 1rem 1.15rem; font-size: 0.96rem; line-height: 1.52; }
-    #screen-inh .nav-controls { bottom: 10px; padding: 7px 18px; }
-    #screen-inh .nav-btn { padding: 0.45rem 1.35rem; font-size: 0.98rem; }
+    #screen-inh .info-panel { border-top-color: #ff6b6b; padding: 1.25rem 1.5rem; }
+    #screen-inh .info-panel h3 { color: #ff6b6b; font-size: 1.28rem; padding-bottom: 0.6rem; margin-bottom: 0.7rem; }
+    #screen-inh .info-row { margin-bottom: 0.55rem; font-size: 0.95rem; line-height: 1.35; }
+    #screen-inh .desc-box { border-left-color: #ff6b6b; white-space: pre-line; padding: 0.95rem 1.1rem; font-size: 0.95rem; line-height: 1.5; }
+    #screen-inh .nav-controls { bottom: 8px; padding: 6px 16px; }
+    #screen-inh .nav-btn { padding: 0.42rem 1.25rem; font-size: 0.95rem; }
     #screen-inh .nav-btn:hover:not(:disabled) { background: #eb3b5a; border-color: #eb3b5a; }
     #screen-inh .replay-btn:hover { background: #f1c40f !important; border-color: #f1c40f !important; }
     #inh-anim-layer { position: absolute; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
-    #screen-inh .cyc-banner { top: 48px; font-size: 12.5px; padding: 5px 14px; }
+    #screen-inh .cyc-banner { top: 44px; font-size: 12px; padding: 4px 12px; }
 
-    #inh-etc-view { position: relative; width: 100%; height: 450px; min-height: 450px; max-height: 450px; flex-shrink: 0; border-radius: 15px; overflow: hidden;
+    #inh-etc-view { position: relative; width: 100%; height: 420px; min-height: 420px; max-height: 420px; flex-shrink: 0; border-radius: 15px; overflow: hidden;
         background: linear-gradient(to bottom, #2a1a12 0%, #24160f 38%, #0f1e26 62%, #0b1a22 100%); transition: background 0.5s; }
     #inh-etc-view.over-h { background: linear-gradient(to bottom, #153c52 0%, #102e40 38%, #0f1e26 62%, #0b1a22 100%); }
     #inh-etc-view.heat-mode { background: linear-gradient(to bottom, #2a1a12 0%, #24160f 38%, #2e1612 62%, #3b1710 100%); }
 
     .inh-meters { position: absolute; right: 12px; top: 8px; z-index: 15; display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
-    .inh-meter { color: #ddd; font-weight: bold; font-size: 11.5px; background: rgba(0,0,0,0.6); border: 1px solid #555; border-radius: 8px; padding: 3px 8px; display: flex; align-items: center; gap: 5px; }
-    .inh-meter b { font-size: 0.9rem; }
+    .inh-meter { color: #ddd; font-weight: bold; font-size: 11px; background: rgba(0,0,0,0.6); border: 1px solid #555; border-radius: 8px; padding: 3px 8px; display: flex; align-items: center; gap: 4px; }
+    .inh-meter b { font-size: 0.88rem; }
 
-    .inh-subtabs { position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%); z-index: 80; display: none; gap: 6px; background: rgba(15, 22, 30, 0.92); padding: 5px 10px; border-radius: 20px; border: 1px solid #555; }
-    .inh-subbtn { background: #2f3640; color: #ccc; border: 1px solid #666; border-radius: 14px; padding: 4px 10px; font-size: 11.5px; font-weight: bold; cursor: pointer; transition: 0.2s; white-space: nowrap; }
+    .inh-subtabs { position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%); z-index: 80; display: none; gap: 6px; background: rgba(15, 22, 30, 0.92); padding: 4px 9px; border-radius: 20px; border: 1px solid #555; }
+    .inh-subbtn { background: #2f3640; color: #ccc; border: 1px solid #666; border-radius: 14px; padding: 3px 9px; font-size: 11px; font-weight: bold; cursor: pointer; transition: 0.2s; white-space: nowrap; }
     .inh-subbtn:hover { border-color: #ff6b6b; color: #fff; }
     .inh-subbtn.active { background: #eb3b5a; color: #fff; border-color: #ff6b6b; box-shadow: 0 0 10px rgba(235,59,90,0.5); }
 
-    .inh-blocker { position: absolute; transform: translate(-50%, -50%); background: #3b0d11; border: 2px solid #ff4757; color: #ff6b81; padding: 4px 10px; border-radius: 10px; font-size: 11.5px; font-weight: 900; z-index: 85; white-space: nowrap; box-shadow: 0 0 16px rgba(255, 71, 87, 0.85); pointer-events: none; }
-    .inh-uncoupler { position: absolute; left: 75.5%; top: 51%; transform: translate(-50%, -50%); width: 54px; height: 100px; background: repeating-linear-gradient(180deg, #e67e22 0 10px, #d35400 10px 20px); border: 2px dashed #fed330; border-radius: 14px; z-index: 6; display: none; flex-direction: column; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 10px; box-shadow: 0 0 18px rgba(243, 156, 18, 0.7); text-align: center; line-height: 1.2; }
-    .inh-uncoupler .u-arrow { font-size: 15px; color: #fed330; margin-top: 2px; animation: uFlow 0.55s infinite linear; }
+    .inh-blocker { position: absolute; transform: translate(-50%, -50%); background: #3b0d11; border: 2px solid #ff4757; color: #ff6b81; padding: 3px 9px; border-radius: 10px; font-size: 11px; font-weight: 900; z-index: 85; white-space: nowrap; box-shadow: 0 0 16px rgba(255, 71, 87, 0.85); pointer-events: none; }
+    .inh-uncoupler { position: absolute; left: 75.5%; top: 51%; transform: translate(-50%, -50%); width: 54px; height: 96px; background: repeating-linear-gradient(180deg, #e67e22 0 10px, #d35400 10px 20px); border: 2px dashed #fed330; border-radius: 14px; z-index: 6; display: none; flex-direction: column; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 10px; box-shadow: 0 0 18px rgba(243, 156, 18, 0.7); text-align: center; line-height: 1.2; }
+    .inh-uncoupler .u-arrow { font-size: 14px; color: #fed330; margin-top: 2px; animation: uFlow 0.55s infinite linear; }
     @keyframes uFlow { 0% { transform: translateY(-4px); opacity: 0.4; } 50% { opacity: 1; } 100% { transform: translateY(6px); opacity: 0.4; } }
-    .fly-heat { position: absolute; transform: translate(-50%, -50%); background: radial-gradient(circle, #fff200 0%, #ff7f50 55%, #eb2f06 100%); color: #111; font-weight: 900; font-size: 10px; padding: 3px 8px; border-radius: 12px; z-index: 78; box-shadow: 0 0 14px #ff5252; white-space: nowrap; pointer-events: none; }
+    .fly-heat { position: absolute; transform: translate(-50%, -50%); background: radial-gradient(circle, #fff200 0%, #ff7f50 55%, #eb2f06 100%); color: #111; font-weight: 900; font-size: 10px; padding: 2px 7px; border-radius: 12px; z-index: 78; box-shadow: 0 0 14px #ff5252; white-space: nowrap; pointer-events: none; }
     .thy-rotor.stopped { animation-play-state: paused !important; opacity: 0.45; }
     .thy-rotor.slow { animation-duration: 2.8s !important; }
 </style>
@@ -2944,7 +2871,7 @@
                                 <button class="inh-subbtn" data-sub="c4" onclick="inhSelectEtcSub('c4')">복합체 IV 저해 (CN⁻ · CO)</button>
                             </div>
 
-                            <div class="rs-ledger" id="inh-ledger" style="border-color:#ff6b6b; min-width:540px; padding:12px 16px;">
+                            <div class="rs-ledger" id="inh-ledger" style="border-color:#ff6b6b; min-width:520px; padding:12px 16px;">
                                 <h4 style="color:#ff6b6b; margin-bottom:6px;">세포호흡 저해제 종합 비교</h4>
                                 <table id="inh-ledger-table">
                                     <tr><th>구분</th><th>정상 호흡</th><th>전자전달 억제제</th><th>ATP 합성효소 억제제</th><th>짝풀림제</th></tr>
@@ -3747,7 +3674,7 @@
   .mz-world { position:absolute; pointer-events:none; opacity:0; z-index:0; }
   .mz-world svg { width:100%; height:100%; display:block; }
   #etc-view, #ps-thy-view { z-index:1; }
-  .mz-ctl { display:none; top:auto; bottom:62px; z-index:60; }
+  .mz-ctl { display:none; top:auto; bottom:60px; z-index:60; }
   .mz-active .mz-ctl { display:flex; }
 </style>
 <script>
@@ -3796,7 +3723,7 @@
       });
       T2(g, 150, 110, '세포질', 40, '#8fa3d9', { 'text-anchor': 'start' });
       T2(g, cx, cy - RY - 40, `${mName} 외막`, 38, C);
-      T2(g, cx, y0 + bh + 220, '◉ 바탕질 (H⁺ 저농도)', 44, '#9fb4ff');
+      T2(g, cx, y0 + bh + 200, '◉ 바탕질 (H⁺ 저농도)', 44, '#9fb4ff');
     },
     chloro(g, defs, x0, y0, bw, bh) {
       const hs = window.isHS();
@@ -3851,8 +3778,8 @@
         }
       }
       hl.setAttribute('x', x0 - 10); hl.setAttribute('y', y0 - 10); hl.setAttribute('width', bw + 20); hl.setAttribute('height', bh + 20);
-      if (cfg.below) { lb.setAttribute('x', cfg.cx); lb.setAttribute('y', y0 + bh + 64); lb2.setAttribute('x', cfg.cx); lb2.setAttribute('y', y0 + bh + 106); }
-      else { lb.setAttribute('x', cfg.cx); lb.setAttribute('y', y0 - 64); lb2.setAttribute('x', cfg.cx); lb2.setAttribute('y', y0 - 24); }
+      if (cfg.below) { lb.setAttribute('x', cfg.cx); lb.setAttribute('y', y0 + bh + 60); lb2.setAttribute('x', cfg.cx); lb2.setAttribute('y', y0 + bh + 98); }
+      else { lb.setAttribute('x', cfg.cx); lb.setAttribute('y', y0 - 60); lb2.setAttribute('x', cfg.cx); lb2.setAttribute('y', y0 - 22); }
       return true;
     }
     function sMin() { const cw = cont.clientWidth, ch = cont.clientHeight; return Math.min(cw / geo.WWk, ch / geo.WHk); }
