@@ -290,34 +290,14 @@
         .fm-cmp th { color: #aaa; font-weight: normal; }
         .fm-cmp td.n { color: #fed330; font-weight: bold; }
 
-        /* 고등학생 모드일 때 구조식 토글 버튼 숨김 & 교육과정 범위 밖 명칭 숨김 */
+        /* 고등학생 모드: 구조식 토글 버튼 숨김 & 운반체 명칭 조정 */
         body.hs-mode .cv-btn { display: none !important; }
         body.hs-mode #ps-pheo, body.hs-mode #ps-fx { width: 84px; font-size: 9.5px; white-space: nowrap; }
-        body.hs-mode #ps-pq .lbl,
-        body.hs-mode #ps-pc1 .lbl,
-        body.hs-mode #ps-pc2 .lbl,
-        body.hs-mode #ps-fd .lbl,
-        body.hs-mode #ps-b6f-t,
-        body.hs-mode #ps-cytb,
-        body.hs-mode #ps-cytf,
-        body.hs-mode #ps-fnr { font-size: 0 !important; color: transparent !important; }
-        body.hs-mode #rs-q .lbl,
-        body.hs-mode #rs-cc1 .lbl,
-        body.hs-mode #rs-cc2 .lbl,
-        body.hs-mode #rs-fmn,
-        body.hs-mode #rs-fes1,
-        body.hs-mode #rs-fes2,
-        body.hs-mode #rs-cytb,
-        body.hs-mode #rs-cytc1,
-        body.hs-mode #rs-cyta,
-        body.hs-mode #rs-cyta3,
-        body.hs-mode #rs-c1-t,
-        body.hs-mode #rs-c2-t,
-        body.hs-mode #rs-c3-t,
-        body.hs-mode #rs-c4-t { font-size: 0 !important; color: transparent !important; }
-        body.hs-mode #rs-f0 > span,
-        body.hs-mode #rs-f1 { font-size: 0 !important; color: transparent !important; }
-        body.hs-mode #rs-f1 span { font-size: 13px !important; font-weight: bold !important; color: #2b1a00 !important; }
+        body.hs-mode #ps-pq, body.hs-mode #ps-pc1, body.hs-mode #ps-pc2, body.hs-mode #ps-fd { min-width: 54px; width: auto; border-radius: 14px; padding: 0 7px; height: 34px; font-size: 10px; white-space: nowrap; }
+        body.hs-mode #ps-b6f-t { font-size: 10.5px; white-space: nowrap; }
+        body.hs-mode #ps-cytb, body.hs-mode #ps-cytf, body.hs-mode #ps-fnr { width: 58px; font-size: 9.5px; white-space: nowrap; }
+        body.hs-mode #rs-q, body.hs-mode #rs-cc1, body.hs-mode #rs-cc2 { min-width: 56px; width: auto; border-radius: 14px; padding: 0 7px; height: 34px; font-size: 10px; white-space: nowrap; }
+        body.hs-mode #rs-fmn, body.hs-mode #rs-fes1, body.hs-mode #rs-fes2, body.hs-mode #rs-cytb, body.hs-mode #rs-cytc1, body.hs-mode #rs-cyta, body.hs-mode #rs-cyta3 { width: 58px; font-size: 9.5px; white-space: nowrap; }
     </style>
 </head>
 <body>
@@ -340,24 +320,24 @@
             <div class="menu-grid">
                 <div class="menu-card" onclick="startSim('glyco')">
                     <h2 style="color: var(--primary); margin-top:0;">해당과정 (Glycolysis)</h2>
-                    <p id="card-desc-glyco" style="color:#aaa;">1 ~ 10단계<br>포도당 분할</p>
+                    <p id="card-desc-glyco" style="color:#aaa;">1 ~ 2단계<br>포도당 활성화 · 피루브산 생성</p>
                 </div>
                 <div class="menu-card" onclick="startSim('tca')">
-                    <h2 id="card-title-tca" style="color: var(--secondary); margin-top:0;">Link & TCA 회로</h2>
-                    <p id="card-desc-tca" style="color:#aaa;">11 ~ 19단계<br>이산화탄소 방출</p>
+                    <h2 id="card-title-tca" style="color: var(--secondary); margin-top:0;">피루브산 산화 & TCA 회로</h2>
+                    <p id="card-desc-tca" style="color:#aaa;">3 ~ 7단계<br>아세틸조효소 A · 이산화 탄소 방출</p>
                 </div>
                 <div class="menu-card" onclick="startSim('etc')">
                     <h2 style="color: var(--accent); margin-top:0;">산화적 인산화</h2>
-                    <p id="card-desc-etc" style="color:#aaa;">20 ~ 25단계<br>전자전달계 · 화학 삼투</p>
+                    <p id="card-desc-etc" style="color:#aaa;">8 ~ 10단계<br>전자전달계 · 화학삼투 · ATP 정산</p>
                 </div>
             </div>
-            <button id="btn-all-rs" style="margin-top:4rem; padding:1.2rem 4rem; font-size:1.3rem; cursor:pointer; background:var(--primary); color:white; border:none; border-radius:40px; font-weight:bold; box-shadow: 0 4px 15px rgba(15, 185, 177, 0.4);" onclick="startSim('all')">전체 25단계 연속 재생</button>
+            <button id="btn-all-rs" style="margin-top:4rem; padding:1.2rem 4rem; font-size:1.3rem; cursor:pointer; background:var(--primary); color:white; border:none; border-radius:40px; font-weight:bold; box-shadow: 0 4px 15px rgba(15, 185, 177, 0.4);" onclick="startSim('all')">세포호흡 전체 10단계 연속 재생</button>
             <div class="menu-divider"></div>
             <h2 class="menu-sec-title" style="color:#e056fd;">🍶 발효 (Fermentation)</h2>
             <div class="menu-grid" style="margin-top:2rem;">
                 <div class="menu-card fm-card" onclick="fmStart('lactic')">
                     <h2 style="color:#e056fd; margin-top:0;">젖산 발효</h2>
-                    <p id="card-desc-lactic" style="color:#aaa;">1 ~ 2단계 + 정리<br>근육 세포 · 젖산균</p>
+                    <p id="card-desc-lactic" style="color:#aaa;">1 ~ 2단계 + 정리<br>근육세포 · 젖산균</p>
                 </div>
                 <div class="menu-card fm-card" onclick="fmStart('alcohol')">
                     <h2 style="color:#fed330; margin-top:0;">알코올 발효</h2>
@@ -369,14 +349,14 @@
             <div class="menu-grid" style="margin-top:2rem;">
                 <div class="menu-card ps-card" onclick="psStart('light')">
                     <h2 style="color:#26de81; margin-top:0;">명반응 (Light Reactions)</h2>
-                    <p id="card-desc-light" style="color:#aaa;">1 ~ 8단계<br>광계 II·I 전자 흐름 · 광인산화</p>
+                    <p id="card-desc-light" style="color:#aaa;">1 ~ 4단계<br>비순환적 · 순환적 전자흐름 · 광인산화</p>
                 </div>
                 <div class="menu-card ps-card" onclick="psStart('calvin')">
-                    <h2 id="card-title-calvin" style="color:#fed330; margin-top:0;">캘빈 회로 (Calvin Cycle)</h2>
-                    <p id="card-desc-calvin" style="color:#aaa;">9 ~ 15단계<br>탄소 고정 · 환원 · RuBP 재생</p>
+                    <h2 id="card-title-calvin" style="color:#fed330; margin-top:0;">탄소 고정 반응 (캘빈회로)</h2>
+                    <p id="card-desc-calvin" style="color:#aaa;">5 ~ 7단계<br>탄소 고정 · 3PG 환원 · RuBP 재생성</p>
                 </div>
             </div>
-            <button id="btn-all-ps" class="ps-all-btn" onclick="psStart('all')">광합성 전체 15단계 연속 재생</button>
+            <button id="btn-all-ps" class="ps-all-btn" onclick="psStart('all')">광합성 전체 7단계 연속 재생</button>
 
         </div>
 
@@ -414,34 +394,34 @@
 
                         <!-- 20~25단계: 산화적 인산화 (미토콘드리아/마이토콘드리아 내막) 뷰 -->
                         <div id="etc-view">
-                            <div class="rs-label" style="top:10px;"><span id="rs-ims-lbl">막간 공간</span> (H⁺ 고농도)<span class="hcnt" id="rs-hcnt"></span></div>
-                            <div class="rs-label" style="bottom:10px;"><span id="rs-mat-lbl">미토콘드리아 기질</span> (H⁺ 저농도)</div>
+                            <div class="rs-label" style="top:10px;"><span id="rs-ims-lbl">막사이공간</span> (H⁺ 고농도)<span class="hcnt" id="rs-hcnt"></span></div>
+                            <div class="rs-label" style="bottom:10px;"><span id="rs-mat-lbl">마이토콘드리아 바탕질</span> (H⁺ 저농도)</div>
                             <div class="rs-cnt">ATP 생성<b id="rs-atpcnt">0</b></div>
-                            <div class="rs-mem"><span class="mem-tag" id="rs-mem-lbl">미토콘드리아 내막</span></div>
+                            <div class="rs-mem"><span class="mem-tag" id="rs-mem-lbl">마이토콘드리아 내막</span></div>
 
                             <div class="rx rx-I" id="rs-c1">
                                 <div class="rx-title" id="rs-c1-t">복합체 I</div>
-                                <div class="rs-sub" id="rs-fes1" style="top:42%;">FeS</div>
-                                <div class="rs-sub" id="rs-fmn" style="top:80%;">FMN</div>
+                                <div class="rs-sub" id="rs-fes1" style="top:42%;">전자운반체</div>
+                                <div class="rs-sub" id="rs-fmn" style="top:80%;">전자운반체</div>
                             </div>
-                            <div class="carrier rs-q" id="rs-q"><span class="lbl">Q</span></div>
+                            <div class="carrier rs-q" id="rs-q"><span class="lbl">전자운반체</span></div>
                             <div class="rx rx-II" id="rs-c2">
                                 <div class="rx-title" id="rs-c2-t">복합체 II</div>
-                                <div class="rs-sub" id="rs-fes2" style="top:44%;">FeS</div>
+                                <div class="rs-sub" id="rs-fes2" style="top:44%;">전자운반체</div>
                                 <div class="rs-sub" id="rs-fad" style="top:76%;"><span class="lbl">FAD</span></div>
                                 <div class="rs-nopump" id="rs-nopump">✕ H⁺ 펌핑 없음</div>
                             </div>
                             <div class="rx rx-III" id="rs-c3">
                                 <div class="rx-title" id="rs-c3-t">복합체 III</div>
-                                <div class="rs-sub" id="rs-cytc1" style="top:30%;">Cyt c₁</div>
-                                <div class="rs-sub" id="rs-cytb" style="top:62%;">Cyt b</div>
+                                <div class="rs-sub" id="rs-cytc1" style="top:30%;">전자운반체</div>
+                                <div class="rs-sub" id="rs-cytb" style="top:62%;">전자운반체</div>
                             </div>
-                            <div class="carrier rs-c" id="rs-cc1"><span class="lbl">c</span></div>
-                            <div class="carrier rs-c" id="rs-cc2"><span class="lbl">c</span></div>
+                            <div class="carrier rs-c" id="rs-cc1"><span class="lbl">전자운반체</span></div>
+                            <div class="carrier rs-c" id="rs-cc2"><span class="lbl">전자운반체</span></div>
                             <div class="rx rx-IV" id="rs-c4">
                                 <div class="rx-title" id="rs-c4-t">복합체 IV</div>
-                                <div class="rs-sub" id="rs-cyta" style="top:30%;">Cyt a</div>
-                                <div class="rs-sub" id="rs-cyta3" style="top:64%;">Cyt a₃</div>
+                                <div class="rs-sub" id="rs-cyta" style="top:30%;">전자운반체</div>
+                                <div class="rs-sub" id="rs-cyta3" style="top:64%;">전자운반체</div>
                             </div>
                             <div class="rx rx-f0" id="rs-f0"><div class="thy-rotor" id="rs-rotor"></div><span style="position:relative;">F₀</span></div>
                             <div class="rs-stalk"></div>
@@ -454,15 +434,15 @@
                             </div>
 
                             <div class="rs-ledger" id="rs-ledger">
-                                <h4 id="rs-ledger-title">포도당 1분자의 ATP 정산 (말산-아스파트산 셔틀 기준)</h4>
+                                <h4 id="rs-ledger-title">포도당 1분자의 ATP 총 생성량 정리 (최대 32 ATP)</h4>
                                 <table id="rs-ledger-table">
-                                    <tr><th>단계</th><th>기질 수준 인산화</th><th>환원된 조효소</th><th>산화적 인산화</th><th>ATP</th></tr>
+                                    <tr><th>단계</th><th>기질수준인산화</th><th>환원된 조효소</th><th>산화적 인산화</th><th>ATP</th></tr>
                                     <tr><td>해당 과정</td><td>ATP 2 (순)</td><td>NADH 2</td><td>2 × 2.5 = 5</td><td class="n">7</td></tr>
                                     <tr><td>피루브산 산화</td><td>—</td><td>NADH 2</td><td>2 × 2.5 = 5</td><td class="n">5</td></tr>
-                                    <tr><td>TCA 회로</td><td>ATP(GTP) 2</td><td>NADH 6 · FADH₂ 2</td><td>15 + 3 = 18</td><td class="n">20</td></tr>
+                                    <tr><td>TCA 회로</td><td>ATP 2</td><td>NADH 6 · FADH₂ 2</td><td>15 + 3 = 18</td><td class="n">20</td></tr>
                                     <tr class="sum"><td>합계</td><td>4</td><td>NADH 10 · FADH₂ 2</td><td>28</td><td class="n">32</td></tr>
                                 </table>
-                                <div class="note" id="rs-ledger-note">NADH 1 → H⁺ 10 → ATP 2.5 · FADH₂ 1 → H⁺ 6 → ATP 1.5 · H⁺ 4 → ATP 1<br>글리세롤 인산 셔틀(근육·뇌): 해당 과정의 NADH 2가 FADH₂ 2로 전달 → 총 30 ATP</div>
+                                <div class="note" id="rs-ledger-note">기질수준인산화 4 ATP + 산화적 인산화 28 ATP(10 NADH × 2.5 + 2 FADH₂ × 1.5) = 최대 32 ATP<br>세포호흡의 에너지 효율: 약 34% (나머지 66%는 열로 방출)</div>
                             </div>
                         </div>
                     </div>
@@ -553,8 +533,8 @@
                         <!-- 명반응: 타이라코이드(틸라코이드) 막 뷰 -->
                         <div id="ps-thy-view">
                             <div class="thy-label" style="top:10px;">☀ 스트로마 (H⁺ 저농도)</div>
-                            <div class="thy-label" style="bottom:10px;"><span id="ps-lumen-lbl">틸라코이드 내강</span> (H⁺ 고농도)<span class="hcnt" id="ps-hcnt"></span></div>
-                            <div class="thy-mem" id="ps-mem"><span class="mem-tag" id="ps-mem-lbl">틸라코이드 막</span></div>
+                            <div class="thy-label" style="bottom:10px;"><span id="ps-lumen-lbl">타이라코이드 내부</span> (H⁺ 고농도)<span class="hcnt" id="ps-hcnt"></span></div>
+                            <div class="thy-mem" id="ps-mem"><span class="mem-tag" id="ps-mem-lbl">타이라코이드 막</span></div>
 
                             <div class="cx cx-ps2" id="ps-psii">
                                 <div class="cx-title">광계 II</div>
@@ -564,21 +544,21 @@
                                 <div class="pig" style="left:26%; top:38%;"></div>
                                 <div class="pig" style="left:20%; top:62%;"></div>
                                 <div class="pig" style="left:34%; top:56%;"></div>
-                                <div class="sub sub-pheo" id="ps-pheo">Pheo</div>
+                                <div class="sub sub-pheo" id="ps-pheo">1차 전자수용체</div>
                                 <div class="rc" id="ps-p680" data-base="P680"><span class="lbl">P680</span></div>
                                 <div class="sub sub-oec" id="ps-oec">물<br>분해</div>
                             </div>
 
-                            <div class="carrier pq" id="ps-pq" style="left:26%; top:46%;"><span class="lbl">PQ</span></div>
+                            <div class="carrier pq" id="ps-pq" style="left:26%; top:46%;"><span class="lbl">전자운반체</span></div>
 
                             <div class="cx cx-b6f" id="ps-b6f">
-                                <div class="cx-title" id="ps-b6f-t">Cyt b₆f</div>
-                                <div class="sub sub-heme" id="ps-cytb" style="top:36%;">b₆</div>
-                                <div class="sub sub-heme" id="ps-cytf" style="top:74%;">f</div>
+                                <div class="cx-title" id="ps-b6f-t">전자전달계</div>
+                                <div class="sub sub-heme" id="ps-cytb" style="top:36%;">전자운반체</div>
+                                <div class="sub sub-heme" id="ps-cytf" style="top:74%;">전자운반체</div>
                             </div>
 
-                            <div class="carrier pc" id="ps-pc1" style="left:40%; top:74%;"><span class="lbl">PC</span></div>
-                            <div class="carrier pc" id="ps-pc2" style="left:44%; top:81%;"><span class="lbl">PC</span></div>
+                            <div class="carrier pc" id="ps-pc1" style="left:40%; top:74%;"><span class="lbl">전자운반체</span></div>
+                            <div class="carrier pc" id="ps-pc2" style="left:44%; top:81%;"><span class="lbl">전자운반체</span></div>
 
                             <div class="cx cx-ps1" id="ps-psi">
                                 <div class="cx-title">광계 I</div>
@@ -588,12 +568,12 @@
                                 <div class="pig" style="left:26%; top:38%;"></div>
                                 <div class="pig" style="left:20%; top:62%;"></div>
                                 <div class="pig" style="left:34%; top:56%;"></div>
-                                <div class="sub sub-fx" id="ps-fx">Fx</div>
+                                <div class="sub sub-fx" id="ps-fx">1차 전자수용체</div>
                                 <div class="rc" id="ps-p700" data-base="P700"><span class="lbl">P700</span></div>
                             </div>
 
-                            <div class="carrier fd" id="ps-fd"><span class="lbl">Fd</span></div>
-                            <div class="cx cx-fnr" id="ps-fnr">FNR</div>
+                            <div class="carrier fd" id="ps-fd"><span class="lbl">전자운반체</span></div>
+                            <div class="cx cx-fnr" id="ps-fnr">전자운반체</div>
 
                             <div class="cx cx-cf1" id="ps-cf1">CF₁<span>ATP 합성효소</span></div>
                             <div class="cx-stalk"></div>
@@ -620,20 +600,20 @@
                                 </defs>
                                 <g id="ps-cyc-g"></g>
                             </svg>
-                            <div class="cyc-top" id="ps-cyc-top">캘빈 회로 (엽록체 스트로마) · CO₂ 3분자 기준</div>
+                            <div class="cyc-top" id="ps-cyc-top">탄소 고정 반응 (캘빈회로 · 엽록체 스트로마) · CO₂ 3분자 기준</div>
                             <div class="cyc-center">
                                 <div class="cc-title">투입 · 산물 계수기</div>
                                 <div class="cc-row"><span>CO₂ 고정</span><span><b id="cnt-co2">0</b> / 3</span></div>
                                 <div class="cc-row"><span>ATP 사용</span><span><b id="cnt-atp">0</b> / 9</span></div>
                                 <div class="cc-row"><span>NADPH 사용</span><span><b id="cnt-nadph">0</b> / 6</span></div>
-                                <div class="cc-row"><span id="ps-cnt-g3p-lbl">G3P 방출</span><span><b id="cnt-g3p">0</b> / 1</span></div>
+                                <div class="cc-row"><span id="ps-cnt-g3p-lbl">PGAL 방출</span><span><b id="cnt-g3p">0</b> / 1</span></div>
                             </div>
                             <div class="cyc-node" id="cn-rubp" style="left:50%; top:14%;"><b>RuBP</b><span>× 3 · 5탄소 (15C)</span><div class="cdots"><i class="cd"></i><i class="cd"></i><i class="cd"></i><i class="cd"></i><i class="cd"></i></div></div>
                             <div class="cyc-node" id="cn-pg3" style="left:84%; top:39%;"><b>3PG</b><span>× 6 · 3탄소 (18C)</span><div class="cdots"><i class="cd"></i><i class="cd"></i><i class="cd"></i></div></div>
-                            <div class="cyc-node" id="cn-bpg" style="left:74%; top:80%;"><b id="cn-bpg-name">1,3-BPG</b><span>× 6 · 3탄소 (18C)</span><div class="cdots"><i class="cd"></i><i class="cd"></i><i class="cd"></i></div></div>
-                            <div class="cyc-node" id="cn-g3p" style="left:30%; top:80%;"><b id="cn-g3p-name">G3P</b><span>× 6 · 3탄소 (18C)</span><div class="cdots"><i class="cd"></i><i class="cd"></i><i class="cd"></i></div></div>
+                            <div class="cyc-node" id="cn-bpg" style="left:74%; top:80%;"><b id="cn-bpg-name">BPGA</b><span>× 6 · 3탄소 (18C)</span><div class="cdots"><i class="cd"></i><i class="cd"></i><i class="cd"></i></div></div>
+                            <div class="cyc-node" id="cn-g3p" style="left:30%; top:80%;"><b id="cn-g3p-name">PGAL</b><span>× 6 · 3탄소 (18C)</span><div class="cdots"><i class="cd"></i><i class="cd"></i><i class="cd"></i></div></div>
                             <div class="cyc-node" id="cn-ru5p" style="left:16%; top:39%;"><b>Ru5P</b><span>× 3 · 5탄소 (15C)</span><div class="cdots"><i class="cd"></i><i class="cd"></i><i class="cd"></i><i class="cd"></i><i class="cd"></i></div></div>
-                            <div class="cyc-out" id="cn-out" style="left:12%; top:93%;">🌿 포도당·설탕·녹말 합성</div>
+                            <div class="cyc-out" id="cn-out" style="left:12%; top:93%;">🌿 포도당 합성</div>
                         </div>
                     </div>
 
@@ -911,62 +891,20 @@
 
     /* ----- 고등학생 모드용 세포호흡 데이터베이스 (학습지 PDF 기반: 10단계) ----- */
     const DB_HS = [
-        { step:1, cvKey:101, group:'glyco', phase:'해당 과정 · 에너지 투입기', name:'1. 포도당의 활성화 (ATP 소모 단계)', react:'포도당(C₆) + 2ATP', prod:'과당 2인산(C₆) + 2ADP', strR:'', strP:'', enz:'인산화효소', desc:'세포질에서 6탄소 화합물인 포도당 1분자가 2분자의 ATP로부터 인산기를 받아 과당 2인산(C₆)으로 활성화되는 과정이다.\n\n[학습 포인트]\n• 장소: 세포질\n• 에너지 투입기에서 ATP 2분자가 소모된다.' },
-        { step:2, cvKey:102, group:'glyco', phase:'해당 과정 · 에너지 회수기', name:'2. 피루브산 생성 (ATP 생성 단계)', react:'과당 2인산(C₆), 2NAD⁺, 4ADP + 4Pᵢ', prod:'2 피루브산(C₃), 2NADH + 2H⁺, 4ATP', strR:'', strP:'', enz:'탈수소효소 · 인산화효소', desc:'과당 2인산(C₆)이 3탄소 화합물인 피루브산 2분자로 분해되면서 탈수소효소의 작용으로 NADH 2분자가 생성되고, 기질수준인산화로 ATP 4분자가 합성된다.\n\n[해당 과정 정리]\n• 산소의 유무와 관계없이 세포질에서 일어나며 CO₂는 방출되지 않는다.\n• 포도당 1분자당 순생성량: 피루브산 2분자, NADH 2분자, 순 ATP 2분자 (4 생성 − 2 소모)' },
-        { step:3, cvKey:11, group:'tca', phase:'피루브산의 산화 · 마이토콘드리아 바탕질', name:'3. 피루브산의 산화', react:'피루브산(C₃), NAD⁺, 조효소 A(CoA)', prod:'아세틸조효소 A(C₂), CO₂, NADH + H⁺', strR:'', strP:'', enz:'탈수소효소 복합체', desc:'산소가 있을 때 세포질의 피루브산(C₃)이 마이토콘드리아의 막을 통과해 바탕질로 들어간 뒤, 탈수소효소 복합체의 작용으로 CO₂와 NADH를 방출하고 조효소 A(CoA)와 결합해 2탄소 화합물인 아세틸조효소 A(C₂)로 산화된다.\n\n• 포도당 1분자(피루브산 2분자) 기준: CO₂ 2분자, NADH 2분자, 아세틸조효소 A 2분자 생성' },
-        { step:4, cvKey:12, group:'tca', phase:'TCA 회로 · 마이토콘드리아 바탕질', name:'4. 시트르산 형성', react:'아세틸조효소 A(C₂) + 옥살아세트산(C₄)', prod:'시트르산(C₆) + 조효소 A', strR:'', strP:'', enz:'시트르산 합성효소', desc:'마이토콘드리아 바탕질에서 2탄소 화합물인 아세틸조효소 A(C₂)가 4탄소 화합물인 옥살아세트산(C₄)과 결합하여 6탄소 화합물인 시트르산(C₆)을 형성하고 조효소 A는 분리된다.' },
-        { step:5, cvKey:14, group:'tca', phase:'TCA 회로 · 마이토콘드리아 바탕질', name:'5. 5탄소 화합물 형성 (1차 탈탄산)', react:'시트르산(C₆), NAD⁺', prod:'5탄소 화합물(C₅), CO₂, NADH + H⁺', strR:'', strP:'', enz:'탈수소효소 · 탈탄산효소', desc:'6탄소 화합물인 시트르산(C₆)이 탈수소효소와 탈탄산효소의 작용으로 산화되면서 NAD⁺를 NADH로 환원시키고, CO₂ 1분자를 잃어 5탄소 화합물(C₅)이 된다.' },
-        { step:6, cvKey:106, group:'tca', phase:'TCA 회로 · 마이토콘드리아 바탕질', name:'6. 4탄소 화합물 형성 (기질수준인산화)', react:'5탄소 화합물(C₅), NAD⁺, ADP + Pᵢ', prod:'4탄소 화합물(C₄), CO₂, NADH + H⁺, ATP', strR:'', strP:'', enz:'탈수소효소 · 인산화효소', desc:'5탄소 화합물(C₅)이 CO₂ 1분자를 잃고 NAD⁺를 NADH로 환원시키면서 4탄소 화합물(C₄)이 된다. 이 과정에서 기질수준인산화로 ATP 1분자가 직접 합성된다.' },
-        { step:7, cvKey:107, group:'tca', phase:'TCA 회로 · 마이토콘드리아 바탕질', name:'7. 옥살아세트산 재생', react:'4탄소 화합물(C₄), FAD, H₂O, NAD⁺', prod:'옥살아세트산(C₄), FADH₂, NADH + H⁺', strR:'', strP:'', enz:'탈수소효소', desc:'4탄소 화합물(C₄)이 산화되면서 FAD를 FADH₂로 환원시키고, 물(H₂O)이 첨가된 뒤 다시 NAD⁺를 NADH로 환원시키며 처음의 옥살아세트산(C₄)으로 재생된다.\n\n[피루브산 산화 + TCA 회로 정리 (포도당 1분자 = 2바퀴 기준)]\n• 생성물: CO₂ 6분자, NADH 8분자(산화 2 + TCA 6), FADH₂ 2분자, ATP 2분자(기질수준인산화)' },
-        { step:8, view:'etc', key:101, group:'etc', phase:'산화적 인산화 · 마이토콘드리아 내막', name:'8. 전자전달계와 H⁺ 농도 기울기 형성', react:'NADH, FADH₂, O₂, 바탕질의 H⁺', prod:'NAD⁺, FAD, H₂O, 막사이공간 H⁺ 농도 증가', strR:'', strP:'', enz:'전자전달효소 복합체', desc:'해당 과정, 피루브산 산화, TCA 회로에서 생성된 NADH와 FADH₂는 마이토콘드리아 내막의 전자전달계에 고에너지 전자(e⁻)를 전달하고 각각 NAD⁺와 FAD로 산화된다.\n\n• 전자가 전자운반체를 거치며 방출하는 에너지를 이용해 바탕질의 H⁺을 막사이공간으로 능동수송한다.\n• 그 결과 막사이공간은 H⁺ 농도가 높아져 pH가 낮아지고, 바탕질은 H⁺ 농도가 낮아져 pH가 높아진다.\n• 최종 전자수용체인 산소(O₂)는 전자와 H⁺을 받아 물(H₂O)이 된다.' },
-        { step:9, view:'etc', key:102, group:'etc', phase:'산화적 인산화 · 마이토콘드리아 내막', name:'9. 화학삼투에 의한 ATP 합성', react:'ADP, Pᵢ, 막사이공간의 H⁺', prod:'ATP (바탕질 쪽에서 합성)', strR:'', strP:'', enz:'ATP 합성효소', desc:'H⁺ 농도 기울기에 따라 막사이공간에 모인 H⁺이 ATP 합성효소를 통해 바탕질 쪽으로 확산하는 화학삼투가 일어나며, 이때 방출되는 에너지로 바탕질 쪽에서 ATP가 합성된다.\n\n• NADH 1분자 → 약 2.5 ATP 생성\n• FADH₂ 1분자 → 약 1.5 ATP 생성' },
-        { step:10, view:'etc', key:6, group:'etc', phase:'세포호흡 ATP 최종 정산', name:'10. 포도당 1분자의 ATP 총 생성량 정리', react:'포도당(C₆H₁₂O₆) + 6O₂ + 6H₂O', prod:'6CO₂ + 12H₂O + 최대 32 ATP', strR:'', strP:'', enz:'세포질 · 마이토콘드리아 효소', desc:'[포도당 1분자 완전 분해 시 최대 32 ATP 생성]\n• 기질수준인산화: 해당 과정 2 ATP + TCA 회로 2 ATP = 4 ATP\n• 산화적 인산화: (10 NADH × 2.5 ATP) + (2 FADH₂ × 1.5 ATP) = 28 ATP\n• 총합: 4 + 28 = 최대 32 ATP (에너지 효율 약 34%, 나머지 66%는 열로 방출)' }
+        { step:1, cvKey:101, group:'glyco', phase:'해당 과정 · 에너지 투입기', name:'1. 포도당의 활성화 (ATP 소모 단계)', react:'포도당(C₆) + 2ATP', prod:'과당 2인산(C₆) + 2ADP', strR:'', strP:'', enz:'인산화효소', desc:'세포질에서 6탄소 화합물인 포도당 1분자가 2분자의 ATP로부터 인산기를 받아 과당 2인산(C₆)으로 활성화되는 과정이다[span_7](start_span)[span_7](end_span)[span_8](start_span)[span_8](end_span).\n\n[학습 포인트]\n• 장소: 세포질[span_9](start_span)[span_9](end_span)[span_10](start_span)[span_10](end_span)\n• 에너지 투입기에서 ATP 2분자가 소모된다[span_11](start_span)[span_11](end_span)[span_12](start_span)[span_12](end_span).' },
+        { step:2, cvKey:102, group:'glyco', phase:'해당 과정 · 에너지 회수기', name:'2. 피루브산 생성 (1·3번 위치 인산화 및 4ATP 생성)', react:'과당 2인산(C₆), 2NAD⁺, 2Pᵢ, 4ADP', prod:'2 피루브산(C₃), 2NADH + 2H⁺, 4ATP', strR:'', strP:'', enz:'탈수소효소 · 기질수준인산화 효소', desc:'3탄소 조각마다 1번·3번 위치에 인산기가 결합(Pᵢ 유입 및 탈수소효소 작용으로 NADH 생성)한 뒤, ADP에 인산기를 넘겨주어 기질수준인산화로 3탄소 1분자당 2 ATP(총 4 ATP)가 합성되며 피루브산(C₃)이 생성된다[span_13](start_span)[span_13](end_span)[span_14](start_span)[span_14](end_span).\n\n[해당 과정 정리]\n• 포도당 1분자당 생성: 피루브산 2분자, NADH 2분자, 총 4 ATP 생성(순 2 ATP 생성)[span_15](start_span)[span_15](end_span)[span_16](start_span)[span_16](end_span).' },
+        { step:3, cvKey:11, group:'tca', phase:'피루브산의 산화 · 마이토콘드리아 바탕질', name:'3. 피루브산의 산화', react:'피루브산(C₃), NAD⁺, 조효소 A(CoA)', prod:'아세틸조효소 A(C₂), CO₂, NADH + H⁺', strR:'', strP:'', enz:'탈수소효소 복합체', desc:'산소가 있을 때 세포질의 피루브산(C₃)이 마이토콘드리아의 막을 통과해 바탕질로 들어간 뒤, 탈수소효소 복합체의 작용으로 CO₂와 NADH를 방출하고 조효소 A(CoA)와 결합해 2탄소 화합물인 아세틸조효소 A(C₂)로 산화된다[span_17](start_span)[span_17](end_span)[span_18](start_span)[span_18](end_span).\n\n• 포도당 1분자(피루브산 2분자) 기준: CO₂ 2분자, NADH 2분자, 아세틸조효소 A 2분자 생성[span_19](start_span)[span_19](end_span)[span_20](start_span)[span_20](end_span)' },
+        { step:4, cvKey:12, group:'tca', phase:'TCA 회로 · 마이토콘드리아 바탕질', name:'4. 시트르산 형성', react:'아세틸조효소 A(C₂) + 옥살아세트산(C₄)', prod:'시트르산(C₆) + 조효소 A', strR:'', strP:'', enz:'시트르산 합성효소', desc:'마이토콘드리아 바탕질에서 2탄소 화합물인 아세틸조효소 A(C₂)가 4탄소 화합물인 옥살아세트산(C₄)과 결합하여 6탄소 화합물인 시트르산(C₆)을 형성하고 조효소 A는 분리된다[span_21](start_span)[span_21](end_span)[span_22](start_span)[span_22](end_span).' },
+        { step:5, cvKey:14, group:'tca', phase:'TCA 회로 · 마이토콘드리아 바탕질', name:'5. 5탄소 화합물 형성 (1차 탈탄산)', react:'시트르산(C₆), NAD⁺', prod:'5탄소 화합물(C₅), CO₂, NADH + H⁺', strR:'', strP:'', enz:'탈수소효소 · 탈탄산효소', desc:'6탄소 화합물인 시트르산(C₆)이 탈수소효소와 탈탄산효소의 작용으로 산화되면서 NAD⁺를 NADH로 환원시키고, CO₂ 1분자를 잃어 5탄소 화합물(C₅)이 된다[span_23](start_span)[span_23](end_span).' },
+        { step:6, cvKey:106, group:'tca', phase:'TCA 회로 · 마이토콘드리아 바탕질', name:'6. 4탄소 화합물 형성 (기질수준인산화)', react:'5탄소 화합물(C₅), NAD⁺, ADP + Pᵢ', prod:'4탄소 화합물(C₄), CO₂, NADH + H⁺, ATP', strR:'', strP:'', enz:'탈수소효소 · 인산화효소', desc:'5탄소 화합물(C₅)이 CO₂ 1분자를 잃고 NAD⁺를 NADH로 환원시키면서 4탄소 화합물(C₄)이 된다[span_24](start_span)[span_24](end_span). 이 과정에서 기질수준인산화로 ATP 1분자가 직접 합성된다[span_25](start_span)[span_25](end_span).' },
+        { step:7, cvKey:107, group:'tca', phase:'TCA 회로 · 마이토콘드리아 바탕질', name:'7. 옥살아세트산 재생', react:'4탄소 화합물(C₄), FAD, H₂O, NAD⁺', prod:'옥살아세트산(C₄), FADH₂, NADH + H⁺', strR:'', strP:'', enz:'탈수소효소', desc:'4탄소 화합물(C₄)이 산화되면서 FAD를 FADH₂로 환원시키고, 물(H₂O)이 첨가된 뒤 다시 NAD⁺를 NADH로 환원시키며 처음의 옥살아세트산(C₄)으로 재생된다[span_26](start_span)[span_26](end_span).\n\n[피루브산 산화 + TCA 회로 정리 (포도당 1분자 = 2바퀴 기준)]\n• 생성물: CO₂ 6분자, NADH 8분자(산화 2 + TCA 6), FADH₂ 2분자, ATP 2분자(기질수준인산화)[span_27](start_span)[span_27](end_span)[span_28](start_span)[span_28](end_span)[span_29](start_span)[span_29](end_span)' },
+        { step:8, view:'etc', key:101, group:'etc', phase:'산화적 인산화 · 마이토콘드리아 내막', name:'8. 전자전달계와 H⁺ 농도 기울기 형성', react:'NADH, FADH₂, O₂, 바탕질의 H⁺', prod:'NAD⁺, FAD, H₂O, 막사이공간 H⁺ 농도 증가', strR:'', strP:'', enz:'전자전달효소 복합체 · 전자운반체', desc:'해당 과정, 피루브산 산화, TCA 회로에서 생성된 NADH와 FADH₂는 마이토콘드리아 내막의 전자전달계(복합체 I~IV · 전자운반체)에 고에너지 전자(e⁻)를 전달하고 각각 NAD⁺와 FAD로 산화된다[span_30](start_span)[span_30](end_span).\n\n• 전자가 전자운반체를 거치며 방출하는 에너지를 이용해 바탕질의 H⁺을 막사이공간으로 능동수송한다[span_31](start_span)[span_31](end_span).\n• 최종 전자수용체인 산소(O₂)는 전자와 H⁺을 받아 물(H₂O)이 된다[span_32](start_span)[span_32](end_span).' },
+        { step:9, view:'etc', key:102, group:'etc', phase:'산화적 인산화 · 마이토콘드리아 내막', name:'9. 화학삼투에 의한 ATP 합성', react:'ADP, Pᵢ, 막사이공간의 H⁺', prod:'ATP (바탕질 쪽에서 합성)', strR:'', strP:'', enz:'ATP 합성효소', desc:'H⁺ 농도 기울기에 따라 막사이공간에 모인 H⁺이 ATP 합성효소를 통해 바탕질 쪽으로 확산하는 화학삼투가 일어나며, 이때 방출되는 에너지로 바탕질 쪽에서 ATP가 합성된다[span_33](start_span)[span_33](end_span).\n\n• NADH 1분자 → 약 2.5 ATP 생성[span_34](start_span)[span_34](end_span)[span_35](start_span)[span_35](end_span)[span_36](start_span)[span_36](end_span)\n• FADH₂ 1분자 → 약 1.5 ATP 생성[span_37](start_span)[span_37](end_span)[span_38](start_span)[span_38](end_span)[span_39](start_span)[span_39](end_span)' },
+        { step:10, view:'etc', key:6, group:'etc', phase:'세포호흡 ATP 최종 정산', name:'10. 포도당 1분자의 ATP 총 생성량 정리', react:'포도당(C₆H₁₂O₆) + 6O₂ + 6H₂O', prod:'6CO₂ + 12H₂O + 최대 32 ATP', strR:'', strP:'', enz:'세포질 · 마이토콘드리아 효소', desc:'[포도당 1분자 완전 분해 시 최대 32 ATP 생성][span_40](start_span)[span_40](end_span)[span_41](start_span)[span_41](end_span)\n• 기질수준인산화: 해당 과정 2 ATP + TCA 회로 2 ATP = 4 ATP[span_42](start_span)[span_42](end_span)\n• 산화적 인산화: (10 NADH × 2.5 ATP) + (2 FADH₂ × 1.5 ATP) = 28 ATP[span_43](start_span)[span_43](end_span)\n• 총합: 4 + 28 = 최대 32 ATP (에너지 효율 약 34%, 나머지 66%는 열로 방출)[span_44](start_span)[span_44](end_span)' }
     ];
 
     let currentProcess = [];
     let currentIndex = 0;
-
-    function createAnimGroup(type, x, y) {
-        const layer = document.getElementById('anim-layer');
-        const div = document.createElement('div');
-        div.className = `anim-group`;
-        div.style.left = `${x}px`; div.style.top = `${y}px`;
-        
-        if(type === 'ATP') {
-            div.innerHTML = `<div class="a-base a-ad">Ad</div><div style="display:flex;gap:2px;"><div class="p-ball">P</div><div class="p-ball">P</div><div class="p-ball" style="background:#e84118;color:white;">P</div></div>`;
-        } else if(type === 'ADP' || type === 'GDP') {
-            div.innerHTML = `<div class="a-base a-ad">${type === 'ADP' ? 'Ad':'Gu'}</div><div style="display:flex;gap:2px;"><div class="p-ball">P</div><div class="p-ball">P</div></div>`;
-        } else if(type === 'NAD') {
-            div.innerHTML = `<div class="a-base a-nad">NAD⁺</div>`;
-        } else if(type === 'NADH') {
-            div.innerHTML = `<div class="a-base a-nad" style="background:#20bf6b;">NADH + H⁺</div>`;
-        } else if(type === 'FAD') {
-            div.innerHTML = `<div class="a-base a-fad">FAD</div>`;
-        } else if(type === 'FADH2') {
-            div.innerHTML = `<div class="a-base a-fad" style="background:#20bf6b;">FADH₂</div>`;
-        } else if(type === 'CoA') {
-            div.innerHTML = `<div class="a-base a-coa">CoA</div>`;
-        } else if(type === 'CO2') {
-            div.innerHTML = `<div class="a-base a-co2">CO₂</div>`;
-        } else if(type === 'H2O') {
-            div.innerHTML = `<div class="a-base a-h2o">H₂O</div>`;
-        } else if (type === 'O2') {
-            div.innerHTML = `<div class="a-o2">O₂</div>`;
-        }
-        
-        layer.appendChild(div);
-        return div;
-    }
-
-    function createParticle(type, x, y) {
-        const layer = document.getElementById('anim-layer');
-        const div = document.createElement('div');
-        div.className = `fly-${type}`;
-        div.innerText = type === 'e' ? 'e⁻' : type === 'h' ? 'H⁺' : 'P';
-        div.style.left = `${x}px`; div.style.top = `${y}px`;
-        layer.appendChild(div);
-        return div;
-    }
 
     /* =====================================================================
        세포호흡 애니메이션 v2 — 취소 가능한 비동기 애니메이션 + 이동 중 말풍선
@@ -1091,7 +1029,6 @@
             const a = atomsOf(box, cls); if (!a.length) return $(box);
             return i < 0 ? a[Math.max(0, a.length + i)] : a[Math.min(i, a.length - 1)];
         }
-        const AP = (box, cls, i) => pos(atomEl(box, cls, i));
         function hideProd() { const b = $('box-prod'); b.style.transition = 'opacity 0.5s, transform 0.5s'; b.style.opacity = '0.3'; b.style.transform = 'scale(0.95)'; }
         function showProd() { const b = $('box-prod'); b.style.opacity = '1'; b.style.transform = 'scale(1)'; }
         function glow(el) { if (!el || !el.classList.contains('atom')) return; el.animate([{ boxShadow: '0 0 0 0 #fff' }, { boxShadow: '0 0 18px 6px #fed330' }, { boxShadow: '0 0 0 0 #fff' }], { duration: 1200 }); }
@@ -1132,7 +1069,7 @@
         async function reduce(isFAD, src, srcTip, endTip) {
             const top = TOP();
             const b = blk(isFAD ? FAD_H : NAD_H, off(top, 0, -60)); await fly(b, [top], 600);
-            tip(isFAD ? 'FAD (산화형 전자 운반체)' : 'NAD⁺ (산화형 전자 운반체)', off(top, 0, -26), 1100);
+            tip(isFAD ? 'FAD (산화형 전자운반체)' : 'NAD⁺ (산화형 전자운반체)', off(top, 0, -26), 1100);
             await W(600);
             const es = [sp('e', off(src, -9, -6)), sp('e', off(src, 9, -6))];
             const hs = [sp('h', off(src, -10, 12)), sp('h', off(src, 10, 12))];
@@ -1151,7 +1088,6 @@
             b.innerHTML = isFAD ? FADH2_H : NADH_H; pulse(b); showProd();
             tip(isFAD ? 'FAD + 2e⁻ + 2H⁺ → FADH₂' : 'NAD⁺ + 2e⁻ + H⁺ → NADH', off(top, 0, -26), 1900, '#20bf6b');
             await W(1500);
-            tip(isFAD ? '→ 전자전달계 복합체 II' : '→ 전자전달계 복합체 I', off(top, 70, -50), 1400, YEL);
             await away(b, off(top, 70, -70), 1000);
             if (endTip) { tip(endTip, off(E(), 0, 130), 2600, YEL); await W(2000); }
         }
@@ -1212,7 +1148,7 @@
             },
             6: async () => {
                 hideProd();
-                await reduce(false, AP(R, 'C', 0), 'C1 알데하이드기에서 2e⁻ + 2H⁺ 이탈 (산화)');
+                await reduce(false, atomEl(R, 'C', 0), 'C1 알데하이드기에서 2e⁻ + 2H⁺ 이탈 (산화)');
                 const tp = atomEl(P, 'P', 0), pi = sp('p', off(E(), 0, 200), 'Pᵢ');
                 tip('무기 인산(Pᵢ) — ATP를 쓰지 않음', off(E(), 0, 182), 1700, ORG);
                 await W(400);
@@ -1233,9 +1169,9 @@
             },
             9: async () => {
                 hideProd();
-                await h2o('out', AP(R, 'C', 1), 'C2의 H + C3의 OH → H₂O 이탈');
+                await h2o('out', atomEl(R, 'C', 1), 'C2의 H + C3의 OH → H₂O 이탈');
                 showProd();
-                tip('C=C 이중결합 형성 → 고에너지 PEP', off(AP(P, 'C', 1), 0, -18), 2400, ORG);
+                tip('C=C 이중결합 형성 → 고에너지 PEP', off(atomEl(P, 'C', 1), 0, -18), 2400, ORG);
                 await W(2000);
             },
             10: async () => {
@@ -1245,8 +1181,8 @@
             },
             11: async () => {
                 hideProd();
-                await co2Out(AP(R, 'C', 0), '탈탄산: 카복실기 → CO₂ 방출 (3C → 2C)');
-                await reduce(false, AP(R, 'C', 1), '2e⁻ + 2H⁺ 이탈 (산화)');
+                await co2Out(atomEl(R, 'C', 0), '탈탄산: 카복실기 → CO₂ 방출 (3C → 2C)');
+                await reduce(false, atomEl(R, 'C', 1), '2e⁻ + 2H⁺ 이탈 (산화)');
                 const s = atomEl(P, 'S', 0), c = blk(COA_H, off(E(), 0, 190));
                 tip('조효소 A (CoA)', off(E(), 0, 172), 1300, '#95a5a6');
                 await fly(c, [pos(s)], 1100); await fade(c, 0, 300); c.remove(); glow(s);
@@ -1278,14 +1214,14 @@
             },
             14: async () => {
                 hideProd();
-                await reduce(false, AP(R, 'C', 2), 'OH 쪽 탄소에서 2e⁻ + 2H⁺ 이탈');
-                await co2Out(AP(R, 'COO', 1), '첫 번째 CO₂ 방출 (6C → 5C)');
+                await reduce(false, atomEl(R, 'C', 2), 'OH 쪽 탄소에서 2e⁻ + 2H⁺ 이탈');
+                await co2Out(atomEl(R, 'COO', 1), '첫 번째 CO₂ 방출 (6C → 5C)');
                 showProd(); await W(600);
             },
             15: async () => {
                 hideProd();
-                await co2Out(AP(R, 'COO', 0), '두 번째 CO₂ 방출 (5C → 4C)');
-                await reduce(false, AP(R, 'C', 1), '2e⁻ + 2H⁺ 이탈 (산화)');
+                await co2Out(atomEl(R, 'COO', 0), '두 번째 CO₂ 방출 (5C → 4C)');
+                await reduce(false, atomEl(R, 'C', 1), '2e⁻ + 2H⁺ 이탈 (산화)');
                 const s = atomEl(P, 'S', 0), c = blk(COA_H, off(E(), 0, 190));
                 await fly(c, [pos(s)], 1100); await fade(c, 0, 300); c.remove(); glow(s);
                 tip('CoA 결합 → 숙시닐 CoA (고에너지 티오에스터)', off(pos(s), 0, -16), 2400);
@@ -1310,12 +1246,12 @@
             },
             17: async () => {
                 hideProd();
-                await reduce(true, AP(R, 'C', 1), '가운데 두 탄소에서 H 2개(2e⁻ + 2H⁺) 이탈', '숙신산 탈수소효소 = 복합체 II (내막) → 전자를 바로 Q에 전달');
-                tip('C–C → C=C 이중결합', off(AP(P, 'C', 1), 0, -18), 2000, ORG); await W(1400);
+                await reduce(true, atomEl(R, 'C', 1), '가운데 두 탄소에서 H 2개(2e⁻ + 2H⁺) 이탈', '숙신산 탈수소효소 = 복합체 II (내막) → 전자를 바로 Q에 전달');
+                tip('C–C → C=C 이중결합', off(atomEl(P, 'C', 1), 0, -18), 2000, ORG); await W(1400);
             },
             18: async () => {
                 hideProd();
-                await h2o('in', AP(P, 'C', 1), 'C=C 이중결합에 H₂O 첨가 (수화)');
+                await h2o('in', atomEl(P, 'C', 1), 'C=C 이중결합에 H₂O 첨가 (수화)');
                 showProd();
                 const g = atomEl(P, 'OH', 0); glow(g); 
                 tip('OH 생성 → 말산', off(pos(g), 0, -16), 2000, ORG); await W(1600);
@@ -1368,7 +1304,7 @@
             $('rs-fes1').classList.remove('red');
             const hs = [sp('h', tv(21, 92)), sp('h', tv(25, 92))];
             await Promise.all(hs.map((x, i) => land(x, q, 'h', i ? 11 : -11, 10, 900)));
-            q.classList.add('red'); lbl(q, 'QH₂'); pulse(q);
+            q.classList.add('red'); lbl(q, window.isHS() ? '전자운반체' : 'QH₂'); pulse(q);
             await Promise.all([pp, hgo, away(nb, off(pos(nb), -60, 50), 900)]);
             await shift(q, qAt3(), 1100);
             await W(1200);
@@ -1389,7 +1325,7 @@
             fad.classList.remove('red'); lbl(fad, 'FAD');
             await Promise.all(es.map((e, i) => fly(e, [off(pos(fes), -9 + 18 * i, 0)], 700)));
             await Promise.all([...es.map((e, i) => land(e, q, 'e', i ? 10 : -10, -9, 800)), ...hs.map((h, i) => land(h, q, 'h', i ? 11 : -11, 10, 1100))]);
-            q.classList.add('red'); lbl(q, 'QH₂'); pulse(q);
+            q.classList.add('red'); lbl(q, window.isHS() ? '전자운반체' : 'QH₂'); pulse(q);
             await sgo;
             $('rs-nopump').style.opacity = 1; pulse($('rs-nopump'));
             await W(1400);
@@ -1401,7 +1337,7 @@
             const hs = atts(q, 'h').map(detach);
             await Promise.all(hs.map((h, i) => fly(h, [off(pos(c3), -40 + i * 16, -20), off(pos(c3), -40 + i * 16, -80)], 1000).then(() => toPool(h, 600))));
             const es = atts(q, 'e').map(detach);
-            q.classList.remove('red'); lbl(q, 'Q');
+            q.classList.remove('red'); lbl(q, window.isHS() ? '전자운반체' : 'Q');
             const back = homeC(q, 1000);
             const pp = W(600).then(() => pump('rs-c3', 2, window.isHS() ? '막사이공간으로 H⁺ 능동수송' : 'Q 회로: H⁺ 2개 추가 → 복합체 III 합계 H⁺ 4개', off(pos(c3), 0, -150)));
             await Promise.all(es.map(async (e, i) => {
@@ -1483,11 +1419,20 @@
             $('rs-rotor').classList.remove('fast');
         }
         function resetEtc() {
+            const hs = window.isHS();
             ['rs-q', 'rs-cc1', 'rs-cc2', 'rs-fad', 'rs-fmn', 'rs-fes1', 'rs-fes2', 'rs-cytb', 'rs-cytc1', 'rs-cyta', 'rs-cyta3'].forEach(i => {
                 const el = $(i); el.querySelectorAll('.att').forEach(a => a.remove());
                 el.getAnimations().forEach(a => a.cancel()); el.style.transform = ''; el._d = null; el.classList.remove('red');
             });
-            lbl($('rs-q'), 'Q'); lbl($('rs-fad'), 'FAD'); lbl($('rs-cc1'), 'c'); lbl($('rs-cc2'), 'c');
+            lbl($('rs-q'), hs ? '전자운반체' : 'Q');
+            lbl($('rs-fad'), 'FAD');
+            lbl($('rs-cc1'), hs ? '전자운반체' : 'c');
+            lbl($('rs-cc2'), hs ? '전자운반체' : 'c');
+            ['rs-fmn', 'rs-fes1', 'rs-fes2', 'rs-cytb', 'rs-cytc1', 'rs-cyta', 'rs-cyta3'].forEach(id => {
+                if ($(id)) $(id).textContent = hs ? '전자운반체' : {
+                    'rs-fmn':'FMN','rs-fes1':'FeS','rs-fes2':'FeS','rs-cytb':'Cyt b','rs-cytc1':'Cyt c₁','rs-cyta':'Cyt a','rs-cyta3':'Cyt a₃'
+                }[id];
+            });
             $('rs-rotor').classList.remove('fast'); $('rs-nopump').style.opacity = 0;
             $('rs-ledger').style.display = 'none'; $('rs-atpcnt').textContent = '0';
             ['rs-c1', 'rs-c2', 'rs-c3', 'rs-c4', 'rs-f0', 'rs-f1', 'rs-q', 'rs-cc1', 'rs-cc2'].forEach(i => $(i).style.opacity = '');
@@ -1500,7 +1445,7 @@
             2: { focus: ['rs-c3', 'rs-q', 'rs-cc1', 'rs-cc2'], pre: () => {
                 const q = $('rs-q'); shiftNow(q, qAt3());
                 attach(q, 'e', -10, -9); attach(q, 'e', 10, -9); attach(q, 'h', -11, 10); attach(q, 'h', 11, 10);
-                q.classList.add('red'); lbl(q, 'QH₂'); poolN(4);
+                q.classList.add('red'); lbl(q, window.isHS() ? '전자운반체' : 'QH₂'); poolN(4);
             }, run: cIII },
             3: { focus: ['rs-c4', 'rs-cc1', 'rs-cc2'], pre: () => {
                 ['rs-cc1', 'rs-cc2'].forEach(i => { attach($(i), 'e', 0, -10); $(i).classList.add('red'); });
@@ -1513,16 +1458,16 @@
                 await W(1200);
             } },
             5: { focus: ['rs-c2', 'rs-q', 'rs-c3', 'rs-cc1', 'rs-cc2', 'rs-c4', 'rs-f0', 'rs-f1'], pre: () => {}, run: async () => {
-                banner('[FADH₂ 경로 ①] 복합체 II : FADH₂ → QH₂ (H⁺ 펌핑 없음 · 0H⁺)');
+                banner('[FADH₂ 경로 ①] 복합체 II : FADH₂ → 전자운반체 (H⁺ 펌핑 없음 · 0H⁺)');
                 await cII();
-                banner('[FADH₂ 경로 ②] 복합체 III : QH₂ → Cyt c × 2, H⁺ 4개 펌핑 (누적 4H⁺)');
+                banner('[FADH₂ 경로 ②] 복합체 III : 전자운반체 → H⁺ 펌핑');
                 await cIII();
-                banner('[FADH₂ 경로 ③] 복합체 IV : Cyt c → O₂ → H₂O, H⁺ 2개 펌핑 (누적 6H⁺)');
+                banner('[FADH₂ 경로 ③] 복합체 IV : 전자운반체 → O₂ → H₂O, H⁺ 펌핑');
                 await cIV();
-                banner('[FADH₂ 경로 ④] ATP 합성효소 : H⁺ 6개 ÷ 4 = 1.5 ATP 생성!');
+                banner('[FADH₂ 경로 ④] ATP 합성효소 : 화학삼투 ATP 생성');
                 await synth(1, true);
                 $('rs-nopump').style.opacity = 0;
-                banner('FADH₂ 1분자 최종 결과 : H⁺ 6개 (II:0 + III:4 + IV:2) → 1.5 ATP 생성!');
+                banner('FADH₂ 1분자 최종 결과 : 약 1.5 ATP 생성!');
                 await W(1200);
             } },
             6: { focus: 'all', pre: () => {}, run: async () => {
@@ -1532,9 +1477,8 @@
                     : '포도당 1분자 최종 정산 : NADH 1분자 = 2.5 ATP (10H⁺) · FADH₂ 1분자 = 1.5 ATP (6H⁺)');
                 const L = $('rs-ledger'); L.style.display = 'block'; await appear(L, 600);
             } },
-            /* 고등학생 모드 전용 통합 전자전달계 & 화학삼투 */
-            101: { focus: ['rs-c1', 'rs-q', 'rs-c3', 'rs-cc1', 'rs-cc2', 'rs-c4'], pre: () => {}, run: async () => {
-                banner('① NADH · FADH₂ 산화 → 전자전달계를 따라 이동하며 O₂가 환원되어 H₂O 생성');
+            101: { focus: ['rs-c1', 'rs-q', 'rs-c2', 'rs-c3', 'rs-cc1', 'rs-cc2', 'rs-c4'], pre: () => {}, run: async () => {
+                banner('① NADH · FADH₂ 산화 → 전자전달계(복합체·전자운반체) 이동 및 O₂ 환원(H₂O 생성)');
                 await cI();
                 await cIII();
                 banner('② 방출된 에너지로 바탕질 → 막사이공간으로 H⁺ 능동수송 (H⁺ 농도 기울기 형성)');
@@ -1828,7 +1772,7 @@
         const p = pos(pq), y0 = tv(0, 8).y;
         const hs = [sp('h', { x: p.x - 26, y: y0 }), sp('h', { x: p.x + 26, y: y0 })];
         await Promise.all(hs.map((h, i) => land(h, pq, 'h', i ? 11 : -11, 10, 900)));
-        pq.classList.add('red'); lbl(pq, window.isHS() ? '' : 'PQH₂'); pulse(pq);
+        pq.classList.add('red'); lbl(pq, window.isHS() ? '전자운반체' : 'PQH₂'); pulse(pq);
         await W(700);
         await shift(pq, off(pos($('ps-b6f')), -58, -30), 900);
     }
@@ -1843,7 +1787,7 @@
         tip(window.isHS() ? '스트로마 → 타이라코이드 내부로 H⁺ 능동수송' : 'PQH₂ 산화 → H⁺는 내강으로', off(bp, 0, -100), 1800);
         await Promise.all(hs.map((h, i) => fly(h, [off(bp, -12 + i * 24, 10), off(bp, -12 + i * 24, 112)], 1000).then(() => toPool(h, 700))));
         const es = atts(pq, 'e').map(detach);
-        pq.classList.remove('red'); lbl(pq, window.isHS() ? '' : 'PQ');
+        pq.classList.remove('red'); lbl(pq, window.isHS() ? '전자운반체' : 'PQ');
         const back = homeC(pq, 900);
         const pcs = [$('ps-pc1'), $('ps-pc2')];
         await Promise.all(es.map(async (e, i) => {
@@ -1927,12 +1871,12 @@
     async function L7() { await atpSynth(4); await W(500); }
     async function L9() {
         banner(window.isHS()
-            ? '순환적 전자흐름 : 광계 I(P700) → 1차 전자수용체 → 전자전달계 → P700 복귀'
+            ? '순환적 전자흐름 : 광계 I(P700) → 1차 전자수용체 → 전자운반체 → P700 복귀'
             : '순환적 전자 흐름 : 광계 I → Fd → PQ → b₆f → PC → 광계 I');
         for (let k = 0; k < 2; k++) { await psi(k); await pcDonate(k); }
         const fd = $('ps-fd');
         const es = atts(fd, 'e').map(detach); fd.classList.remove('red');
-        tip(window.isHS() ? '전자가 NADP⁺로 전달되지 않고 전자전달계를 거쳐 P700으로 복귀' : '전자가 NADP⁺ 대신 PQ로 되돌아감', off(pos(fd), -90, -36), 2200, '#fed330');
+        tip(window.isHS() ? '전자가 NADP⁺로 전달되지 않고 전자운반체를 거쳐 P700으로 복귀' : '전자가 NADP⁺ 대신 PQ로 되돌아감', off(pos(fd), -90, -36), 2200, '#fed330');
         const pq = pos($('ps-pq'));
         await Promise.all(es.map((e, i) => fly(e, [tv(48, 20 + i * 5), off(pq, -6 + i * 12, -64)], 1400)));
         await pqLoad(es);
@@ -1942,15 +1886,14 @@
         await W(800);
     }
 
-    /* 고등학생 모드 전용 통합 명반응 애니메이션 */
     async function L_HS_NONCYCLIC() {
         banner('① 광계 II(P680) 빛에너지 흡수 → 물의 광분해(O₂ 발생) & 고에너지 전자 방출');
         await L1();
         await L2();
-        banner('② 전자전달계를 거치며 에너지 방출 → 스트로마에서 타이라코이드 내부로 H⁺ 능동수송');
+        banner('② 전자전달계(전자운반체)를 거치며 에너지 방출 → 스트로마에서 타이라코이드 내부로 H⁺ 능동수송');
         await L3();
         await L4();
-        banner('③ 광계 I(P700) 빛에너지 흡수 → 전자전달계를 거쳐 NADP⁺가 NADPH로 환원');
+        banner('③ 광계 I(P700) 빛에너지 흡수 → 전자운반체를 거쳐 NADP⁺가 NADPH로 환원');
         await L5();
         await L6();
         banner('비순환적 전자흐름 완료 : 생성물 = NADPH, ATP, O₂');
@@ -2097,7 +2040,7 @@
         $('cn-bpg-name').textContent = hs ? 'BPGA' : '1,3-BPG';
         $('cn-g3p-name').textContent = hs ? 'PGAL' : 'G3P';
         $('ps-cnt-g3p-lbl').textContent = hs ? 'PGAL 방출' : 'G3P 방출';
-        $('cn-ru5p').style.opacity = hs ? '0.25' : '1';
+        $('cn-ru5p').style.opacity = '1';
 
         const v = $('ps-cyc-view'), R = v.getBoundingClientRect(), svg = $('ps-cyc-svg'), g = $('ps-cyc-g');
         svg.setAttribute('width', R.width); svg.setAttribute('height', R.height);
@@ -2106,7 +2049,8 @@
         const C = { x: R.width / 2, y: R.height * 0.48 };
         const edge = (n, tx, ty) => { const dx = tx - n.x, dy = ty - n.y; const t = Math.min(n.hw / Math.abs(dx || 1e-6), n.hh / Math.abs(dy || 1e-6)); return { x: n.x + dx * t, y: n.y + dy * t }; };
         ARCS.forEach(([key, a, b, bend, color, tag]) => {
-            if (hs && key === 'regen') tag = 'PGAL 5 (15C)\n→ RuBP 재생';
+            if (hs && key === 'regen') tag = 'PGAL 5분자\n→ RuBP 재생';
+            if (hs && key === 'ru') tag = 'ATP 3 → ADP 3\n(RuBP 재생)';
             const A1 = nc(a), B1 = nc(b);
             const mx = (A1.x + B1.x) / 2, my = (A1.y + B1.y) / 2;
             let nx = mx - C.x, ny = my - C.y; const l = Math.hypot(nx, ny) || 1; nx /= l; ny /= l;
@@ -2197,14 +2141,16 @@
         tk.innerHTML = chip(`${nm} ×6`, 3); pulse(tk);
         await Promise.all([fly(nad, [off(mN, 0, 120)], 800).then(() => fade(nad, 0, 300)), along(tk, 'nad', 800, 0.5, 1)]);
         hi('cn-g3p');
-        await W(400);
+        await W(550);
 
-        banner(`${nm} 6분자 중 1분자는 포도당 합성에 이용`);
+        /* 생성된 PGAL 6분자 중 1분자가 빠져나와 포도당 합성에 쓰이는 모션 */
+        banner(`${nm} 6분자 중 1분자는 포도당 합성에 이용 · 5분자는 RuBP 재생에 이용`);
         const out = mk('cyc-token', chip(`${nm} ×1`, 3), pos(tk));
-        tk.innerHTML = chip(`${nm} ×5`, 3);
-        await along(out, 'out', 1100);
+        tk.innerHTML = chip(`${nm} ×5`, 3); pulse(tk);
+        await along(out, 'out', 1200);
         $('cnt-g3p').textContent = 1; pulse($('cn-out')); pulse($('cnt-g3p'));
-        await W(500);
+        tip('포도당 합성에 이용 (PGAL 1/6)', off(pos($('cn-out')), 180, 12), 2000, '#fed330');
+        await W(650);
 
         banner('3) RuBP 재생성 단계 — ATP 3 사용');
         await along(tk, 'regen', 1400);
@@ -2219,7 +2165,7 @@
         await Promise.all([fly(atp2, [off(mR, -160, 30)], 800).then(() => fade(atp2, 0, 300)), along(tk, 'ru', 800, 0.5, 1)]);
         hi('cn-rubp');
         await W(500);
-        banner(`캘빈회로 한 바퀴 : CO₂ 3 + ATP 9 + NADPH 6 → ${nm} 1<br><span style="color:#fed330;">포도당 1분자(2바퀴) 합성 시 : CO₂ 6 · ATP 18 · NADPH 12 필요</span>`);
+        banner(`캘빈회로 한 바퀴 : CO₂ 3 + ATP 9 + NADPH 6 → ${nm} 1 방출 (+ 5 재생)<br><span style="color:#fed330;">포도당 1분자(2바퀴) 합성 시 : CO₂ 6 · ATP 18 · NADPH 12 필요</span>`);
     }
 
     /* =================== 심화 모드 단계 데이터베이스 (15단계) =================== */
@@ -2284,29 +2230,29 @@
     const PSDB_HS = [
         { group: 'light', phase: '명반응 · 타이라코이드 막', view: 'thy', key: 1, focus: ['ps-psii'], run: L1,
           name: '1. 광계의 빛에너지 흡수와 전자 방출', react: '빛에너지, 광계(안테나 색소 + 반응 중심 색소)', prod: '고에너지 전자 방출 (반응 중심 색소 산화)', enz: '광계 I(P700) · 광계 II(P680)',
-          desc: '타이라코이드 막의 안테나 색소(엽록소 a, 엽록소 b, 보조 색소)가 빛에너지를 흡수하여 반응 중심 색소(한 쌍의 엽록소 a)에 모아 준다.\n\n• 광계 I: 반응 중심 엽록소 a가 700nm 파장의 빛을 가장 잘 흡수 (P700)\n• 광계 II: 반응 중심 엽록소 a가 680nm 파장의 빛을 가장 잘 흡수 (P680)\n• 에너지를 받은 반응 중심 색소는 고에너지 전자를 방출해 1차 전자수용체로 전달하고 산화된다.' },
+          desc: '타이라코이드 막의 안테나 색소(엽록소 a, 엽록소 b, 보조 색소)가 빛에너지를 흡수하여 반응 중심 색소(한 쌍의 엽록소 a)에 모아 준다[span_45](start_span)[span_45](end_span)[span_46](start_span)[span_46](end_span).\n\n• 광계 I: 반응 중심 엽록소 a가 700nm 파장의 빛을 가장 잘 흡수 (P700)[span_47](start_span)[span_47](end_span)[span_48](start_span)[span_48](end_span)\n• 광계 II: 반응 중심 엽록소 a가 680nm 파장의 빛을 가장 잘 흡수 (P680)[span_49](start_span)[span_49](end_span)[span_50](start_span)[span_50](end_span)\n• 에너지를 받은 반응 중심 색소는 고에너지 전자를 방출해 1차 전자수용체로 전달하고 산화된다[span_51](start_span)[span_51](end_span)[span_52](start_span)[span_52](end_span).' },
         { group: 'light', phase: '명반응 · 비순환적 전자흐름', view: 'thy', key: 101, focus: ['ps-psii', 'ps-pq', 'ps-b6f', 'ps-pc1', 'ps-pc2', 'ps-psi', 'ps-fd', 'ps-fnr'], run: L_HS_NONCYCLIC,
           name: '2. 비순환적 전자흐름 (물의 광분해 · NADPH 생성)', react: 'H₂O, NADP⁺, 빛에너지', prod: 'O₂, NADPH, 타이라코이드 막 경계 H⁺ 농도 기울기', enz: '광계 II → 전자전달계 → 광계 I → 전자전달계',
-          desc: '광계 II의 P680에서 방출된 전자가 원래의 엽록소로 돌아가지 않고 전자전달계와 광계 I의 P700을 거쳐 NADP⁺로 전달되는 과정이다.\n\n• 산화된 P680은 물의 광분해로 방출된 전자를 받아 환원되며, 이 과정에서 산소(O₂)가 발생한다.\n• 전자가 전자전달계를 거치며 방출하는 에너지로 스트로마에서 타이라코이드 내부로 H⁺이 능동수송되어 H⁺ 농도 기울기가 형성된다.\n• 최종 전자수용체인 NADP⁺는 전자와 H⁺을 받아 NADPH로 환원된다.' },
+          desc: '광계 II의 P680에서 방출된 전자가 원래의 엽록소로 돌아가지 않고 전자전달계와 광계 I의 P700을 거쳐 NADP⁺로 전달되는 과정이다[span_53](start_span)[span_53](end_span)[span_54](start_span)[span_54](end_span).\n\n• 산화된 P680은 물의 광분해로 방출된 전자를 받아 환원되며, 이 과정에서 산소(O₂)가 발생한다[span_55](start_span)[span_55](end_span)[span_56](start_span)[span_56](end_span)[span_57](start_span)[span_57](end_span).\n• 전자가 전자전달계를 거치며 방출하는 에너지로 스트로마에서 타이라코이드 내부로 H⁺이 능동수송되어 H⁺ 농도 기울기가 형성된다[span_58](start_span)[span_58](end_span)[span_59](start_span)[span_59](end_span).\n• 최종 전자수용체인 NADP⁺는 전자와 H⁺을 받아 NADPH로 환원된다[span_60](start_span)[span_60](end_span)[span_61](start_span)[span_61](end_span).' },
         { group: 'light', phase: '명반응 · 순환적 전자흐름', view: 'thy', key: 9, focus: ['ps-psi', 'ps-fd', 'ps-pq', 'ps-b6f', 'ps-pc1', 'ps-pc2', 'ps-cf1', 'ps-cf0'], run: L9,
           name: '3. 순환적 전자흐름 (ATP 보충)', react: '빛에너지, ADP + Pᵢ', prod: 'ATP (물의 광분해 X · O₂ 및 NADPH 생성 X)', enz: '광계 I(P700) → 1차 전자수용체 → 전자전달계 → P700',
-          desc: '광계 I의 P700에서 방출된 전자가 NADP⁺로 전달되지 않고 전자전달계를 거쳐 다시 P700으로 되돌아오는 과정이다.\n\n• 물의 광분해가 일어나지 않아 O₂와 NADPH는 생성되지 않고 ATP만 생성된다.\n• 의의: 탄소 고정 반응에서 포도당 1분자 합성 시 NADPH 12분자, ATP 18분자가 필요하므로, 부족한 ATP를 보완한다.' },
+          desc: '광계 I의 P700에서 방출된 전자가 NADP⁺로 전달되지 않고 전자전달계를 거쳐 다시 P700으로 되돌아오는 과정이다[span_62](start_span)[span_62](end_span).\n\n• 물의 광분해가 일어나지 않아 O₂와 NADPH는 생성되지 않고 ATP만 생성된다[span_63](start_span)[span_63](end_span).\n• 의의: 탄소 고정 반응에서 포도당 1분자 합성 시 NADPH 12분자, ATP 18분자가 필요하므로, 부족한 ATP를 보완한다[span_64](start_span)[span_64](end_span)[span_65](start_span)[span_65](end_span).' },
         { group: 'light', phase: '명반응 · 화학삼투', view: 'thy', key: 7, focus: ['ps-cf1', 'ps-cf0'], run: L7,
           name: '4. 화학삼투에 의한 ATP 합성 (광인산화)', react: 'ADP, Pᵢ, 타이라코이드 내부의 H⁺', prod: 'ATP (스트로마 쪽에서 합성)', enz: 'ATP 합성효소',
-          desc: '전자전달 과정에서 스트로마의 H⁺이 타이라코이드 내부로 능동수송되어 타이라코이드 내부의 H⁺ 농도가 증가하고 pH가 낮아진다.\n\n• H⁺ 농도 기울기에 따라 타이라코이드 내부의 H⁺이 ATP 합성효소를 통해 스트로마 쪽으로 확산하는 화학삼투가 일어나 스트로마 쪽에서 ATP가 합성된다.\n• 빛에너지 흡수로 형성된 H⁺ 농도 기울기를 이용해 ATP를 합성하는 과정을 광인산화라고 한다.' },
+          desc: '전자전달 과정에서 스트로마의 H⁺이 타이라코이드 내부로 능동수송되어 타이라코이드 내부의 H⁺ 농도가 증가하고 pH가 낮아진다[span_66](start_span)[span_66](end_span).\n\n• H⁺ 농도 기울기에 따라 타이라코이드 내부의 H⁺이 ATP 합성효소를 통해 스트로마 쪽으로 확산하는 화학삼투가 일어나 스트로마 쪽에서 ATP가 합성된다[span_67](start_span)[span_67](end_span).\n• 빛에너지 흡수로 형성된 H⁺ 농도 기울기를 이용해 ATP를 합성하는 과정을 광인산화라고 한다[span_68](start_span)[span_68](end_span).' },
         { group: 'calvin', phase: '탄소 고정 반응 · 엽록체 스트로마', view: 'rx', cvKey: 10, zoomR: true, zoomP: true,
           nr: '3CO₂ + 3RuBP', np: '6 3PG',
           strR: () => `<div id="ps-rubp-wrap">${S.rubp('', 'ps-r-c2')}</div>${PLUS}${S.co2()}`,
           strP: () => `<div id="ps-pg3a">${S.pg3(true)}</div>${PLUS}<div id="ps-pg3b">${S.pg3()}</div>`,
           name: '5. 캘빈회로 1단계 : 탄소 고정', react: '3CO₂ + 3RuBP (5탄소 화합물)', prod: '6 3PG (3탄소 화합물)', enz: '루비스코\n(RuBP 카복실화효소)',
-          desc: '엽록체의 스트로마로 들어온 CO₂가 루비스코(RuBP 카복실화효소)의 작용으로 5탄소 화합물인 RuBP와 반응해 6탄소 화합물이 된 다음, 불안정하여 곧바로 3탄소 화합물인 3PG 2분자로 나누어진다.\n\n• 3PG: 캘빈회로에서 최초의 CO₂ 고정 산물 (CO₂ 3분자 고정 시 3PG 6분자 생성)\n• CO₂ 공급이 차단되면 일시적으로 RuBP 농도는 높아지고 3PG 농도는 낮아진다.' },
+          desc: '엽록체의 스트로마로 들어온 CO₂가 루비스코(RuBP 카복실화효소)의 작용으로 5탄소 화합물인 RuBP와 반응해 6탄소 화합물이 된 다음, 불안정하여 곧바로 3탄소 화합물인 3PG 2분자로 나누어진다[span_69](start_span)[span_69](end_span)[span_70](start_span)[span_70](end_span).\n\n• 3PG: 캘빈회로에서 최초의 CO₂ 고정 산물 (CO₂ 3분자 고정 시 3PG 6분자 생성)[span_71](start_span)[span_71](end_span)[span_72](start_span)[span_72](end_span)\n• CO₂ 공급이 차단되면 일시적으로 RuBP 농도는 높아지고 3PG 농도는 낮아진다[span_73](start_span)[span_73](end_span).' },
         { group: 'calvin', phase: '탄소 고정 반응 · 엽록체 스트로마', view: 'rx', cvKey: 106,
           nr: '6 3PG + 6ATP + 6NADPH', np: '6 PGAL (→ 1 PGAL 포도당 합성)', strR: () => S.pg3(), strP: () => S.g3p('ps-th'),
           name: '6. 캘빈회로 2단계 : 3PG 환원 (BPGA → PGAL)', react: '6 3PG, 6ATP, 6NADPH + 6H⁺', prod: '6 PGAL, 6ADP, 6NADP⁺, 6Pᵢ', enz: '스트로마 효소',
-          desc: '명반응 산물인 ATP와 NADPH를 이용하여 3PG가 PGAL로 환원되는 단계이다.\n\n• 3PG 6분자가 6분자의 ATP로부터 인산기를 받아 6분자의 BPGA가 된 다음, 6분자의 NADPH로부터 H⁺과 전자를 받고 인산기를 잃어 PGAL 6분자로 환원된다.\n• 생성된 PGAL 6분자 중 1분자는 캘빈회로를 빠져나와 포도당 합성에 이용되고, 나머지 5분자는 RuBP 재생에 이용된다.\n• 빛이 차단되면 명반응 산물(ATP, NADPH)이 부족해져 일시적으로 3PG 농도는 높아지고 RuBP 농도는 낮아진다.' },
+          desc: '명반응 산물인 ATP와 NADPH를 이용하여 3PG가 PGAL로 환원되는 단계이다[span_74](start_span)[span_74](end_span)[span_75](start_span)[span_75](end_span).\n\n• 3PG 6분자가 6분자의 ATP로부터 인산기를 받아 6분자의 BPGA가 된 다음, 6분자의 NADPH로부터 H⁺과 전자를 받고 인산기를 잃어 PGAL 6분자로 환원된다[span_76](start_span)[span_76](end_span)[span_77](start_span)[span_77](end_span).\n• 생성된 PGAL 6분자 중 1분자는 캘빈회로를 빠져나와 포도당 합성에 이용되고, 나머지 5분자는 RuBP 재생에 이용된다[span_78](start_span)[span_78](end_span)[span_79](start_span)[span_79](end_span).' },
         { group: 'calvin', phase: '탄소 고정 반응 · 전체 정리', view: 'cyc', run: K16,
           name: '7. 캘빈회로 3단계 : RuBP 재생성 및 총정리', react: '5 PGAL + 3ATP (총 6CO₂, 18ATP, 12NADPH)', prod: '3 RuBP + 3ADP + 2Pᵢ (포도당 1분자 합성)', enz: '루비스코 외 스트로마 효소',
-          desc: 'PGAL 5분자가 3분자의 ATP로부터 인산기를 받아 5탄소 화합물인 RuBP 3분자로 재생된다.\n\n[탄소 고정 반응 총정리]\n• 포도당(C₆) 1분자를 합성하려면 PGAL(C₃) 2분자가 필요하므로 캘빈회로가 두 바퀴 돌아야 한다.\n• 포도당 1분자 합성 시 총 소요량: CO₂ 6분자 고정, ATP 18분자, NADPH 12분자 사용' }
+          desc: 'PGAL 5분자가 3분자의 ATP로부터 인산기를 받아 5탄소 화합물인 RuBP 3분자로 재생된다[span_80](start_span)[span_80](end_span)[span_81](start_span)[span_81](end_span).\n\n[탄소 고정 반응 총정리]\n• 포도당(C₆) 1분자를 합성하려면 PGAL(C₃) 2분자가 필요하므로 캘빈회로가 두 바퀴 돌아야 한다[span_82](start_span)[span_82](end_span)[span_83](start_span)[span_83](end_span).\n• 포도당 1분자 합성 시 총 소요량: CO₂ 6분자 고정, ATP 18분자, NADPH 12분자 사용[span_84](start_span)[span_84](end_span).' }
     ];
 
     function fixTpId() { const w = $('ps-tp-wrap'); if (w) { const p = w.querySelector('.atom.P'); p.id = 'ps-tp'; } }
@@ -2319,9 +2265,15 @@
             el.getAnimations().forEach(a => a.cancel());
             el.style.transform = ''; el._d = null; el.classList.remove('red');
         });
-        lbl($('ps-pq'), hs ? '' : 'PQ'); lbl($('ps-pc1'), hs ? '' : 'PC'); lbl($('ps-pc2'), hs ? '' : 'PC'); lbl($('ps-fd'), hs ? '' : 'Fd');
+        lbl($('ps-pq'), hs ? '전자운반체' : 'PQ');
+        lbl($('ps-pc1'), hs ? '전자운반체' : 'PC');
+        lbl($('ps-pc2'), hs ? '전자운반체' : 'PC');
+        lbl($('ps-fd'), hs ? '전자운반체' : 'Fd');
         $('ps-pheo').textContent = hs ? '1차 전자수용체' : 'Pheo';
         $('ps-fx').textContent = hs ? '1차 전자수용체' : 'Fx';
+        $('ps-cytb').textContent = hs ? '전자운반체' : 'b₆';
+        $('ps-cytf').textContent = hs ? '전자운반체' : 'f';
+        $('ps-fnr').textContent = hs ? '전자운반체' : 'FNR';
         rcSet($('ps-p680'), ''); rcSet($('ps-p700'), ''); rotor(false);
     }
     function focus(ids) {
@@ -2335,7 +2287,7 @@
         if (key === 4) {
             shiftNow(pq, off(pos($('ps-b6f')), -58, -30));
             attach(pq, 'e', -10, -9); attach(pq, 'e', 10, -9); attach(pq, 'h', -11, 10); attach(pq, 'h', 11, 10);
-            pq.classList.add('red'); lbl(pq, window.isHS() ? '' : 'PQH₂'); poolN(2);
+            pq.classList.add('red'); lbl(pq, window.isHS() ? '전자운반체' : 'PQH₂'); poolN(2);
         }
         if (key === 5 || key === 9) { pcs.forEach(pc => { attach(pc, 'e', 0, -11); pc.classList.add('red'); }); poolN(key === 5 ? 4 : 2); }
         if (key === 6) { attach(fd, 'e', -10, 0); attach(fd, 'e', 10, 0); fd.classList.add('red'); poolN(4); }
@@ -2560,19 +2512,19 @@
     const FDB = [
         { g: 'all', phase: '공통 · 해당 과정', name: '1. 산소가 없다면? (NAD⁺ 재생 필요)', nr: '포도당', np: '피루브산 × 2', strR: S.glucose, strP: S.pyr2, enz: '해당 과정\n효소',
           react: '포도당, 2NAD⁺, 2ADP + 2Pᵢ', prod: '피루브산 2, NADH 2, ATP 2(순)', run: F1,
-          desc: '산소가 없는 환경에서는 전자전달계가 작동하지 않아 해당 과정만으로 ATP를 얻는다.\n\n해당 과정이 계속 일어나려면 NAD⁺가 지속적으로 공급되어야 하므로, 피루브산이 젖산이나 에탄올로 전환되면서 NADH가 NAD⁺로 산화되어 재사용된다.' },
+          desc: '산소가 없는 환경에서는 전자전달계가 작동하지 않아 해당 과정만으로 ATP를 얻는다[span_85](start_span)[span_85](end_span).\n\n해당 과정이 계속 일어나려면 NAD⁺가 지속적으로 공급되어야 하므로, 피루브산이 젖산이나 에탄올로 전환되면서 NADH가 NAD⁺로 산화되어 재사용된다[span_86](start_span)[span_86](end_span).' },
         { g: 'lactic', phase: '젖산 발효 · 세포질', name: '2. 피루브산의 환원 → 젖산', nr: '피루브산 (3C)', np: '젖산 (3C)', strR: S.pyruvate, strP: S.lactate, enz: '젖산 발효 효소',
           react: '피루브산 + NADH + H⁺', prod: '젖산 + NAD⁺', run: F2,
-          desc: '포도당 1분자가 해당 과정을 거쳐 피루브산 2분자로 분해된 뒤, 피루브산이 NADH로부터 H⁺과 전자를 받아 젖산 2분자로 환원된다.\n\n• 최종 전자수용체는 피루브산이며 CO₂는 생성되지 않는다.\n• 이용: 김치·치즈·요구르트 제조, 과도한 운동 시 사람의 근육세포 (근육에 축적된 젖산은 혈액에 의해 간으로 운반되어 피루브산 또는 포도당으로 전환)' },
+          desc: '포도당 1분자가 해당 과정을 거쳐 피루브산 2분자로 분해된 뒤, 피루브산이 NADH로부터 H⁺과 전자를 받아 젖산 2분자로 환원된다[span_87](start_span)[span_87](end_span).\n\n• 최종 전자수용체는 피루브산이며 CO₂는 생성되지 않는다[span_88](start_span)[span_88](end_span)[span_89](start_span)[span_89](end_span).\n• 이용: 김치·치즈·요구르트 제조, 과도한 운동 시 사람의 근육세포[span_90](start_span)[span_90](end_span).' },
         { g: 'alcohol', phase: '알코올 발효 · 세포질', name: '3. 탈탄산 반응 → 아세트알데하이드', nr: '피루브산 (3C)', np: '아세트알데하이드 (2C) + CO₂', strR: S.pyruvate, strP: () => S.acetal(), enz: '탈탄산효소',
           react: '피루브산', prod: '아세트알데하이드 + CO₂', run: F3,
-          desc: '해당 과정으로 생성된 피루브산(3C)이 이산화 탄소(CO₂)를 방출하고 2탄소 화합물인 아세트알데하이드가 된다.\n\n• 이때 방출되는 이산화 탄소는 빵을 만들 때 반죽을 부풀리는 데 이용된다.' },
+          desc: '해당 과정으로 생성된 피루브산(3C)이 이산화 탄소(CO₂)를 방출하고 2탄소 화합물인 아세트알데하이드가 된다[span_91](start_span)[span_91](end_span).\n\n• 이때 방출되는 이산화 탄소는 빵을 만들 때 반죽을 부풀리는 데 이용된다[span_92](start_span)[span_92](end_span).' },
         { g: 'alcohol', phase: '알코올 발효 · 세포질', name: '4. 아세트알데하이드의 환원 → 에탄올', nr: '아세트알데하이드 (2C)', np: '에탄올 (2C)', strR: () => S.acetal('fm-ald2'), strP: S.ethanol, enz: '탈수소효소',
           react: '아세트알데하이드 + NADH + H⁺', prod: '에탄올 + NAD⁺', run: F4,
-          desc: '아세트알데하이드가 NADH로부터 H⁺과 전자를 받아 에탄올로 환원되고, 재생성된 NAD⁺는 해당 과정에 다시 사용된다.\n\n• 알코올 발효 결과 포도당 1분자는 에탄올 2분자와 CO₂ 2분자로 분해되며 기질수준인산화로 ATP 2분자가 생성된다.\n• 이용: 효모를 이용한 술 제조, 바이오에탄올 생산' },
+          desc: '아세트알데하이드가 NADH로부터 H⁺과 전자를 받아 에탄올로 환원되고, 재생성된 NAD⁺는 해당 과정에 다시 사용된다[span_93](start_span)[span_93](end_span).\n\n• 알코올 발효 결과 포도당 1분자는 에탄올 2분자와 CO₂ 2분자로 분해되며 기질수준인산화로 ATP 2분자가 생성된다[span_94](start_span)[span_94](end_span).' },
         { g: 'all', phase: '발효 정리 · 산소호흡과 비교', name: '5. 젖산 발효 vs 알코올 발효', nr: '', np: '', strR: () => '', strP: () => '', enz: '',
           react: '포도당 (산소 없음)', prod: '젖산 2 / 에탄올 2 + CO₂ 2, ATP 2', run: F5,
-          desc: '발효는 산소가 없는 상태에서 유기물을 불완전 분해하여 세포질에서 ATP 2분자를 얻는 과정이다.\n\n• 젖산 발효: 최종 전자수용체 = 피루브산, 생성물 = 젖산 2분자\n• 알코올 발효: 최종 전자수용체 = 아세트알데하이드, 생성물 = 에탄올 2분자 + CO₂ 2분자' }
+          desc: '발효는 산소가 없는 상태에서 유기물을 불완전 분해하여 세포질에서 ATP 2분자를 얻는 과정이다[span_95](start_span)[span_95](end_span)[span_96](start_span)[span_96](end_span).\n\n• 젖산 발효: 최종 전자수용체 = 피루브산, 생성물 = 젖산 2분자[span_97](start_span)[span_97](end_span)[span_98](start_span)[span_98](end_span)\n• 알코올 발효: 최종 전자수용체 = 아세트알데하이드, 생성물 = 에탄올 2분자 + CO₂ 2분자[span_99](start_span)[span_99](end_span)' }
     ];
 
     async function play() {
@@ -2847,13 +2799,26 @@
       const m = A.Mol(L, Y, 6, [0, 5], '과당 2인산 (C₆)'); await m.move(E, Y);
       await A.reduce(m, 2, 'NAD⁺', UP, OUT);
       m.rm();
-      const a = A.Mol(E - 57, Y, 3, [0], '3탄소 화합물'), b = A.Mol(E + 57, Y, 3, [2], '3탄소 화합물');
+      const a = A.Mol(E - 57, Y, 3, [2], '3탄소 조각 (C3·P3)');
+      const b = A.Mol(E + 57, Y, 3, [2], '3탄소 조각 (C3·P3)');
+      // 무기인산(Pᵢ)이 1번 탄소(인덱스 0)에 결합하여 양쪽(1, 3번)에 인산기가 붙는 모션
+      const piA = A.Bead('P', 120, 460), piB = A.Bead('P', 160, 495);
+      A.tip('무기인산(Pᵢ) 결합 → 1번·3번 위치에 인산기 결합', E, Y + 115, 2100);
+      await Promise.all([piA.fly(a.ppos(0).x, a.ppos(0).y, 850), piB.fly(b.ppos(0).x, b.ppos(0).y, 850)]);
+      piA.rm(); piB.rm();
+      a.addP(0); b.addP(0);
+      a.set(null, null, '3탄소 중간체 (P1, P3)');
+      b.set(null, null, '3탄소 중간체 (P1, P3)');
+      await A.S(600);
+      // 1번 탄소와 3번 탄소의 인산기가 떨어지며 각각 ATP 생성 (조각당 2 ATP → 총 4 ATP 생성)
       await A.takeP(a, 0, UPR, OUTR);
-      await A.takeP(b, 2, { x: 640, y: 470 }, { x: 760, y: 470 });
+      await A.takeP(a, 2, { x: 460, y: 70 }, { x: 460, y: 500 });
+      await A.takeP(b, 0, { x: 740, y: 70 }, { x: 740, y: 500 });
+      await A.takeP(b, 2, { x: 840, y: 70 }, { x: 840, y: 500 });
       a.set(null, null, '피루브산 (C₃)'); b.set(null, null, '피루브산 (C₃)');
-      await Promise.all([a.move(820, Y - 85, 1100), b.move(820, Y + 85, 1100)]);
-      A.tip('피루브산(C₃) → 산소가 있으면 마이토콘드리아로 이동', 680, Y + 145, 2400);
-      await A.S(1300); A.banner('해당 과정 정리 : 포도당(C₆) → 피루브산(C₃) × 2 · NADH 2 · 순 ATP 2');
+      await Promise.all([a.move(820, Y - 85, 1000), b.move(820, Y + 85, 1000)]);
+      A.tip('조각당 2 ATP × 2조각 = 총 4 ATP 생성 (순 2 ATP)', 680, Y + 145, 2400);
+      await A.S(1200); A.banner('해당 과정 정리 : 포도당(C₆) → 피루브산(C₃) × 2 · NADH 2 · 4 ATP 생성(순 2 ATP)');
     }],
     106: ['matrix', '탈수소효소 · 기질수준인산화', async A => {
       const m = A.Mol(L, Y, 5, [], '5탄소 화합물 (C₅)'); await m.move(E, Y);
@@ -2952,7 +2917,6 @@
   }
   function refresh() {
     tok++;
-    /* 고등학생 모드에서는 무조건 시각화 강제 활성화 */
     if (window.isHS()) on = true;
     for (const k in SCR) {
       const s = SCR[k], box = document.querySelector('#' + s.scr + ' .views-container'), btn = document.querySelector(s.nav + ' .cv-btn');
@@ -3093,7 +3057,7 @@
         : cycle(g, defs, 2000, 1180, 250, ['RuBP (5C)', '3PG (3C)', '1,3-BPG', 'G3P (3C)', 'Ru5P (5C)'], [[10, 16], [11, 16], [12, 16], [14, 16], [15, 16]], key, '캘빈 회로', '#2ecc71');
       const r0 = pos(0), r3 = pos(3);
       flow(g, defs, `M180 2080 Q900 1300 ${r0.x - 60} ${r0.y - 10}`, '#81ecec', key === 10, 'CO₂ 유입 (스트로마)', 520, 2110, 34);
-      flow(g, defs, `M${r3.x + 30} ${r3.y + 40} Q2900 2000 3880 2100`, '#fab1a0', key === 13 || key === 106, hs ? 'PGAL → 포도당 합성' : 'G3P → 포도당 · 설탕 합성', 3380, 2050, 32);
+      flow(g, defs, `M${r3.x + 30} ${r3.y + 40} Q2900 2000 3880 2100`, '#fab1a0', key === 13 || key === 106, hs ? 'PGAL 1/6 → 포도당 합성' : 'G3P → 포도당 · 설탕 합성', 3380, 2050, 32);
       flow(g, defs, 'M2700 1700 L2290 1340', '#ffeaa7', [11, 12, 15, 106].includes(key), 'ATP · NADPH (명반응 → 스트로마)', 2760, 2000, 30);
     }
   };
@@ -3295,30 +3259,30 @@
 
                             <div class="rx rx-I" id="inh-c1">
                                 <div class="rx-title">복합체 I</div>
-                                <div class="rs-sub" id="inh-fes1" style="top:42%;">FeS</div>
-                                <div class="rs-sub" id="inh-fmn" style="top:80%;">FMN</div>
+                                <div class="rs-sub" id="inh-fes1" style="top:42%;">전자운반체</div>
+                                <div class="rs-sub" id="inh-fmn" style="top:80%;">전자운반체</div>
                             </div>
-                            <div class="carrier rs-q" id="inh-q"><span class="lbl">Q</span></div>
+                            <div class="carrier rs-q" id="inh-q"><span class="lbl">전자운반체</span></div>
                             <div class="rx rx-II" id="inh-c2">
                                 <div class="rx-title">복합체 II</div>
-                                <div class="rs-sub" id="inh-fes2" style="top:44%;">FeS</div>
+                                <div class="rs-sub" id="inh-fes2" style="top:44%;">전자운반체</div>
                                 <div class="rs-sub" id="inh-fad" style="top:76%;"><span class="lbl">FAD</span></div>
                             </div>
                             <div class="rx rx-III" id="inh-c3">
                                 <div class="rx-title">복합체 III</div>
-                                <div class="rs-sub" id="inh-cytc1" style="top:30%;">Cyt c₁</div>
-                                <div class="rs-sub" id="inh-cytb" style="top:62%;">Cyt b</div>
+                                <div class="rs-sub" id="inh-cytc1" style="top:30%;">전자운반체</div>
+                                <div class="rs-sub" id="inh-cytb" style="top:62%;">전자운반체</div>
                             </div>
-                            <div class="carrier rs-c" id="inh-cc1" style="left:53%; top:34%;"><span class="lbl">c</span></div>
-                            <div class="carrier rs-c" id="inh-cc2" style="left:56.5%; top:27%;"><span class="lbl">c</span></div>
+                            <div class="carrier rs-c" id="inh-cc1" style="left:53%; top:34%;"><span class="lbl">전자운반체</span></div>
+                            <div class="carrier rs-c" id="inh-cc2" style="left:56.5%; top:27%;"><span class="lbl">전자운반체</span></div>
                             <div class="rx rx-IV" id="inh-c4">
                                 <div class="rx-title">복합체 IV</div>
-                                <div class="rs-sub" id="inh-cyta" style="top:30%;">Cyt a</div>
-                                <div class="rs-sub" id="inh-cyta3" style="top:64%;">Cyt a₃</div>
+                                <div class="rs-sub" id="inh-cyta" style="top:30%;">전자운반체</div>
+                                <div class="rs-sub" id="inh-cyta3" style="top:64%;">전자운반체</div>
                             </div>
 
                             <div class="inh-uncoupler" id="inh-unc">
-                                <span id="inh-unc-lbl">DNP<br>써모제닌</span>
+                                <span id="inh-unc-lbl">DNP<br>(인지질 누출)</span>
                                 <span class="u-arrow">&#8595;</span>
                             </div>
 
@@ -3343,13 +3307,13 @@
                             <div class="rs-ledger" id="inh-ledger" style="border-color:#ff6b6b; min-width:580px; padding:14px 18px;">
                                 <h4 style="color:#ff6b6b; margin-bottom:8px;">세포호흡 저해제 종합 비교</h4>
                                 <table id="inh-ledger-table">
-                                    <tr><th>구분</th><th>정상 호흡</th><th>전자전달계 저해제</th><th>ATP 합성효소 저해제</th><th>짝풀림제</th></tr>
+                                    <tr><th>구분</th><th>정상 호흡</th><th>전자전달 억제제</th><th>ATP 합성효소 억제제</th><th>짝풀림제</th></tr>
                                     <tr><td>대표 물질</td><td>—</td><td>로테논, 사이안화물(CN⁻), CO</td><td>올리고마이신, 아우로베르틴</td><td>DNP</td></tr>
                                     <tr><td>전자 전달 · O₂ 소비</td><td>정상</td><td class="n" style="color:#ff6b6b;">정지 (감소)</td><td class="n" style="color:#ff6b6b;">감소</td><td class="n" style="color:#26de81;">증가 (지속)</td></tr>
                                     <tr><td>막사이공간 H⁺ 농도</td><td>고농도 유지</td><td>형성 안 됨 (감소)</td><td class="n" style="color:#00a8ff;">과축적 (높음)</td><td>감소 (새어나감)</td></tr>
                                     <tr><td>ATP 생성량</td><td>정상</td><td class="n" style="color:#ff6b6b;">일어나지 않음</td><td class="n" style="color:#ff6b6b;">일어나지 않음</td><td class="n" style="color:#ff9f43;">감소</td></tr>
                                 </table>
-                                <div class="note" id="inh-ledger-note">• 짝풀림제(DNP): 막사이공간에 축적된 H⁺이 ATP 합성효소를 통하지 않고 인지질을 통해 바탕질로 새어나가게 하여 ATP 합성은 감소하고 산소 소비량은 증가한다.</div>
+                                <div class="note" id="inh-ledger-note">• 짝풀림제(DNP): 막사이공간에 축적된 H⁺이 ATP 합성효소를 통하지 않고 인지질을 통해 바탕질로 새어나가게 하여 ATP 합성은 감소하고 산소 소비량은 증가한다[span_100](start_span)[span_100](end_span).</div>
                             </div>
                         </div>
                     </div>
@@ -3500,12 +3464,21 @@
     }
 
     function resetInhView() {
+        const hs = window.isHS();
         ['inh-q', 'inh-cc1', 'inh-cc2', 'inh-fad', 'inh-fmn', 'inh-fes1', 'inh-fes2', 'inh-cytb', 'inh-cytc1', 'inh-cyta', 'inh-cyta3'].forEach(i => {
             const el = $(i); if (!el) return;
             el.querySelectorAll('.att').forEach(a => a.remove());
             el.getAnimations().forEach(a => a.cancel()); el.style.transform = ''; el._d = null; el.classList.remove('red');
         });
-        lbl($('inh-q'), 'Q'); lbl($('inh-fad'), 'FAD'); lbl($('inh-cc1'), 'c'); lbl($('inh-cc2'), 'c');
+        lbl($('inh-q'), hs ? '전자운반체' : 'Q');
+        lbl($('inh-fad'), 'FAD');
+        lbl($('inh-cc1'), hs ? '전자운반체' : 'c');
+        lbl($('inh-cc2'), hs ? '전자운반체' : 'c');
+        ['inh-fmn', 'inh-fes1', 'inh-fes2', 'inh-cytb', 'inh-cytc1', 'inh-cyta', 'inh-cyta3'].forEach(id => {
+            if ($(id)) $(id).textContent = hs ? '전자운반체' : {
+                'inh-fmn':'FMN','inh-fes1':'FeS','inh-fes2':'FeS','inh-cytb':'Cyt b','inh-cytc1':'Cyt c₁','inh-cyta':'Cyt a','inh-cyta3':'Cyt a₃'
+            }[id];
+        });
         $('inh-rotor').classList.remove('fast', 'stopped', 'slow');
         $('inh-unc').style.display = 'none';
         $('inh-ledger').style.display = 'none';
@@ -3583,7 +3556,7 @@
             nb.innerHTML = NAD_H;
             await Promise.all(es.map((e, i) => fly(e, [off(pos(fes1), -8 + 16 * i, 0)], 600)));
             await Promise.all(es.map((e, i) => land(e, q, 'e', i ? 9 : -9, -8, 600)));
-            q.classList.add('red'); lbl(q, 'QH₂');
+            q.classList.add('red'); lbl(q, window.isHS() ? '전자운반체' : 'QH₂');
             away(nb, off(pos(nb), -50, 35), 650);
             await shift(q, off(pos(c3), -72, 0), 850);
 
@@ -3614,11 +3587,11 @@
 
             await Promise.all(es.map((e, i) => fly(e, [off(pos(fes1), -8 + 16 * i, 0)], 500)));
             await Promise.all(es.map((e, i) => land(e, q, 'e', i ? 9 : -9, -8, 500)));
-            q.classList.add('red'); lbl(q, 'QH₂');
+            q.classList.add('red'); lbl(q, window.isHS() ? '전자운반체' : 'QH₂');
             await shift(q, off(pos(c3), -72, 0), 750);
 
             const qEs = atts(q, 'e').map(detach);
-            q.classList.remove('red'); lbl(q, 'Q'); homeC(q, 650);
+            q.classList.remove('red'); lbl(q, window.isHS() ? '전자운반체' : 'Q'); homeC(q, 650);
             await Promise.all(qEs.map((e, i) => fly(e, [pos(cytb), pos(cytc1)], 650).then(() => land(e, i ? cc2 : cc1, 'e', 0, -9, 450))));
             cc1.classList.add('red'); cc2.classList.add('red');
 
@@ -3669,11 +3642,11 @@
         await Promise.all(es.map((e, i) => fly(e, [off(pos(fes1), -8 + 16 * i, 0)], 500)));
         const p1 = pumpH('inh-c1', 4, '막사이공간에 H⁺ 축적');
         await Promise.all(es.map((e, i) => land(e, q, 'e', i ? 9 : -9, -8, 550)));
-        q.classList.add('red'); lbl(q, 'QH₂');
+        q.classList.add('red'); lbl(q, window.isHS() ? '전자운반체' : 'QH₂');
         await Promise.all([p1, shift(q, off(pos(c3), -72, 0), 800)]);
 
         const qEs = atts(q, 'e').map(detach);
-        q.classList.remove('red'); lbl(q, 'Q'); homeC(q, 650);
+        q.classList.remove('red'); lbl(q, window.isHS() ? '전자운반체' : 'Q'); homeC(q, 650);
         const p3 = pumpH('inh-c3', 4, '전자전달계에서 전자의 이동 감소');
         await Promise.all([p3, ...qEs.map(e => fly(e, [pos(cytb), pos(cytc1)], 700))]);
         poolN(18);
@@ -3761,39 +3734,39 @@
 
     const INH_DB = [
         {
-            phase: '세포호흡 억제제 ① · 전자전달 억제제',
+            phase: '세포호흡 저해제 ① · 전자전달 억제제',
             name: '1. 전자전달 억제제',
             agent: '로테논, 사이안화물(청산가리), 일산화 탄소 등',
             target: '전자전달계의 전자운반체에 결합하여 전자의 흐름 억제',
             result: 'H⁺ 능동수송 중단 · H⁺ 농도 기울기 형성 안 됨 · ATP 합성 안 됨 · O₂ 소비 감소',
-            desc: '전자운반체에 결합하여 전자전달계를 통한 전자의 흐름을 억제하는 물질이다. (로테논, 사이안화물(청산가리), 일산화 탄소 등)\n\n• 전자의 흐름이 차단되어 바탕질에서 막사이공간으로의 H⁺ 능동수송이 일어나지 못한다.\n• H⁺ 농도 기울기가 형성되지 못하므로 화학삼투에 의한 ATP 합성이 일어나지 않는다.',
+            desc: '전자운반체에 결합하여 전자전달계를 통한 전자의 흐름을 억제하는 물질이다 (로테논, 사이안화물(청산가리), 일산화 탄소 등)[span_101](start_span)[span_101](end_span).\n\n• 전자의 흐름이 차단되어 바탕질에서 막사이공간으로의 H⁺ 능동수송이 일어나지 못한다[span_102](start_span)[span_102](end_span).\n• H⁺ 농도 기울기가 형성되지 못하므로 화학삼투에 의한 ATP 합성이 일어나지 않는다[span_103](start_span)[span_103](end_span).',
             run: runEtcInhibitor
         },
         {
-            phase: '세포호흡 억제제 ② · ATP 합성효소 억제제',
+            phase: '세포호흡 저해제 ② · ATP 합성효소 억제제',
             name: '2. ATP 합성효소 억제제',
             agent: '올리고마이신, 아우로베르틴 등',
             target: 'ATP 합성효소에 결합하여 H⁺의 확산 억제',
             result: 'ATP 합성 안 됨 · 전자 이동 감소 · 단위 시간당 산소 소비량 감소',
-            desc: 'ATP 합성효소에 결합하여 H⁺이 ATP 합성효소를 통해 막사이공간에서 바탕질로 확산하는 것을 억제하는 물질이다. (올리고마이신, 아우로베르틴 등)\n\n• H⁺이 ATP 합성효소를 통과하지 못하므로 ATP 합성이 일어나지 않는다.\n• 또한 전자전달계에서 전자의 이동이 감소하기 때문에 단위 시간당 소비되는 산소의 양이 감소한다.',
+            desc: 'ATP 합성효소에 결합하여 H⁺이 ATP 합성효소를 통해 막사이공간에서 바탕질로 확산하는 것을 억제하는 물질이다 (올리고마이신, 아우로베르틴 등)[span_104](start_span)[span_104](end_span).\n\n• H⁺이 ATP 합성효소를 통과하지 못하므로 ATP 합성이 일어나지 않는다[span_105](start_span)[span_105](end_span).\n• 또한 전자전달계에서 전자의 이동이 감소하기 때문에 단위 시간당 소비되는 산소의 양이 감소한다[span_106](start_span)[span_106](end_span).',
             run: runOligomycin
         },
         {
-            phase: '세포호흡 억제제 ③ · 짝풀림제',
+            phase: '세포호흡 저해제 ③ · 짝풀림제',
             name: '3. 짝풀림제',
             agent: 'DNP 등',
             target: '막사이공간의 H⁺이 인지질을 통해 바탕질로 새어나가게 함',
             result: 'H⁺ 농도 기울기 약화 · ATP 합성 감소 · 단위 시간당 산소 소비량 증가',
-            desc: '막사이공간에 축적된 H⁺이 ATP 합성효소를 통하지 않고 인지질을 통해 바탕질로 새어나가게 하는 물질이다. (DNP 등)\n\n• H⁺ 농도 기울기가 정상적으로 형성되지 못해 ATP 합성효소를 통한 H⁺의 이동이 감소하여 ATP 합성이 감소한다.\n• 단, 전자전달계에서 전자의 이동은 지속되기 때문에 단위 시간당 소비되는 산소의 양이 증가한다.',
+            desc: '막사이공간에 축적된 H⁺이 ATP 합성효소를 통하지 않고 인지질을 통해 바탕질로 새어나가게 하는 물질이다 (DNP 등)[span_107](start_span)[span_107](end_span).\n\n• H⁺ 농도 기울기가 정상적으로 형성되지 못해 ATP 합성효소를 통한 H⁺의 이동이 감소하여 ATP 합성이 감소한다[span_108](start_span)[span_108](end_span).\n• 단, 전자전달계에서 전자의 이동은 지속되기 때문에 단위 시간당 소비되는 산소의 양이 증가한다[span_109](start_span)[span_109](end_span).',
             run: runUncoupler
         },
         {
-            phase: '세포호흡 억제제 · 전체 비교 정리',
+            phase: '세포호흡 저해제 · 전체 비교 정리',
             name: '4. 세포호흡 억제제 비교 정리',
             agent: '전자전달 억제제 vs ATP 합성효소 억제제 vs 짝풀림제',
             target: '단위 시간당 산소 소비량 · 막사이공간 H⁺ 농도 · ATP 합성량 비교',
             result: '짝풀림제 처리 시에만 ATP 합성은 감소하면서 산소 소비량은 증가함',
-            desc: '학습지 핵심 정리:\n\n• 전자전달 억제제 (로테논, 사이안화물, 일산화 탄소): 전자 흐름 억제 → H⁺ 능동수송 X → H⁺ 농도 기울기 X → ATP 합성 X\n• ATP 합성효소 억제제 (올리고마이신, 아우로베르틴): H⁺ 확산 억제 → ATP 합성 X, 전자 이동 감소 → 단위 시간당 산소 소비량 감소\n• 짝풀림제 (DNP): 인지질을 통해 H⁺ 새어나감 → ATP 합성 감소, 전자 이동 지속 → 단위 시간당 산소 소비량 증가',
+            desc: '학습지 핵심 정리[span_110](start_span)[span_110](end_span):\n\n• 전자전달 억제제 (로테논, 사이안화물, 일산화 탄소): 전자 흐름 억제 → H⁺ 능동수송 X → ATP 합성 X[span_111](start_span)[span_111](end_span)\n• ATP 합성효소 억제제 (올리고마이신, 아우로베르틴): H⁺ 확산 억제 → ATP 합성 X, 단위 시간당 산소 소비량 감소[span_112](start_span)[span_112](end_span)\n• 짝풀림제 (DNP): 인지질을 통해 H⁺ 새어나감 → ATP 합성 감소, 단위 시간당 산소 소비량 증가[span_113](start_span)[span_113](end_span)',
             run: runComparison
         }
     ];
@@ -4081,7 +4054,6 @@
       ranges:{lac:['젖산 발효'],alc:['알코올 발효'],all:['발효 전체 (무작위)']} }
   };
 
-  /* 고등학생 모드 퀴즈 데이터 (학습지 PDF 용어·단계 기준) */
   const Q_HS = {
     rs:{ title:'⚡ 세포호흡 (고등학생 모드)',
       hint:'생성된 물질을 모두 적으세요 (ATP·NADH·FADH₂·CO₂·ADP 등) · 포도당 1분자(2바퀴) 기준',
@@ -4486,7 +4458,7 @@
         if ($('card-desc-inhatp')) $('card-desc-inhatp').innerHTML = hs ? '올리고마이신 · 아우로베르틴<br>H⁺ 확산 억제 · 산소 소비 감소' : '올리고마이신 (Oligomycin)<br>F₀ 통로 차단 · H⁺ 과축적 후 정지';
         if ($('card-desc-inhunc')) $('card-desc-inhunc').innerHTML = hs ? 'DNP 등<br>H⁺ 인지질 누출 · ATP 감소 · O₂ 증가' : 'DNP · 써모제닌 (갈색 지방)<br>H⁺ 기울기 감소 · ATP 감소 · 발열';
 
-        /* 2. 막 뷰 용어 동기화 (마이토콘드리아 / 타이라코이드 / 막사이공간 / 바탕질) */
+        /* 2. 막 뷰 용어 동기화 */
         if ($('rs-ims-lbl')) $('rs-ims-lbl').innerText = hs ? '막사이공간' : '막간 공간';
         if ($('rs-mat-lbl')) $('rs-mat-lbl').innerText = hs ? '마이토콘드리아 바탕질' : '미토콘드리아 기질';
         if ($('rs-mem-lbl')) $('rs-mem-lbl').innerText = hs ? '마이토콘드리아 내막' : '미토콘드리아 내막';
@@ -4507,7 +4479,6 @@
             ? '기질수준인산화 4 ATP + 산화적 인산화 28 ATP(10 NADH × 2.5 + 2 FADH₂ × 1.5) = 최대 32 ATP<br>세포호흡의 에너지 효율: 약 34% (나머지 66%는 열로 방출)'
             : 'NADH 1 → H⁺ 10 → ATP 2.5 · FADH₂ 1 → H⁺ 6 → ATP 1.5 · H⁺ 4 → ATP 1<br>글리세롤 인산 셔틀(근육·뇌): 해당 과정의 NADH 2가 FADH₂ 2로 전달 → 총 30 ATP';
 
-        /* 4. 시각화 모드 강제 활성화 및 현재 열려있는 화면 갱신 */
         if (window.__cvSetOn) window.__cvSetOn(hs);
         if (window.__rsRerender) window.__rsRerender();
         if (window.__psRerender) window.__psRerender();
@@ -4573,4 +4544,3 @@ body .enz-tag { background: rgba(10,10,28,.9); border-radius: 999px; }
 </style>
 </body>
 </html>
-
